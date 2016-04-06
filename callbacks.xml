@@ -8,14 +8,14 @@
             <command name="destroy" />
         </see-also> -->
         <params>
-            <!-- <param name="resolution" type="float">
-                <description>resolution</description>
-            </param> -->
+            <param name="xml" type="string">
+                <description>xml ui definition</description>
+            </param>
         </params>
         <return>
-            <!-- <param name="octreeHandle" type="int">
-                <description>a handle to the created OcTree</description>
-            </param> -->
+            <param name="uiHandle" type="int" default="-1">
+                <description>a handle to the created UI</description>
+            </param>
         </return>
     </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
