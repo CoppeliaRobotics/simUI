@@ -37,10 +37,10 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 
-#include <QPushButton>
-#include <QHBoxLayout>
-#include <QWidget>
-#include <QDialog>
+#include "UIFunctions.h"
+#include "UIProxy.h"
+
+#include <QThread>
 
 #ifdef _WIN32
     #ifdef QT_COMPIL
@@ -143,25 +143,25 @@ T * decodePointer(std::string s, std::string prefix = "0x")
     }
 }
 
+UIProxy *uiproxy = NULL;
+UIFunctions *uifunctions = NULL;
+
+UIFunctions *getUIFunctions()
+{
+    if(!uifunctions)
+    {
+        uifunctions = new UIFunctions;
+        uifunctions->connectToProxy(uiproxy);
+    }
+    return uifunctions;
+}
+
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    QPushButton *b1 = new QPushButton("A");
-    QPushButton *b2 = new QPushButton("B");
-    QPushButton *b3 = new QPushButton("C");
-    hLayout->addWidget(b1);
-    hLayout->addWidget(b2);
-    hLayout->addWidget(b3);
-    QWidget* mainWindow = (QWidget*)simGetMainWindow(1);
-    QDialog *w = new QDialog(mainWindow, Qt::Tool);
-    //QWidget *w = new QWidget(mainWindow);
-    w->setLayout(hLayout);
-    w->setWindowTitle("Custom UI Plugin");
-    //Qt::WindowFlags flags = w->windowFlags();    
-    //flags |= Qt::Window;
-    //w->setWindowFlags(flags);
-    w->setVisible(true);
-    w->show();
+    UIFunctions *f = getUIFunctions();
+    QString xml = QString::fromStdString(in->xml);
+    f->createWindow(xml);
+    out->uiHandle = -1;
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
@@ -216,11 +216,15 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
         return(0);
     }
 
+    uiproxy = new UIProxy;
+
     return(PLUGIN_VERSION); // initialization went fine, we return the version number of this plugin (can be queried with simGetModuleName)
 }
 
 VREP_DLLEXPORT void v_repEnd()
 {
+    if(uiproxy) delete uiproxy;
+
     unloadVrepLibrary(vrepLib); // release the library
 }
 
