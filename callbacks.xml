@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml-stylesheet type="text/xsl" href="callbacks.xsl"?>
+
+<plugin name="CustomUI" author="federico.ferri.it@gmail.com">
+    <command name="create">
+        <description>Create a window.</description>
+        <!-- <see-also>
+            <command name="destroy" />
+        </see-also> -->
+        <params>
+            <!-- <param name="resolution" type="float">
+                <description>resolution</description>
+            </param> -->
+        </params>
+        <return>
+            <!-- <param name="octreeHandle" type="int">
+                <description>a handle to the created OcTree</description>
+            </param> -->
+        </return>
+    </command>
+    <enum name="Test" item-prefix="sim_customui_test_" base="39457">
+        <item name="a">
+        </item>
+        <item name="b">
+        </item>
+        <item name="c">
+        </item>
+    </enum>
+    <script-function name="buttonCallback">
+        <description>Callback for button click event.</description>
+        <params>
+            <param name="buttonID" type="string">
+                <description>the ID of the clicked button</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+</plugin>
