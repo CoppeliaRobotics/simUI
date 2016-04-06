@@ -1,0 +1,12 @@
+*.dylib
+*.so
+*.dll
+*~
+*.o
+.*.swp
+.DS_Store
+.AppleDouble
+.LSOverride
+reference.html
+stubs.cpp
+stubs.h
