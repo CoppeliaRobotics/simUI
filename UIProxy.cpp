@@ -173,6 +173,7 @@ void UIProxy::onCreate(int scriptID, QString xml)
     layout->addWidget(w1);
     w->setLayout(layout);
     w->setWindowTitle("Custom UI");
+    w->setWindowFlags(Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
     w->show();
 }
 
