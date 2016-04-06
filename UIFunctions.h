@@ -16,8 +16,17 @@ public:
 
     void connectToProxy(UIProxy *uiproxy);
 
+protected:
+    UIProxy *uiproxy;
+
+public slots:
+
+private slots:
+    void onButtonClick(int id);
+    void onValueChange(int id);
+
 signals:
-    void createWindow(QString xml);
+    void create(int scriptID, QString xml);
 };
 
 #endif // MYOBJECT_H_INCLUDED

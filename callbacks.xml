@@ -26,10 +26,10 @@
         <item name="c">
         </item>
     </enum>
-    <script-function name="buttonCallback">
+    <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
-            <param name="buttonID" type="string">
+            <param name="id" type="int">
                 <description>the ID of the clicked button</description>
             </param>
         </params>

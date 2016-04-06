@@ -64,14 +64,7 @@
 LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 
 #include "stubs.h"
-
-struct LuaCallbackFunction
-{
-    // name of the Lua function
-    std::string function;
-    // id of the V-REP script where the function is defined in
-    simInt scriptId;
-};
+#include "LuaCallbackFunction.h"
 
 struct Proxy
 {
@@ -160,7 +153,7 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
     UIFunctions *f = getUIFunctions();
     QString xml = QString::fromStdString(in->xml);
-    f->createWindow(xml);
+    f->create(p->scriptID, xml);
     out->uiHandle = -1;
 }
 
