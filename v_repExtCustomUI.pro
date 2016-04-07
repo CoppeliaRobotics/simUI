@@ -5,7 +5,7 @@ TEMPLATE = lib
 
 DEFINES -= UNICODE
 DEFINES += QT_COMPIL
-CONFIG += shared
+CONFIG += shared debug_and_release
 INCLUDEPATH += "../include"
 
 *-msvc* {

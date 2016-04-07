@@ -338,6 +338,7 @@ void UIProxy::onCreate(Proxy *proxy, int scriptID, QString xml)
     }
     proxy->widget->setWindowTitle("Custom UI");
     proxy->widget->setWindowFlags(Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+    proxy->widget->setAttribute(Qt::WA_DeleteOnClose);
     proxy->widget->show();
 }
 
@@ -376,6 +377,7 @@ void UIProxy::onValueChange(QString value)
 
 void UIProxy::onDestroy(Proxy *proxy)
 {
-    delete proxy->widget;
+    proxy->widget->close();
+    delete proxy;
 }
 

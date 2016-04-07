@@ -31,6 +31,71 @@
         <return>
         </return>
     </command>
+    <command name="setSliderValue">
+        <description>Set the value of a slider widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="value" type="int">
+                <description>value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setEditValue">
+        <description>Set the value of a edit widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="value" type="string">
+                <description>value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setCheckboxValue">
+        <description>Set the value of a checkbox widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="value" type="int">
+                <description>value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setRadiobuttonValue">
+        <description>Set the value of a radiobutton widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="value" type="int">
+                <description>value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setLabelText">
+        <description>Set the text of a label widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="text" type="string">
+                <description>text</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

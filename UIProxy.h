@@ -22,9 +22,10 @@ public:
     UIProxy(QObject *parent = 0);
     virtual ~UIProxy();
 
-protected:
     std::map<int, QObject *> objectById;
     std::map<QObject *, int> objectId;
+
+protected:
     int nextId;
     QWidget * createStuff(Proxy *proxy, int scriptID, QWidget *parent, XMLElement *e);
 

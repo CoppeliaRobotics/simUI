@@ -41,6 +41,15 @@
 #include "UIProxy.h"
 
 #include <QThread>
+#include <QSlider>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QRadioButton>
+#include <QWidget>
+#include <QLabel>
+#include <QGroupBox>
+#include <QDialog>
 
 #ifdef _WIN32
     #ifdef QT_COMPIL
@@ -135,9 +144,76 @@ void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *o
     }
 
     UIFunctions *f = getUIFunctions();
-    f->destroy(proxy);
+    f->destroy(proxy); // will also call delete on proxy
+}
 
-    delete proxy;
+template<typename T>
+T* getWidget(int id, const char *cmd, const char *widget_type_name)
+{
+    QObject *object;
+    try
+    {
+        object = uiproxy->objectById[id];
+    }
+    catch(std::exception& ex)
+    {
+        std::stringstream ss;
+        ss << "invalid widget id: " << id;
+        simSetLastError(cmd, ss.str().c_str());
+        return NULL;
+    }
+
+    T *widget = dynamic_cast<T*>(object);
+    if(!widget)
+    {
+        std::stringstream ss;
+        ss << "invalid widget type. expected " << widget_type_name;
+        simSetLastError(cmd, ss.str().c_str());
+        return NULL;
+    }
+
+    return widget;
+}
+
+void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, setSliderValue_out *out)
+{
+    QSlider *slider = getWidget<QSlider>(in->id, cmd, "slider");
+    slider->setValue(in->value);
+}
+
+void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setEditValue_out *out)
+{
+    QLineEdit *edit = getWidget<QLineEdit>(in->id, cmd, "edit");
+    edit->setText(QString::fromStdString(in->value));
+}
+
+void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *in, setCheckboxValue_out *out)
+{
+    QCheckBox *checkbox = getWidget<QCheckBox>(in->id, cmd, "checkbox");
+    switch(in->value)
+    {
+    case 0: checkbox->setCheckState(Qt::Unchecked); break;
+    case 1: checkbox->setCheckState(Qt::PartiallyChecked); break;
+    case 2: checkbox->setCheckState(Qt::Checked); break;
+    default: simSetLastError(cmd, "invalid checkbox value"); break;
+    }
+}
+
+void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValue_in *in, setRadiobuttonValue_out *out)
+{
+    QRadioButton *radiobutton = getWidget<QRadioButton>(in->id, cmd, "radiobutton");
+    switch(in->value)
+    {
+    case 0: radiobutton->setChecked(false); break;
+    case 1: radiobutton->setChecked(true); break;
+    default: simSetLastError(cmd, "invalid radiobutton value"); break;
+    }
+}
+
+void setLabelText(SScriptCallBack *p, const char *cmd, setLabelText_in *in, setLabelText_out *out)
+{
+    QLabel *label = getWidget<QLabel>(in->id, cmd, "label");
+    label->setText(QString::fromStdString(in->text));
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
