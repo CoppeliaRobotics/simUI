@@ -21,7 +21,8 @@
 using namespace tinyxml2;
 
 UIProxy::UIProxy(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      nextId(1000000)
 {
 }
 
@@ -29,7 +30,7 @@ UIProxy::~UIProxy()
 {
 }
 
-QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
+QWidget * UIProxy::createStuff(Proxy *proxy, int scriptID, QWidget *parent, XMLElement *e)
 {
     std::string tag(e->Value());
     if(tag == "button")
@@ -50,7 +51,7 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
         const char *onclick = e->Attribute("onclick");
         if(onclick)
         {
-            onclickCallback[id] = LuaCallbackFunction(std::string(onclick), scriptID);
+            proxy->registerOnClickCallback(id, LuaCallbackFunction(std::string(onclick), scriptID));
         }
 
         return button;
@@ -70,7 +71,7 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
         const char *onchange = e->Attribute("onchange");
         if(onchange)
         {
-            onchangeCallback[id] = LuaCallbackFunction(std::string(onchange), scriptID);
+            proxy->registerOnChangeCallback(id, LuaCallbackFunction(std::string(onchange), scriptID));
         }
 
         return edit;
@@ -98,7 +99,7 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
         const char *onchange = e->Attribute("onchange");
         if(onchange)
         {
-            onchangeCallback[id] = LuaCallbackFunction(std::string(onchange), scriptID);
+            proxy->registerOnChangeCallback(id, LuaCallbackFunction(std::string(onchange), scriptID));
         }
 
         return slider;
@@ -137,7 +138,7 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
             if(name == "hbox") layout1 = new QHBoxLayout(groupBox);
             for(XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
             {
-                QWidget *w1 = createStuff(scriptID, groupBox, e1);
+                QWidget *w1 = createStuff(proxy, scriptID, groupBox, e1);
                 layout1->addWidget(w1);
             }
             groupBox->setLayout(layout1);
@@ -156,7 +157,7 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
                     row++;
                     continue;
                 }
-                QWidget *w1 = createStuff(scriptID, groupBox, e1);
+                QWidget *w1 = createStuff(proxy, scriptID, groupBox, e1);
                 layout1->addWidget(w1, row, col);
                 col++;
             }
@@ -170,11 +171,11 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
             {
                 if(lastLabel == NULL)
                 {
-                    lastLabel = createStuff(scriptID, groupBox, e1);
+                    lastLabel = createStuff(proxy, scriptID, groupBox, e1);
                 }
                 else
                 {
-                    QWidget *w1 = createStuff(scriptID, groupBox, e1);
+                    QWidget *w1 = createStuff(proxy, scriptID, groupBox, e1);
                     layout1->addRow(lastLabel, w1);
                     lastLabel = NULL;
                 }
@@ -196,51 +197,54 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
     }
 }
 
-void UIProxy::onCreate(int scriptID, QString xml)
+void UIProxy::onCreate(Proxy *proxy, int scriptID, QString xml)
 {
     QWidget *mainWindow = (QWidget *)simGetMainWindow(1);
-    QDialog *w = new QDialog(mainWindow, Qt::Tool);
+    proxy->widget = new QDialog(mainWindow, Qt::Tool);
 
-    XMLDocument xmldoc;
-    XMLDocument *doc = &xmldoc;
+    XMLDocument doc;
+    XMLDocument *pdoc = &doc;
     std::string xmlStr = xml.toStdString();
-    XMLError err = doc->Parse(xmlStr.c_str(), xmlStr.size());
+    XMLError err = pdoc->Parse(xmlStr.c_str(), xmlStr.size());
     if(err != XML_NO_ERROR)
     {
         std::cout << "XML error " << err << std::endl;
-        delete doc;
+        delete proxy->widget;
+        proxy->widget = NULL;
         return;
     }
-    XMLElement *root = doc->FirstChildElement();
+    XMLElement *root = pdoc->FirstChildElement();
     if(root->NextSiblingElement())
     {
         std::cout << "XML error: must have exactly one root element" << std::endl;
-        delete doc;
+        delete proxy->widget;
+        proxy->widget = NULL;
         return;
     }
     std::string rootTag(root->Value());
     if(rootTag != "ui")
     {
         std::cout << "XML error: root element must be <ui>" << std::endl;
-        delete doc;
+        delete proxy->widget;
+        proxy->widget = NULL;
         return;
     }
     std::string layoutName(root->Attribute("layout"));
     if(layoutName == "vbox" || layoutName == "hbox")
     {
         QBoxLayout *layout = NULL;
-        if(layoutName == "vbox") layout = new QVBoxLayout(w);
-        if(layoutName == "hbox") layout = new QHBoxLayout(w);
+        if(layoutName == "vbox") layout = new QVBoxLayout(proxy->widget);
+        if(layoutName == "hbox") layout = new QHBoxLayout(proxy->widget);
         for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
         {
-            QWidget *w1 = createStuff(scriptID, w, e1);
+            QWidget *w1 = createStuff(proxy, scriptID, proxy->widget, e1);
             layout->addWidget(w1);
         }
-        w->setLayout(layout);
+        proxy->widget->setLayout(layout);
     }
     else if(layoutName == "grid")
     {
-        QGridLayout *layout = new QGridLayout(w);
+        QGridLayout *layout = new QGridLayout(proxy->widget);
         int row = 0;
         int col = 0;
         for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
@@ -252,39 +256,41 @@ void UIProxy::onCreate(int scriptID, QString xml)
                 row++;
                 continue;
             }
-            QWidget *w1 = createStuff(scriptID, w, e1);
+            QWidget *w1 = createStuff(proxy, scriptID, proxy->widget, e1);
             layout->addWidget(w1, row, col);
             col++;
         }
-        w->setLayout(layout);
+        proxy->widget->setLayout(layout);
     }
     else if(layoutName == "form")
     {
-        QFormLayout *layout = new QFormLayout(w);
+        QFormLayout *layout = new QFormLayout(proxy->widget);
         QWidget *lastLabel = NULL;
         for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
         {
             if(lastLabel == NULL)
             {
-                lastLabel = createStuff(scriptID, w, e1);
+                lastLabel = createStuff(proxy, scriptID, proxy->widget, e1);
             }
             else
             {
-                QWidget *w1 = createStuff(scriptID, w, e1);
+                QWidget *w1 = createStuff(proxy, scriptID, proxy->widget, e1);
                 layout->addRow(lastLabel, w1);
                 lastLabel = NULL;
             }
         }
-        w->setLayout(layout);
+        proxy->widget->setLayout(layout);
     }
     else
     {
         std::cout << "error: bad layout: " << layoutName << std::endl;
+        delete proxy->widget;
+        proxy->widget = NULL;
+        return;
     }
-    delete doc;
-    w->setWindowTitle("Custom UI");
-    w->setWindowFlags(Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
-    w->show();
+    proxy->widget->setWindowTitle("Custom UI");
+    proxy->widget->setWindowFlags(Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+    proxy->widget->show();
 }
 
 void UIProxy::onButtonClick()

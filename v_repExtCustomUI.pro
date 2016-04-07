@@ -67,6 +67,7 @@ HEADERS += \
     UIFunctions.h \
     UIProxy.h \
     LuaCallbackFunction.h \
+    Proxy.h \
     tinyxml2.h
 
 SOURCES += \
@@ -76,6 +77,7 @@ SOURCES += \
     UIFunctions.cpp \
     UIProxy.cpp \
     LuaCallbackFunction.cpp \
+    Proxy.cpp \
     tinyxml2.cpp
 
 

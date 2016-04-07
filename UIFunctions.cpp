@@ -17,8 +17,7 @@ UIFunctions::~UIFunctions()
 
 void UIFunctions::connectToProxy(UIProxy *uiproxy)
 {
-    this->uiproxy = uiproxy;
-    connect(this, SIGNAL(create(int,QString)), uiproxy, SLOT(onCreate(int,QString)));
+    connect(this, SIGNAL(create(Proxy*,int,QString)), uiproxy, SLOT(onCreate(Proxy*,int,QString)));
     connect(uiproxy, SIGNAL(buttonClick(int)), this, SLOT(onButtonClick(int)));
     connect(uiproxy, SIGNAL(valueChange(int,int)), this, SLOT(onValueChange(int,int)));
     connect(uiproxy, SIGNAL(valueChange(int,QString)), this, SLOT(onValueChange(int,QString)));
@@ -28,7 +27,7 @@ void UIFunctions::onButtonClick(int id)
 {
     try
     {
-        LuaCallbackFunction& cb = uiproxy->onclickCallback[id];
+        LuaCallbackFunction& cb = Proxy::onclickCallback[id];
         onclickCallback_in in_args;
         in_args.id = id;
         onclickCallback_out out_args;
@@ -43,7 +42,7 @@ void UIFunctions::onValueChange(int id, int value)
 {
     try
     {
-        LuaCallbackFunction& cb = uiproxy->onchangeCallback[id];
+        LuaCallbackFunction& cb = Proxy::onchangeCallback[id];
         onchangeIntCallback_in in_args;
         in_args.id = id;
         in_args.value = value;
@@ -59,7 +58,7 @@ void UIFunctions::onValueChange(int id, QString value)
 {
     try
     {
-        LuaCallbackFunction& cb = uiproxy->onchangeCallback[id];
+        LuaCallbackFunction& cb = Proxy::onchangeCallback[id];
         onchangeStringCallback_in in_args;
         in_args.id = id;
         in_args.value = value.toStdString();

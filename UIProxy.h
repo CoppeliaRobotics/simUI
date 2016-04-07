@@ -5,11 +5,12 @@
 
 #include <QObject>
 #include <QString>
-#include <QLayout>
+#include <QWidget>
 
 #include "tinyxml2.h"
 
 #include "LuaCallbackFunction.h"
+#include "Proxy.h"
 
 using tinyxml2::XMLElement;
 
@@ -21,19 +22,16 @@ public:
     UIProxy(QObject *parent = 0);
     virtual ~UIProxy();
 
-    std::map<int, LuaCallbackFunction> onclickCallback;
-    std::map<int, LuaCallbackFunction> onchangeCallback;
-
 protected:
     std::map<int, QObject *> objectById;
     std::map<QObject *, int> objectId;
-    int nextId = 1000000;
-    QWidget * createStuff(int scriptID, QWidget *parent, XMLElement *e);
+    int nextId;
+    QWidget * createStuff(Proxy *proxy, int scriptID, QWidget *parent, XMLElement *e);
 
 public slots:
 
 private slots:
-    void onCreate(int scriptID, QString xml);
+    void onCreate(Proxy *proxy, int scriptID, QString xml);
     void onButtonClick();
     void onValueChange(int value);
     void onValueChange(QString value);

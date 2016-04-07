@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QString>
 
+#include "Proxy.h"
 #include "UIProxy.h"
 
 class UIFunctions : public QObject
@@ -17,7 +18,6 @@ public:
     void connectToProxy(UIProxy *uiproxy);
 
 protected:
-    UIProxy *uiproxy;
 
 public slots:
 
@@ -27,7 +27,7 @@ private slots:
     void onValueChange(int id, QString value);
 
 signals:
-    void create(int scriptID, QString xml);
+    void create(Proxy *proxy, int scriptID, QString xml);
 };
 
 #endif // MYOBJECT_H_INCLUDED

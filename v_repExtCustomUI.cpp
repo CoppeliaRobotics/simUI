@@ -65,44 +65,7 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 
 #include "stubs.h"
 #include "LuaCallbackFunction.h"
-
-struct Proxy
-{
-    // internal handle of this object (used by the plugin):
-    simInt handle;
-    // objects created during simulation will be destroyed when simulation terminates:
-    bool destroyAfterSimulationStop;
-};
-
-std::map<simInt, Proxy *> proxies;
-simInt nextProxyHandle = 1000;
-
-// this function will be called at simulation end to destroy objects that
-// were created during simulation, which otherwise would leak indefinitely:
-template<typename T>
-void destroyTransientObjects(std::map<simInt, T *>& c)
-{
-    std::vector<simInt> transientObjects;
-
-    for(typename std::map<simInt, T *>::const_iterator it = c.begin(); it != c.end(); ++it)
-    {
-        if(it->second->destroyAfterSimulationStop)
-            transientObjects.push_back(it->first);
-    }
-
-    for(size_t i = 0; i < transientObjects.size(); i++)
-    {
-        simInt key = transientObjects[i];
-        T *t = c[key];
-        c.erase(key);
-        delete t;
-    }
-}
-
-void destroyTransientObjects()
-{
-    destroyTransientObjects(proxies);
-}
+#include "Proxy.h"
 
 template<typename T>
 std::string encodePointer(T *p, std::string prefix = "0x")
@@ -151,10 +114,11 @@ UIFunctions *getUIFunctions()
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
+    Proxy *proxy = new Proxy(simGetSimulationState() != sim_simulation_stopped);
     UIFunctions *f = getUIFunctions();
     QString xml = QString::fromStdString(in->xml);
-    f->create(p->scriptID, xml);
-    out->uiHandle = -1;
+    f->create(proxy, p->scriptID, xml);
+    out->uiHandle = proxy->handle;
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
@@ -232,7 +196,7 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
 
     if (message == sim_message_eventcallback_simulationended)
     { // Simulation just ended
-        destroyTransientObjects();
+        Proxy::destroyTransientObjects();
     }
 
     // Keep following unchanged:
