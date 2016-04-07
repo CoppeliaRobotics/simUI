@@ -217,11 +217,70 @@ void UIProxy::onCreate(int scriptID, QString xml)
         delete doc;
         return;
     }
-    QVBoxLayout *layout = new QVBoxLayout();
-    QWidget *w1 = createStuff(scriptID, w, root);
+    std::string rootTag(root->Value());
+    if(rootTag != "ui")
+    {
+        std::cout << "XML error: root element must be <ui>" << std::endl;
+        delete doc;
+        return;
+    }
+    std::string layoutName(root->Attribute("layout"));
+    if(layoutName == "vbox" || layoutName == "hbox")
+    {
+        QBoxLayout *layout = NULL;
+        if(layoutName == "vbox") layout = new QVBoxLayout();
+        if(layoutName == "hbox") layout = new QHBoxLayout();
+        for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
+        {
+            QWidget *w1 = createStuff(scriptID, w, e1);
+            layout->addWidget(w1);
+        }
+        w->setLayout(layout);
+    }
+    else if(layoutName == "grid")
+    {
+        QGridLayout *layout = new QGridLayout();
+        int row = 0;
+        int col = 0;
+        for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
+        {
+            std::string tag1(e1->Value());
+            if(tag1 == "br")
+            {
+                col = 0;
+                row++;
+                continue;
+            }
+            QWidget *w1 = createStuff(scriptID, w, e1);
+            layout->addWidget(w1, row, col);
+            col++;
+        }
+        w->setLayout(layout);
+    }
+    else if(layoutName == "form")
+    {
+        QFormLayout *layout = new QFormLayout();
+        QWidget *lastLabel = NULL;
+        for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
+        {
+            if(lastLabel == NULL)
+            {
+                lastLabel = createStuff(scriptID, w, e1);
+            }
+            else
+            {
+                QWidget *w1 = createStuff(scriptID, w, e1);
+                layout->addRow(lastLabel, w1);
+                lastLabel = NULL;
+            }
+        }
+        w->setLayout(layout);
+    }
+    else
+    {
+        std::cout << "error: bad layout: " << layoutName << std::endl;
+    }
     delete doc;
-    layout->addWidget(w1);
-    w->setLayout(layout);
     w->setWindowTitle("Custom UI");
     w->setWindowFlags(Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
     w->show();
