@@ -7,6 +7,8 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QGridLayout>
+#include <QLineEdit>
+#include <QSlider>
 #include <QWidget>
 #include <QLabel>
 #include <QGroupBox>
@@ -53,6 +55,60 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
 
         return button;
     }
+    else if(tag == "edit")
+    {
+        int id;
+        if(e->QueryIntAttribute("id", &id) != XML_NO_ERROR) id = nextId++;
+
+        const char *text = e->Attribute("text");
+        if(!text) text = "???";
+
+        QLineEdit *edit = new QLineEdit(parent);
+
+        connect(edit, SIGNAL(textChanged(QString)), this, SLOT(onValueChange(QString)));
+
+        objectById[id] = edit;
+        objectId[edit] = id;
+
+        const char *onchange = e->Attribute("onchange");
+        if(onchange)
+        {
+            onchangeCallback[id] = LuaCallbackFunction(std::string(onchange), scriptID);
+        }
+
+        return edit;
+    }
+    else if(tag == "hslider" || tag == "vslider")
+    {
+        int id;
+        if(e->QueryIntAttribute("id", &id) != XML_NO_ERROR) id = nextId++;
+
+        const char *text = e->Attribute("text");
+        if(!text) text = "???";
+
+        QSlider *slider = new QSlider(tag == "hslider" ? Qt::Horizontal : Qt::Vertical, parent);
+
+        int minimum;
+        if(e->QueryIntAttribute("minimum", &minimum) == XML_NO_ERROR)
+            slider->setMinimum(minimum);
+
+        int maximum;
+        if(e->QueryIntAttribute("maximum", &maximum) == XML_NO_ERROR)
+            slider->setMaximum(maximum);
+
+        connect(slider, SIGNAL(valueChanged(int)), this, SLOT(onValueChange(int)));
+
+        objectById[id] = slider;
+        objectId[slider] = id;
+
+        const char *onchange = e->Attribute("onchange");
+        if(onchange)
+        {
+            onchangeCallback[id] = LuaCallbackFunction(std::string(onchange), scriptID);
+        }
+
+        return slider;
+    }
     else if(tag == "label")
     {
         int id;
@@ -78,7 +134,7 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
         const char *layoutName = e->Attribute("layout");
         std::string name(layoutName);
 
-        QGroupBox *groupBox = new QGroupBox(text);
+        QGroupBox *groupBox = new QGroupBox(text, parent);
 
         if(name == "vbox" || name == "hbox")
         {
@@ -188,11 +244,22 @@ void UIProxy::onButtonClick()
     }
 }
 
-void UIProxy::onValueChange()
+void UIProxy::onValueChange(int value)
 {
     try
     {
-        emit valueChange(objectId[sender()]);
+        emit valueChange(objectId[sender()], value);
+    }
+    catch(std::exception& ex)
+    {
+    }
+}
+
+void UIProxy::onValueChange(QString value)
+{
+    try
+    {
+        emit valueChange(objectId[sender()], value);
     }
     catch(std::exception& ex)
     {

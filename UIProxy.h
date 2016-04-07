@@ -35,11 +35,13 @@ public slots:
 private slots:
     void onCreate(int scriptID, QString xml);
     void onButtonClick();
-    void onValueChange();
+    void onValueChange(int value);
+    void onValueChange(QString value);
 
 signals:
     void buttonClick(int id);
-    void valueChange(int id);
+    void valueChange(int id, int value);
+    void valueChange(int id, QString value);
 };
 
 #endif // UIPROXY_H_INCLUDED
