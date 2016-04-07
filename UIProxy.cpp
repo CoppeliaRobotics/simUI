@@ -2,6 +2,7 @@
 
 #include <QThread>
 #include <QPushButton>
+#include <QCheckBox>
 #include <QBoxLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -118,6 +119,29 @@ QWidget * UIProxy::createStuff(Proxy *proxy, int scriptID, QWidget *parent, XMLE
         objectId[label] = id;
 
         return label;
+    }
+    else if(tag == "checkbox")
+    {
+        int id;
+        if(e->QueryIntAttribute("id", &id) != XML_NO_ERROR) id = nextId++;
+
+        const char *text = e->Attribute("text");
+        if(!text) text = "???";
+
+        QCheckBox *checkbox = new QCheckBox(text, parent);
+
+        connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(onValueChange(int)));
+
+        objectById[id] = checkbox;
+        objectId[checkbox] = id;
+
+        const char *onchange = e->Attribute("onchange");
+        if(onchange)
+        {
+            proxy->registerOnChangeCallback(id, LuaCallbackFunction(std::string(onchange), scriptID));
+        }
+
+        return checkbox;
     }
     else if(tag == "group")
     {
