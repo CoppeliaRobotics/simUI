@@ -60,9 +60,6 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
         int id;
         if(e->QueryIntAttribute("id", &id) != XML_NO_ERROR) id = nextId++;
 
-        const char *text = e->Attribute("text");
-        if(!text) text = "???";
-
         QLineEdit *edit = new QLineEdit(parent);
 
         connect(edit, SIGNAL(textChanged(QString)), this, SLOT(onValueChange(QString)));
@@ -82,9 +79,6 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
     {
         int id;
         if(e->QueryIntAttribute("id", &id) != XML_NO_ERROR) id = nextId++;
-
-        const char *text = e->Attribute("text");
-        if(!text) text = "???";
 
         QSlider *slider = new QSlider(tag == "hslider" ? Qt::Horizontal : Qt::Vertical, parent);
 
