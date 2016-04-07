@@ -133,8 +133,8 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
         if(name == "vbox" || name == "hbox")
         {
             QBoxLayout *layout1 = NULL;
-            if(name == "vbox") layout1 = new QVBoxLayout();
-            if(name == "hbox") layout1 = new QHBoxLayout();
+            if(name == "vbox") layout1 = new QVBoxLayout(groupBox);
+            if(name == "hbox") layout1 = new QHBoxLayout(groupBox);
             for(XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
             {
                 QWidget *w1 = createStuff(scriptID, groupBox, e1);
@@ -144,7 +144,7 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
         }
         else if(name == "grid")
         {
-            QGridLayout *layout1 = new QGridLayout();
+            QGridLayout *layout1 = new QGridLayout(groupBox);
             int row = 0;
             int col = 0;
             for(XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
@@ -164,7 +164,7 @@ QWidget * UIProxy::createStuff(int scriptID, QWidget *parent, XMLElement *e)
         }
         else if(name == "form")
         {
-            QFormLayout *layout1 = new QFormLayout();
+            QFormLayout *layout1 = new QFormLayout(groupBox);
             QWidget *lastLabel = NULL;
             for(XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
             {
@@ -201,7 +201,8 @@ void UIProxy::onCreate(int scriptID, QString xml)
     QWidget *mainWindow = (QWidget *)simGetMainWindow(1);
     QDialog *w = new QDialog(mainWindow, Qt::Tool);
 
-    XMLDocument *doc = new XMLDocument;
+    XMLDocument xmldoc;
+    XMLDocument *doc = &xmldoc;
     std::string xmlStr = xml.toStdString();
     XMLError err = doc->Parse(xmlStr.c_str(), xmlStr.size());
     if(err != XML_NO_ERROR)
@@ -228,8 +229,8 @@ void UIProxy::onCreate(int scriptID, QString xml)
     if(layoutName == "vbox" || layoutName == "hbox")
     {
         QBoxLayout *layout = NULL;
-        if(layoutName == "vbox") layout = new QVBoxLayout();
-        if(layoutName == "hbox") layout = new QHBoxLayout();
+        if(layoutName == "vbox") layout = new QVBoxLayout(w);
+        if(layoutName == "hbox") layout = new QHBoxLayout(w);
         for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
         {
             QWidget *w1 = createStuff(scriptID, w, e1);
@@ -239,7 +240,7 @@ void UIProxy::onCreate(int scriptID, QString xml)
     }
     else if(layoutName == "grid")
     {
-        QGridLayout *layout = new QGridLayout();
+        QGridLayout *layout = new QGridLayout(w);
         int row = 0;
         int col = 0;
         for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
@@ -259,7 +260,7 @@ void UIProxy::onCreate(int scriptID, QString xml)
     }
     else if(layoutName == "form")
     {
-        QFormLayout *layout = new QFormLayout();
+        QFormLayout *layout = new QFormLayout(w);
         QWidget *lastLabel = NULL;
         for(XMLElement *e1 = root->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
         {
