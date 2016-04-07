@@ -13,3 +13,5 @@ stubs.h
 .qmake.stash
 moc_*.cpp
 Makefile
+Makefile.Debug
+Makefile.Release
