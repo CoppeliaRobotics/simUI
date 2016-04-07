@@ -35,6 +35,7 @@ private slots:
     void onButtonClick();
     void onValueChange(int value);
     void onValueChange(QString value);
+    void onDestroy(Proxy *proxy);
 
 signals:
     void buttonClick(int id);

@@ -326,3 +326,8 @@ void UIProxy::onValueChange(QString value)
     }
 }
 
+void UIProxy::onDestroy(Proxy *proxy)
+{
+    delete proxy->widget;
+}
+

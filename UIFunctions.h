@@ -28,6 +28,7 @@ private slots:
 
 signals:
     void create(Proxy *proxy, int scriptID, QString xml);
+    void destroy(Proxy *proxy);
 };
 
 #endif // MYOBJECT_H_INCLUDED

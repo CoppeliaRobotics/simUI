@@ -4,9 +4,9 @@
 <plugin name="CustomUI" author="federico.ferri.it@gmail.com">
     <command name="create">
         <description>Create a window.</description>
-        <!-- <see-also>
+        <see-also>
             <command name="destroy" />
-        </see-also> -->
+        </see-also>
         <params>
             <param name="xml" type="string">
                 <description>xml ui definition</description>
@@ -16,6 +16,19 @@
             <param name="uiHandle" type="int" default="-1">
                 <description>a handle to the created UI</description>
             </param>
+        </return>
+    </command>
+    <command name="destroy">
+        <description>Destroy a window.</description>
+        <see-also>
+            <command name="create" />
+        </see-also>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
         </return>
     </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">

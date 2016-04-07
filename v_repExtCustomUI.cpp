@@ -121,6 +121,25 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
     out->uiHandle = proxy->handle;
 }
 
+void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *out)
+{
+    Proxy *proxy;
+    try
+    {
+        proxy = Proxy::proxies[in->handle];
+    }
+    catch(std::exception& ex)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    UIFunctions *f = getUIFunctions();
+    f->destroy(proxy);
+
+    delete proxy;
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

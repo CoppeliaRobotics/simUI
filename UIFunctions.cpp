@@ -21,6 +21,7 @@ void UIFunctions::connectToProxy(UIProxy *uiproxy)
     connect(uiproxy, SIGNAL(buttonClick(int)), this, SLOT(onButtonClick(int)));
     connect(uiproxy, SIGNAL(valueChange(int,int)), this, SLOT(onValueChange(int,int)));
     connect(uiproxy, SIGNAL(valueChange(int,QString)), this, SLOT(onValueChange(int,QString)));
+    connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)));
 }
 
 void UIFunctions::onButtonClick(int id)
