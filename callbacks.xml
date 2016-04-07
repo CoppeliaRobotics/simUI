@@ -36,4 +36,30 @@
         <return>
         </return>
     </script-function>
+    <script-function name="onchangeIntCallback">
+        <description>Callback for widget change event.</description>
+        <params>
+            <param name="id" type="int">
+                <description>the ID of the widget</description>
+            </param>
+            <param name="value" type="int">
+                <description>the new value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+    <script-function name="onchangeStringCallback">
+        <description>Callback for widget change event.</description>
+        <params>
+            <param name="id" type="int">
+                <description>the ID of the widget</description>
+            </param>
+            <param name="value" type="string">
+                <description>the new value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
 </plugin>
