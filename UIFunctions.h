@@ -23,7 +23,8 @@ public slots:
 
 private slots:
     void onButtonClick(int id);
-    void onValueChange(int id);
+    void onValueChange(int id, int value);
+    void onValueChange(int id, QString value);
 
 signals:
     void create(int scriptID, QString xml);
