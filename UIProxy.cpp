@@ -3,6 +3,7 @@
 #include <QThread>
 #include <QPushButton>
 #include <QCheckBox>
+#include <QRadioButton>
 #include <QBoxLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -142,6 +143,29 @@ QWidget * UIProxy::createStuff(Proxy *proxy, int scriptID, QWidget *parent, XMLE
         }
 
         return checkbox;
+    }
+    else if(tag == "radiobutton")
+    {
+        int id;
+        if(e->QueryIntAttribute("id", &id) != XML_NO_ERROR) id = nextId++;
+
+        const char *text = e->Attribute("text");
+        if(!text) text = "???";
+
+        QRadioButton *button = new QRadioButton(text, parent);
+
+        connect(button, SIGNAL(released()), this, SLOT(onButtonClick()));
+
+        objectById[id] = button;
+        objectId[button] = id;
+
+        const char *onclick = e->Attribute("onclick");
+        if(onclick)
+        {
+            proxy->registerOnClickCallback(id, LuaCallbackFunction(std::string(onclick), scriptID));
+        }
+
+        return button;
     }
     else if(tag == "group")
     {
