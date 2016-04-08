@@ -24,14 +24,26 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int scriptID_)
 
 Proxy::~Proxy()
 {
+#ifdef DEBUG
+    std::cerr << "Proxy::~Proxy() - begin..." << std::endl;
+#endif
+
     // should be destroyed from the UI thread
 
     Proxy::proxies.erase(handle);
 
     if(ui)
     {
+#ifdef DEBUG
+        std::cerr << "Proxy::~Proxy() - delete member 'ui'" << std::endl;
+#endif
+
         delete ui;
     }
+
+#ifdef DEBUG
+    std::cerr << "Proxy::~Proxy() - end" << std::endl;
+#endif
 }
 
 Proxy* Proxy::byHandle(int handle)
