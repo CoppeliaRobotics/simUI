@@ -336,7 +336,10 @@ void UIProxy::onCreate(Proxy *proxy, int scriptID, QString xml)
         proxy->widget = NULL;
         return;
     }
-    proxy->widget->setWindowTitle("Custom UI");
+    if(root->Attribute("title"))
+    {
+        proxy->widget->setWindowTitle(root->Attribute("title"));
+    }
     proxy->widget->setWindowFlags(Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
     proxy->widget->setAttribute(Qt::WA_DeleteOnClose);
     proxy->widget->show();
