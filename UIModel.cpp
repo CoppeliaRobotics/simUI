@@ -560,6 +560,18 @@ Window::Window()
 
 Window::~Window()
 {
+#ifdef DEBUG
+    std::cerr << "Widget::~Widget() - contents of Widget::widgets (BEFORE DTOR):" << std::endl;
+    for(std::map<int, Widget*>::const_iterator it = Widget::widgets.begin(); it != Widget::widgets.end(); ++it)
+        std::cerr << "    " << it->first << ": " << std::hex << ((void*)it->second) << std::dec << std::endl;
+    std::cerr << "Widget::~Widget() - end" << std::endl;
+
+    std::cerr << "Widget::~Widget() - contents of Widget::widgetByQWidget (BEFORE DTOR):" << std::endl;
+    for(std::map<QWidget*, Widget*>::const_iterator it = Widget::widgetByQWidget.begin(); it != Widget::widgetByQWidget.end(); ++it)
+        std::cerr << "    " << std::hex << it->first << std::dec << ": " << std::hex << ((void*)it->second) << std::dec << " (id=" << it->second->id << ")" << std::endl;
+    std::cerr << "Widget::~Widget() - end" << std::endl;
+#endif
+
     for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
     {
         for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
@@ -567,6 +579,18 @@ Window::~Window()
             delete *it2;
         }
     }
+
+#ifdef DEBUG
+    std::cerr << "Widget::~Widget() - contents of Widget::widgets (AFTER DTOR):" << std::endl;
+    for(std::map<int, Widget*>::const_iterator it = Widget::widgets.begin(); it != Widget::widgets.end(); ++it)
+        std::cerr << "    " << it->first << ": " << std::hex << ((void*)it->second) << std::dec << std::endl;
+    std::cerr << "Widget::~Widget() - end" << std::endl;
+
+    std::cerr << "Widget::~Widget() - contents of Widget::widgetByQWidget (AFTER DTOR):" << std::endl;
+    for(std::map<QWidget*, Widget*>::const_iterator it = Widget::widgetByQWidget.begin(); it != Widget::widgetByQWidget.end(); ++it)
+        std::cerr << "    " << std::hex << it->first << std::dec << ": " << std::hex << ((void*)it->second) << std::dec << " (id=" << it->second->id << ")" << std::endl;
+    std::cerr << "Widget::~Widget() - end" << std::endl;
+#endif
 }
 
 bool Window::parse(XMLElement *e, std::vector<std::string>& errors)

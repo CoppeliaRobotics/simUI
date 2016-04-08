@@ -55,6 +55,7 @@ public:
 
     friend class UIFunctions;
     friend class UIProxy;
+    friend struct Window;
 };
 
 struct Button : public Widget
