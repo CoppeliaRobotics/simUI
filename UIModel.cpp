@@ -50,26 +50,26 @@ Widget::~Widget()
 
 Widget * Widget::byId(int id)
 {
-    try
-    {
-        return Widget::widgets[id];
-    }
-    catch(std::exception& ex)
-    {
-        return NULL;
-    }
+    std::map<int, Widget*>::const_iterator it = Widget::widgets.find(id);
+    Widget *ret = it == Widget::widgets.end() ? NULL : it->second;
+
+#ifdef DEBUG
+    std::cerr << "Widget::byId(" << id << ") -> " << std::hex << ret << std::dec << std::endl;
+#endif
+
+    return ret;
 }
 
 Widget * Widget::byQWidget(QWidget *w)
 {
-    try
-    {
-        return Widget::widgetByQWidget[w];
-    }
-    catch(std::exception& ex)
-    {
-        return NULL;
-    }
+    std::map<QWidget, Widget*>::const_iterator it = Widget::widgetByQWidget.find(w);
+    Widget *ret = it == Widget::widgetByQWidget.end() ? NULL : it->second;
+
+#ifdef DEBUG
+    std::cerr << "Widget::byQWidget(" << std::hex << w << std::dec << ") -> " << std::hex << ret << std::dec << std::endl;
+#endif
+
+    return ret;
 }
 
 template<typename T>
