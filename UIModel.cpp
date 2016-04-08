@@ -62,7 +62,7 @@ Widget * Widget::byId(int id)
 
 Widget * Widget::byQWidget(QWidget *w)
 {
-    std::map<QWidget, Widget*>::const_iterator it = Widget::widgetByQWidget.find(w);
+    std::map<QWidget*, Widget*>::const_iterator it = Widget::widgetByQWidget.find(w);
     Widget *ret = it == Widget::widgetByQWidget.end() ? NULL : it->second;
 
 #ifdef DEBUG
