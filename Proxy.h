@@ -6,35 +6,43 @@
 
 #include <QWidget>
 
+#include "UIModel.h"
 #include "LuaCallbackFunction.h"
 
-struct Proxy
+class UIProxy;
+
+class Proxy
 {
+public:
+    Proxy(bool destroyAfterSimulationStop, int scriptID);
+    virtual ~Proxy();
+
+    static void destroyTransientObjects();
+
+    inline int getHandle() {return handle;}
+    static Proxy* byHandle(int handle);
+
+    void createQtWidget(UIProxy *uiproxy, Window *window);
+
+private:
     // internal handle of this object (used by the plugin):
     int handle;
+
+    static std::map<int, Proxy *> proxies; // handle -> Proxy
+
+    static int nextProxyHandle;
 
     // objects created during simulation will be destroyed when simulation terminates:
     bool destroyAfterSimulationStop;
 
-    // widget pointer:
-    QWidget *widget;
+    // UIModel's pointer:
+    Window *ui;
 
-    std::set<int> widgetIDs;
+    // the scriptID from which this object has been created:
+    int scriptID;
 
-    void registerOnClickCallback(int widgetID, LuaCallbackFunction cb);
-    void registerOnChangeCallback(int widgetID, LuaCallbackFunction cb);
-
-    // event handlers:
-    static std::map<int, LuaCallbackFunction> onclickCallback; // widget id -> LuaCallbackFunction
-    static std::map<int, LuaCallbackFunction> onchangeCallback; // widget id -> LuaCallbackFunction;
-    
-    Proxy(bool destroyAfterSimulationStop);
-    virtual ~Proxy();
-
-    static std::map<int, Proxy *> proxies; // handle -> Proxy
-    static int nextProxyHandle;
-
-    static void destroyTransientObjects();
+    friend class UIFunctions;
+    friend class UIProxy;
 };
 
 #endif // PROXY_H_INCLUDED

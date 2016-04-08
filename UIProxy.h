@@ -7,12 +7,8 @@
 #include <QString>
 #include <QWidget>
 
-#include "tinyxml2.h"
-
-#include "LuaCallbackFunction.h"
 #include "Proxy.h"
-
-using tinyxml2::XMLElement;
+#include "UIModel.h"
 
 class UIProxy : public QObject
 {
@@ -22,17 +18,10 @@ public:
     UIProxy(QObject *parent = 0);
     virtual ~UIProxy();
 
-    std::map<int, QObject *> objectById;
-    std::map<QObject *, int> objectId;
-
-protected:
-    int nextId;
-    QWidget * createStuff(Proxy *proxy, int scriptID, QWidget *parent, XMLElement *e);
-
 public slots:
 
 private slots:
-    void onCreate(Proxy *proxy, int scriptID, QString xml);
+    void onCreate(Proxy *proxy, Window *window);
     void onButtonClick();
     void onValueChange(int value);
     void onValueChange(QString value);

@@ -5,6 +5,7 @@ TEMPLATE = lib
 
 DEFINES -= UNICODE
 DEFINES += QT_COMPIL
+DEFINES += DEBUG
 CONFIG += shared debug_and_release
 INCLUDEPATH += "../include"
 
@@ -13,8 +14,8 @@ INCLUDEPATH += "../include"
 	QMAKE_CXXFLAGS += -W3
 }
 *-g++*|*clang* {
-	QMAKE_CXXFLAGS += -O3
-	QMAKE_CFLAGS += -O3
+	QMAKE_CXXFLAGS += -O3 -Wno-unused-parameter
+	QMAKE_CFLAGS += -O3 -Wno-unused-parameter
 }
 
 win32 {
@@ -66,6 +67,7 @@ HEADERS += \
     stubs.h \
     UIFunctions.h \
     UIProxy.h \
+    UIModel.h \
     LuaCallbackFunction.h \
     Proxy.h \
     tinyxml2.h
@@ -76,6 +78,7 @@ SOURCES += \
     stubs.cpp \
     UIFunctions.cpp \
     UIProxy.cpp \
+    UIModel.cpp \
     LuaCallbackFunction.cpp \
     Proxy.cpp \
     tinyxml2.cpp

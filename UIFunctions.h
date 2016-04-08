@@ -6,6 +6,7 @@
 
 #include "Proxy.h"
 #include "UIProxy.h"
+#include "UIModel.h"
 
 class UIFunctions : public QObject
 {
@@ -27,7 +28,7 @@ private slots:
     void onValueChange(int id, QString value);
 
 signals:
-    void create(Proxy *proxy, int scriptID, QString xml);
+    void create(Proxy *proxy, Window *window);
     void destroy(Proxy *proxy);
 };
 

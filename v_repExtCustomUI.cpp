@@ -37,9 +37,6 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 
-#include "UIFunctions.h"
-#include "UIProxy.h"
-
 #include <QThread>
 #include <QSlider>
 #include <QLineEdit>
@@ -72,9 +69,14 @@
 
 LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 
+#include "tinyxml2.h"
+
 #include "stubs.h"
 #include "LuaCallbackFunction.h"
 #include "Proxy.h"
+#include "UIModel.h"
+#include "UIFunctions.h"
+#include "UIProxy.h"
 
 template<typename T>
 std::string encodePointer(T *p, std::string prefix = "0x")
@@ -123,21 +125,39 @@ UIFunctions *getUIFunctions()
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
-    Proxy *proxy = new Proxy(simGetSimulationState() != sim_simulation_stopped);
+    tinyxml2::XMLDocument xmldoc;
+    tinyxml2::XMLError error = xmldoc.Parse(in->xml.c_str(), in->xml.size());
+
+    if(error != tinyxml2::XML_NO_ERROR)
+    {
+        simSetLastError(cmd, "XML parse error");
+        return;
+    }
+
+    tinyxml2::XMLElement *rootElement = xmldoc.FirstChildElement();
+    Window *window = new Window;
+    std::vector<std::string> errors;
+    if(!window->parse(rootElement, errors))
+    {
+        delete window;
+        std::stringstream ss;
+        ss << "XML tree error: ";
+        for(size_t i = 0; i < errors.size(); ++i)
+            ss << (i ? "; " : "") << errors[i];
+        simSetLastError(cmd, ss.str().c_str());
+        return;
+    }
+
+    Proxy *proxy = new Proxy(simGetSimulationState() != sim_simulation_stopped, p->scriptID);
     UIFunctions *f = getUIFunctions();
-    QString xml = QString::fromStdString(in->xml);
-    f->create(proxy, p->scriptID, xml);
-    out->uiHandle = proxy->handle;
+    f->create(proxy, window); // will run code for creating Qt widgets in the UI thread
+    out->uiHandle = proxy->getHandle();
 }
 
 void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *out)
 {
-    Proxy *proxy;
-    try
-    {
-        proxy = Proxy::proxies[in->handle];
-    }
-    catch(std::exception& ex)
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
     {
         simSetLastError(cmd, "invalid ui handle");
         return;
@@ -150,12 +170,8 @@ void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *o
 template<typename T>
 T* getWidget(int id, const char *cmd, const char *widget_type_name)
 {
-    QObject *object;
-    try
-    {
-        object = uiproxy->objectById[id];
-    }
-    catch(std::exception& ex)
+    Widget *widget = Widget::byId(id);
+    if(!widget)
     {
         std::stringstream ss;
         ss << "invalid widget id: " << id;
@@ -163,8 +179,8 @@ T* getWidget(int id, const char *cmd, const char *widget_type_name)
         return NULL;
     }
 
-    T *widget = dynamic_cast<T*>(object);
-    if(!widget)
+    T *qwidget = dynamic_cast<T*>(widget->getQWidget());
+    if(!qwidget)
     {
         std::stringstream ss;
         ss << "invalid widget type. expected " << widget_type_name;
@@ -172,7 +188,7 @@ T* getWidget(int id, const char *cmd, const char *widget_type_name)
         return NULL;
     }
 
-    return widget;
+    return qwidget;
 }
 
 void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, setSliderValue_out *out)
