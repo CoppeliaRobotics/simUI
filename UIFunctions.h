@@ -5,7 +5,6 @@
 #include <QString>
 
 #include "Proxy.h"
-#include "UIProxy.h"
 #include "UIModel.h"
 
 class UIFunctions : public QObject
