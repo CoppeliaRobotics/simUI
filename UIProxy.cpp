@@ -72,3 +72,8 @@ void UIProxy::onDestroy(Proxy *proxy)
     delete proxy;
 }
 
+void UIProxy::onDestroyUi(Window *window)
+{
+    delete window;
+}
+

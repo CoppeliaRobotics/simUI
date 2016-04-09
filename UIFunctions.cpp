@@ -18,6 +18,7 @@ UIFunctions::UIFunctions(QObject *parent)
     connect(uiproxy, SIGNAL(valueChange(int,int)), this, SLOT(onValueChange(int,int)));
     connect(uiproxy, SIGNAL(valueChange(int,QString)), this, SLOT(onValueChange(int,QString)));
     connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)));
+    connect(this, SIGNAL(destroyUi(Window*)), uiproxy, SLOT(onDestroyUi(Window*)));
 }
 
 UIFunctions::~UIFunctions()
@@ -92,6 +93,12 @@ void UIFunctions::onValueChange(int id, int value)
     {
         fn = checkbox->onchange;
         scriptID = checkbox->proxy->scriptID;
+    }
+    Spinbox *spinbox = dynamic_cast<Spinbox*>(widget);
+    if(scriptID == -1 && spinbox)
+    {
+        fn = spinbox->onchange;
+        scriptID = spinbox->proxy->scriptID;
     }
 
     if(fn != "" && scriptID != -1)

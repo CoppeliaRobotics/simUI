@@ -126,12 +126,15 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
     std::vector<std::string> errors;
     if(!window->parse(rootElement, errors))
     {
-        delete window;
         std::stringstream ss;
         ss << "XML tree error: ";
         for(size_t i = 0; i < errors.size(); ++i)
             ss << (i ? "; " : "") << errors[i];
+#ifdef DEBUG
+        std::cerr << "create: parse failed: " << ss.str() << std::endl;
+#endif
         simSetLastError(cmd, ss.str().c_str());
+        UIFunctions::getInstance()->destroyUi(window); // must delete on UI thread or will crash
         return;
     }
 

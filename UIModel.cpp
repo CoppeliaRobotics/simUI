@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QRadioButton>
+#include <QSpinBox>
 #include <QGroupBox>
 #include <QDialog>
 #include <QLayout>
@@ -81,9 +82,8 @@ Widget * Widget::byQWidget(QWidget *w)
 }
 
 template<typename T>
-Widget * Widget::tryParse(XMLElement *e)
+Widget * Widget::tryParse(XMLElement *e, std::vector<std::string>& errors)
 {
-    std::vector<std::string> errors;
     T *obj = new T;
     if(obj->parse(e, errors))
     {
@@ -100,18 +100,19 @@ Widget * Widget::tryParse(XMLElement *e)
 Widget * Widget::parseAny(XMLElement *e, std::vector<std::string>& errors)
 {
     Widget *w = NULL;
-    if((w = tryParse<Button>(e))) return w;
-    if((w = tryParse<Edit>(e))) return w;
-    if((w = tryParse<HSlider>(e))) return w;
-    if((w = tryParse<VSlider>(e))) return w;
-    if((w = tryParse<Label>(e))) return w;
-    if((w = tryParse<Checkbox>(e))) return w;
-    if((w = tryParse<Radiobutton>(e))) return w;
-    if((w = tryParse<Group>(e))) return w;
+    if((w = tryParse<Button>(e, errors))) return w;
+    if((w = tryParse<Edit>(e, errors))) return w;
+    if((w = tryParse<HSlider>(e, errors))) return w;
+    if((w = tryParse<VSlider>(e, errors))) return w;
+    if((w = tryParse<Label>(e, errors))) return w;
+    if((w = tryParse<Checkbox>(e, errors))) return w;
+    if((w = tryParse<Radiobutton>(e, errors))) return w;
+    if((w = tryParse<Spinbox>(e, errors))) return w;
+    if((w = tryParse<Group>(e, errors))) return w;
 
     std::string tag(e->Value());
     std::stringstream ss;
-    ss << "invalid element: <" << tag << ">";
+    ss << "could not parse <" << tag << ">";
     errors.push_back(ss.str());
     return w;
 }
@@ -153,7 +154,7 @@ bool Button::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "button")
     {
-        errors.push_back("element must be <button>");
+        //errors.push_back("element must be <button>");
         return false;
     }
 
@@ -192,7 +193,7 @@ bool Edit::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "edit")
     {
-        errors.push_back("element must be <edit>");
+        //errors.push_back("element must be <edit>");
         return false;
     }
 
@@ -228,7 +229,7 @@ bool HSlider::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "hslider")
     {
-        errors.push_back("element must be <hslider>");
+        //errors.push_back("element must be <hslider>");
         return false;
     }
 
@@ -272,7 +273,7 @@ bool VSlider::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "vslider")
     {
-        errors.push_back("element must be <vslider>");
+        //errors.push_back("element must be <vslider>");
         return false;
     }
 
@@ -316,7 +317,7 @@ bool Label::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "label")
     {
-        errors.push_back("element must be <label>");
+        //errors.push_back("element must be <label>");
         return false;
     }
 
@@ -351,7 +352,7 @@ bool Checkbox::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "checkbox")
     {
-        errors.push_back("element must be <checkbox>");
+        //errors.push_back("element must be <checkbox>");
         return false;
     }
 
@@ -390,7 +391,7 @@ bool Radiobutton::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "radiobutton")
     {
-        errors.push_back("element must be <radiobutton>");
+        //errors.push_back("element must be <radiobutton>");
         return false;
     }
 
@@ -411,6 +412,62 @@ QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *p
     Widget::widgetByQWidget[qwidget] = this;
     this->proxy = proxy;
     return button;
+}
+
+Spinbox::Spinbox()
+    : Widget()
+{
+}
+
+Spinbox::~Spinbox()
+{
+}
+
+bool Spinbox::parse(XMLElement *e, std::vector<std::string>& errors)
+{
+    if(!Widget::parse(e, errors)) return false;
+
+    std::string tag(e->Value());
+    if(tag != "spinbox")
+    {
+        //errors.push_back("element must be <spinbox>");
+        return false;
+    }
+
+    if(!e->Attribute("minimum") || e->QueryIntAttribute("minimum", &minimum) != XML_NO_ERROR)
+        minimum = 0;
+
+    if(!e->Attribute("maximum") || e->QueryIntAttribute("maximum", &maximum) != XML_NO_ERROR)
+        maximum = 100;
+
+    if(e->Attribute("prefix")) prefix = e->Attribute("prefix");
+    else prefix = "";
+
+    if(e->Attribute("suffix")) suffix = e->Attribute("suffix");
+    else suffix = "";
+
+    if(!e->Attribute("step") || e->QueryIntAttribute("step", &step) != XML_NO_ERROR)
+        step = 1;
+
+    if(e->Attribute("onchange")) onchange = e->Attribute("onchange");
+    else onchange = "";
+
+    return true;
+}
+
+QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+{
+    QSpinBox *slider = new QSpinBox(parent);
+    slider->setMinimum(minimum);
+    slider->setMaximum(maximum);
+    slider->setPrefix(QString::fromStdString(prefix));
+    slider->setSuffix(QString::fromStdString(suffix));
+    slider->setSingleStep(step);
+    QObject::connect(slider, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
+    qwidget = slider;
+    Widget::widgetByQWidget[qwidget] = this;
+    this->proxy = proxy;
+    return slider;
 }
 
 Group::Group()
@@ -436,7 +493,7 @@ bool Group::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "group")
     {
-        errors.push_back("element must be <group>");
+        //errors.push_back("element must be <group>");
         return false;
     }
 
@@ -466,7 +523,11 @@ bool Group::parse(XMLElement *e, std::vector<std::string>& errors)
         }
 
         Widget *w = Widget::parseAny(e1, errors);
-        if(!w) return false;
+        if(!w)
+        {
+            children.push_back(row); // push widget created until now so they won't leak
+            return false;
+        }
         row.push_back(w);
 
         if((layout == FORM && row.size() == 2) ||
@@ -485,6 +546,7 @@ bool Group::parse(XMLElement *e, std::vector<std::string>& errors)
     if(row.size() > 0)
     {
         errors.push_back("extra elements in layout");
+        children.push_back(row); // push widget created until now so they won't leak
         return false;
     }
 
@@ -548,6 +610,8 @@ QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 }
 
 Window::Window()
+    : qwidget(NULL),
+      proxy(NULL)
 {
 }
 
@@ -634,7 +698,11 @@ bool Window::parse(XMLElement *e, std::vector<std::string>& errors)
         }
 
         Widget *w = Widget::parseAny(e1, errors);
-        if(!w) return false;
+        if(!w)
+        {
+            children.push_back(row); // push widget created until now so they won't leak
+            return false;
+        }
         row.push_back(w);
 
         if((layout == FORM && row.size() == 2) ||
@@ -653,6 +721,7 @@ bool Window::parse(XMLElement *e, std::vector<std::string>& errors)
     if(row.size() > 0)
     {
         errors.push_back("extra elements in layout");
+        children.push_back(row); // push widget created until now so they won't leak
         return false;
     }
 

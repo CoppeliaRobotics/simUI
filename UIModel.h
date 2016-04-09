@@ -47,7 +47,7 @@ public:
     inline QWidget * getQWidget() {return qwidget;}
 
     template<typename T>
-    static Widget * tryParse(XMLElement *e);
+    static Widget * tryParse(XMLElement *e, std::vector<std::string>& errors);
     static Widget * parseAny(XMLElement *e, std::vector<std::string>& errors);
 
     static Widget * byId(int id);
@@ -163,6 +163,26 @@ protected:
 public:
     Radiobutton();
     virtual ~Radiobutton();
+
+    bool parse(XMLElement *e, std::vector<std::string>& errors);
+    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+
+    friend class UIFunctions;
+};
+
+struct Spinbox : public Widget
+{
+protected:
+    std::string onchange;
+    int minimum;
+    int maximum;
+    std::string prefix;
+    std::string suffix;
+    int step;
+
+public:
+    Spinbox();
+    virtual ~Spinbox();
 
     bool parse(XMLElement *e, std::vector<std::string>& errors);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);

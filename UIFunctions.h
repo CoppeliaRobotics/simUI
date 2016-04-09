@@ -31,6 +31,7 @@ private slots:
 signals:
     void create(Proxy *proxy, Window *window);
     void destroy(Proxy *proxy);
+    void destroyUi(Window *window);
 };
 
 #endif // MYOBJECT_H_INCLUDED
