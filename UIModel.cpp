@@ -486,20 +486,8 @@ Group::~Group()
     }
 }
 
-bool Group::parse(XMLElement *e, std::vector<std::string>& errors)
+bool parseLayoutWithChildren(XMLElement *e, std::vector<std::string>& errors, Layout& layout, std::vector< std::vector<Widget*> >& children)
 {
-    if(!Widget::parse(e, errors)) return false;
-
-    std::string tag(e->Value());
-    if(tag != "group")
-    {
-        errors.push_back("element must be <group>");
-        return false;
-    }
-
-    if(e->Attribute("text")) text = e->Attribute("text");
-    else text = "";
-
     if(e->Attribute("layout"))
     {
         if(!layoutFromString(e->Attribute("layout"), &layout))
@@ -553,56 +541,78 @@ bool Group::parse(XMLElement *e, std::vector<std::string>& errors)
     return true;
 }
 
-QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+void createQtWidgetForLayoutAndChildren(Proxy *proxy, UIProxy *uiproxy, QWidget *parent, const Layout& layout, std::vector< std::vector<Widget*> >& children)
 {
-    QGroupBox *groupBox = new QGroupBox(QString::fromStdString(text), parent);
     switch(layout)
     {
     case VBOX:
     case HBOX:
         {
             QBoxLayout *qlayout;
-            if(layout == VBOX) qlayout = new QVBoxLayout(groupBox);
-            if(layout == HBOX) qlayout = new QHBoxLayout(groupBox);
+            if(layout == VBOX) qlayout = new QVBoxLayout(parent);
+            if(layout == HBOX) qlayout = new QHBoxLayout(parent);
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
-                QWidget *w = (*it)[0]->createQtWidget(proxy, uiproxy, groupBox);
+                QWidget *w = (*it)[0]->createQtWidget(proxy, uiproxy, parent);
                 qlayout->addWidget(w);
             }
-            groupBox->setLayout(qlayout);
+            parent->setLayout(qlayout);
         }
         break;
     case GRID:
         {
-            QGridLayout *qlayout = new QGridLayout(groupBox);
+            QGridLayout *qlayout = new QGridLayout(parent);
             int row = 0, col = 0;
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
                 col = 0;
                 for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
                 {
-                    QWidget *w = (*it2)->createQtWidget(proxy, uiproxy, groupBox);
+                    QWidget *w = (*it2)->createQtWidget(proxy, uiproxy, parent);
                     qlayout->addWidget(w, row, col);
                     col++;
                 }
                 row++;
             }
-            groupBox->setLayout(qlayout);
+            parent->setLayout(qlayout);
         }
         break;
     case FORM:
         {
-            QFormLayout *qlayout = new QFormLayout(groupBox);
+            QFormLayout *qlayout = new QFormLayout(parent);
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
-                QWidget *w1 = (*it)[0]->createQtWidget(proxy, uiproxy, groupBox);
-                QWidget *w2 = (*it)[1]->createQtWidget(proxy, uiproxy, groupBox);
+                QWidget *w1 = (*it)[0]->createQtWidget(proxy, uiproxy, parent);
+                QWidget *w2 = (*it)[1]->createQtWidget(proxy, uiproxy, parent);
                 qlayout->addRow(w1, w2);
             }
-            groupBox->setLayout(qlayout);
+            parent->setLayout(qlayout);
         }
         break;
     }
+}
+
+bool Group::parse(XMLElement *e, std::vector<std::string>& errors)
+{
+    if(!Widget::parse(e, errors)) return false;
+
+    std::string tag(e->Value());
+    if(tag != "group")
+    {
+        errors.push_back("element must be <group>");
+        return false;
+    }
+
+    if(e->Attribute("text")) text = e->Attribute("text");
+    else text = "";
+
+    return parseLayoutWithChildren(e, errors, layout, children);
+}
+
+QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+{
+    QGroupBox *groupBox = new QGroupBox(QString::fromStdString(text), parent);
+    createQtWidgetForLayoutAndChildren(proxy, uiproxy, groupBox, layout, children);
     qwidget = groupBox;
     Widget::widgetByQWidget[qwidget] = this;
     this->proxy = proxy;
@@ -675,109 +685,13 @@ bool Window::parse(XMLElement *e, std::vector<std::string>& errors)
     if(e->Attribute("title")) title = e->Attribute("title");
     else title = "Custom UI";
 
-    if(e->Attribute("layout"))
-    {
-        if(!layoutFromString(e->Attribute("layout"), &layout))
-        {
-            errors.push_back("invalid value for attribute 'layout'");
-            return false;
-        }
-    }
-    else layout = VBOX;
-
-    std::vector<Widget*> row;
-    for(XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
-    {
-        std::string tag1(e1->Value());
-
-        if(tag1 == "br" && layout == GRID)
-        {
-            children.push_back(row);
-            row.clear();
-            continue;
-        }
-
-        Widget *w = Widget::parseAny(e1, errors);
-        if(!w)
-        {
-            children.push_back(row); // push widget created until now so they won't leak
-            return false;
-        }
-        row.push_back(w);
-
-        if((layout == FORM && row.size() == 2) ||
-                layout == VBOX ||
-                layout == HBOX)
-        {
-            children.push_back(row);
-            row.clear();
-        }
-    }
-    if(row.size() > 0 && layout == GRID)
-    {
-        children.push_back(row);
-        row.clear();
-    }
-    if(row.size() > 0)
-    {
-        errors.push_back("extra elements in layout");
-        children.push_back(row); // push widget created until now so they won't leak
-        return false;
-    }
-
-    return true;
+    return parseLayoutWithChildren(e, errors, layout, children);
 }
 
 QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QDialog *window = new QDialog(parent, Qt::Tool);
-    switch(layout)
-    {
-    case VBOX:
-    case HBOX:
-        {
-            QBoxLayout *qlayout;
-            if(layout == VBOX) qlayout = new QVBoxLayout(window);
-            if(layout == HBOX) qlayout = new QHBoxLayout(window);
-            for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
-            {
-                QWidget *w = (*it)[0]->createQtWidget(proxy, uiproxy, window);
-                qlayout->addWidget(w);
-            }
-            window->setLayout(qlayout);
-        }
-        break;
-    case GRID:
-        {
-            QGridLayout *qlayout = new QGridLayout(window);
-            int row = 0, col = 0;
-            for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
-            {
-                col = 0;
-                for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
-                {
-                    QWidget *w = (*it2)->createQtWidget(proxy, uiproxy, window);
-                    qlayout->addWidget(w, row, col);
-                    col++;
-                }
-                row++;
-            }
-            window->setLayout(qlayout);
-        }
-        break;
-    case FORM:
-        {
-            QFormLayout *qlayout = new QFormLayout(window);
-            for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
-            {
-                QWidget *w1 = (*it)[0]->createQtWidget(proxy, uiproxy, window);
-                QWidget *w2 = (*it)[1]->createQtWidget(proxy, uiproxy, window);
-                qlayout->addRow(w1, w2);
-            }
-            window->setLayout(qlayout);
-        }
-        break;
-    }
+    createQtWidgetForLayoutAndChildren(proxy, uiproxy, window, layout, children);
     window->setWindowTitle(QString::fromStdString(title));
     window->setWindowFlags(Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
     //window->setAttribute(Qt::WA_DeleteOnClose);
