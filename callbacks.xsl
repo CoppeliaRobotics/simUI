@@ -14,8 +14,8 @@
                     <table class="allEncompassingTable">
                         <tr>
                             <td>
-                                <h1>Octomap Plugin API reference</h1>
-                                <p class="infoBox">The list of API functions below provide an interface to the Octomap library.</p>
+                                <h1><xsl:value-of select="/plugin/@name"/> Plugin API reference</h1>
+                                <xsl:if test="/plugin/description and (/plugin/description != '')"><p class="infoBox"><xsl:copy-of select="/plugin/description/node()"/></p></xsl:if>
                                 <xsl:for-each select="plugin/command">
                                     <xsl:sort select="@name"/>
                                     <xsl:if test="description != ''">
@@ -41,7 +41,7 @@
                                             </tr>
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftLSyn">Lua synopsis</td>
-                                                <td class="apiTableRightLSyn"><xsl:for-each select="return/param"><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@name"/><xsl:if test="not(position() = last())">, </xsl:if></xsl:for-each>=simExt<xsl:value-of select="/plugin/@name"/>_<xsl:value-of select="@name"/>(<xsl:for-each select="params/param"><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@name"/><xsl:if test="@default"> = <xsl:value-of select="@default"/></xsl:if><xsl:if test="not(position() = last())">, </xsl:if></xsl:for-each>)<br/></td>
+                                                <td class="apiTableRightLSyn"><xsl:for-each select="return/param"><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@name"/><xsl:if test="not(position() = last())">, </xsl:if></xsl:for-each><xsl:if test="return/param">=</xsl:if>simExt<xsl:value-of select="/plugin/@name"/>_<xsl:value-of select="@name"/>(<xsl:for-each select="params/param"><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@name"/><xsl:if test="@default"> = <xsl:value-of select="@default"/></xsl:if><xsl:if test="not(position() = last())">, </xsl:if></xsl:for-each>)<br/></td>
                                             </tr>
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftLParam">Lua parameters</td>

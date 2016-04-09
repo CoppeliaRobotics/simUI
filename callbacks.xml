@@ -2,6 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="callbacks.xsl"?>
 
 <plugin name="CustomUI" author="federico.ferri.it@gmail.com">
+    <description>API functions for creating custom user interfaces.</description>
     <command name="create">
         <description>Create a window.</description>
         <see-also>
