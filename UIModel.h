@@ -21,8 +21,6 @@ enum Layout
     FORM
 };
 
-bool layoutFromString(const char *s, Layout *l);
-
 struct Widget
 {
 protected:
@@ -56,6 +54,17 @@ public:
     friend class UIFunctions;
     friend class UIProxy;
     friend struct Window;
+};
+
+struct LayoutWidget
+{
+protected:
+    Layout layout;
+    std::vector< std::vector<Widget*> > children;
+
+public:
+    bool parse(XMLElement *e, std::vector<std::string>& errors);    
+    void createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 };
 
 struct Button : public Widget
@@ -190,12 +199,10 @@ public:
     friend class UIFunctions;
 };
 
-struct Group : public Widget
+struct Group : public Widget, public LayoutWidget
 {
 protected:
     std::string text;
-    Layout layout;
-    std::vector< std::vector<Widget*> > children;
 
 public:
     Group();
@@ -207,12 +214,10 @@ public:
     friend class UIFunctions;
 };
 
-struct Window
+struct Window : public LayoutWidget
 {
 protected:
     std::string title;
-    Layout layout;
-    std::vector< std::vector<Widget*> > children;
 
     QWidget *qwidget;
 
