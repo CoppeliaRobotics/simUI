@@ -6,7 +6,7 @@
 
 #include <QWidget>
 
-#include "UIModel.h"
+#include "widgets/Window.h"
 #include "LuaCallbackFunction.h"
 
 class UIProxy;

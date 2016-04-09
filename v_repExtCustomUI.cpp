@@ -74,9 +74,10 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 #include "stubs.h"
 #include "LuaCallbackFunction.h"
 #include "Proxy.h"
-#include "UIModel.h"
 #include "UIFunctions.h"
 #include "UIProxy.h"
+#include "widgets/Window.h"
+#include "widgets/Widget.h"
 
 template<typename T>
 std::string encodePointer(T *p, std::string prefix = "0x")

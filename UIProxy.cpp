@@ -1,4 +1,5 @@
 #include "UIProxy.h"
+#include "widgets/Widget.h"
 
 #include <QWidget>
 

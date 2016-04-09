@@ -1,5 +1,7 @@
 #include "UIFunctions.h"
 #include "UIProxy.h"
+#include "widgets/Event.h"
+#include "widgets/Widget.h"
 
 #include <QThread>
 

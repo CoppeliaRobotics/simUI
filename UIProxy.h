@@ -8,7 +8,7 @@
 #include <QWidget>
 
 #include "Proxy.h"
-#include "UIModel.h"
+#include "widgets/Window.h"
 
 class UIProxy : public QObject
 {

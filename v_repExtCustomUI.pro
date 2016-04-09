@@ -67,7 +67,19 @@ HEADERS += \
     stubs.h \
     UIFunctions.h \
     UIProxy.h \
-    UIModel.h \
+    widgets/Button.h \
+    widgets/Checkbox.h \
+    widgets/Edit.h \
+    widgets/Event.h \
+    widgets/Group.h \
+    widgets/HSlider.h \
+    widgets/Label.h \
+    widgets/LayoutWidget.h \
+    widgets/Radiobutton.h \
+    widgets/Spinbox.h \
+    widgets/VSlider.h \
+    widgets/Widget.h \
+    widgets/Window.h \
     LuaCallbackFunction.h \
     Proxy.h \
     tinyxml2.h
@@ -78,7 +90,19 @@ SOURCES += \
     stubs.cpp \
     UIFunctions.cpp \
     UIProxy.cpp \
-    UIModel.cpp \
+    widgets/Button.cpp \
+    widgets/Checkbox.cpp \
+    widgets/Edit.cpp \
+    widgets/Event.cpp \
+    widgets/Group.cpp \
+    widgets/HSlider.cpp \
+    widgets/Label.cpp \
+    widgets/LayoutWidget.cpp \
+    widgets/Radiobutton.cpp \
+    widgets/Spinbox.cpp \
+    widgets/VSlider.cpp \
+    widgets/Widget.cpp \
+    widgets/Window.cpp \
     LuaCallbackFunction.cpp \
     Proxy.cpp \
     tinyxml2.cpp

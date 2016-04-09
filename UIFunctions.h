@@ -5,7 +5,7 @@
 #include <QString>
 
 #include "Proxy.h"
-#include "UIModel.h"
+#include "widgets/Window.h"
 
 class UIFunctions : public QObject
 {
