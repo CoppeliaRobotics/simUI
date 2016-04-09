@@ -110,10 +110,6 @@ T * decodePointer(std::string s, std::string prefix = "0x")
     }
 }
 
-UIFunctions *getUIFunctions()
-{
-}
-
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
     tinyxml2::XMLDocument xmldoc;
