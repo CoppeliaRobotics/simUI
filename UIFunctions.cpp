@@ -6,13 +6,23 @@
 
 #include "stubs.h"
 
+UIFunctions *UIFunctions::instance = NULL;
+
 UIFunctions::UIFunctions(QObject *parent)
     : QObject(parent)
 {
+    connectToProxy(UIProxy::getInstance());
 }
 
 UIFunctions::~UIFunctions()
 {
+}
+
+UIFunctions * UIFunctions::getInstance(QObject *parent)
+{
+    if(!UIFunctions::instance)
+        UIFunctions::instance = new UIFunctions(parent);
+    return UIFunctions::instance;
 }
 
 void UIFunctions::connectToProxy(UIProxy *uiproxy)

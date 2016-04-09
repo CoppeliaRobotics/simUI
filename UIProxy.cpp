@@ -2,8 +2,9 @@
 
 #include <QWidget>
 
-
 using namespace tinyxml2;
+
+UIProxy *UIProxy::instance = NULL;
 
 UIProxy::UIProxy(QObject *parent)
     : QObject(parent)
@@ -12,6 +13,13 @@ UIProxy::UIProxy(QObject *parent)
 
 UIProxy::~UIProxy()
 {
+}
+
+UIProxy * UIProxy::getInstance(QObject *parent)
+{
+    if(!UIProxy::instance)
+        UIProxy::instance = new UIProxy(parent);
+    return UIProxy::instance;
 }
 
 void UIProxy::onCreate(Proxy *proxy, Window *window)

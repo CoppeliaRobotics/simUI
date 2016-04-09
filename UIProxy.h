@@ -15,8 +15,14 @@ class UIProxy : public QObject
     Q_OBJECT
 
 public:
-    UIProxy(QObject *parent = 0);
     virtual ~UIProxy();
+
+    static UIProxy * getInstance(QObject *parent = 0);
+
+private:
+    UIProxy(QObject *parent = 0);
+
+    static UIProxy *instance;
 
 public slots:
 

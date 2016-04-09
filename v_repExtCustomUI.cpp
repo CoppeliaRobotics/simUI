@@ -110,17 +110,8 @@ T * decodePointer(std::string s, std::string prefix = "0x")
     }
 }
 
-UIProxy *uiproxy = NULL;
-UIFunctions *uifunctions = NULL;
-
 UIFunctions *getUIFunctions()
 {
-    if(!uifunctions)
-    {
-        uifunctions = new UIFunctions;
-        uifunctions->connectToProxy(uiproxy);
-    }
-    return uifunctions;
 }
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
@@ -149,8 +140,8 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
     }
 
     Proxy *proxy = new Proxy(simGetSimulationState() != sim_simulation_stopped, p->scriptID);
-    UIFunctions *f = getUIFunctions();
-    f->create(proxy, window); // will run code for creating Qt widgets in the UI thread
+    UIFunctions::getInstance()->create(proxy, window); // connected to UIProxy, which
+                            // will run code for creating Qt widgets in the UI thread
     out->uiHandle = proxy->getHandle();
 }
 
@@ -163,8 +154,7 @@ void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *o
         return;
     }
 
-    UIFunctions *f = getUIFunctions();
-    f->destroy(proxy); // will also call delete on proxy
+    UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
 }
 
 template<typename T>
@@ -284,14 +274,15 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
         return(0);
     }
 
-    uiproxy = new UIProxy;
+    UIProxy::getInstance(); // construct UIProxy here (UI thread)
 
     return(PLUGIN_VERSION); // initialization went fine, we return the version number of this plugin (can be queried with simGetModuleName)
 }
 
 VREP_DLLEXPORT void v_repEnd()
 {
-    if(uiproxy) delete uiproxy;
+    delete UIProxy::getInstance();
+    delete UIFunctions::getInstance();
 
     unloadVrepLibrary(vrepLib); // release the library
 }

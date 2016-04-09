@@ -13,12 +13,16 @@ class UIFunctions : public QObject
     Q_OBJECT
 
 public:
-    UIFunctions(QObject *parent = 0);
     virtual ~UIFunctions();
 
     void connectToProxy(UIProxy *uiproxy);
 
-protected:
+    static UIFunctions * getInstance(QObject *parent = 0);
+
+private:
+    UIFunctions(QObject *parent = 0);
+
+    static UIFunctions *instance;
 
 public slots:
 
