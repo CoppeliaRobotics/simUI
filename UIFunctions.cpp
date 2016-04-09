@@ -36,34 +36,13 @@ void UIFunctions::onButtonClick(int id)
 {
     Widget *widget = Widget::byId(id);
     if(!widget) return;
-
-    std::string fn = "";
-    int scriptID = -1;
-
-    // try to cast to any object that has an 'onclick' member:
-    {
-        Button *button = dynamic_cast<Button*>(widget);
-        if(scriptID == -1 && button)
-        {
-            fn = button->onclick;
-            scriptID = button->proxy->scriptID;
-        }
-    }
-    {
-        Radiobutton *radiobutton = dynamic_cast<Radiobutton*>(widget);
-        if(scriptID == -1 && radiobutton)
-        {
-            fn = radiobutton->onclick;
-            scriptID = radiobutton->proxy->scriptID;
-        }
-    }
-
-    if(fn != "" && scriptID != -1)
+    EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
+    if(e && e->onclick != "" && widget->proxy->scriptID != -1)
     {
         onclickCallback_in in_args;
         in_args.id = id;
         onclickCallback_out out_args;
-        onclickCallback(scriptID, fn.c_str(), &in_args, &out_args);
+        onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in_args, &out_args);
     }
 }
 
@@ -71,43 +50,14 @@ void UIFunctions::onValueChange(int id, int value)
 {
     Widget *widget = Widget::byId(id);
     if(!widget) return;
-
-    std::string fn = "";
-    int scriptID = -1;
-
-    // try to cast to any object that has an 'onchange' member:
-    HSlider *hslider = dynamic_cast<HSlider*>(widget);
-    if(scriptID == -1 && hslider)
-    {
-        fn = hslider->onchange;
-        scriptID = hslider->proxy->scriptID;
-    }
-    VSlider *vslider = dynamic_cast<VSlider*>(widget);
-    if(scriptID == -1 && vslider)
-    {
-        fn = vslider->onchange;
-        scriptID = vslider->proxy->scriptID;
-    }
-    Checkbox *checkbox = dynamic_cast<Checkbox*>(widget);
-    if(scriptID == -1 && checkbox)
-    {
-        fn = checkbox->onchange;
-        scriptID = checkbox->proxy->scriptID;
-    }
-    Spinbox *spinbox = dynamic_cast<Spinbox*>(widget);
-    if(scriptID == -1 && spinbox)
-    {
-        fn = spinbox->onchange;
-        scriptID = spinbox->proxy->scriptID;
-    }
-
-    if(fn != "" && scriptID != -1)
+    EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
+    if(e && e->onchange != "" && widget->proxy->scriptID != -1)
     {
         onchangeIntCallback_in in_args;
         in_args.id = id;
         in_args.value = value;
         onchangeIntCallback_out out_args;
-        onchangeIntCallback(scriptID, fn.c_str(), &in_args, &out_args);
+        onchangeIntCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
     }
 }
 
@@ -115,25 +65,14 @@ void UIFunctions::onValueChange(int id, QString value)
 {
     Widget *widget = Widget::byId(id);
     if(!widget) return;
-
-    std::string fn = "";
-    int scriptID = -1;
-
-    // try to cast to any object that has an 'onchange' member:
-    Edit *edit = dynamic_cast<Edit*>(widget);
-    if(scriptID == -1 && edit)
-    {
-        fn = edit->onchange;
-        scriptID = edit->proxy->scriptID;
-    }
-
-    if(fn != "" && scriptID != -1)
+    EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
+    if(e && e->onchange != "" && widget->proxy->scriptID != -1)
     {
         onchangeStringCallback_in in_args;
         in_args.id = id;
         in_args.value = value.toStdString();
         onchangeStringCallback_out out_args;
-        onchangeStringCallback(scriptID, fn.c_str(), &in_args, &out_args);
+        onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
     }
 }
 

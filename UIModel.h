@@ -67,11 +67,43 @@ public:
     void createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 };
 
-struct Button : public Widget
+struct Event
+{
+protected:
+
+    friend class UIFunctions;
+};
+
+struct EventOnClick : public Event
+{
+protected:
+    std::string onclick;
+
+    friend class UIFunctions;
+};
+
+struct EventOnChange : public Event
+{
+protected:
+    std::string onchange;
+
+    friend class UIFunctions;
+};
+
+struct EventOnChangeInt : public EventOnChange
+{
+    friend class UIFunctions;
+};
+
+struct EventOnChangeString : public EventOnChange
+{
+    friend class UIFunctions;
+};
+
+struct Button : public Widget, public EventOnClick
 {
 protected:
     std::string text;
-    std::string onclick;
 
 public:
     Button();
@@ -83,10 +115,9 @@ public:
     friend class UIFunctions;
 };
 
-struct Edit : public Widget
+struct Edit : public Widget, public EventOnChangeString
 {
 protected:
-    std::string onchange;
 
 public:
     Edit();
@@ -98,10 +129,9 @@ public:
     friend class UIFunctions;
 };
 
-struct HSlider : public Widget
+struct HSlider : public Widget, public EventOnChangeInt
 {
 protected:
-    std::string onchange;
     int minimum;
     int maximum;
 
@@ -115,10 +145,9 @@ public:
     friend class UIFunctions;
 };
 
-struct VSlider : public Widget
+struct VSlider : public Widget, public EventOnChangeInt
 {
 protected:
-    std::string onchange;
     int minimum;
     int maximum;
 
@@ -147,11 +176,10 @@ public:
     friend class UIFunctions;
 };
 
-struct Checkbox : public Widget
+struct Checkbox : public Widget, public EventOnChangeInt
 {
 protected:
     std::string text;
-    std::string onchange;
 
 public:
     Checkbox();
@@ -163,11 +191,10 @@ public:
     friend class UIFunctions;
 };
 
-struct Radiobutton : public Widget
+struct Radiobutton : public Widget, public EventOnClick
 {
 protected:
     std::string text;
-    std::string onclick;
 
 public:
     Radiobutton();
@@ -179,10 +206,9 @@ public:
     friend class UIFunctions;
 };
 
-struct Spinbox : public Widget
+struct Spinbox : public Widget, public EventOnChangeInt
 {
 protected:
-    std::string onchange;
     int minimum;
     int maximum;
     std::string prefix;
