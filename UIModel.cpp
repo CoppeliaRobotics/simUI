@@ -99,18 +99,18 @@ Widget * Widget::tryParse(XMLElement *e, std::vector<std::string>& errors)
 
 Widget * Widget::parseAny(XMLElement *e, std::vector<std::string>& errors)
 {
-    Widget *w = NULL;
-    if((w = tryParse<Button>(e, errors))) return w;
-    if((w = tryParse<Edit>(e, errors))) return w;
-    if((w = tryParse<HSlider>(e, errors))) return w;
-    if((w = tryParse<VSlider>(e, errors))) return w;
-    if((w = tryParse<Label>(e, errors))) return w;
-    if((w = tryParse<Checkbox>(e, errors))) return w;
-    if((w = tryParse<Radiobutton>(e, errors))) return w;
-    if((w = tryParse<Spinbox>(e, errors))) return w;
-    if((w = tryParse<Group>(e, errors))) return w;
-
     std::string tag(e->Value());
+    Widget *w = NULL;
+    if(tag == "button" && (w = tryParse<Button>(e, errors))) return w;
+    if(tag == "edit" && (w = tryParse<Edit>(e, errors))) return w;
+    if(tag == "hslider" && (w = tryParse<HSlider>(e, errors))) return w;
+    if(tag == "vslider" && (w = tryParse<VSlider>(e, errors))) return w;
+    if(tag == "label" && (w = tryParse<Label>(e, errors))) return w;
+    if(tag == "checkbox" && (w = tryParse<Checkbox>(e, errors))) return w;
+    if(tag == "radiobutton" && (w = tryParse<Radiobutton>(e, errors))) return w;
+    if(tag == "spinbox" && (w = tryParse<Spinbox>(e, errors))) return w;
+    if(tag == "group" && (w = tryParse<Group>(e, errors))) return w;
+
     std::stringstream ss;
     ss << "could not parse <" << tag << ">";
     errors.push_back(ss.str());
@@ -154,7 +154,7 @@ bool Button::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "button")
     {
-        //errors.push_back("element must be <button>");
+        errors.push_back("element must be <button>");
         return false;
     }
 
@@ -193,7 +193,7 @@ bool Edit::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "edit")
     {
-        //errors.push_back("element must be <edit>");
+        errors.push_back("element must be <edit>");
         return false;
     }
 
@@ -229,7 +229,7 @@ bool HSlider::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "hslider")
     {
-        //errors.push_back("element must be <hslider>");
+        errors.push_back("element must be <hslider>");
         return false;
     }
 
@@ -273,7 +273,7 @@ bool VSlider::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "vslider")
     {
-        //errors.push_back("element must be <vslider>");
+        errors.push_back("element must be <vslider>");
         return false;
     }
 
@@ -317,7 +317,7 @@ bool Label::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "label")
     {
-        //errors.push_back("element must be <label>");
+        errors.push_back("element must be <label>");
         return false;
     }
 
@@ -352,7 +352,7 @@ bool Checkbox::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "checkbox")
     {
-        //errors.push_back("element must be <checkbox>");
+        errors.push_back("element must be <checkbox>");
         return false;
     }
 
@@ -391,7 +391,7 @@ bool Radiobutton::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "radiobutton")
     {
-        //errors.push_back("element must be <radiobutton>");
+        errors.push_back("element must be <radiobutton>");
         return false;
     }
 
@@ -430,7 +430,7 @@ bool Spinbox::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "spinbox")
     {
-        //errors.push_back("element must be <spinbox>");
+        errors.push_back("element must be <spinbox>");
         return false;
     }
 
@@ -493,7 +493,7 @@ bool Group::parse(XMLElement *e, std::vector<std::string>& errors)
     std::string tag(e->Value());
     if(tag != "group")
     {
-        //errors.push_back("element must be <group>");
+        errors.push_back("element must be <group>");
         return false;
     }
 
