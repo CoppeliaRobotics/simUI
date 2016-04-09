@@ -15,8 +15,6 @@ class UIFunctions : public QObject
 public:
     virtual ~UIFunctions();
 
-    void connectToProxy(UIProxy *uiproxy);
-
     static UIFunctions * getInstance(QObject *parent = 0);
 
 private:

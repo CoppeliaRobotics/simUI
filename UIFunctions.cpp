@@ -11,7 +11,12 @@ UIFunctions *UIFunctions::instance = NULL;
 UIFunctions::UIFunctions(QObject *parent)
     : QObject(parent)
 {
-    connectToProxy(UIProxy::getInstance());
+    UIProxy *uiproxy = UIProxy::getInstance();
+    connect(this, SIGNAL(create(Proxy*,Window*)), uiproxy, SLOT(onCreate(Proxy*,Window*)));
+    connect(uiproxy, SIGNAL(buttonClick(int)), this, SLOT(onButtonClick(int)));
+    connect(uiproxy, SIGNAL(valueChange(int,int)), this, SLOT(onValueChange(int,int)));
+    connect(uiproxy, SIGNAL(valueChange(int,QString)), this, SLOT(onValueChange(int,QString)));
+    connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)));
 }
 
 UIFunctions::~UIFunctions()
@@ -23,15 +28,6 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
     if(!UIFunctions::instance)
         UIFunctions::instance = new UIFunctions(parent);
     return UIFunctions::instance;
-}
-
-void UIFunctions::connectToProxy(UIProxy *uiproxy)
-{
-    connect(this, SIGNAL(create(Proxy*,Window*)), uiproxy, SLOT(onCreate(Proxy*,Window*)));
-    connect(uiproxy, SIGNAL(buttonClick(int)), this, SLOT(onButtonClick(int)));
-    connect(uiproxy, SIGNAL(valueChange(int,int)), this, SLOT(onValueChange(int,int)));
-    connect(uiproxy, SIGNAL(valueChange(int,QString)), this, SLOT(onValueChange(int,QString)));
-    connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)));
 }
 
 void UIFunctions::onButtonClick(int id)
