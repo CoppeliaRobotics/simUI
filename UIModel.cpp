@@ -119,27 +119,12 @@ Widget * Widget::parseAny(XMLElement *e, std::vector<std::string>& errors)
 bool layoutFromString(const char *s, Layout *l)
 {
     std::string n(s);
-    if(n == "vbox")
-    {
-        *l = VBOX;
-        return true;
-    }
-    if(n == "hbox")
-    {
-        *l = HBOX;
-        return true;
-    }
-    if(n == "grid")
-    {
-        *l = GRID;
-        return true;
-    }
-    if(n == "form")
-    {
-        *l = FORM;
-        return true;
-    }
-    return false;
+    if(n == "vbox") *l = VBOX;
+    else if(n == "hbox") *l = HBOX;
+    else if(n == "grid") *l = GRID;
+    else if(n == "form") *l = FORM;
+    else return false;
+    return true;
 }
 
 bool Widget::parse(XMLElement *e, std::vector<std::string>& errors)
