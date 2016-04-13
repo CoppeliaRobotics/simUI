@@ -182,16 +182,40 @@ T* getWidget(int id, const char *cmd, const char *widget_type_name)
     return qwidget;
 }
 
+void getSliderValue(SScriptCallBack *p, const char *cmd, getSliderValue_in *in, getSliderValue_out *out)
+{
+    QSlider *slider = getWidget<QSlider>(in->id, cmd, "slider");
+    out->value = slider->value();
+}
+
 void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, setSliderValue_out *out)
 {
     QSlider *slider = getWidget<QSlider>(in->id, cmd, "slider");
     slider->setValue(in->value);
 }
 
+void getEditValue(SScriptCallBack *p, const char *cmd, getEditValue_in *in, getEditValue_out *out)
+{
+    QLineEdit *edit = getWidget<QLineEdit>(in->id, cmd, "edit");
+    out->value = edit->text().toStdString();
+}
+
 void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setEditValue_out *out)
 {
     QLineEdit *edit = getWidget<QLineEdit>(in->id, cmd, "edit");
     edit->setText(QString::fromStdString(in->value));
+}
+
+void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *in, getCheckboxValue_out *out)
+{
+    QCheckBox *checkbox = getWidget<QCheckBox>(in->id, cmd, "checkbox");
+    switch(checkbox->checkState())
+    {
+    case Qt::Unchecked: out->value = 0; break;
+    case Qt::PartiallyChecked: out->value = 1; break;
+    case Qt::Checked: out->value = 2; break;
+    default: simSetLastError(cmd, "invalid checkbox value"); break;
+    }
 }
 
 void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *in, setCheckboxValue_out *out)
@@ -206,6 +230,12 @@ void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *
     }
 }
 
+void getRadiobuttonValue(SScriptCallBack *p, const char *cmd, getRadiobuttonValue_in *in, getRadiobuttonValue_out *out)
+{
+    QRadioButton *radiobutton = getWidget<QRadioButton>(in->id, cmd, "radiobutton");
+    out->value = radiobutton->isChecked() ? 1 : 0;
+}
+
 void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValue_in *in, setRadiobuttonValue_out *out)
 {
     QRadioButton *radiobutton = getWidget<QRadioButton>(in->id, cmd, "radiobutton");
@@ -215,6 +245,12 @@ void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValu
     case 1: radiobutton->setChecked(true); break;
     default: simSetLastError(cmd, "invalid radiobutton value"); break;
     }
+}
+
+void getLabelText(SScriptCallBack *p, const char *cmd, getLabelText_in *in, getLabelText_out *out)
+{
+    QLabel *label = getWidget<QLabel>(in->id, cmd, "label");
+    out->text = label->text().toStdString();
 }
 
 void setLabelText(SScriptCallBack *p, const char *cmd, setLabelText_in *in, setLabelText_out *out)
