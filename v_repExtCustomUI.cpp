@@ -46,6 +46,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QGroupBox>
+#include <QComboBox>
 #include <QDialog>
 
 #ifdef _WIN32
@@ -220,6 +221,18 @@ void setLabelText(SScriptCallBack *p, const char *cmd, setLabelText_in *in, setL
 {
     QLabel *label = getWidget<QLabel>(in->id, cmd, "label");
     label->setText(QString::fromStdString(in->text));
+}
+
+void insertComboboxItem(SScriptCallBack *p, const char *cmd, insertComboboxItem_in *in, insertComboboxItem_out *out)
+{
+    QComboBox *combobox = getWidget<QComboBox>(in->id, cmd, "combobox");
+    combobox->insertItem(in->index, QString::fromStdString(in->text));
+}
+
+void removeComboboxItem(SScriptCallBack *p, const char *cmd, removeComboboxItem_in *in, removeComboboxItem_out *out)
+{
+    QComboBox *combobox = getWidget<QComboBox>(in->id, cmd, "combobox");
+    combobox->removeItem(in->index);
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)

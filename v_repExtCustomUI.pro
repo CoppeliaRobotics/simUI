@@ -69,6 +69,7 @@ HEADERS += \
     UIProxy.h \
     widgets/Button.h \
     widgets/Checkbox.h \
+    widgets/Combobox.h \
     widgets/Edit.h \
     widgets/Event.h \
     widgets/Group.h \
@@ -92,6 +93,7 @@ SOURCES += \
     UIProxy.cpp \
     widgets/Button.cpp \
     widgets/Checkbox.cpp \
+    widgets/Combobox.cpp \
     widgets/Edit.cpp \
     widgets/Event.cpp \
     widgets/Group.cpp \

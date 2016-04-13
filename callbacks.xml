@@ -97,6 +97,35 @@
         <return>
         </return>
     </command>
+    <command name="insertComboboxItem">
+        <description>Insert an item in a combobox widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="index" type="int">
+                <description>If the index is equal to or higher than the total number of items, the new item is appended to the list of existing items. If the index is zero or negative, the new item is prepended to the list of existing items.</description>
+            </param>
+            <param name="text" type="string">
+                <description>Item text.</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="removeComboboxItem">
+        <description>Remove an item from a combobox widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="index" type="int">
+                <description>Item index.</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

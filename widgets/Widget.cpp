@@ -7,6 +7,7 @@
 #include "Checkbox.h"
 #include "Radiobutton.h"
 #include "Spinbox.h"
+#include "Combobox.h"
 #include "Group.h"
 
 #include "UIProxy.h"
@@ -99,6 +100,7 @@ Widget * Widget::parseAny(tinyxml2::XMLElement *e, std::vector<std::string>& err
     if(tag == "checkbox" && (w = tryParse<Checkbox>(e, errors))) return w;
     if(tag == "radiobutton" && (w = tryParse<Radiobutton>(e, errors))) return w;
     if(tag == "spinbox" && (w = tryParse<Spinbox>(e, errors))) return w;
+    if(tag == "combobox" && (w = tryParse<Combobox>(e, errors))) return w;
     if(tag == "group" && (w = tryParse<Group>(e, errors))) return w;
 
     std::stringstream ss;
