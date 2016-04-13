@@ -126,6 +126,35 @@
         <return>
         </return>
     </command>
+    <command name="getComboboxItemCount">
+        <description>Get the number of items in the specified combobox widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="count" type="int">
+                <description>Item count.</description>
+            </param>
+        </return>
+    </command>
+    <command name="getComboboxItemText">
+        <description>Get the text of an item in a combobox widget.</description>
+        <params>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="index" type="int">
+                <description>Item index.</description>
+            </param>
+        </params>
+        <return>
+            <param name="text" type="string">
+                <description>Item text.</description>
+            </param>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

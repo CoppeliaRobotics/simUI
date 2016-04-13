@@ -235,6 +235,18 @@ void removeComboboxItem(SScriptCallBack *p, const char *cmd, removeComboboxItem_
     combobox->removeItem(in->index);
 }
 
+void getComboboxItemCount(SScriptCallBack *p, const char *cmd, getComboboxItemCount_in *in, getComboboxItemCount_out *out)
+{
+    QComboBox *combobox = getWidget<QComboBox>(in->id, cmd, "combobox");
+    out->count = combobox->count();
+}
+
+void getComboboxItemText(SScriptCallBack *p, const char *cmd, getComboboxItemText_in *in, getComboboxItemText_out *out)
+{
+    QComboBox *combobox = getWidget<QComboBox>(in->id, cmd, "combobox");
+    out->text = combobox->itemText(in->index).toStdString();
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];
