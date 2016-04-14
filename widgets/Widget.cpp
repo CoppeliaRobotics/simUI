@@ -9,6 +9,7 @@
 #include "Spinbox.h"
 #include "Combobox.h"
 #include "Group.h"
+#include "Tabs.h"
 
 #include "UIProxy.h"
 
@@ -102,6 +103,7 @@ Widget * Widget::parseAny(tinyxml2::XMLElement *e, std::vector<std::string>& err
     if(tag == "spinbox" && (w = tryParse<Spinbox>(e, errors))) return w;
     if(tag == "combobox" && (w = tryParse<Combobox>(e, errors))) return w;
     if(tag == "group" && (w = tryParse<Group>(e, errors))) return w;
+    if(tag == "tabs" && (w = tryParse<Tabs>(e, errors))) return w;
 
     std::stringstream ss;
     ss << "could not parse <" << tag << ">";
