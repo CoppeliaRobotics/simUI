@@ -15,6 +15,11 @@ Combobox::~Combobox()
 {
 }
 
+const char * Combobox::name()
+{
+    return "combobox";
+}
+
 bool Combobox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;

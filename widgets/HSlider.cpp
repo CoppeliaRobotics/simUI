@@ -13,6 +13,11 @@ HSlider::~HSlider()
 {
 }
 
+const char * HSlider::name()
+{
+    return "hslider";
+}
+
 bool HSlider::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;

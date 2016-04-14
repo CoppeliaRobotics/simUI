@@ -30,7 +30,7 @@ Widget::Widget()
 Widget::~Widget()
 {
 #ifdef DEBUG
-    std::cerr << "Widget::~Widget() - this=" << std::hex << ((void*)this) << std::dec << std::endl;
+    std::cerr << str() << "::~Widget()" << std::endl;
 #endif
 
     // this should be destroyed from the UI thread
@@ -38,10 +38,10 @@ Widget::~Widget()
     if(qwidget)
     {
 #ifdef DEBUG
-    std::cerr << "Widget::~Widget() - delete 'qwidget' member (deleteLater())" << std::endl;
+        std::cerr << str() << "::~Widget() - delete 'qwidget' member (deleteLater())" << std::endl;
 #endif
 
-        qwidget->deleteLater();
+        //qwidget->deleteLater();
 
         Widget::widgetByQWidget.erase(qwidget);
     }
@@ -55,7 +55,7 @@ Widget * Widget::byId(int id)
     Widget *ret = it == Widget::widgets.end() ? NULL : it->second;
 
 #ifdef DEBUG
-    std::cerr << "Widget::byId(" << id << ") -> " << std::hex << ret << std::dec << std::endl;
+    std::cerr << "Widget::byId(" << id << ") -> " << ret->str() << std::endl;
 #endif
 
     return ret;
@@ -67,11 +67,31 @@ Widget * Widget::byQWidget(QWidget *w)
     Widget *ret = it == Widget::widgetByQWidget.end() ? NULL : it->second;
 
 #ifdef DEBUG
-    std::cerr << "Widget::byQWidget(" << std::hex << w << std::dec << ") -> " << std::hex << ret << std::dec << std::endl;
+    std::cerr << "Widget::byQWidget(" << w << ") -> " << ret->str() << std::endl;
 #endif
 
     return ret;
 }
+
+#ifdef DEBUG
+void Widget::dumpTables()
+{
+    std::cerr << "Widget::dumpTables() - begin dump of widgets:" << std::endl;
+    for(std::map<int, Widget *>::const_iterator it = Widget::widgets.begin(); it != Widget::widgets.end(); ++it)
+    {
+        std::cerr << "  " << it->first << ": " << it->second->str() << std::endl;
+    }
+    std::cerr << "Widget::dumpTables() - end dump of widgets:" << std::endl;
+
+    std::cerr << "Widget::dumpTables() - begin dump of widgetByQWidget:" << std::endl;
+    for(std::map<QWidget *, Widget *>::const_iterator it = Widget::widgetByQWidget.begin(); it != Widget::widgetByQWidget.end(); ++it)
+    {
+        std::cerr << "  " << it->first << ": " << it->second->str() << std::endl;
+    }
+
+    std::cerr << "Widget::dumpTables() - end dump of widgetByQWidget:" << std::endl;
+}
+#endif
 
 template<typename T>
 Widget * Widget::tryParse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
@@ -79,8 +99,26 @@ Widget * Widget::tryParse(tinyxml2::XMLElement *e, std::vector<std::string>& err
     T *obj = new T;
     if(obj->parse(e, errors))
     {
-        Widget::widgets[obj->id] = obj;
-        return obj;
+        // object parsed successfully
+        // now check if ID is duplicate:
+        std::map<int, Widget *>::const_iterator it = Widget::widgets.find(obj->id);
+        if(it == Widget::widgets.end())
+        {
+            Widget::widgets[obj->id] = obj;
+            return obj;
+        }
+        else
+        {
+            std::stringstream ss;
+            ss << "duplicate widget id: " << obj->id;
+#ifdef DEBUG
+            std::cerr << ss.str() << std::endl;
+            Widget::dumpTables();
+#endif
+            errors.push_back(ss.str());
+            delete obj;
+            return NULL;
+        }
     }
     else
     {
@@ -119,5 +157,17 @@ bool Widget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
     }
 
     return true;
+}
+
+const char * Widget::name()
+{
+    return "???";
+}
+
+std::string Widget::str()
+{
+    std::stringstream ss;
+    ss << "Widget[" << this << "," << name() << "]";
+    return ss.str();
 }
 

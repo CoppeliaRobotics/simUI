@@ -14,6 +14,11 @@ Tab::~Tab()
 {
 }
 
+const char * Tab::name()
+{
+    return "tab";
+}
+
 bool Tab::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
@@ -52,6 +57,11 @@ Tabs::~Tabs()
     {
         delete *it;
     }
+}
+
+const char * Tabs::name()
+{
+    return "tabs";
 }
 
 bool Tabs::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)

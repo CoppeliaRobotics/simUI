@@ -13,6 +13,11 @@ Radiobutton::~Radiobutton()
 {
 }
 
+const char * Radiobutton::name()
+{
+    return "radiobutton";
+}
+
 bool Radiobutton::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;

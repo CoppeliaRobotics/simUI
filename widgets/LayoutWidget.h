@@ -27,6 +27,8 @@ protected:
     std::vector< std::vector<Widget*> > children;
 
 public:
+    virtual ~LayoutWidget();
+
     bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);    
     void createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 };

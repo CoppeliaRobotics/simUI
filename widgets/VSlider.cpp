@@ -13,6 +13,11 @@ VSlider::~VSlider()
 {
 }
 
+const char * VSlider::name()
+{
+    return "vslider";
+}
+
 bool VSlider::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;

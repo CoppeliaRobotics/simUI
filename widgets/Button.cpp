@@ -13,6 +13,11 @@ Button::~Button()
 {
 }
 
+const char * Button::name()
+{
+    return "button";
+}
+
 bool Button::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;

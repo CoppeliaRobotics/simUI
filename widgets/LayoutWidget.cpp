@@ -3,11 +3,28 @@
 
 #include "UIProxy.h"
 
+#include <iostream>
+
 #include <QBoxLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QFormLayout>
+
+LayoutWidget::~LayoutWidget()
+{
+#ifdef DEBUG
+    std::cerr << "LayoutWidget::~LayoutWidget()" << std::endl;
+#endif
+
+    for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
+    {
+        for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
+        {
+            delete *it2;
+        }
+    }
+}
 
 bool LayoutWidget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {

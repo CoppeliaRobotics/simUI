@@ -13,6 +13,11 @@ Spinbox::~Spinbox()
 {
 }
 
+const char * Spinbox::name()
+{
+    return "spinbox";
+}
+
 bool Spinbox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;

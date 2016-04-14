@@ -11,13 +11,11 @@ Group::Group()
 
 Group::~Group()
 {
-    for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
-    {
-        for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
-        {
-            delete *it2;
-        }
-    }
+}
+
+const char * Group::name()
+{
+    return "group";
 }
 
 bool Group::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)

@@ -16,7 +16,7 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int scriptID_)
       ui(NULL)
 {
 #ifdef DEBUG
-    std::cerr << "Proxy::Proxy() - Proxy::proxies[" << handle << "] = " << std::hex << ((void*)this) << std::dec << std::endl;
+    std::cerr << "Proxy::Proxy() - Proxy::proxies[" << handle << "] = " << this << std::endl;
 #endif
 
     Proxy::proxies[handle] = this;
@@ -52,7 +52,7 @@ Proxy* Proxy::byHandle(int handle)
     Proxy *ret = it == Proxy::proxies.end() ? NULL : it->second;
 
 #ifdef DEBUG
-    std::cerr << "Proxy::byHandle(" << handle << ") -> " << std::hex << ret << std::dec << std::endl;
+    std::cerr << "Proxy::byHandle(" << handle << ") -> " << ret << std::endl;
 #endif
 
     return ret;
@@ -76,7 +76,7 @@ void Proxy::destroyTransientObjects()
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
     {
-        std::cerr << "    " << it->first << ": " << std::hex << ((void*)it->second) << std::dec << std::endl;
+        std::cerr << "    " << it->first << ": " << it->second << std::endl;
     }
     
     std::cerr << "Proxy::destroyTransientObjects() - end" << std::endl;

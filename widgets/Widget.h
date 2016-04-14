@@ -42,6 +42,14 @@ public:
     static Widget * byId(int id);
     static Widget * byQWidget(QWidget *w);
 
+    virtual const char * name();
+
+    std::string str();
+
+#ifdef DEBUG
+    static void dumpTables();
+#endif
+
     friend class UIFunctions;
     friend class UIProxy;
     friend class Window;

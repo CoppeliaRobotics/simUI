@@ -22,6 +22,8 @@ public:
     Edit();
     virtual ~Edit();
 
+    const char * name();
+    
     bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 

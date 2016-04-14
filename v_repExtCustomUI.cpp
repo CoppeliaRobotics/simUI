@@ -80,38 +80,6 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 #include "widgets/Window.h"
 #include "widgets/Widget.h"
 
-template<typename T>
-std::string encodePointer(T *p, std::string prefix = "0x")
-{
-    if(p == NULL)
-    {
-        return "";
-    }
-    else
-    {
-        std::stringstream ss;
-        ss << prefix << std::hex << static_cast<void *>(p);
-        return ss.str();
-    }
-}
-
-template<typename T>
-T * decodePointer(std::string s, std::string prefix = "0x")
-{
-    if(boost::starts_with(s, prefix))
-    {
-        unsigned long x;
-        std::stringstream ss;
-        ss << std::hex << s.substr(prefix.size());
-        ss >> x;
-        return reinterpret_cast<T *>(x);
-    }
-    else
-    {
-        return NULL;
-    }
-}
-
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
     tinyxml2::XMLDocument xmldoc;
@@ -156,6 +124,11 @@ void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *o
     }
 
     UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+
+#ifdef DEBUG
+    std::cerr << "destroy:" << std::endl;
+    Widget::dumpTables();
+#endif
 }
 
 template<typename T>

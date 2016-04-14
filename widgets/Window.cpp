@@ -4,6 +4,7 @@
 #include "UIProxy.h"
 
 #include <iostream>
+#include <sstream>
 
 #include <QDialog>
 
@@ -15,49 +16,18 @@ Window::Window()
 
 Window::~Window()
 {
-#ifdef DEBUG
-    std::cerr << "Window::~Window() - contents of Widget::widgets (BEFORE DTOR):" << std::endl;
-    for(std::map<int, Widget*>::const_iterator it = Widget::widgets.begin(); it != Widget::widgets.end(); ++it)
-        std::cerr << "    " << it->first << ": " << std::hex << ((void*)it->second) << std::dec << std::endl;
-    std::cerr << "Window::~Window() - end" << std::endl;
-
-    std::cerr << "Window::~Window() - contents of Widget::widgetByQWidget (BEFORE DTOR):" << std::endl;
-    for(std::map<QWidget*, Widget*>::const_iterator it = Widget::widgetByQWidget.begin(); it != Widget::widgetByQWidget.end(); ++it)
-        std::cerr << "    " << std::hex << it->first << std::dec << ": " << std::hex << ((void*)it->second) << std::dec << " (id=" << it->second->id << ")" << std::endl;
-    std::cerr << "Window::~Window() - end" << std::endl;
-#endif
-
-#ifdef DEBUG
-    std::cerr << "Window::~Window() - deleting 'children' items" << std::endl;
-#endif
-
-    for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
-    {
-        for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
-        {
-            delete *it2;
-        }
-    }
-
     if(qwidget)
     {
 #ifdef DEBUG
-    std::cerr << "Window::~Window() - deleting member 'qwidget'" << std::endl;
+        std::cerr << "Window::~Window() - deleting member 'qwidget'" << std::endl;
 #endif
 
         delete qwidget;
     }
 
 #ifdef DEBUG
-    std::cerr << "Window::~Window() - contents of Widget::widgets (AFTER DTOR):" << std::endl;
-    for(std::map<int, Widget*>::const_iterator it = Widget::widgets.begin(); it != Widget::widgets.end(); ++it)
-        std::cerr << "    " << it->first << ": " << std::hex << ((void*)it->second) << std::dec << std::endl;
-    std::cerr << "Window::~Window() - end" << std::endl;
-
-    std::cerr << "Window::~Window() - contents of Widget::widgetByQWidget (AFTER DTOR):" << std::endl;
-    for(std::map<QWidget*, Widget*>::const_iterator it = Widget::widgetByQWidget.begin(); it != Widget::widgetByQWidget.end(); ++it)
-        std::cerr << "    " << std::hex << it->first << std::dec << ": " << std::hex << ((void*)it->second) << std::dec << " (id=" << it->second->id << ")" << std::endl;
-    std::cerr << "Window::~Window() - end" << std::endl;
+    std::cerr << "Window::~Window() - AFTER DTOR:" << std::endl;
+    Widget::dumpTables();
 #endif
 }
 
@@ -87,5 +57,12 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     qwidget = window;
     this->proxy = proxy;
     return window;
+}
+
+std::string Window::str()
+{
+    std::stringstream ss;
+    ss << "Window[" << this << "]";
+    return ss.str();
 }
 

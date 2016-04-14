@@ -13,6 +13,11 @@ Edit::~Edit()
 {
 }
 
+const char * Edit::name()
+{
+    return "edit";
+}
+
 bool Edit::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
