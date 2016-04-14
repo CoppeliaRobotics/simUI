@@ -166,8 +166,7 @@ T* getWidget(int id, const char *cmd, const char *widget_type_name)
     {
         std::stringstream ss;
         ss << "invalid widget id: " << id;
-        simSetLastError(cmd, ss.str().c_str());
-        return NULL;
+        throw std::runtime_error(ss.str());
     }
 
     T *qwidget = dynamic_cast<T*>(widget->getQWidget());
@@ -175,8 +174,7 @@ T* getWidget(int id, const char *cmd, const char *widget_type_name)
     {
         std::stringstream ss;
         ss << "invalid widget type. expected " << widget_type_name;
-        simSetLastError(cmd, ss.str().c_str());
-        return NULL;
+        throw std::runtime_error(ss.str());
     }
 
     return qwidget;
