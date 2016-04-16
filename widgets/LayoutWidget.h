@@ -28,7 +28,7 @@ protected:
     int factor;
 
 public:
-    Stretch(int factor);
+    Stretch();
 
     const char * name();
     bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);    

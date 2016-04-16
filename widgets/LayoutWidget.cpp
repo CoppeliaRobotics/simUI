@@ -13,8 +13,8 @@
 
 #include <stdexcept>
 
-Stretch::Stretch(int factor_)
-    : factor(factor_)
+Stretch::Stretch()
+    : Widget()
 {
 }
 
@@ -25,7 +25,19 @@ const char * Stretch::name()
 
 bool Stretch::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
-    throw std::runtime_error("Stretch cannot be parsed from XML directly");
+    if(!Widget::parse(e, errors)) return false;
+    
+    std::string tag(e->Value());
+    if(tag != "stretch")
+    {
+        errors.push_back("element must be <stretch>");
+        return false;
+    }
+    
+    if(!e->Attribute("factor") || e->QueryIntAttribute("factor", &factor) != tinyxml2::XML_NO_ERROR)
+        factor = 0;
+
+    return true;
 }
 
 QWidget * Stretch::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -74,17 +86,6 @@ bool LayoutWidget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& erro
 
         if(tag1 == "br" && layout == GRID)
         {
-            children.push_back(row);
-            row.clear();
-            continue;
-        }
-
-        if(tag1 == "stretch" && (layout == VBOX || layout == HBOX))
-        {
-            int factor;
-            if(!e1->Attribute("factor") || e1->QueryIntAttribute("factor", &factor) != tinyxml2::XML_NO_ERROR)
-                factor = 0;
-            row.push_back(new Stretch(factor));
             children.push_back(row);
             row.clear();
             continue;
