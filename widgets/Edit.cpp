@@ -29,6 +29,9 @@ bool Edit::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
         return false;
     }
 
+    if(e->Attribute("value")) value = e->Attribute("value");
+    else value = "";
+
     if(e->Attribute("onchange")) onchange = e->Attribute("onchange");
     else onchange = "";
 
@@ -38,6 +41,7 @@ bool Edit::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QLineEdit *edit = new QLineEdit(parent);
+    edit->setText(QString::fromStdString(value));
     QObject::connect(edit, SIGNAL(textChanged(QString)), uiproxy, SLOT(onValueChange(QString)));
     qwidget = edit;
     Widget::widgetByQWidget[qwidget] = this;

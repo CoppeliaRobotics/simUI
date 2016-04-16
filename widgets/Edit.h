@@ -17,6 +17,7 @@ class UIProxy;
 class Edit : public Widget, public EventOnChangeString
 {
 protected:
+    std::string value;
 
 public:
     Edit();
