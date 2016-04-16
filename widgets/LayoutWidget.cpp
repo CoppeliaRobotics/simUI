@@ -94,7 +94,7 @@ bool LayoutWidget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& erro
         Widget *w = Widget::parseAny(e1, errors);
         if(!w)
         {
-            children.push_back(row); // push widget created until now so they won't leak
+            children.push_back(row); // push widgets created until now so they won't leak
             return false;
         }
         row.push_back(w);
