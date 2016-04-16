@@ -24,13 +24,6 @@ bool Combobox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    std::string tag(e->Value());
-    if(tag != "combobox")
-    {
-        errors.push_back("element must be <combobox>");
-        return false;
-    }
-
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {
         std::string tag1(e1->Value());

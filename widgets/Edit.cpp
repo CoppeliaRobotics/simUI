@@ -22,13 +22,6 @@ bool Edit::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    std::string tag(e->Value());
-    if(tag != "edit")
-    {
-        errors.push_back("element must be <edit>");
-        return false;
-    }
-
     if(e->Attribute("value")) value = e->Attribute("value");
     else value = "";
 

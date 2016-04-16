@@ -22,13 +22,6 @@ bool Spinbox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    std::string tag(e->Value());
-    if(tag != "spinbox")
-    {
-        errors.push_back("element must be <spinbox>");
-        return false;
-    }
-
     if(!e->Attribute("minimum") || e->QueryIntAttribute("minimum", &minimum) != tinyxml2::XML_NO_ERROR)
         minimum = 0;
 

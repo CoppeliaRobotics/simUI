@@ -22,13 +22,6 @@ bool Radiobutton::parse(tinyxml2::XMLElement *e, std::vector<std::string>& error
 {
     if(!Widget::parse(e, errors)) return false;
 
-    std::string tag(e->Value());
-    if(tag != "radiobutton")
-    {
-        errors.push_back("element must be <radiobutton>");
-        return false;
-    }
-
     if(e->Attribute("text")) text = e->Attribute("text");
     else text = "";
 

@@ -22,13 +22,6 @@ bool Label::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    std::string tag(e->Value());
-    if(tag != "label")
-    {
-        errors.push_back("element must be <label>");
-        return false;
-    }
-
     if(e->Attribute("text"))
         text = e->Attribute("text");
     else

@@ -22,13 +22,6 @@ bool Button::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    std::string tag(e->Value());
-    if(tag != "button")
-    {
-        errors.push_back("element must be <button>");
-        return false;
-    }
-
     if(e->Attribute("text")) text = e->Attribute("text");
     else text = "???";
 

@@ -22,13 +22,6 @@ bool Checkbox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    std::string tag(e->Value());
-    if(tag != "checkbox")
-    {
-        errors.push_back("element must be <checkbox>");
-        return false;
-    }
-
     if(e->Attribute("text")) text = e->Attribute("text");
     else text = "???";
 

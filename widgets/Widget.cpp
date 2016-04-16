@@ -158,6 +158,15 @@ bool Widget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
         id = nextId++;
     }
 
+    std::string tag(e->Value());
+    if(tag != name())
+    {
+        std::stringstream ss;
+        ss << "element must be <" << name() << ">";
+        errors.push_back(ss.str());
+        return false;
+    }
+
     return true;
 }
 

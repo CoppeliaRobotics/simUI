@@ -23,13 +23,6 @@ bool Tab::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    std::string tag(e->Value());
-    if(tag != "tab")
-    {
-        errors.push_back("element must be <tab>");
-        return false;
-    }
-
     if(e->Attribute("title")) title = e->Attribute("title");
     else title = "???";
 
@@ -67,13 +60,6 @@ const char * Tabs::name()
 bool Tabs::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
-
-    std::string tag(e->Value());
-    if(tag != "tabs")
-    {
-        errors.push_back("element must be <tabs>");
-        return false;
-    }
 
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {
