@@ -29,8 +29,15 @@ bool Label::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
         return false;
     }
 
-    if(e->Attribute("text")) text = e->Attribute("text");
-    else text = "";
+    if(e->Attribute("text"))
+        text = e->Attribute("text");
+    else
+        text = "";
+
+    if(e->Attribute("wordwrap") && strcmp(e->Attribute("wordwrap"), "true") == 0)
+        wordWrap = true;
+    else
+        wordWrap = false;
 
     return true;
 }
@@ -38,6 +45,7 @@ bool Label::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QLabel *label = new QLabel(QString::fromStdString(text), parent);
+    label->setWordWrap(wordWrap);
     qwidget = label;
     Widget::widgetByQWidget[qwidget] = this;
     this->proxy = proxy;

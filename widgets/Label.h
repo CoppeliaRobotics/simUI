@@ -17,6 +17,7 @@ class Label : public Widget
 {
 protected:
     std::string text;
+    bool wordWrap;
 
 public:
     Label();
