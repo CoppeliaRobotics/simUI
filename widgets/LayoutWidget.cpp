@@ -11,6 +11,28 @@
 #include <QGridLayout>
 #include <QFormLayout>
 
+#include <stdexcept>
+
+Stretch::Stretch(int factor_)
+    : factor(factor_)
+{
+}
+
+const char * Stretch::name()
+{
+    return "stretch";
+}
+
+bool Stretch::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+{
+    throw std::runtime_error("Stretch cannot be parsed from XML directly");
+}
+
+QWidget * Stretch::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+{
+    throw std::runtime_error("Stretch be used only in VBox/HBox layouts");
+}
+
 LayoutWidget::~LayoutWidget()
 {
 #ifdef DEBUG
@@ -48,8 +70,21 @@ bool LayoutWidget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& erro
     {
         std::string tag1(e1->Value());
 
+        // special elements:
+
         if(tag1 == "br" && layout == GRID)
         {
+            children.push_back(row);
+            row.clear();
+            continue;
+        }
+
+        if(tag1 == "stretch" && (layout == VBOX || layout == HBOX))
+        {
+            int factor;
+            if(!e1->Attribute("factor") || e1->QueryIntAttribute("factor", &factor) != tinyxml2::XML_NO_ERROR)
+                factor = 0;
+            row.push_back(new Stretch(factor));
             children.push_back(row);
             row.clear();
             continue;
@@ -98,8 +133,15 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
             if(layout == HBOX) qlayout = new QHBoxLayout(parent);
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
-                QWidget *w = (*it)[0]->createQtWidget(proxy, uiproxy, parent);
-                qlayout->addWidget(w);
+                Widget *w = (*it)[0];
+                if(dynamic_cast<Stretch*>(w))
+                {
+                    Stretch *stretch = static_cast<Stretch*>(w);
+                    qlayout->addStretch(stretch->factor);
+                    continue;
+                }
+                QWidget *qw = w->createQtWidget(proxy, uiproxy, parent);
+                qlayout->addWidget(qw);
             }
             parent->setLayout(qlayout);
         }
@@ -113,8 +155,9 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
                 col = 0;
                 for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
                 {
-                    QWidget *w = (*it2)->createQtWidget(proxy, uiproxy, parent);
-                    qlayout->addWidget(w, row, col);
+                    Widget *w = *it2;
+                    QWidget *qw = w->createQtWidget(proxy, uiproxy, parent);
+                    qlayout->addWidget(qw, row, col);
                     col++;
                 }
                 row++;
@@ -127,9 +170,10 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
             QFormLayout *qlayout = new QFormLayout(parent);
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
-                QWidget *w1 = (*it)[0]->createQtWidget(proxy, uiproxy, parent);
-                QWidget *w2 = (*it)[1]->createQtWidget(proxy, uiproxy, parent);
-                qlayout->addRow(w1, w2);
+                Widget *w1 = (*it)[0], *w2 = (*it)[1];
+                QWidget *qw1 = w1->createQtWidget(proxy, uiproxy, parent);
+                QWidget *qw2 = w2->createQtWidget(proxy, uiproxy, parent);
+                qlayout->addRow(qw1, qw2);
             }
             parent->setLayout(qlayout);
         }

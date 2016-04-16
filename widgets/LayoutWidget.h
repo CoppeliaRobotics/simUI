@@ -8,6 +8,8 @@
 
 #include "tinyxml2.h"
 
+#include "Widget.h"
+
 class Proxy;
 class UIProxy;
 class Widget;
@@ -18,6 +20,21 @@ enum Layout
     HBOX,
     GRID,
     FORM
+};
+
+class Stretch : public Widget
+{
+protected:
+    int factor;
+
+public:
+    Stretch(int factor);
+
+    const char * name();
+    bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);    
+    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+
+    friend class LayoutWidget;
 };
 
 class LayoutWidget
