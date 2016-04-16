@@ -77,6 +77,7 @@ HEADERS += \
     widgets/Label.h \
     widgets/LayoutWidget.h \
     widgets/Radiobutton.h \
+    widgets/Slider.h \
     widgets/Spinbox.h \
     widgets/Tabs.h \
     widgets/VSlider.h \
@@ -102,6 +103,7 @@ SOURCES += \
     widgets/Label.cpp \
     widgets/LayoutWidget.cpp \
     widgets/Radiobutton.cpp \
+    widgets/Slider.cpp \
     widgets/Spinbox.cpp \
     widgets/Tabs.cpp \
     widgets/VSlider.cpp \

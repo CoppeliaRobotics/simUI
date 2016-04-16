@@ -5,12 +5,17 @@
 #include <QSlider>
 
 VSlider::VSlider()
-    : Widget()
+    : Slider()
 {
 }
 
 VSlider::~VSlider()
 {
+}
+
+Qt::Orientation VSlider::getOrientation()
+{
+    return Qt::Vertical;
 }
 
 const char * VSlider::name()
@@ -20,8 +25,6 @@ const char * VSlider::name()
 
 bool VSlider::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
-    if(!Widget::parse(e, errors)) return false;
-
     std::string tag(e->Value());
     if(tag != "vslider")
     {
@@ -29,27 +32,6 @@ bool VSlider::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
         return false;
     }
 
-    if(!e->Attribute("minimum") || e->QueryIntAttribute("minimum", &minimum) != tinyxml2::XML_NO_ERROR)
-        minimum = 0;
-
-    if(!e->Attribute("maximum") || e->QueryIntAttribute("maximum", &maximum) != tinyxml2::XML_NO_ERROR)
-        maximum = 100;
-
-    if(e->Attribute("onchange")) onchange = e->Attribute("onchange");
-    else onchange = "";
-
-    return true;
-}
-
-QWidget * VSlider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
-{
-    QSlider *slider = new QSlider(Qt::Vertical, parent);
-    slider->setMinimum(minimum);
-    slider->setMaximum(maximum);
-    QObject::connect(slider, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
-    qwidget = slider;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
-    return slider;
+    return Slider::parse(e, errors);
 }
 

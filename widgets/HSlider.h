@@ -1,24 +1,12 @@
 #ifndef HSLIDER_H_INCLUDED
 #define HSLIDER_H_INCLUDED
 
-#include <vector>
-#include <string>
+#include "Slider.h"
 
-#include <QWidget>
-
-#include "tinyxml2.h"
-
-class Proxy;
-class UIProxy;
-
-#include "Widget.h"
-#include "Event.h"
-
-class HSlider : public Widget, public EventOnChangeInt
+class HSlider : public Slider
 {
 protected:
-    int minimum;
-    int maximum;
+    Qt::Orientation getOrientation();
 
 public:
     HSlider();
@@ -27,7 +15,6 @@ public:
     const char * name();
     
     bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class UIFunctions;
 };
