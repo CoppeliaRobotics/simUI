@@ -5,6 +5,7 @@
 #include <string>
 
 #include <QWidget>
+#include <QSlider>
 
 #include "tinyxml2.h"
 
@@ -19,6 +20,8 @@ class Slider : public Widget, public EventOnChangeInt
 protected:
     int minimum;
     int maximum;
+    int tickInterval;
+    QSlider::TickPosition tickPosition;
 
     virtual Qt::Orientation getOrientation() = 0;
 
