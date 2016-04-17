@@ -112,7 +112,7 @@ void Widget::dumpTables()
 #endif
 
 template<typename T>
-Widget * Widget::tryParse(tinyxml2::XMLElement *e)
+Widget * Widget::parse1(tinyxml2::XMLElement *e)
 {
     T *obj = new T;
     try
@@ -141,30 +141,30 @@ Widget * Widget::tryParse(tinyxml2::XMLElement *e)
     }
     catch(std::exception& ex)
     {
-        delete obj;
-        return NULL;
+        std::stringstream ss;
+        ss << e->Value() << ": " << ex.what();
+        throw std::range_error(ss.str());
     }
 }
 
 Widget * Widget::parseAny(tinyxml2::XMLElement *e)
 {
     std::string tag(e->Value());
-    Widget *w = NULL;
-    if(tag == "button" && (w = tryParse<Button>(e))) return w;
-    if(tag == "edit" && (w = tryParse<Edit>(e))) return w;
-    if(tag == "hslider" && (w = tryParse<HSlider>(e))) return w;
-    if(tag == "vslider" && (w = tryParse<VSlider>(e))) return w;
-    if(tag == "label" && (w = tryParse<Label>(e))) return w;
-    if(tag == "checkbox" && (w = tryParse<Checkbox>(e))) return w;
-    if(tag == "radiobutton" && (w = tryParse<Radiobutton>(e))) return w;
-    if(tag == "spinbox" && (w = tryParse<Spinbox>(e))) return w;
-    if(tag == "combobox" && (w = tryParse<Combobox>(e))) return w;
-    if(tag == "group" && (w = tryParse<Group>(e))) return w;
-    if(tag == "tabs" && (w = tryParse<Tabs>(e))) return w;
-    if(tag == "stretch" && (w = tryParse<Stretch>(e))) return w;
+    if(tag == "button") return parse1<Button>(e);
+    if(tag == "edit") return parse1<Edit>(e);
+    if(tag == "hslider") return parse1<HSlider>(e);
+    if(tag == "vslider") return parse1<VSlider>(e);
+    if(tag == "label") return parse1<Label>(e);
+    if(tag == "checkbox") return parse1<Checkbox>(e);
+    if(tag == "radiobutton") return parse1<Radiobutton>(e);
+    if(tag == "spinbox") return parse1<Spinbox>(e);
+    if(tag == "combobox") return parse1<Combobox>(e);
+    if(tag == "group") return parse1<Group>(e);
+    if(tag == "tabs") return parse1<Tabs>(e);
+    if(tag == "stretch") return parse1<Stretch>(e);
 
     std::stringstream ss;
-    ss << "could not parse <" << tag << ">";
+    ss << "invalid element <" << tag << ">";
     throw std::range_error(ss.str());
 }
 

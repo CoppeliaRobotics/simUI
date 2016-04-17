@@ -88,9 +88,7 @@ void LayoutWidget::parse(tinyxml2::XMLElement *e)
         catch(std::exception& ex)
         {
             children.push_back(row); // push widgets created until now so they won't leak
-            std::stringstream ss;
-            ss << "failed to read layout: " << ex.what();
-            throw std::runtime_error(ss.str());
+            throw std::range_error(ex.what());
         }
 
         if((layout == FORM && row.size() == 2) ||
