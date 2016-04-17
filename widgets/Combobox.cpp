@@ -46,9 +46,8 @@ QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
         combobox->addItem(QString::fromStdString(*it));
     }
     QObject::connect(combobox, SIGNAL(currentIndexChanged(int)), uiproxy, SLOT(onValueChange(int)));
-    qwidget = combobox;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(combobox);
+    setProxy(proxy);
     return combobox;
 }
 

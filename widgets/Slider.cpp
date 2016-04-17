@@ -35,9 +35,8 @@ QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     slider->setMinimum(minimum);
     slider->setMaximum(maximum);
     QObject::connect(slider, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
-    qwidget = slider;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(slider);
+    setProxy(proxy);
     return slider;
 }
 

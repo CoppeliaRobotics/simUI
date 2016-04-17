@@ -39,9 +39,8 @@ QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QLabel *label = new QLabel(QString::fromStdString(text), parent);
     label->setWordWrap(wordWrap);
-    qwidget = label;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(label);
+    setProxy(proxy);
     return label;
 }
 

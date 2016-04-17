@@ -14,6 +14,10 @@ class UIProxy;
 
 class Widget
 {
+private:
+    QWidget *qwidget;
+    Proxy *proxy;
+
 protected:
     static int nextId;
     static std::map<int, Widget *> widgets;
@@ -21,11 +25,10 @@ protected:
 
     int id;
 
-    QWidget *qwidget;
-
-    Proxy *proxy;
-
     Widget();
+
+    void setQWidget(QWidget *qwidget);
+    void setProxy(Proxy *proxy);
 
 public:
     virtual ~Widget();

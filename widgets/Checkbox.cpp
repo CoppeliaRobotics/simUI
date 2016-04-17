@@ -35,9 +35,8 @@ QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
 {
     QCheckBox *checkbox = new QCheckBox(QString::fromStdString(text), parent);
     QObject::connect(checkbox, SIGNAL(stateChanged(int)), uiproxy, SLOT(onValueChange(int)));
-    qwidget = checkbox;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(checkbox);
+    setProxy(proxy);
     return checkbox;
 }
 

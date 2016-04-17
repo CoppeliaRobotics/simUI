@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 int Widget::nextId = 1000000;
 std::map<int, Widget *> Widget::widgets;
@@ -48,6 +49,20 @@ Widget::~Widget()
     }
 
     Widget::widgets.erase(id);
+}
+
+void Widget::setQWidget(QWidget *qwidget_)
+{
+    if(qwidget)
+        throw std::runtime_error("qwidget has been already set");
+
+    qwidget = qwidget_;
+    Widget::widgetByQWidget[qwidget] = this;
+}
+
+void Widget::setProxy(Proxy *proxy_)
+{
+    proxy = proxy_;
 }
 
 Widget * Widget::byId(int id)

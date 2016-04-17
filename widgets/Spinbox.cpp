@@ -52,9 +52,8 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
     slider->setSuffix(QString::fromStdString(suffix));
     slider->setSingleStep(step);
     QObject::connect(slider, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
-    qwidget = slider;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(slider);
+    setProxy(proxy);
     return slider;
 }
 

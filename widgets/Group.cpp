@@ -32,9 +32,8 @@ QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QGroupBox *groupBox = new QGroupBox(QString::fromStdString(text), parent);
     LayoutWidget::createQtWidget(proxy, uiproxy, groupBox);
-    qwidget = groupBox;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(groupBox);
+    setProxy(proxy);
     return groupBox;
 }
 

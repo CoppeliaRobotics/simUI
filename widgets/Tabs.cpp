@@ -33,9 +33,8 @@ QWidget * Tab::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QWidget *tab = new QWidget(parent);
     LayoutWidget::createQtWidget(proxy, uiproxy, tab);
-    qwidget = tab;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(tab);
+    setProxy(proxy);
     return tab;
 }
 
@@ -81,9 +80,8 @@ QWidget * Tabs::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         QWidget *tab = (*it)->createQtWidget(proxy, uiproxy, tabwidget);
         tabwidget->addTab(tab, QString::fromStdString((*it)->title));
     }
-    qwidget = tabwidget;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(tabwidget);
+    setProxy(proxy);
     return tabwidget;
 }
 

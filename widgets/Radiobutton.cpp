@@ -35,9 +35,8 @@ QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *p
 {
     QRadioButton *button = new QRadioButton(QString::fromStdString(text), parent);
     QObject::connect(button, SIGNAL(released()), uiproxy, SLOT(onButtonClick()));
-    qwidget = button;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(button);
+    setProxy(proxy);
     return button;
 }
 

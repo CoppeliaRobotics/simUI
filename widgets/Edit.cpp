@@ -36,9 +36,8 @@ QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     QLineEdit *edit = new QLineEdit(parent);
     edit->setText(QString::fromStdString(value));
     QObject::connect(edit, SIGNAL(textChanged(QString)), uiproxy, SLOT(onValueChange(QString)));
-    qwidget = edit;
-    Widget::widgetByQWidget[qwidget] = this;
-    this->proxy = proxy;
+    setQWidget(edit);
+    setProxy(proxy);
     return edit;
 }
 
