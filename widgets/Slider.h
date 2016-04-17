@@ -22,6 +22,7 @@ protected:
     int maximum;
     int tickInterval;
     QSlider::TickPosition tickPosition;
+    bool inverted;
 
     virtual Qt::Orientation getOrientation() = 0;
 

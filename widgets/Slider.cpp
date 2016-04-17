@@ -49,8 +49,15 @@ bool Slider::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
     else
         tickPosition = QSlider::NoTicks;
 
-    if(e->Attribute("onchange")) onchange = e->Attribute("onchange");
-    else onchange = "";
+    if(e->Attribute("inverted") && strcmp(e->Attribute("inverted"), "true") == 0)
+        inverted = true;
+    else
+        inverted = false;
+
+    if(e->Attribute("onchange"))
+        onchange = e->Attribute("onchange");
+    else
+        onchange = "";
 
     return true;
 }
@@ -62,6 +69,7 @@ QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     slider->setMaximum(maximum);
     slider->setTickPosition(tickPosition);
     slider->setTickInterval(tickInterval);
+    slider->setInvertedAppearance(inverted);
     QObject::connect(slider, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
     setQWidget(slider);
     setProxy(proxy);
