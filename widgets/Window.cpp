@@ -44,6 +44,8 @@ void Window::parse(tinyxml2::XMLElement *e)
 
     title = xmlutils::getAttrStr(e, "title", "Custom UI");
 
+    resizable = xmlutils::getAttrBool(e, "resizable", false);
+
     LayoutWidget::parse(e);
 }
 
@@ -52,7 +54,9 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     QDialog *window = new QDialog(parent, Qt::Tool);
     LayoutWidget::createQtWidget(proxy, uiproxy, window);
     window->setWindowTitle(QString::fromStdString(title));
-    window->setWindowFlags(Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+    Qt::WindowFlags flags = Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint;
+    if(resizable) flags |= Qt::WindowMaximizeButtonHint;
+    window->setWindowFlags(flags);
     //window->setAttribute(Qt::WA_DeleteOnClose);
     window->show();
     qwidget = window;

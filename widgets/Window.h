@@ -17,6 +17,7 @@ class Window : public LayoutWidget
 {
 protected:
     std::string title;
+    bool resizable;
 
     QWidget *qwidget;
 
