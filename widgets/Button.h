@@ -18,6 +18,7 @@ class Button : public Widget, public EventOnClick
 {
 protected:
     std::string text;
+    bool defaulT;
 
 public:
     Button();
