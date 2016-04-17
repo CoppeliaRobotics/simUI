@@ -1,5 +1,7 @@
 #include "Tabs.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <QWidget>
@@ -23,8 +25,7 @@ bool Tab::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    if(e->Attribute("title")) title = e->Attribute("title");
-    else title = "???";
+    title = xmlutils::getAttrStr(e, "title", "???");
 
     return LayoutWidget::parse(e, errors);
 }

@@ -1,5 +1,7 @@
 #include "Radiobutton.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <QRadioButton>
@@ -22,11 +24,9 @@ bool Radiobutton::parse(tinyxml2::XMLElement *e, std::vector<std::string>& error
 {
     if(!Widget::parse(e, errors)) return false;
 
-    if(e->Attribute("text")) text = e->Attribute("text");
-    else text = "";
+    text = xmlutils::getAttrStr(e, "text", "???");
 
-    if(e->Attribute("onclick")) onclick = e->Attribute("onclick");
-    else onclick = "";
+    onclick = xmlutils::getAttrStr(e, "onclick", "");
 
     return true;
 }

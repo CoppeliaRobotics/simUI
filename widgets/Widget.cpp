@@ -12,6 +12,8 @@
 #include "Tabs.h"
 #include "LayoutWidget.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <iostream>
@@ -168,10 +170,10 @@ Widget * Widget::parseAny(tinyxml2::XMLElement *e, std::vector<std::string>& err
 
 bool Widget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
-    if(!e->Attribute("id") || e->QueryIntAttribute("id", &id) != tinyxml2::XML_NO_ERROR)
-    {
+    if(e->Attribute("id"))
+        id = xmlutils::getAttrInt(e, "id", 0);
+    else
         id = nextId++;
-    }
 
     std::string tag(e->Value());
     if(tag != name())

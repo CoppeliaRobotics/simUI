@@ -1,5 +1,7 @@
 #include "Spinbox.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <QSpinBox>
@@ -22,23 +24,17 @@ bool Spinbox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    if(!e->Attribute("minimum") || e->QueryIntAttribute("minimum", &minimum) != tinyxml2::XML_NO_ERROR)
-        minimum = 0;
+    minimum = xmlutils::getAttrInt(e, "minimum", 0);
 
-    if(!e->Attribute("maximum") || e->QueryIntAttribute("maximum", &maximum) != tinyxml2::XML_NO_ERROR)
-        maximum = 100;
+    maximum = xmlutils::getAttrInt(e, "maximum", 100);
 
-    if(e->Attribute("prefix")) prefix = e->Attribute("prefix");
-    else prefix = "";
+    prefix = xmlutils::getAttrStr(e, "prefix", "");
 
-    if(e->Attribute("suffix")) suffix = e->Attribute("suffix");
-    else suffix = "";
+    suffix = xmlutils::getAttrStr(e, "suffix", "");
 
-    if(!e->Attribute("step") || e->QueryIntAttribute("step", &step) != tinyxml2::XML_NO_ERROR)
-        step = 1;
+    step = xmlutils::getAttrInt(e, "step", 1);
 
-    if(e->Attribute("onchange")) onchange = e->Attribute("onchange");
-    else onchange = "";
+    onchange = xmlutils::getAttrStr(e, "onchange", "");
 
     return true;
 }

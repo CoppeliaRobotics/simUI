@@ -1,5 +1,7 @@
 #include "Edit.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <QLineEdit>
@@ -22,11 +24,9 @@ bool Edit::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    if(e->Attribute("value")) value = e->Attribute("value");
-    else value = "";
+    value = xmlutils::getAttrStr(e, "value", "");
 
-    if(e->Attribute("onchange")) onchange = e->Attribute("onchange");
-    else onchange = "";
+    onchange = xmlutils::getAttrStr(e, "onchange", "");
 
     return true;
 }

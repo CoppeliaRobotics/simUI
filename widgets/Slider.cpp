@@ -1,5 +1,7 @@
 #include "Slider.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <QSlider>
@@ -17,47 +19,28 @@ bool Slider::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    if(!e->Attribute("minimum") || e->QueryIntAttribute("minimum", &minimum) != tinyxml2::XML_NO_ERROR)
-        minimum = 0;
+    minimum = xmlutils::getAttrInt(e, "minimum", 0);
 
-    if(!e->Attribute("maximum") || e->QueryIntAttribute("maximum", &maximum) != tinyxml2::XML_NO_ERROR)
-        maximum = 100;
+    maximum = xmlutils::getAttrInt(e, "maximum", 100);
 
-    if(!e->Attribute("tick-interval") || e->QueryIntAttribute("tick-interval", &tickInterval) != tinyxml2::XML_NO_ERROR)
-        tickInterval = 0;
+    tickInterval = xmlutils::getAttrInt(e, "tick-interval", 0);
 
-    if(e->Attribute("tick-position"))
+    std::string tickPositionStr = xmlutils::getAttrStr(e, "tick-position", "none");
+    if(tickPositionStr ==  "none") tickPosition = QSlider::NoTicks;
+    else if(tickPositionStr == "both-sides") tickPosition = QSlider::TicksBothSides;
+    else if(tickPositionStr == "above") tickPosition = QSlider::TicksAbove;
+    else if(tickPositionStr == "below") tickPosition = QSlider::TicksBelow;
+    else if(tickPositionStr == "left") tickPosition = QSlider::TicksLeft;
+    else if(tickPositionStr == "right") tickPosition = QSlider::TicksRight;
+    else
     {
-        if(strcmp(e->Attribute("tick-position"), "none") == 0)
-            tickPosition = QSlider::NoTicks;
-        else if(strcmp(e->Attribute("tick-position"), "both-sides") == 0)
-            tickPosition = QSlider::TicksBothSides;
-        else if(strcmp(e->Attribute("tick-position"), "above") == 0)
-            tickPosition = QSlider::TicksAbove;
-        else if(strcmp(e->Attribute("tick-position"), "below") == 0)
-            tickPosition = QSlider::TicksBelow;
-        else if(strcmp(e->Attribute("tick-position"), "left") == 0)
-            tickPosition = QSlider::TicksLeft;
-        else if(strcmp(e->Attribute("tick-position"), "right") == 0)
-            tickPosition = QSlider::TicksRight;
-        else
-        {
-            errors.push_back("invalid value for attribute tick-position");
-            return false;
-        }
+        errors.push_back("invalid value for attribute tick-position");
+        return false;
     }
-    else
-        tickPosition = QSlider::NoTicks;
 
-    if(e->Attribute("inverted") && strcmp(e->Attribute("inverted"), "true") == 0)
-        inverted = true;
-    else
-        inverted = false;
+    inverted = xmlutils::getAttrBool(e, "inverted", false);
 
-    if(e->Attribute("onchange"))
-        onchange = e->Attribute("onchange");
-    else
-        onchange = "";
+    onchange = xmlutils::getAttrStr(e, "onchange", "");
 
     return true;
 }

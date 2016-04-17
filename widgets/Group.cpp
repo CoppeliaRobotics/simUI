@@ -1,5 +1,7 @@
 #include "Group.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <QGroupBox>
@@ -22,8 +24,7 @@ bool Group::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    if(e->Attribute("text")) text = e->Attribute("text");
-    else text = "";
+    text = xmlutils::getAttrStr(e, "text", "");
 
     return LayoutWidget::parse(e, errors);
 }

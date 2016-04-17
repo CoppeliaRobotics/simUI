@@ -1,6 +1,8 @@
 #include "Window.h"
 #include "Widget.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <iostream>
@@ -40,8 +42,7 @@ bool Window::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
         return false;
     }
 
-    if(e->Attribute("title")) title = e->Attribute("title");
-    else title = "Custom UI";
+    title = xmlutils::getAttrStr(e, "title", "Custom UI");
 
     return LayoutWidget::parse(e, errors);
 }

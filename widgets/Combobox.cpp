@@ -1,5 +1,7 @@
 #include "Combobox.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <iostream>
@@ -32,8 +34,7 @@ bool Combobox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
         items.push_back(itemName);
     }    
 
-    if(e->Attribute("onchange")) onchange = e->Attribute("onchange");
-    else onchange = "";
+    onchange = xmlutils::getAttrStr(e, "onchange", "");
 
     return true;
 }

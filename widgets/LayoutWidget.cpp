@@ -1,4 +1,7 @@
 #include "LayoutWidget.h"
+
+#include "XMLUtils.h"
+
 #include "Widget.h"
 
 #include "UIProxy.h"
@@ -34,8 +37,7 @@ bool Stretch::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
         return false;
     }
     
-    if(!e->Attribute("factor") || e->QueryIntAttribute("factor", &factor) != tinyxml2::XML_NO_ERROR)
-        factor = 0;
+    factor = xmlutils::getAttrInt(e, "factor", 0);
 
     return true;
 }

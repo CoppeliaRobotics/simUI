@@ -1,5 +1,7 @@
 #include "Button.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <QPushButton>
@@ -22,20 +24,11 @@ bool Button::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    if(e->Attribute("text"))
-        text = e->Attribute("text");
-    else
-        text = "???";
+    text = xmlutils::getAttrStr(e, "text", "???");
 
-    if(e->Attribute("default") && strcmp(e->Attribute("default"), "true") == 0)
-        defaulT = true;
-    else
-        defaulT = false;
+    defaulT = xmlutils::getAttrBool(e, "default", false);
 
-    if(e->Attribute("onclick"))
-        onclick = e->Attribute("onclick");
-    else
-        onclick = "";
+    onclick = xmlutils::getAttrStr(e, "onclick", "");
 
     return true;
 }

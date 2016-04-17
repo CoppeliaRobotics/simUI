@@ -1,5 +1,7 @@
 #include "Checkbox.h"
 
+#include "XMLUtils.h"
+
 #include "UIProxy.h"
 
 #include <QCheckBox>
@@ -22,11 +24,9 @@ bool Checkbox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
 {
     if(!Widget::parse(e, errors)) return false;
 
-    if(e->Attribute("text")) text = e->Attribute("text");
-    else text = "???";
+    text = xmlutils::getAttrStr(e, "text", "???");
 
-    if(e->Attribute("onchange")) onchange = e->Attribute("onchange");
-    else onchange = "";
+    onchange = xmlutils::getAttrStr(e, "onchange", "");
 
     return true;
 }

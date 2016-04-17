@@ -85,6 +85,7 @@ HEADERS += \
     widgets/Window.h \
     LuaCallbackFunction.h \
     Proxy.h \
+    XMLUtils.h \
     tinyxml2.h
 
 SOURCES += \
@@ -111,6 +112,7 @@ SOURCES += \
     widgets/Window.cpp \
     LuaCallbackFunction.cpp \
     Proxy.cpp \
+    XMLUtils.cpp \
     tinyxml2.cpp
 
 
