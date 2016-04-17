@@ -20,15 +20,13 @@ const char * Label::name()
     return "label";
 }
 
-bool Label::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Label::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     text = xmlutils::getAttrStr(e, "text", "");
 
     wordWrap = xmlutils::getAttrBool(e, "wordwrap", false);
-
-    return true;
 }
 
 QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

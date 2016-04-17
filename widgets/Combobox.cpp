@@ -22,9 +22,9 @@ const char * Combobox::name()
     return "combobox";
 }
 
-bool Combobox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Combobox::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {
@@ -35,8 +35,6 @@ bool Combobox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
     }    
 
     onchange = xmlutils::getAttrStr(e, "onchange", "");
-
-    return true;
 }
 
 QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

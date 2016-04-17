@@ -25,7 +25,7 @@ public:
 
     const char * name();
     
-    bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);
+    void parse(tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class Tabs;
@@ -42,7 +42,7 @@ public:
 
     const char * name();
     
-    bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);
+    void parse(tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class UIFunctions;

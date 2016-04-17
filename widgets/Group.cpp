@@ -20,13 +20,13 @@ const char * Group::name()
     return "group";
 }
 
-bool Group::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Group::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     text = xmlutils::getAttrStr(e, "text", "");
 
-    return LayoutWidget::parse(e, errors);
+    LayoutWidget::parse(e);
 }
 
 QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

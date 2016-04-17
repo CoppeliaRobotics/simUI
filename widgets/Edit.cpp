@@ -20,15 +20,13 @@ const char * Edit::name()
     return "edit";
 }
 
-bool Edit::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Edit::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     value = xmlutils::getAttrStr(e, "value", "");
 
     onchange = xmlutils::getAttrStr(e, "onchange", "");
-
-    return true;
 }
 
 QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

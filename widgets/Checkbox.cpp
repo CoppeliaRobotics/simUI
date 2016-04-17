@@ -20,15 +20,13 @@ const char * Checkbox::name()
     return "checkbox";
 }
 
-bool Checkbox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Checkbox::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     text = xmlutils::getAttrStr(e, "text", "???");
 
     onchange = xmlutils::getAttrStr(e, "onchange", "");
-
-    return true;
 }
 
 QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

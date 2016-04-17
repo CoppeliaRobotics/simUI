@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 #include <QDialog>
 
@@ -33,18 +34,17 @@ Window::~Window()
 #endif
 }
 
-bool Window::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Window::parse(tinyxml2::XMLElement *e)
 {
     std::string tag(e->Value());
     if(tag != "ui")
     {
-        errors.push_back("root element must be <ui>");
-        return false;
+        throw std::range_error("root element must be <ui>");
     }
 
     title = xmlutils::getAttrStr(e, "title", "Custom UI");
 
-    return LayoutWidget::parse(e, errors);
+    LayoutWidget::parse(e);
 }
 
 QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

@@ -93,17 +93,13 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 
     tinyxml2::XMLElement *rootElement = xmldoc.FirstChildElement();
     Window *window = new Window;
-    std::vector<std::string> errors;
-    if(!window->parse(rootElement, errors))
+    try
     {
-        std::stringstream ss;
-        ss << "XML tree error: ";
-        for(size_t i = 0; i < errors.size(); ++i)
-            ss << (i ? "; " : "") << errors[i];
-#ifdef DEBUG
-        std::cerr << "create: parse failed: " << ss.str() << std::endl;
-#endif
-        simSetLastError(cmd, ss.str().c_str());
+        window->parse(rootElement);
+    }
+    catch(std::exception& ex)
+    {
+        simSetLastError(cmd, ex.what());
         UIFunctions::getInstance()->destroyUi(window); // must delete on UI thread or will crash
         return;
     }

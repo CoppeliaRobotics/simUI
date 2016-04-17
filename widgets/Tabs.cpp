@@ -21,13 +21,13 @@ const char * Tab::name()
     return "tab";
 }
 
-bool Tab::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Tab::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     title = xmlutils::getAttrStr(e, "title", "???");
 
-    return LayoutWidget::parse(e, errors);
+    LayoutWidget::parse(e);
 }
 
 QWidget * Tab::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -57,20 +57,16 @@ const char * Tabs::name()
     return "tabs";
 }
 
-bool Tabs::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Tabs::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {
         Tab *tab = new Tab();
         tabs.push_back(tab);
-
-        if(!tab->parse(e1, errors))
-            return false;
+        tab->parse(e1);
     }
-
-    return true;
 }
 
 QWidget * Tabs::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

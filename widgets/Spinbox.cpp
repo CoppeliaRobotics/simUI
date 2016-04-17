@@ -20,9 +20,9 @@ const char * Spinbox::name()
     return "spinbox";
 }
 
-bool Spinbox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Spinbox::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     minimum = xmlutils::getAttrInt(e, "minimum", 0);
 
@@ -35,8 +35,6 @@ bool Spinbox::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
     step = xmlutils::getAttrInt(e, "step", 1);
 
     onchange = xmlutils::getAttrStr(e, "onchange", "");
-
-    return true;
 }
 
 QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

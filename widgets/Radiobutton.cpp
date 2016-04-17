@@ -20,15 +20,13 @@ const char * Radiobutton::name()
     return "radiobutton";
 }
 
-bool Radiobutton::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Radiobutton::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     text = xmlutils::getAttrStr(e, "text", "???");
 
     onclick = xmlutils::getAttrStr(e, "onclick", "");
-
-    return true;
 }
 
 QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

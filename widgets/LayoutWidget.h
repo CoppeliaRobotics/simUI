@@ -31,7 +31,7 @@ public:
     Stretch();
 
     const char * name();
-    bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);    
+    void parse(tinyxml2::XMLElement *e);    
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class LayoutWidget;
@@ -46,7 +46,7 @@ protected:
 public:
     virtual ~LayoutWidget();
 
-    bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);    
+    void parse(tinyxml2::XMLElement *e);    
     void createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 };
 

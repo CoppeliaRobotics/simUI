@@ -26,7 +26,7 @@ public:
     Window();
     virtual ~Window();
 
-    virtual bool parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors);
+    virtual void parse(tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     std::string str();

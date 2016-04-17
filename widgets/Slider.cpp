@@ -6,6 +6,9 @@
 
 #include <QSlider>
 
+#include <stdexcept>
+#include <sstream>
+
 Slider::Slider()
     : Widget()
 {
@@ -15,9 +18,9 @@ Slider::~Slider()
 {
 }
 
-bool Slider::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Slider::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
+    Widget::parse(e);
 
     minimum = xmlutils::getAttrInt(e, "minimum", 0);
 
@@ -34,15 +37,14 @@ bool Slider::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
     else if(tickPositionStr == "right") tickPosition = QSlider::TicksRight;
     else
     {
-        errors.push_back("invalid value for attribute tick-position");
-        return false;
+        std::stringstream ss;
+        ss << "invalid value for attribute tick-position: " << tickPositionStr;
+        throw std::range_error(ss.str());
     }
 
     inverted = xmlutils::getAttrBool(e, "inverted", false);
 
     onchange = xmlutils::getAttrStr(e, "onchange", "");
-
-    return true;
 }
 
 QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

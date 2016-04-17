@@ -14,6 +14,7 @@
 #include <QGridLayout>
 #include <QFormLayout>
 
+#include <sstream>
 #include <stdexcept>
 
 Stretch::Stretch()
@@ -26,20 +27,11 @@ const char * Stretch::name()
     return "stretch";
 }
 
-bool Stretch::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Stretch::parse(tinyxml2::XMLElement *e)
 {
-    if(!Widget::parse(e, errors)) return false;
-    
-    std::string tag(e->Value());
-    if(tag != "stretch")
-    {
-        errors.push_back("element must be <stretch>");
-        return false;
-    }
+    Widget::parse(e);
     
     factor = xmlutils::getAttrInt(e, "factor", 0);
-
-    return true;
 }
 
 QWidget * Stretch::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -62,22 +54,17 @@ LayoutWidget::~LayoutWidget()
     }
 }
 
-bool LayoutWidget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void LayoutWidget::parse(tinyxml2::XMLElement *e)
 {
-    if(e->Attribute("layout"))
+    std::string layoutStr = xmlutils::getAttrStr(e, "layout", "vbox");
+    if(layoutStr == "vbox") layout = VBOX;
+    else if(layoutStr == "hbox") layout = HBOX;
+    else if(layoutStr == "grid") layout = GRID;
+    else if(layoutStr == "form") layout = FORM;
+    else
     {
-        std::string layoutName(e->Attribute("layout"));
-        if(layoutName == "vbox") layout = VBOX;
-        else if(layoutName == "hbox") layout = HBOX;
-        else if(layoutName == "grid") layout = GRID;
-        else if(layoutName == "form") layout = FORM;
-        else
-        {
-            errors.push_back("invalid value '" + layoutName + "' for attribute 'layout'");
-            return false;
-        }
+        throw std::range_error("invalid value '" + layoutStr + "' for attribute 'layout'");
     }
-    else layout = VBOX;
 
     std::vector<Widget*> row;
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
@@ -93,13 +80,18 @@ bool LayoutWidget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& erro
             continue;
         }
 
-        Widget *w = Widget::parseAny(e1, errors);
-        if(!w)
+        try
+        {
+            Widget *w = Widget::parseAny(e1);
+            row.push_back(w);
+        }
+        catch(std::exception& ex)
         {
             children.push_back(row); // push widgets created until now so they won't leak
-            return false;
+            std::stringstream ss;
+            ss << "failed to read layout: " << ex.what();
+            throw std::runtime_error(ss.str());
         }
-        row.push_back(w);
 
         if((layout == FORM && row.size() == 2) ||
                 layout == VBOX ||
@@ -116,12 +108,9 @@ bool LayoutWidget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& erro
     }
     if(row.size() > 0)
     {
-        errors.push_back("extra elements in layout");
         children.push_back(row); // push widget created until now so they won't leak
-        return false;
+        throw std::range_error("extra elements in layout");
     }
-
-    return true;
 }
 
 void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

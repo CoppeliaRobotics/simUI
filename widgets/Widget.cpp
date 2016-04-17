@@ -112,11 +112,13 @@ void Widget::dumpTables()
 #endif
 
 template<typename T>
-Widget * Widget::tryParse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+Widget * Widget::tryParse(tinyxml2::XMLElement *e)
 {
     T *obj = new T;
-    if(obj->parse(e, errors))
+    try
     {
+        obj->parse(e);
+
         // object parsed successfully
         // now check if ID is duplicate:
         std::map<int, Widget *>::const_iterator it = Widget::widgets.find(obj->id);
@@ -133,42 +135,40 @@ Widget * Widget::tryParse(tinyxml2::XMLElement *e, std::vector<std::string>& err
             std::cerr << ss.str() << std::endl;
             Widget::dumpTables();
 #endif
-            errors.push_back(ss.str());
             delete obj;
-            return NULL;
+            throw std::range_error(ss.str());
         }
     }
-    else
+    catch(std::exception& ex)
     {
         delete obj;
         return NULL;
     }
 }
 
-Widget * Widget::parseAny(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+Widget * Widget::parseAny(tinyxml2::XMLElement *e)
 {
     std::string tag(e->Value());
     Widget *w = NULL;
-    if(tag == "button" && (w = tryParse<Button>(e, errors))) return w;
-    if(tag == "edit" && (w = tryParse<Edit>(e, errors))) return w;
-    if(tag == "hslider" && (w = tryParse<HSlider>(e, errors))) return w;
-    if(tag == "vslider" && (w = tryParse<VSlider>(e, errors))) return w;
-    if(tag == "label" && (w = tryParse<Label>(e, errors))) return w;
-    if(tag == "checkbox" && (w = tryParse<Checkbox>(e, errors))) return w;
-    if(tag == "radiobutton" && (w = tryParse<Radiobutton>(e, errors))) return w;
-    if(tag == "spinbox" && (w = tryParse<Spinbox>(e, errors))) return w;
-    if(tag == "combobox" && (w = tryParse<Combobox>(e, errors))) return w;
-    if(tag == "group" && (w = tryParse<Group>(e, errors))) return w;
-    if(tag == "tabs" && (w = tryParse<Tabs>(e, errors))) return w;
-    if(tag == "stretch" && (w = tryParse<Stretch>(e, errors))) return w;
+    if(tag == "button" && (w = tryParse<Button>(e))) return w;
+    if(tag == "edit" && (w = tryParse<Edit>(e))) return w;
+    if(tag == "hslider" && (w = tryParse<HSlider>(e))) return w;
+    if(tag == "vslider" && (w = tryParse<VSlider>(e))) return w;
+    if(tag == "label" && (w = tryParse<Label>(e))) return w;
+    if(tag == "checkbox" && (w = tryParse<Checkbox>(e))) return w;
+    if(tag == "radiobutton" && (w = tryParse<Radiobutton>(e))) return w;
+    if(tag == "spinbox" && (w = tryParse<Spinbox>(e))) return w;
+    if(tag == "combobox" && (w = tryParse<Combobox>(e))) return w;
+    if(tag == "group" && (w = tryParse<Group>(e))) return w;
+    if(tag == "tabs" && (w = tryParse<Tabs>(e))) return w;
+    if(tag == "stretch" && (w = tryParse<Stretch>(e))) return w;
 
     std::stringstream ss;
     ss << "could not parse <" << tag << ">";
-    errors.push_back(ss.str());
-    return w;
+    throw std::range_error(ss.str());
 }
 
-bool Widget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
+void Widget::parse(tinyxml2::XMLElement *e)
 {
     if(e->Attribute("id"))
         id = xmlutils::getAttrInt(e, "id", 0);
@@ -180,11 +180,8 @@ bool Widget::parse(tinyxml2::XMLElement *e, std::vector<std::string>& errors)
     {
         std::stringstream ss;
         ss << "element must be <" << name() << ">";
-        errors.push_back(ss.str());
-        return false;
+        throw std::range_error(ss.str());
     }
-
-    return true;
 }
 
 const char * Widget::name()
