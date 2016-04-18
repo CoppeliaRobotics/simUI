@@ -26,12 +26,15 @@ void Checkbox::parse(tinyxml2::XMLElement *e)
 
     text = xmlutils::getAttrStr(e, "text", "???");
 
+    checked = xmlutils::getAttrBool(e, "checked", false);    
+
     onchange = xmlutils::getAttrStr(e, "onchange", "");
 }
 
 QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QCheckBox *checkbox = new QCheckBox(QString::fromStdString(text), parent);
+    checkbox->setChecked(checked);
     QObject::connect(checkbox, SIGNAL(stateChanged(int)), uiproxy, SLOT(onValueChange(int)));
     setQWidget(checkbox);
     setProxy(proxy);

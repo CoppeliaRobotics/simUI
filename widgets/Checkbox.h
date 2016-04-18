@@ -18,6 +18,7 @@ class Checkbox : public Widget, public EventOnChangeInt
 {
 protected:
     std::string text;
+    bool checked;
 
 public:
     Checkbox();
