@@ -18,6 +18,7 @@ class Radiobutton : public Widget, public EventOnClick
 {
 protected:
     std::string text;
+    bool checked;
 
 public:
     Radiobutton();
