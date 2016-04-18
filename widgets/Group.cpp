@@ -26,12 +26,16 @@ void Group::parse(tinyxml2::XMLElement *e)
 
     text = xmlutils::getAttrStr(e, "text", "");
 
+    flat = xmlutils::getAttrBool(e, "flat", false);
+
     LayoutWidget::parse(e);
 }
 
 QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QGroupBox *groupBox = new QGroupBox(QString::fromStdString(text), parent);
+    QWidget *groupBox = flat ?
+        new QWidget(parent) :
+        new QGroupBox(QString::fromStdString(text), parent);
     LayoutWidget::createQtWidget(proxy, uiproxy, groupBox);
     setQWidget(groupBox);
     setProxy(proxy);
