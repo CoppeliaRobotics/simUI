@@ -40,7 +40,7 @@ public:
     inline QWidget * getQWidget() {return qwidget;}
 
     template<typename T>
-    static Widget * parse1(tinyxml2::XMLElement *e);
+    static T * parse1(tinyxml2::XMLElement *e);
     static Widget * parseAny(tinyxml2::XMLElement *e);
 
     static Widget * byId(int id);

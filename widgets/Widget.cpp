@@ -112,7 +112,7 @@ void Widget::dumpTables()
 #endif
 
 template<typename T>
-Widget * Widget::parse1(tinyxml2::XMLElement *e)
+T * Widget::parse1(tinyxml2::XMLElement *e)
 {
     T *obj = new T;
     try
