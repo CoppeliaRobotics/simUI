@@ -53,9 +53,9 @@ void Tabs::parse(tinyxml2::XMLElement *e)
 
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {
-        Tab *tab = new Tab();
-        tabs.push_back(tab);
-        tab->parse(e1);
+        Tab *tab = Widget::parse1<Tab>(e1);
+        if(tab)
+            tabs.push_back(tab);
     }
 }
 
