@@ -16,10 +16,6 @@
 
 #include "UIProxy.h"
 
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-
 int Widget::nextId = -1;
 std::map<int, Widget *> Widget::widgets;
 std::map<QWidget *, Widget *> Widget::widgetByQWidget;
@@ -110,48 +106,6 @@ void Widget::dumpTables()
     std::cerr << "Widget::dumpTables() - end dump of widgetByQWidget:" << std::endl;
 }
 #endif
-
-template<typename T>
-T * Widget::parse1(tinyxml2::XMLElement *e)
-{
-    T *obj = new T;
-    try
-    {
-        obj->parse(e);
-
-        // object parsed successfully
-        // now check if ID is duplicate:
-        std::map<int, Widget *>::const_iterator it = Widget::widgets.find(obj->id);
-        if(it == Widget::widgets.end())
-        {
-            Widget::widgets[obj->id] = obj;
-            return obj;
-        }
-        else
-        {
-            std::stringstream ss;
-            ss << "duplicate widget id: " << obj->id;
-#ifdef DEBUG
-            std::cerr << ss.str() << std::endl;
-            Widget::dumpTables();
-#endif
-            delete obj;
-            throw std::range_error(ss.str());
-        }
-    }
-    catch(std::exception& ex)
-    {
-        delete obj;
-        std::stringstream ss;
-        ss << e->Value();
-        if(obj->id > 0)
-        {
-            ss << "[id=" << obj->id << "]";
-        }
-        ss << ": " << ex.what();
-        throw std::range_error(ss.str());
-    }
-}
 
 Widget * Widget::parseAny(tinyxml2::XMLElement *e)
 {
