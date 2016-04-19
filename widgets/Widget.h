@@ -17,6 +17,7 @@ class Widget
 private:
     QWidget *qwidget;
     Proxy *proxy;
+    const std::string widgetClass;
 
 protected:
     static int nextId;
@@ -25,7 +26,7 @@ protected:
 
     int id;
 
-    Widget();
+    Widget(std::string widgetClass);
 
     void setQWidget(QWidget *qwidget);
     void setProxy(Proxy *proxy);
@@ -44,8 +45,6 @@ public:
 
     static Widget * byId(int id);
     static Widget * byQWidget(QWidget *w);
-
-    virtual const char * name();
 
     std::string str();
 

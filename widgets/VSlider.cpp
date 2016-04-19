@@ -5,7 +5,7 @@
 #include <QSlider>
 
 VSlider::VSlider()
-    : Slider()
+    : Slider("vslider")
 {
 }
 
@@ -16,10 +16,5 @@ VSlider::~VSlider()
 Qt::Orientation VSlider::getOrientation()
 {
     return Qt::Vertical;
-}
-
-const char * VSlider::name()
-{
-    return "vslider";
 }
 

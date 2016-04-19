@@ -9,17 +9,12 @@
 #include <QComboBox>
 
 Combobox::Combobox()
-    : Widget()
+    : Widget("combobox")
 {
 }
 
 Combobox::~Combobox()
 {
-}
-
-const char * Combobox::name()
-{
-    return "combobox";
 }
 
 void Combobox::parse(tinyxml2::XMLElement *e)

@@ -22,8 +22,6 @@ protected:
 public:
     Combobox();
     virtual ~Combobox();
-
-    const char * name();
     
     void parse(tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);

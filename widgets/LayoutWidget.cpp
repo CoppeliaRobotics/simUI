@@ -18,13 +18,8 @@
 #include <stdexcept>
 
 Stretch::Stretch()
-    : Widget()
+    : Widget("stretch")
 {
-}
-
-const char * Stretch::name()
-{
-    return "stretch";
 }
 
 void Stretch::parse(tinyxml2::XMLElement *e)

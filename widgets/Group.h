@@ -24,8 +24,6 @@ public:
     Group();
     virtual ~Group();
 
-    const char * name();
-    
     void parse(tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 

@@ -23,8 +23,6 @@ public:
     Tab();
     virtual ~Tab();
 
-    const char * name();
-    
     void parse(tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
@@ -40,8 +38,6 @@ public:
     Tabs();
     virtual ~Tabs();
 
-    const char * name();
-    
     void parse(tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 

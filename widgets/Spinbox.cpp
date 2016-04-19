@@ -7,17 +7,12 @@
 #include <QSpinBox>
 
 Spinbox::Spinbox()
-    : Widget()
+    : Widget("spinbox")
 {
 }
 
 Spinbox::~Spinbox()
 {
-}
-
-const char * Spinbox::name()
-{
-    return "spinbox";
 }
 
 void Spinbox::parse(tinyxml2::XMLElement *e)

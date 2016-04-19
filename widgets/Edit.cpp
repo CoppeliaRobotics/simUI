@@ -7,17 +7,12 @@
 #include <QLineEdit>
 
 Edit::Edit()
-    : Widget()
+    : Widget("edit")
 {
 }
 
 Edit::~Edit()
 {
-}
-
-const char * Edit::name()
-{
-    return "edit";
 }
 
 void Edit::parse(tinyxml2::XMLElement *e)

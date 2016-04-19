@@ -7,17 +7,12 @@
 #include <QRadioButton>
 
 Radiobutton::Radiobutton()
-    : Widget()
+    : Widget("radiobutton")
 {
 }
 
 Radiobutton::~Radiobutton()
 {
-}
-
-const char * Radiobutton::name()
-{
-    return "radiobutton";
 }
 
 void Radiobutton::parse(tinyxml2::XMLElement *e)

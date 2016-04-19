@@ -24,8 +24,6 @@ public:
     Button();
     virtual ~Button();
 
-    const char * name();
-
     void parse(tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 

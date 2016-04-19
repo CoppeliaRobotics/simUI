@@ -24,8 +24,8 @@ int Widget::nextId = -1;
 std::map<int, Widget *> Widget::widgets;
 std::map<QWidget *, Widget *> Widget::widgetByQWidget;
 
-Widget::Widget()
-    : qwidget(NULL)
+Widget::Widget(std::string widgetClass_)
+    : qwidget(NULL), widgetClass(widgetClass_)
 {
     // don't do this here because id is set by user:
     // Widget::widgets[id] = this;
@@ -193,23 +193,18 @@ void Widget::parse(tinyxml2::XMLElement *e)
     }
 
     std::string tag(e->Value());
-    if(tag != name())
+    if(tag != widgetClass)
     {
         std::stringstream ss;
-        ss << "element must be <" << name() << ">";
+        ss << "element must be <" << widgetClass << ">";
         throw std::range_error(ss.str());
     }
-}
-
-const char * Widget::name()
-{
-    return "???";
 }
 
 std::string Widget::str()
 {
     std::stringstream ss;
-    ss << "Widget[" << this << "," << name() << "]";
+    ss << "Widget[" << this << "," << widgetClass << "]";
     return ss.str();
 }
 

@@ -7,17 +7,12 @@
 #include <QGroupBox>
 
 Group::Group()
-    : Widget()
+    : Widget("group")
 {
 }
 
 Group::~Group()
 {
-}
-
-const char * Group::name()
-{
-    return "group";
 }
 
 void Group::parse(tinyxml2::XMLElement *e)

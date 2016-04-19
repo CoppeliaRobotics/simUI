@@ -9,8 +9,8 @@
 #include <stdexcept>
 #include <sstream>
 
-Slider::Slider()
-    : Widget()
+Slider::Slider(std::string widgetClass)
+    : Widget(widgetClass)
 {
 }
 

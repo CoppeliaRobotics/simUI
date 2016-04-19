@@ -7,17 +7,12 @@
 #include <QLabel>
 
 Label::Label()
-    : Widget()
+    : Widget("label")
 {
 }
 
 Label::~Label()
 {
-}
-
-const char * Label::name()
-{
-    return "label";
 }
 
 void Label::parse(tinyxml2::XMLElement *e)

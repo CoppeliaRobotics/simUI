@@ -8,17 +8,12 @@
 #include <QTabWidget>
 
 Tab::Tab()
-    : Widget()
+    : Widget("tab")
 {
 }
 
 Tab::~Tab()
 {
-}
-
-const char * Tab::name()
-{
-    return "tab";
 }
 
 void Tab::parse(tinyxml2::XMLElement *e)
@@ -40,7 +35,7 @@ QWidget * Tab::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 }
 
 Tabs::Tabs()
-    : Widget()
+    : Widget("tabs")
 {
 }
 
@@ -50,11 +45,6 @@ Tabs::~Tabs()
     {
         delete *it;
     }
-}
-
-const char * Tabs::name()
-{
-    return "tabs";
 }
 
 void Tabs::parse(tinyxml2::XMLElement *e)

@@ -7,17 +7,12 @@
 #include <QCheckBox>
 
 Checkbox::Checkbox()
-    : Widget()
+    : Widget("checkbox")
 {
 }
 
 Checkbox::~Checkbox()
 {
-}
-
-const char * Checkbox::name()
-{
-    return "checkbox";
 }
 
 void Checkbox::parse(tinyxml2::XMLElement *e)

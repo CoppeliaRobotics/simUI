@@ -7,17 +7,12 @@
 #include <QPushButton>
 
 Button::Button()
-    : Widget()
+    : Widget("button")
 {
 }
 
 Button::~Button()
 {
-}
-
-const char * Button::name()
-{
-    return "button";
 }
 
 void Button::parse(tinyxml2::XMLElement *e)

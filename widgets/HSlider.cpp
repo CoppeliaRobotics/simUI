@@ -5,7 +5,7 @@
 #include <QSlider>
 
 HSlider::HSlider()
-    : Slider()
+    : Slider("hslider")
 {
 }
 
@@ -16,10 +16,5 @@ HSlider::~HSlider()
 Qt::Orientation HSlider::getOrientation()
 {
     return Qt::Horizontal;
-}
-
-const char * HSlider::name()
-{
-    return "hslider";
 }
 

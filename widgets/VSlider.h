@@ -12,8 +12,6 @@ public:
     VSlider();
     virtual ~VSlider();
 
-    const char * name();
-    
     friend class UIFunctions;
 };
 

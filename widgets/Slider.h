@@ -27,7 +27,7 @@ protected:
     virtual Qt::Orientation getOrientation() = 0;
 
 public:
-    Slider();
+    Slider(std::string widgetClass);
     virtual ~Slider();
 
     void parse(tinyxml2::XMLElement *e);
