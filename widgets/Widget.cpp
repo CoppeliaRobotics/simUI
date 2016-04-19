@@ -20,7 +20,7 @@
 #include <sstream>
 #include <stdexcept>
 
-int Widget::nextId = 1000000;
+int Widget::nextId = -1;
 std::map<int, Widget *> Widget::widgets;
 std::map<QWidget *, Widget *> Widget::widgetByQWidget;
 
@@ -143,7 +143,12 @@ Widget * Widget::parse1(tinyxml2::XMLElement *e)
     {
         delete obj;
         std::stringstream ss;
-        ss << e->Value() << ": " << ex.what();
+        ss << e->Value();
+        if(obj->id > 0)
+        {
+            ss << "[id=" << obj->id << "]";
+        }
+        ss << ": " << ex.what();
         throw std::range_error(ss.str());
     }
 }
@@ -172,9 +177,20 @@ Widget * Widget::parseAny(tinyxml2::XMLElement *e)
 void Widget::parse(tinyxml2::XMLElement *e)
 {
     if(e->Attribute("id"))
+    {
         id = xmlutils::getAttrInt(e, "id", 0);
+        // user defined IDs must be positive (see below)
+        if(id <= 0)
+        {
+            throw std::range_error("id must be a positive integer");
+        }
+    }
     else
-        id = nextId++;
+    {
+        // automatically assigned IDs are negative, so we can distinguish them
+        // in diagnostics
+        id = nextId--;
+    }
 
     std::string tag(e->Value());
     if(tag != name())
