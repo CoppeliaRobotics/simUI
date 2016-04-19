@@ -141,6 +141,7 @@ Widget * Widget::parse1(tinyxml2::XMLElement *e)
     }
     catch(std::exception& ex)
     {
+        delete obj;
         std::stringstream ss;
         ss << e->Value() << ": " << ex.what();
         throw std::range_error(ss.str());
