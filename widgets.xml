@@ -264,7 +264,7 @@ a group of widgets. It is also required to group a set of radiobutton widgets.</
     <element>
         <name>tab</name>
         <description>A tab for the tabs widget. Can only be contained in a &lt;tabs&gt; element.
-Can contain widgets like the &lt;ui&gt; and &lt;group&gt; elements, and has its own layout.</description>
+Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own layout.</description>
         <attributes>
             <attribute>
                 <name>title</name>
@@ -321,5 +321,22 @@ Can contain widgets like the &lt;ui&gt; and &lt;group&gt; elements, and has its 
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
             </attribute>
         </attributes>
+    </element>
+    <element>
+        <name>stretch</name>
+        <description>Special element that can be put inside a parent with layout (such as &lt;ui&gt;, &lt;group&gt; or &lt;tab&gt;) if the layout is <b>hbox</b> or <b>vbox</b>.</description>
+        <attributes>
+            <attribute>
+                <name>factor</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Stretch factor (see <a href="http://doc.qt.io/qt-4.8/layout.html#stretch-factors">http://doc.qt.io/qt-4.8/layout.html#stretch-factors</a>).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>br</name>
+        <description>Special element that can be put inside a parent with layout (such as &lt;ui&gt;, &lt;group&gt; or &lt;tab&gt;) if the layout is <b>grid</b>, and it is used to begin a new line in the grid layout.</description>
+        <attributes />
     </element>
 </elements>
