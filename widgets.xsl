@@ -17,6 +17,7 @@
                     table.elements td { background: #eee; }
                     table.attributes td { background: #ddd; }
                     tr.spacer td { background: none; height: 1em; }
+                    ul { margin: 0; }
                 </style>
             </head>
             <body>
