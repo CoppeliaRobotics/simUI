@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="widgets.xsl"?>
+<elements>
+    <element>
+        <name>ui</name>
+        <description>Root element (related to Custom UI window).</description>
+        <attributes>
+            <attribute>
+                <name>title</name>
+                <type>string</type>
+                <default>Custom UI</default>
+                <description>Title of the Custom UI window.</description>
+            </attribute>
+            <attribute>
+                <name>resizable</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>Make window resizable if true.</description>
+            </attribute>
+            <attribute>
+                <name>layout</name>
+                <type>one of "vbox", "hbox", "form", "grid"</type>
+                <default>vbox</default>
+                <description>Layout of the window widget.</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>button</name>
+        <description>Push button widget.</description>
+        <attributes>
+            <attribute>
+                <name>text</name>
+                <type>string</type>
+                <default>???</default>
+                <description>Text on the button.</description>
+            </attribute>
+            <attribute>
+                <name>default</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, this is the default button of the dialog window.</description>
+            </attribute>
+            <attribute>
+                <name>onclick</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the click event. Arguments of the function are: (id).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>checkbox</name>
+        <description>Checkbox widget.</description>
+        <attributes>
+            <attribute>
+                <name>text</name>
+                <type>string</type>
+                <default>???</default>
+                <description>Text on the checkbox label.</description>
+            </attribute>
+            <attribute>
+                <name>checked</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, the checkbox is initially checked.</description>
+            </attribute>
+            <attribute>
+                <name>onchange</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>combobox</name>
+        <description>A combobox widget. It allows to select one from many items from a dropdown menu.  Items can be added as child XML nodes, e.g. &lt;item&gt;Item text&lt;/item&gt;, or dynamically via the Lua API.</description>
+        <attributes>
+            <attribute>
+                <name>onchange</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>edit</name>
+        <description>A widget for text input.</description>
+        <attributes>
+            <attribute>
+                <name>value</name>
+                <type>string</type>
+                <default>???</default>
+                <description>Initial text.</description>
+            </attribute>
+            <attribute>
+                <name>onchange</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>group</name>
+        <description>A widget for grouping other widgets.
+Other widgets are specified as children of the &lt;group&gt; node.
+It has its own layout, so it can be used to use a different layout only for
+a group of widgets. It is also required to group a set of radiobutton widgets.</description>
+        <attributes>
+            <attribute>
+                <name>text</name>
+                <type>string</type>
+                <default />
+                <description>Text on the top of the group.</description>
+            </attribute>
+            <attribute>
+                <name>flat</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, the group will have no visual appearance (text will be ignored).  Otherwise, it will have some visual appearance, depending on the platform.</description>
+            </attribute>
+            <attribute>
+                <name>layout</name>
+                <type>one of "vbox", "hbox", "form", "grid"</type>
+                <default>vbox</default>
+                <description>Layout of the widget.</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>hslider</name>
+        <description>A horizontal slider widget.</description>
+        <attributes>
+            <attribute>
+                <name>minimum</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Minimum value.</description>
+            </attribute>
+            <attribute>
+                <name>maximum</name>
+                <type>int</type>
+                <default>100</default>
+                <description>Maximum value.</description>
+            </attribute>
+            <attribute>
+                <name>tick-interval</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Tick interval.</description>
+            </attribute>
+            <attribute>
+                <name>tick-position</name>
+                <type>one of "none", "both-sides", "above", "below", "left", "right"</type>
+                <default>none</default>
+                <description>In which direction to draw ticks.</description>
+            </attribute>
+            <attribute>
+                <name>inverted</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, minimum and maximum will be swapped.</description>
+            </attribute>
+            <attribute>
+                <name>onchange</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>label</name>
+        <description>A static text widget.</description>
+        <attributes>
+            <attribute>
+                <name>text</name>
+                <type>string</type>
+                <default>???</default>
+                <description>Text on the label.</description>
+            </attribute>
+            <attribute>
+                <name>wordwrap</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, long text will wrap in multiple lines, otherwise will be cut.</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>radiobutton</name>
+        <description>A radio button widget.</description>
+        <attributes>
+            <attribute>
+                <name>text</name>
+                <type>string</type>
+                <default>???</default>
+                <description>Text on the button.</description>
+            </attribute>
+            <attribute>
+                <name>checked</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, this button will be initially checked.</description>
+            </attribute>
+            <attribute>
+                <name>onclick</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the click event.  Arguments of the function are: (id).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>spinbox</name>
+        <description>A widget for numeric input, with increase/decrease buttons.</description>
+        <attributes>
+            <attribute>
+                <name>minimum</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Minimum value.</description>
+            </attribute>
+            <attribute>
+                <name>maximum</name>
+                <type>int</type>
+                <default>100</default>
+                <description>Maximum value.</description>
+            </attribute>
+            <attribute>
+                <name>prefix</name>
+                <type>string</type>
+                <default />
+                <description>String prefix in the displayed value.</description>
+            </attribute>
+            <attribute>
+                <name>suffix</name>
+                <type>string</type>
+                <default />
+                <description>String suffix in the displayed value.</description>
+            </attribute>
+            <attribute>
+                <name>step</name>
+                <type>int</type>
+                <default>1</default>
+                <description>Step (increment/decrement) when using the buttons.</description>
+            </attribute>
+            <attribute>
+                <name>onchange</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>tabs</name>
+        <description>A tabs widget. Must contain only &lt;tab&gt; child elements.</description>
+        <attributes />
+    </element>
+    <element>
+        <name>tab</name>
+        <description>A tab for the tabs widget. Can only be contained in a &lt;tabs&gt; element.
+Can contain widgets like the &lt;ui&gt; and &lt;group&gt; elements, and has its own layout.</description>
+        <attributes>
+            <attribute>
+                <name>title</name>
+                <type>string</type>
+                <default>???</default>
+                <description>Title of the tab.</description>
+            </attribute>
+            <attribute>
+                <name>layout</name>
+                <type>one of "vbox", "hbox", "form", "grid"</type>
+                <default>vbox</default>
+                <description>Layout of the widget.</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>vslider</name>
+        <description>A vertical slider widget.</description>
+        <attributes>
+            <attribute>
+                <name>minimum</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Minimum value.</description>
+            </attribute>
+            <attribute>
+                <name>maximum</name>
+                <type>int</type>
+                <default>100</default>
+                <description>Maximum value.</description>
+            </attribute>
+            <attribute>
+                <name>tick-interval</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Tick interval.</description>
+            </attribute>
+            <attribute>
+                <name>tick-position</name>
+                <type>one of "none", "both-sides", "above", "below", "left", "right"</type>
+                <default>none</default>
+                <description>In which direction to draw ticks.</description>
+            </attribute>
+            <attribute>
+                <name>inverted</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, minimum and maximum will be swapped.</description>
+            </attribute>
+            <attribute>
+                <name>onchange</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+            </attribute>
+        </attributes>
+    </element>
+</elements>
