@@ -17,7 +17,6 @@ class UIProxy;
 class Group : public Widget, public LayoutWidget
 {
 protected:
-    std::string text;
     bool flat;
 
 public:

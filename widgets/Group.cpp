@@ -19,8 +19,6 @@ void Group::parse(tinyxml2::XMLElement *e)
 {
     Widget::parse(e);
 
-    text = xmlutils::getAttrStr(e, "text", "");
-
     flat = xmlutils::getAttrBool(e, "flat", false);
 
     LayoutWidget::parse(e);
@@ -28,9 +26,8 @@ void Group::parse(tinyxml2::XMLElement *e)
 
 QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QGroupBox *groupBox = new QGroupBox(QString::fromStdString(text), parent);
+    QGroupBox *groupBox = new QGroupBox(parent);
     groupBox->setFlat(flat);
-    groupBox->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     LayoutWidget::createQtWidget(proxy, uiproxy, groupBox);
     setQWidget(groupBox);
     setProxy(proxy);
