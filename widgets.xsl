@@ -54,7 +54,7 @@
                                         </tr>
                                         <tr>
                                             <th>Type:</th>
-                                            <td><xsl:copy-of select="type/node()"/></td>
+                                            <td><xsl:apply-templates select="type"/></td>
                                         </tr>
                                         <tr>
                                             <th>Default:</th>
@@ -77,5 +77,13 @@
                 </table>
             </body>
         </html>
+    </xsl:template>
+    <xsl:template match="type/one-of">
+        One of:
+        <ul>
+            <xsl:for-each select="value">
+                <li><xsl:copy-of select="node()"/></li>
+            </xsl:for-each>
+        </ul>
     </xsl:template>
 </xsl:stylesheet>

@@ -19,7 +19,7 @@
             </attribute>
             <attribute>
                 <name>layout</name>
-                <type>one of "vbox", "hbox", "form", "grid"</type>
+                <type><one-of><value>vbox</value><value>hbox</value><value>form</value><value>grid</value></one-of></type>
                 <default>vbox</default>
                 <description>Layout of the window widget.</description>
             </attribute>
@@ -124,7 +124,7 @@ a group of widgets. It is also required to group a set of radiobutton widgets.</
             </attribute>
             <attribute>
                 <name>layout</name>
-                <type>one of "vbox", "hbox", "form", "grid"</type>
+                <type><one-of><value>vbox</value><value>hbox</value><value>form</value><value>grid</value></one-of></type>
                 <default>vbox</default>
                 <description>Layout of the widget.</description>
             </attribute>
@@ -154,7 +154,7 @@ a group of widgets. It is also required to group a set of radiobutton widgets.</
             </attribute>
             <attribute>
                 <name>tick-position</name>
-                <type>one of "none", "both-sides", "above", "below", "left", "right"</type>
+                <type><one-of><value>none</value><value>both-sides</value><value>above</value><value>below</value><value>left</value><value>right</value></one-of></type>
                 <default>none</default>
                 <description>In which direction to draw ticks.</description>
             </attribute>
@@ -274,7 +274,7 @@ Can contain widgets like the &lt;ui&gt; and &lt;group&gt; elements, and has its 
             </attribute>
             <attribute>
                 <name>layout</name>
-                <type>one of "vbox", "hbox", "form", "grid"</type>
+                <type><one-of><value>vbox</value><value>hbox</value><value>form</value><value>grid</value></one-of></type>
                 <default>vbox</default>
                 <description>Layout of the widget.</description>
             </attribute>
@@ -304,7 +304,7 @@ Can contain widgets like the &lt;ui&gt; and &lt;group&gt; elements, and has its 
             </attribute>
             <attribute>
                 <name>tick-position</name>
-                <type>one of "none", "both-sides", "above", "below", "left", "right"</type>
+                <type><one-of><value>none</value><value>both-sides</value><value>above</value><value>below</value><value>left</value><value>right</value></one-of></type>
                 <default>none</default>
                 <description>In which direction to draw ticks.</description>
             </attribute>
