@@ -138,6 +138,9 @@
     <element>
         <name>hslider</name>
         <description>A horizontal slider widget.</description>
+        <see-also>
+            <element>vslider</element>
+        </see-also>
         <attributes>
             <attribute>
                 <name>minimum</name>
@@ -180,6 +183,9 @@
     <element>
         <name>label</name>
         <description>A static text widget.</description>
+        <see-also>
+            <element>edit</element>
+        </see-also>
         <attributes>
             <attribute>
                 <name>text</name>
@@ -265,6 +271,9 @@
         <name>tabs</name>
         <description>A tabs widget. Must contain only &lt;tab&gt; child elements.</description>
         <attributes />
+        <see-also>
+            <element>tab</element>
+        </see-also>
     </element>
     <element>
         <name>tab</name>
@@ -292,6 +301,9 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
     <element>
         <name>vslider</name>
         <description>A vertical slider widget.</description>
+        <see-also>
+            <element>hslider</element>
+        </see-also>
         <attributes>
             <attribute>
                 <name>minimum</name>
