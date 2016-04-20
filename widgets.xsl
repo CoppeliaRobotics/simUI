@@ -57,10 +57,12 @@
                                             <th>Type:</th>
                                             <td><xsl:apply-templates select="type"/></td>
                                         </tr>
-                                        <tr>
-                                            <th>Default:</th>
-                                            <td><xsl:copy-of select="default/node()"/></td>
-                                        </tr>
+                                        <xsl:if test="default">
+                                            <tr>
+                                                <th>Default:</th>
+                                                <td><xsl:copy-of select="default/node()"/></td>
+                                            </tr>
+                                        </xsl:if>
                                         <tr>
                                             <th>Description:</th>
                                             <td><xsl:copy-of select="description/node()"/></td>
