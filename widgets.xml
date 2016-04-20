@@ -116,12 +116,6 @@
         </see-also>
         <attributes>
             <attribute>
-                <name>text</name>
-                <type>string</type>
-                <default />
-                <description>Text on the top of the group.</description>
-            </attribute>
-            <attribute>
                 <name>flat</name>
                 <type>bool</type>
                 <default>false</default>
