@@ -61,6 +61,13 @@ reference_html.commands = saxon -s:callbacks.xml -a:on -o:reference.html
 QMAKE_EXTRA_TARGETS += reference_html
 PRE_TARGETDEPS += reference.html
 
+widgets_html.target = widgets.html
+widgets_html.output = widgets.html
+widgets_html.input = widgets.xml
+widgets_html.commands = saxon -s:widgets.xml -a:on -o:widgets.html
+QMAKE_EXTRA_TARGETS += widgets_html
+PRE_TARGETDEPS += widgets.html
+
 HEADERS += \
     v_repExtCustomUI.h \
     ../include/v_repLib.h \
