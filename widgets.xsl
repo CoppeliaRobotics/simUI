@@ -73,6 +73,18 @@
                                 </table>
                             </td>
                         </tr>
+                        <xsl:if test="see-also">
+                            <tr>
+                                <th>See also:</th>
+                                <td>
+                                    <ul>
+                                        <xsl:for-each select="see-also/element">
+                                            <li><a href="#{node()}" class="tt">&lt;<xsl:copy-of select="node()"/>&gt;</a></li>
+                                        </xsl:for-each>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </xsl:if>
                     </xsl:for-each>
                 </table>
             </body>

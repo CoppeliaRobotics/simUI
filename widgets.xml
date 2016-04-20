@@ -4,6 +4,10 @@
     <element>
         <name>ui</name>
         <description>Root element (related to Custom UI window).</description>
+        <see-also>
+            <element>stretch</element>
+            <element>br</element>
+        </see-also>
         <attributes>
             <attribute>
                 <name>title</name>
@@ -105,10 +109,11 @@
     </element>
     <element>
         <name>group</name>
-        <description>A widget for grouping other widgets.
-Other widgets are specified as children of the &lt;group&gt; node.
-It has its own layout, so it can be used to use a different layout only for
-a group of widgets. It is also required to group a set of radiobutton widgets.</description>
+        <description>A widget for grouping other widgets.  Other widgets are specified as children of the &lt;group&gt; node.  It has its own layout, so it can be used to use a different layout only for a group of widgets. It is also required to group a set of radiobutton widgets.</description>
+        <see-also>
+            <element>stretch</element>
+            <element>br</element>
+        </see-also>
         <attributes>
             <attribute>
                 <name>text</name>
@@ -265,6 +270,10 @@ a group of widgets. It is also required to group a set of radiobutton widgets.</
         <name>tab</name>
         <description>A tab for the tabs widget. Can only be contained in a &lt;tabs&gt; element.
 Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own layout.</description>
+        <see-also>
+            <element>stretch</element>
+            <element>br</element>
+        </see-also>
         <attributes>
             <attribute>
                 <name>title</name>
