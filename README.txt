@@ -36,11 +36,17 @@ Compiling:
 	> brew install saxon
 
 
-4) Generate makefiles
+5) Generate makefiles
 
-	> ~/Qt5.5.0/5.5/<arch>/bin/qmake v_repExtCustomUI.pro
+   On Linux:
 
-5) Compile
+	> ~/Qt5.5.0/5.5/gcc_64/bin/qmake v_repExtCustomUI.pro
+
+   On OS X:
+
+	> ~/Qt5.5.0/5.5/clang_64/bin/qmake v_repExtCustomUI.pro
+
+6) Compile
 
 	> make
 
