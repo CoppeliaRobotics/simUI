@@ -8,8 +8,11 @@
                 <meta http-equiv="Content-Language" content="en-us"/>
                 <title>CustomUI Plugin - UI XML Syntax</title>
                 <style type="text/css">
-                    td, th { font-family: Helvetica, Arial; vertical-align: top; }
-                    td.tt { font-family: Courier New, fixed; font-weight: bold; }
+                    td, th, a, h1, h2, h3 { font-family: Helvetica, Arial; }
+                    a, a:active, a:visited { color: black; text-decoration: none; }
+                    a:hover { text-decoration: underline; }
+                    td, th { vertical-align: top; }
+                    .tt { font-family: Courier New, fixed; font-weight: bold; }
                     th { text-align: right; }
                     table.elements td { background: #eee; }
                     table.attributes td { background: #ddd; }
@@ -17,9 +20,21 @@
                 </style>
             </head>
             <body>
+                <a name="top"/>
+                <h1>CustomUI Plugin - UI XML Syntax</h1>
+                <h3>Elements:</h3>
+                <ul>
+                    <xsl:for-each select="elements/element">
+                        <li><a href="#{name/node()}" class="tt">&lt;<xsl:copy-of select="name/node()"/>&gt;</a></li>
+                    </xsl:for-each>
+                </ul>
+                <hr/>
                 <table class="elements">
                     <xsl:for-each select="elements/element">
                         <!-- <xsl:sort select="name/node()"/> -->
+                        <tr>
+                            <th><a name="{name/node()}"/><a href="#top">^</a></th>
+                        </tr>
                         <tr>
                             <th>Element:</th>
                             <td class="tt">&lt;<xsl:copy-of select="name/node()"/>&gt;</td>
@@ -58,11 +73,6 @@
                                 </table>
                             </td>
                         </tr>
-                        <xsl:if test="not(position() = last())">
-                            <tr class="spacer">
-                                <td colspan="2"></td>
-                            </tr>
-                        </xsl:if>
                     </xsl:for-each>
                 </table>
             </body>
