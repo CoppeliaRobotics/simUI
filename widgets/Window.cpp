@@ -53,10 +53,15 @@ void Window::parse(tinyxml2::XMLElement *e)
 
 QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QDialog *window = new QDialog(parent, Qt::Tool);
+    QDialog *window = new QDialog(parent);
     LayoutWidget::createQtWidget(proxy, uiproxy, window);
     window->setWindowTitle(QString::fromStdString(title));
-    Qt::WindowFlags flags = Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint;
+    Qt::WindowFlags flags = Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint;
+#ifdef MAC_VREP
+    flags |= Qt::Tool;
+#else
+    flags |= Qt::Dialog;
+#endif
     if(resizable) flags |= Qt::WindowMaximizeButtonHint;
     else flags |= Qt::MSWindowsFixedSizeDialogHint;
     if(closeable) flags |= Qt::WindowCloseButtonHint;
