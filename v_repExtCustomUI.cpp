@@ -326,6 +326,7 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
 
     if (message == sim_message_eventcallback_simulationended)
     { // Simulation just ended
+        // TODO: move this to sim_message_eventcallback_simulationabouttoend
         Proxy::destroyTransientObjects();
     }
 
