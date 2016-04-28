@@ -4,6 +4,8 @@
 #include <map>
 #include <iostream>
 
+#include "UIFunctions.h"
+
 #include "v_repLib.h"
 
 int Proxy::nextProxyHandle = 1000;
@@ -92,8 +94,9 @@ void Proxy::destroyTransientObjects()
 
     for(std::vector<int>::const_iterator it = t.begin(); it != t.end(); ++it)
     {
-        delete Proxy::proxies[*it];
-        Proxy::proxies.erase(*it);
+        Proxy *proxy = Proxy::byHandle(*it);
+        if(proxy)
+            UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
     }
 }
 
