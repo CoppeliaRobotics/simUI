@@ -5,7 +5,7 @@ TEMPLATE = lib
 
 DEFINES -= UNICODE
 DEFINES += QT_COMPIL
-DEFINES += DEBUG
+# DEFINES += DEBUG
 CONFIG += shared debug_and_release
 INCLUDEPATH += "../include"
 
