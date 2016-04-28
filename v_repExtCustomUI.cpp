@@ -250,6 +250,30 @@ void getComboboxItemText(SScriptCallBack *p, const char *cmd, getComboboxItemTex
     out->text = combobox->itemText(in->index).toStdString();
 }
 
+void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)
+{
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    proxy->getWidget()->getQWidget()->hide();
+}
+
+void show(SScriptCallBack *p, const char *cmd, show_in *in, show_out *out)
+{
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    proxy->getWidget()->getQWidget()->show();
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

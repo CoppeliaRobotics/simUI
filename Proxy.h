@@ -24,6 +24,8 @@ public:
 
     void createQtWidget(UIProxy *uiproxy, Window *window);
 
+    inline Window * getWidget() {return ui;}
+
 private:
     // internal handle of this object (used by the plugin):
     int handle;

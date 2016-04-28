@@ -220,6 +220,26 @@
             </param>
         </return>
     </command>
+    <command name="hide">
+        <description>Hide the UI window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="show">
+        <description>Show the UI window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

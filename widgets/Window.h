@@ -33,6 +33,8 @@ public:
 
     std::string str();
 
+    inline QWidget * getQWidget() {return qwidget;}
+
     friend class UIProxy;
 };
 
