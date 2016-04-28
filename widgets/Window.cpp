@@ -58,6 +58,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     window->setWindowTitle(QString::fromStdString(title));
     Qt::WindowFlags flags = Qt::Tool | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint;
     if(resizable) flags |= Qt::WindowMaximizeButtonHint;
+    else flags |= Qt::MSWindowsFixedSizeDialogHint;
     if(closeable) flags |= Qt::WindowCloseButtonHint;
     window->setWindowFlags(flags);
     //window->setAttribute(Qt::WA_DeleteOnClose);
