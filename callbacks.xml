@@ -240,6 +240,19 @@
         <return>
         </return>
     </command>
+    <command name="isVisible">
+        <description>Check if the window is visible.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
+            <param name="visibility" type="bool">
+                <description>true if the window is visible, false otherwise</description>
+            </param>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

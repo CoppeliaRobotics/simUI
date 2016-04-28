@@ -78,3 +78,13 @@ void UIProxy::onDestroyUi(Window *window)
     delete window;
 }
 
+void UIProxy::onShowWindow(Window *window)
+{
+    window->qwidget->show();
+}
+
+void UIProxy::onHideWindow(Window *window)
+{
+    window->qwidget->hide();
+}
+

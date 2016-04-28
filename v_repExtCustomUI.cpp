@@ -259,7 +259,7 @@ void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)
         return;
     }
 
-    proxy->getWidget()->getQWidget()->hide();
+    UIFunctions::getInstance()->hideWindow(proxy->getWidget());
 }
 
 void show(SScriptCallBack *p, const char *cmd, show_in *in, show_out *out)
@@ -271,7 +271,19 @@ void show(SScriptCallBack *p, const char *cmd, show_in *in, show_out *out)
         return;
     }
 
-    proxy->getWidget()->getQWidget()->show();
+    UIFunctions::getInstance()->showWindow(proxy->getWidget());
+}
+
+void isVisible(SScriptCallBack *p, const char *cmd, isVisible_in *in, isVisible_out *out)
+{
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    out->visibility = proxy->getWidget()->getQWidget()->isVisible();
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
