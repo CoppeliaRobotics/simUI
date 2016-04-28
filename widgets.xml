@@ -22,6 +22,12 @@
                 <description>Make window resizable if true.</description>
             </attribute>
             <attribute>
+                <name>closeable</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>Make window closeable if true.</description>
+            </attribute>
+            <attribute>
                 <name>layout</name>
                 <type><one-of><value>vbox</value><value>hbox</value><value>form</value><value>grid</value></one-of></type>
                 <default>vbox</default>
