@@ -56,7 +56,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     QDialog *window = new QDialog(parent);
     LayoutWidget::createQtWidget(proxy, uiproxy, window);
     window->setWindowTitle(QString::fromStdString(title));
-    Qt::WindowFlags flags = Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint;
+    Qt::WindowFlags flags = Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint;
 #ifdef MAC_VREP
     flags |= Qt::Tool;
 #else
