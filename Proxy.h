@@ -26,6 +26,8 @@ public:
 
     inline Window * getWidget() {return ui;}
 
+    inline int getScriptID() {return scriptID;}
+
 private:
     // internal handle of this object (used by the plugin):
     int handle;
