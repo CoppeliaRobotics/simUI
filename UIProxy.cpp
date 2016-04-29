@@ -69,12 +69,14 @@ void UIProxy::onValueChange(QString value)
 
 void UIProxy::onDestroy(Proxy *proxy)
 {
+    proxy->ui->onclose = ""; // XXX: crash when destroying Window if there is an onclose handler
     proxy->ui->qwidget->close();
     delete proxy;
 }
 
 void UIProxy::onDestroyUi(Window *window)
 {
+    window->onclose = ""; // XXX: crash when destroying Window if there is an onclose handler
     delete window;
 }
 

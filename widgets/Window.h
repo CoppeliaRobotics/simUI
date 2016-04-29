@@ -19,6 +19,7 @@ protected:
     std::string title;
     bool resizable;
     bool closeable;
+    std::string onclose;
 
     QWidget *qwidget;
 
@@ -36,6 +37,7 @@ public:
     inline QWidget * getQWidget() {return qwidget;}
 
     friend class UIProxy;
+    friend class QDialog2;
 };
 
 #endif // WINDOW_H_INCLUDED

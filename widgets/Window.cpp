@@ -5,6 +5,8 @@
 
 #include "UIProxy.h"
 
+#include "stubs.h"
+
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -48,12 +50,52 @@ void Window::parse(tinyxml2::XMLElement *e)
 
     closeable = xmlutils::getAttrBool(e, "closeable", false);
 
+    onclose = xmlutils::getAttrStr(e, "onclose", "");
+
     LayoutWidget::parse(e);
 }
 
+#include <QCloseEvent>
+
+class QDialog2 : public QDialog
+{
+protected:
+    Window *window;
+
+public:
+    QDialog2(Window *window_, QWidget *parent = 0)
+        : QDialog(parent),
+          window(window_)
+    {
+    }
+
+    virtual void closeEvent(QCloseEvent * event)
+    {
+        if(window->onclose != "")
+        {
+            oncloseCallback_in in_args;
+            in_args.handle = window->proxy->getHandle();
+            oncloseCallback_out out_args;
+            if(oncloseCallback(window->proxy->getScriptID(), window->onclose.c_str(), &in_args, &out_args))
+            {
+                if(!out_args.accept)
+                {
+                    event->ignore();
+                    return;
+                }
+            }
+            else
+            {
+                // callback error
+            }
+        }
+        event->accept();
+    }
+};
+
 QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QDialog *window = new QDialog(parent);
+    QDialog *window = new QDialog2(this, parent);
     LayoutWidget::createQtWidget(proxy, uiproxy, window);
     window->setWindowTitle(QString::fromStdString(title));
     Qt::WindowFlags flags = Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint;

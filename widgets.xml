@@ -33,6 +33,12 @@
                 <default>vbox</default>
                 <description>Layout of the window widget.</description>
             </attribute>
+            <attribute>
+                <name>onclose</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the close event. Arguments of the function are: (id). The function must return a boolean value. If the function returns false the window will not close.</description>
+            </attribute>
         </attributes>
     </element>
     <element>

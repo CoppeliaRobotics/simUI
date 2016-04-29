@@ -297,4 +297,17 @@
         <return>
         </return>
     </script-function>
+    <script-function name="oncloseCallback">
+        <description>Callback for window close event. It will be called when the user clicks the close button of the window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>the handle of the UI</description>
+            </param>
+        </params>
+        <return>
+            <param name="accept" type="bool">
+                <description>true if the event shall be accepted. If false is returned, the window will not close.</description>
+            </param>
+        </return>
+    </script-function>
 </plugin>
