@@ -102,7 +102,11 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
 #ifdef MAC_VREP
     flags |= Qt::Tool;
 #else
+#ifdef LIN_VREP
+    flags |= Qt::Window;
+#else
     flags |= Qt::Dialog;
+#endif
 #endif
     if(resizable) flags |= Qt::WindowMaximizeButtonHint;
     else flags |= Qt::MSWindowsFixedSizeDialogHint;
@@ -110,6 +114,9 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     window->setWindowFlags(flags);
     //window->setAttribute(Qt::WA_DeleteOnClose);
     window->show();
+#ifdef LIN_VREP
+    if(!resizable) window->setFixedSize(window->size());
+#endif
     qwidget = window;
     this->proxy = proxy;
     return window;
