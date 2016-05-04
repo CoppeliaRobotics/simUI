@@ -18,6 +18,7 @@ public:
     virtual ~UIProxy();
 
     static UIProxy * getInstance(QObject *parent = 0);
+    static void destroyInstance();
 
 private:
     UIProxy(QObject *parent = 0);

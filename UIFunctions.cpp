@@ -27,6 +27,7 @@ UIFunctions::UIFunctions(QObject *parent)
 
 UIFunctions::~UIFunctions()
 {
+    UIFunctions::instance = NULL;
 }
 
 UIFunctions * UIFunctions::getInstance(QObject *parent)
@@ -34,6 +35,12 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
     if(!UIFunctions::instance)
         UIFunctions::instance = new UIFunctions(parent);
     return UIFunctions::instance;
+}
+
+void UIFunctions::destroyInstance()
+{
+    if(UIFunctions::instance)
+        delete UIFunctions::instance;
 }
 
 void UIFunctions::onButtonClick(int id)

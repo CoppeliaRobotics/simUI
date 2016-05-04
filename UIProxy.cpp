@@ -14,6 +14,7 @@ UIProxy::UIProxy(QObject *parent)
 
 UIProxy::~UIProxy()
 {
+    UIProxy::instance = NULL;
 }
 
 UIProxy * UIProxy::getInstance(QObject *parent)
@@ -21,6 +22,12 @@ UIProxy * UIProxy::getInstance(QObject *parent)
     if(!UIProxy::instance)
         UIProxy::instance = new UIProxy(parent);
     return UIProxy::instance;
+}
+
+void UIProxy::destroyInstance()
+{
+    if(UIProxy::instance)
+        delete UIProxy::instance;
 }
 
 void UIProxy::onCreate(Proxy *proxy, Window *window)
