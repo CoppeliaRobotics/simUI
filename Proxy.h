@@ -14,7 +14,7 @@ class UIProxy;
 class Proxy
 {
 public:
-    Proxy(bool destroyAfterSimulationStop, int scriptID);
+    Proxy(bool destroyAfterSimulationStop, int scriptID, Window *ui);
     virtual ~Proxy();
 
     static void destroyTransientObjects();
@@ -22,7 +22,7 @@ public:
     inline int getHandle() {return handle;}
     static Proxy* byHandle(int handle);
 
-    void createQtWidget(UIProxy *uiproxy, Window *window);
+    void createQtWidget(UIProxy *uiproxy);
 
     inline Window * getWidget() {return ui;}
 

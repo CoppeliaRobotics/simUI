@@ -15,7 +15,7 @@ UIFunctions::UIFunctions(QObject *parent)
     : QObject(parent)
 {
     UIProxy *uiproxy = UIProxy::getInstance();
-    connect(this, SIGNAL(create(Proxy*,Window*)), uiproxy, SLOT(onCreate(Proxy*,Window*)));
+    connect(this, SIGNAL(create(Proxy*)), uiproxy, SLOT(onCreate(Proxy*)));
     connect(uiproxy, SIGNAL(buttonClick(int)), this, SLOT(onButtonClick(int)));
     connect(uiproxy, SIGNAL(valueChange(int,int)), this, SLOT(onValueChange(int,int)));
     connect(uiproxy, SIGNAL(valueChange(int,QString)), this, SLOT(onValueChange(int,QString)));

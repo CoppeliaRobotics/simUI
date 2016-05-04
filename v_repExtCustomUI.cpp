@@ -104,8 +104,8 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
         return;
     }
 
-    Proxy *proxy = new Proxy(simGetSimulationState() != sim_simulation_stopped, p->scriptID);
-    UIFunctions::getInstance()->create(proxy, window); // connected to UIProxy, which
+    Proxy *proxy = new Proxy(simGetSimulationState() != sim_simulation_stopped, p->scriptID, window);
+    UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
                             // will run code for creating Qt widgets in the UI thread
     out->uiHandle = proxy->getHandle();
 }

@@ -30,7 +30,7 @@ private slots:
     void onValueChange(int id, QString value);
 
 signals:
-    void create(Proxy *proxy, Window *window);
+    void create(Proxy *proxy);
     void destroy(Proxy *proxy);
     void destroyUi(Window *window);
     void showWindow(Window *window);

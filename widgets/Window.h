@@ -23,6 +23,10 @@ protected:
 
     QWidget *qwidget;
 
+    bool qwidget_geometry_saved;
+    QPoint qwidget_pos;
+    QSize qwidget_size;
+
     Proxy *proxy;
 
 public:

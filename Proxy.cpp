@@ -11,11 +11,11 @@
 int Proxy::nextProxyHandle = 1000;
 std::map<int, Proxy *> Proxy::proxies;
 
-Proxy::Proxy(bool destroyAfterSimulationStop_, int scriptID_)
+Proxy::Proxy(bool destroyAfterSimulationStop_, int scriptID_, Window *ui_)
     : handle(nextProxyHandle++),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
       scriptID(scriptID_),
-      ui(NULL)
+      ui(ui_)
 {
 #ifdef DEBUG
     std::cerr << "Proxy::Proxy() - Proxy::proxies[" << handle << "] = " << this << std::endl;
@@ -60,12 +60,11 @@ Proxy* Proxy::byHandle(int handle)
     return ret;
 }
 
-void Proxy::createQtWidget(UIProxy *uiproxy, Window *window)
+void Proxy::createQtWidget(UIProxy *uiproxy)
 {
     // this should be executed in the UI thread
 
     QWidget *mainWindow = (QWidget *)simGetMainWindow(1);
-    ui = window;
     ui->createQtWidget(this, uiproxy, mainWindow);
 }
 

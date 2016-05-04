@@ -28,7 +28,7 @@ private:
 public slots:
 
 private slots:
-    void onCreate(Proxy *proxy, Window *window);
+    void onCreate(Proxy *proxy);
     void onButtonClick();
     void onValueChange(int value);
     void onValueChange(QString value);

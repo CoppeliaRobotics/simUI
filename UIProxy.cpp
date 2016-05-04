@@ -30,9 +30,9 @@ void UIProxy::destroyInstance()
         delete UIProxy::instance;
 }
 
-void UIProxy::onCreate(Proxy *proxy, Window *window)
+void UIProxy::onCreate(Proxy *proxy)
 {
-    proxy->createQtWidget(this, window);
+    proxy->createQtWidget(this);
 }
 
 void UIProxy::onButtonClick()
@@ -89,11 +89,19 @@ void UIProxy::onDestroyUi(Window *window)
 
 void UIProxy::onShowWindow(Window *window)
 {
+    if(window->qwidget_geometry_saved)
+    {
+        window->qwidget->move(window->qwidget_pos);
+        window->qwidget->resize(window->qwidget_size);
+    }
     window->qwidget->show();
 }
 
 void UIProxy::onHideWindow(Window *window)
 {
+    window->qwidget_pos = window->qwidget->pos();
+    window->qwidget_size = window->qwidget->size();
+    window->qwidget_geometry_saved = true;
     window->qwidget->hide();
 }
 

@@ -15,6 +15,7 @@
 
 Window::Window()
     : qwidget(NULL),
+      qwidget_geometry_saved(false),
       proxy(NULL)
 {
 }
