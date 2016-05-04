@@ -345,8 +345,8 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 
 VREP_DLLEXPORT void v_repEnd()
 {
-    delete UIProxy::getInstance();
     delete UIFunctions::getInstance();
+    delete UIProxy::getInstance();
 
     unloadVrepLibrary(vrepLib); // release the library
 }
