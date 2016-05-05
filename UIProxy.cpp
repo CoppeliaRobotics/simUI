@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPixmap>
 #include <QImage>
+#include <QLabel>
 
 using namespace tinyxml2;
 
@@ -110,7 +111,8 @@ void UIProxy::onHideWindow(Window *window)
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
     QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, QImage::Format_RGB888));
-    image->qwidget->setPixmap(pixmap);
-    image->qwidget->resize(pixmap->size());
+    QLabel *label = static_cast<QLabel*>(image->qwidget);
+    label->setPixmap(pixmap);
+    label->resize(pixmap.size());
 }
 
