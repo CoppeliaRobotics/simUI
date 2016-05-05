@@ -6,6 +6,7 @@
 
 #include "Proxy.h"
 #include "widgets/Window.h"
+#include "widgets/Image.h"
 
 class UIFunctions : public QObject
 {
@@ -35,6 +36,7 @@ signals:
     void destroyUi(Window *window);
     void showWindow(Window *window);
     void hideWindow(Window *window);
+    void setImage(Image *image, const char *data, int w, int h);
 };
 
 #endif // MYOBJECT_H_INCLUDED

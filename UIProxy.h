@@ -9,6 +9,7 @@
 
 #include "Proxy.h"
 #include "widgets/Window.h"
+#include "widgets/Image.h"
 
 class UIProxy : public QObject
 {
@@ -36,6 +37,7 @@ private slots:
     void onDestroyUi(Window *window);
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
+    void onSetImage(Image *image, const char *data, int w, int h);
 
 signals:
     void buttonClick(int id);

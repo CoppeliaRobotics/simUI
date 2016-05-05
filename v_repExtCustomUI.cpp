@@ -79,6 +79,7 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 #include "UIProxy.h"
 #include "widgets/Window.h"
 #include "widgets/Widget.h"
+#include "widgets/Image.h"
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
@@ -284,6 +285,18 @@ void isVisible(SScriptCallBack *p, const char *cmd, isVisible_in *in, isVisible_
     }
 
     out->visibility = proxy->getWidget()->getQWidget()->isVisible();
+}
+
+void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setImageData_out *out)
+{
+    Image *imageWidget = dynamic_cast<Image*>(Widget::byId(in->id));
+    if(!imageWidget)
+    {
+        std::stringstream ss;
+        ss << "invalid image widget id: " << in->id;
+        throw std::runtime_error(ss.str());
+    }
+    UIFunctions::getInstance()->setImage(imageWidget, in->data.c_str(), in->width, in->height);
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)

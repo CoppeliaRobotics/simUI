@@ -2,6 +2,8 @@
 #include "widgets/Widget.h"
 
 #include <QWidget>
+#include <QPixmap>
+#include <QImage>
 
 using namespace tinyxml2;
 
@@ -103,5 +105,12 @@ void UIProxy::onHideWindow(Window *window)
     window->qwidget_size = window->qwidget->size();
     window->qwidget_geometry_saved = true;
     window->qwidget->hide();
+}
+
+void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
+{
+    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, QImage::Format_RGB888));
+    image->qwidget->setPixmap(pixmap);
+    image->qwidget->resize(pixmap->size());
 }
 

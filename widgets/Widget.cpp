@@ -11,6 +11,7 @@
 #include "Group.h"
 #include "Tabs.h"
 #include "LayoutWidget.h"
+#include "Image.h"
 
 #include "XMLUtils.h"
 
@@ -122,6 +123,7 @@ Widget * Widget::parseAny(tinyxml2::XMLElement *e)
     if(tag == "group") return parse1<Group>(e);
     if(tag == "tabs") return parse1<Tabs>(e);
     if(tag == "stretch") return parse1<Stretch>(e);
+    if(tag == "image") return parse1<Image>(e);
 
     std::stringstream ss;
     ss << "invalid element <" << tag << ">";

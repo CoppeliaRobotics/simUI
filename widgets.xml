@@ -187,6 +187,15 @@
         </attributes>
     </element>
     <element>
+        <name>image</name>
+        <description>A image display widget.</description>
+        <see-also>
+            <element>label</element>
+        </see-also>
+        <attributes>
+        </attributes>
+    </element>
+    <element>
         <name>label</name>
         <description>A static text widget.</description>
         <see-also>

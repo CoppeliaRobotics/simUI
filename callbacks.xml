@@ -253,6 +253,28 @@
             </param>
         </return>
     </command>
+    <command name="setImageData">
+        <description>Set image content using specified bitmap (RGB888) data.</description>
+        <params>
+            <param name="id" type="int">
+                <description>id of a image widget</description>
+            </param>
+            <param name="data" type="string">
+                <description>image byte data</description>
+            </param>
+            <param name="width" type="int">
+                <description>width of the image</description>
+            </param>
+            <param name="height" type="int">
+                <description>height of the image</description>
+            </param>
+        </params>
+        <return>
+            <param name="visibility" type="bool">
+                <description>true if the window is visible, false otherwise</description>
+            </param>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>
