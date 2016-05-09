@@ -404,13 +404,16 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
     }
 #else
     // XXX: currently (3.3.1 beta) it is broken
-    static int oldSceneID = -1;
-    if(oldSceneID == -1) oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
-    int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
-    if(sceneID != oldSceneID)
+    if(message == sim_message_eventcallback_instancepass)
     {
-        Proxy::sceneChange(oldSceneID, sceneID);
-        oldSceneID = sceneID;
+        static int oldSceneID = -1;
+        if(oldSceneID == -1) oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
+        int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
+        if(sceneID != oldSceneID)
+        {
+            Proxy::sceneChange(oldSceneID, sceneID);
+            oldSceneID = sceneID;
+        }
     }
 #endif
 
