@@ -105,7 +105,16 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
         return;
     }
 
-    Proxy *proxy = new Proxy(simGetSimulationState() != sim_simulation_stopped, p->scriptID, window);
+    // determine wether the Proxy object should be destroyed at simulation end
+    bool destroy = false;
+    int scriptProperty;
+    int objectHandle;
+    simGetScriptProperty(p->scriptID, &scriptProperty, &objectHandle);
+    int scriptType = (scriptProperty | sim_scripttype_threaded) - sim_scripttype_threaded;
+    if(scriptType == sim_scripttype_mainscript || scriptType == sim_scripttype_childscript || scriptType == sim_scripttype_jointctrlcallback)
+        destroy = true;
+
+    Proxy *proxy = new Proxy(destroy, p->scriptID, window);
     UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
                             // will run code for creating Qt widgets in the UI thread
     out->uiHandle = proxy->getHandle();
