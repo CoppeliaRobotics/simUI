@@ -27,6 +27,8 @@ protected:
     QPoint qwidget_pos;
     QSize qwidget_size;
 
+    bool visibility_state;
+
     Proxy *proxy;
 
 public:
@@ -39,6 +41,11 @@ public:
     std::string str();
 
     inline QWidget * getQWidget() {return qwidget;}
+
+    void hide();
+    void show();
+
+    void onSceneChange(int oldSceneID, int newSceneID);
 
     friend class UIProxy;
     friend class QDialog2;

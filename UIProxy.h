@@ -38,6 +38,7 @@ private slots:
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
     void onSetImage(Image *image, const char *data, int w, int h);
+    void onSceneChange(Window *window, int oldSceneID, int newSceneID);
 
 signals:
     void buttonClick(int id);

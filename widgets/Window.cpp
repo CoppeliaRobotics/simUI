@@ -16,6 +16,7 @@
 Window::Window()
     : qwidget(NULL),
       qwidget_geometry_saved(false),
+      visibility_state(true),
       proxy(NULL)
 {
 }
@@ -128,5 +129,55 @@ std::string Window::str()
     std::stringstream ss;
     ss << "Window[" << this << "]";
     return ss.str();
+}
+
+void Window::hide()
+{
+    qwidget_pos = qwidget->pos();
+    qwidget_size = qwidget->size();
+    qwidget_geometry_saved = true;
+    visibility_state = false;
+    qwidget->hide();
+}
+
+void Window::show()
+{
+    if(qwidget_geometry_saved)
+    {
+        qwidget->move(qwidget_pos);
+        qwidget->resize(qwidget_size);
+    }
+    visibility_state = true;
+    qwidget->show();
+}
+
+void Window::onSceneChange(int oldSceneID, int newSceneID)
+{
+    int mySceneID = proxy->getSceneID();
+
+#ifdef DEBUG
+        std::cerr << "Window->onSceneChange(" << oldSceneID << ", " << newSceneID << ") [mySceneID=" << mySceneID << "]" << std::endl;
+#endif // DEBUG
+
+    if(oldSceneID == mySceneID && newSceneID != mySceneID)
+    {
+#ifdef DEBUG
+        std::cerr << "Window->onSceneChange: hidden" << std::endl;
+#endif // DEBUG
+
+        bool saved_visibility_state = visibility_state;
+        hide();
+        visibility_state = saved_visibility_state;
+    }
+
+    if(oldSceneID != mySceneID && newSceneID == mySceneID)
+    {
+#ifdef DEBUG
+        std::cerr << "Window->onSceneChange: shown" << std::endl;
+#endif // DEBUG
+
+        if(visibility_state)
+            show();
+    }
 }
 

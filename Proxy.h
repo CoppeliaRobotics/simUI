@@ -14,7 +14,7 @@ class UIProxy;
 class Proxy
 {
 public:
-    Proxy(bool destroyAfterSimulationStop, int scriptID, Window *ui);
+    Proxy(bool destroyAfterSimulationStop, int sceneID, int scriptID, Window *ui);
     virtual ~Proxy();
 
     static void destroyTransientObjects();
@@ -28,6 +28,10 @@ public:
     inline Window * getWidget() {return ui;}
 
     inline int getScriptID() {return scriptID;}
+    inline int getSceneID() {return sceneID;}
+
+    void sceneChange(int oldSceneID, int newSceneID, void *dummy);
+    static void sceneChange(int oldSceneID, int newSceneID);
 
 private:
     // internal handle of this object (used by the plugin):
@@ -42,6 +46,9 @@ private:
 
     // UIModel's pointer:
     Window *ui;
+
+    // the scene from which this object has been created:
+    int sceneID;
 
     // the scriptID from which this object has been created:
     int scriptID;

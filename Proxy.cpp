@@ -11,9 +11,10 @@
 int Proxy::nextProxyHandle = 1000;
 std::map<int, Proxy *> Proxy::proxies;
 
-Proxy::Proxy(bool destroyAfterSimulationStop_, int scriptID_, Window *ui_)
+Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *ui_)
     : handle(nextProxyHandle++),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
+      sceneID(sceneID_),
       scriptID(scriptID_),
       ui(ui_)
 {
@@ -106,6 +107,34 @@ void Proxy::destroyAllObjects()
         Proxy *proxy = it->second;
         if(proxy)
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+    }
+}
+
+void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)
+{
+#ifdef DEBUG
+    std::cerr << "Proxy(" << (void*)this << ")->sceneChange(" << oldSceneID << ", " << newSceneID << ")" << std::endl;
+#endif // DEBUG
+
+    if(ui)
+    {
+        UIFunctions::getInstance()->sceneChange(ui, oldSceneID, newSceneID);
+    }
+}
+
+void Proxy::sceneChange(int oldSceneID, int newSceneID)
+{
+#ifdef DEBUG
+    std::cerr << "Proxy::sceneChange(" << oldSceneID << ", " << newSceneID << ")" << std::endl;
+#endif // DEBUG
+
+    void *arg = 0;
+
+    for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
+    {
+        Proxy *proxy = it->second;
+        if(proxy)
+            proxy->sceneChange(oldSceneID, newSceneID, arg);
     }
 }
 

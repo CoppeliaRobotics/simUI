@@ -37,6 +37,7 @@ signals:
     void showWindow(Window *window);
     void hideWindow(Window *window);
     void setImage(Image *image, const char *data, int w, int h);
+    void sceneChange(Window *window, int oldSceneID, int newSceneID);
 };
 
 #endif // MYOBJECT_H_INCLUDED

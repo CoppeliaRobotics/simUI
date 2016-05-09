@@ -92,20 +92,12 @@ void UIProxy::onDestroyUi(Window *window)
 
 void UIProxy::onShowWindow(Window *window)
 {
-    if(window->qwidget_geometry_saved)
-    {
-        window->qwidget->move(window->qwidget_pos);
-        window->qwidget->resize(window->qwidget_size);
-    }
-    window->qwidget->show();
+    window->show();
 }
 
 void UIProxy::onHideWindow(Window *window)
 {
-    window->qwidget_pos = window->qwidget->pos();
-    window->qwidget_size = window->qwidget->size();
-    window->qwidget_geometry_saved = true;
-    window->qwidget->hide();
+    window->hide();
 }
 
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
@@ -114,5 +106,14 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
     QLabel *label = static_cast<QLabel*>(image->qwidget);
     label->setPixmap(pixmap);
     label->resize(pixmap.size());
+}
+
+void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
+{
+#ifdef DEBUG
+    std::cerr << "UIProxy->onSceneChange(" << (void*)window << ", " << oldSceneID << ", " << newSceneID << ")" << std::endl;
+#endif // DEBUG
+
+    window->onSceneChange(oldSceneID, newSceneID);
 }
 

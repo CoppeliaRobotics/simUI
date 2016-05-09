@@ -114,7 +114,11 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
     if(scriptType == sim_scripttype_mainscript || scriptType == sim_scripttype_childscript || scriptType == sim_scripttype_jointctrlcallback)
         destroy = true;
 
-    Proxy *proxy = new Proxy(destroy, p->scriptID, window);
+    int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
+#ifdef DEBUG
+    std::cerr << "Proxy created in sceneID " << sceneID << std::endl;
+#endif // DEBUG
+    Proxy *proxy = new Proxy(destroy, sceneID, p->scriptID, window);
     UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
                             // will run code for creating Qt widgets in the UI thread
     out->uiHandle = proxy->getHandle();
@@ -384,10 +388,18 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
     simSetIntegerParameter(sim_intparam_error_report_mode, sim_api_errormessage_ignore);
     void* retVal=NULL;
 
-    if (message == sim_message_eventcallback_simulationended)
+    if(message == sim_message_eventcallback_simulationended)
     { // Simulation just ended
         // TODO: move this to sim_message_eventcallback_simulationabouttoend
         Proxy::destroyTransientObjects();
+    }
+
+    static int oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
+    if(message == sim_message_eventcallback_instanceswitch)
+    {
+        int newSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
+        Proxy::sceneChange(oldSceneID, newSceneID);
+        oldSceneID = newSceneID;
     }
 
     // Keep following unchanged:
