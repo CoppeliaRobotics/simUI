@@ -22,7 +22,7 @@ void Image::parse(tinyxml2::XMLElement *e)
 
 QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QLabel *label = new QLabel(QString::fromStdString(text), parent);
+    QLabel *label = new QLabel(parent);
     setQWidget(label);
     setProxy(proxy);
     return label;

@@ -81,6 +81,7 @@ HEADERS += \
     widgets/Event.h \
     widgets/Group.h \
     widgets/HSlider.h \
+    widgets/Image.h \
     widgets/Label.h \
     widgets/LayoutWidget.h \
     widgets/Radiobutton.h \
@@ -108,6 +109,7 @@ SOURCES += \
     widgets/Event.cpp \
     widgets/Group.cpp \
     widgets/HSlider.cpp \
+    widgets/Image.cpp \
     widgets/Label.cpp \
     widgets/LayoutWidget.cpp \
     widgets/Radiobutton.cpp \
