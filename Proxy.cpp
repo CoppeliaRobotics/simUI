@@ -99,3 +99,13 @@ void Proxy::destroyTransientObjects()
     }
 }
 
+void Proxy::destroyAllObjects()
+{
+    for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
+    {
+        Proxy *proxy = it->second;
+        if(proxy)
+            UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+    }
+}
+

@@ -18,6 +18,7 @@ public:
     virtual ~Proxy();
 
     static void destroyTransientObjects();
+    static void destroyAllObjects();
 
     inline int getHandle() {return handle;}
     static Proxy* byHandle(int handle);

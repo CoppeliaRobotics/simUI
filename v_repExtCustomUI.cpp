@@ -367,6 +367,8 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 
 VREP_DLLEXPORT void v_repEnd()
 {
+    Proxy::destroyAllObjects();
+
     UIFunctions::destroyInstance();
     UIProxy::destroyInstance();
 
