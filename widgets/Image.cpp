@@ -40,12 +40,12 @@ QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         {
             int size[2] = {width, height};
             simUChar *scaledImg = simGetScaledImage(img, resolution, size, 0, NULL);
-            pixmap = QPixmap::fromImage(QImage((unsigned char *)scaledImg, width, height, QImage::Format_RGB888));
+            pixmap = QPixmap::fromImage(QImage((unsigned char *)scaledImg, width, height, 3*width, QImage::Format_RGB888));
             simReleaseBuffer((simChar *)scaledImg);
         }
         else
         {
-            pixmap = QPixmap::fromImage(QImage((unsigned char *)img, resolution[0], resolution[1], QImage::Format_RGB888));
+            pixmap = QPixmap::fromImage(QImage((unsigned char *)img, resolution[0], resolution[1], 3*resolution[0], QImage::Format_RGB888));
         }
         simReleaseBuffer((simChar *)img);
         label->setPixmap(pixmap);

@@ -122,7 +122,7 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
     std::cerr << "UIProxy->onSetImage(" << (void*)image << ", " << (void*)data << ", " << w << ", " << h << ")" << std::endl;
 #endif // DEBUG
 
-    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, QImage::Format_RGB888));
+    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, 3*w, QImage::Format_RGB888));
     QLabel *label = static_cast<QLabel*>(image->qwidget);
     label->setPixmap(pixmap);
     label->resize(pixmap.size());
