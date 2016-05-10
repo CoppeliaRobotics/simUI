@@ -29,7 +29,7 @@ private slots:
     void onButtonClick(int id);
     void onValueChange(int id, int value);
     void onValueChange(int id, QString value);
-    void onWindowClose(Window *window, bool *ret, bool *done);
+    void onWindowClose(Window *window);
 
 signals:
     void create(Proxy *proxy);

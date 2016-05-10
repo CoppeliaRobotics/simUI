@@ -44,7 +44,7 @@ signals:
     void buttonClick(int id);
     void valueChange(int id, int value);
     void valueChange(int id, QString value);
-    void windowClose(Window *window, bool *ret, bool *done);
+    void windowClose(Window *window);
 };
 
 #endif // UIPROXY_H_INCLUDED

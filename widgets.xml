@@ -37,7 +37,7 @@
                 <name>onclose</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the close event. Arguments of the function are: (id). The function must return a boolean value. If the function returns false the window will not close.</description>
+                <description>Name of a Lua function to handle the close event. Arguments of the function are: (uiHandle). When a callback is specified, the window will not close upon pressing the close button. It may be hidden or destroyed explicitly in the callback.</description>
             </attribute>
         </attributes>
     </element>

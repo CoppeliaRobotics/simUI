@@ -19,7 +19,7 @@ UIFunctions::UIFunctions(QObject *parent)
     connect(uiproxy, SIGNAL(buttonClick(int)), this, SLOT(onButtonClick(int)));
     connect(uiproxy, SIGNAL(valueChange(int,int)), this, SLOT(onValueChange(int,int)));
     connect(uiproxy, SIGNAL(valueChange(int,QString)), this, SLOT(onValueChange(int,QString)));
-    connect(uiproxy, SIGNAL(windowClose(Window*,bool*,bool*)), this, SLOT(onWindowClose(Window*,bool*,bool*)));
+    connect(uiproxy, SIGNAL(windowClose(Window*)), this, SLOT(onWindowClose(Window*)));
     connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)));
     connect(this, SIGNAL(destroyUi(Window*)), uiproxy, SLOT(onDestroyUi(Window*)));
     connect(this, SIGNAL(showWindow(Window*)), uiproxy, SLOT(onShowWindow(Window*)));
@@ -89,24 +89,11 @@ void UIFunctions::onValueChange(int id, QString value)
     }
 }
 
-void UIFunctions::onWindowClose(Window *window, bool *ret, bool *done)
+void UIFunctions::onWindowClose(Window *window)
 {
-    *ret = true;
-
-    if(window->onclose != "")
-    {
-        oncloseCallback_in in_args;
-        in_args.handle = window->proxy->getHandle();
-        oncloseCallback_out out_args;
-        if(oncloseCallback(window->proxy->getScriptID(), window->onclose.c_str(), &in_args, &out_args))
-        {
-            if(!out_args.accept)
-            {
-                *ret = false;
-            }
-        }
-    }
-
-    *done = true;
+    oncloseCallback_in in_args;
+    in_args.handle = window->proxy->getHandle();
+    oncloseCallback_out out_args;
+    oncloseCallback(window->proxy->getScriptID(), window->onclose.c_str(), &in_args, &out_args);
 }
 
