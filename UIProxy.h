@@ -45,6 +45,7 @@ signals:
     void valueChange(Widget *widget, int value);
     void valueChange(Widget *widget, QString value);
     void windowClose(Window *window);
+    void loadImageFromFile(Image *image, const char *filename, int w, int h);
 };
 
 #endif // UIPROXY_H_INCLUDED

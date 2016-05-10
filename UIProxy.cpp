@@ -127,7 +127,7 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
     QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, bpp * w, format));
-    delete[] data;
+    simReleaseBufferE((char *)data); // XXX: simReleaseBuffer should accept a const pointer
     QLabel *label = static_cast<QLabel*>(image->qwidget);
     label->setPixmap(pixmap);
     label->resize(pixmap.size());

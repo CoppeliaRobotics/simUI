@@ -321,7 +321,7 @@ void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setI
         throw std::runtime_error(ss.str());
     }
 
-    simChar *img = new simChar[sz];
+    simChar *img = simCreateBufferE(sz);
     std::memcpy(img, in->data.c_str(), sz);
     simInt resolution[2] = {in->width, in->height};
     simTransformImage((simUChar *)img, resolution, 4, NULL, NULL, NULL);

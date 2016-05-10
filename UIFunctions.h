@@ -30,6 +30,7 @@ private slots:
     void onValueChange(Widget *widget, int value);
     void onValueChange(Widget *widget, QString value);
     void onWindowClose(Window *window);
+    void onLoadImageFromFile(Image *image, const char *filename, int w, int h);
 
 signals:
     void create(Proxy *proxy);
