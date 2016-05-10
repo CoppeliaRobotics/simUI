@@ -6,6 +6,8 @@
 #include <QImage>
 #include <QLabel>
 
+#include "stubs.h"
+
 using namespace tinyxml2;
 
 UIProxy *UIProxy::instance = NULL;
@@ -122,7 +124,14 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
     std::cerr << "UIProxy->onSetImage(" << (void*)image << ", " << (void*)data << ", " << w << ", " << h << ")" << std::endl;
 #endif // DEBUG
 
-    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, 3*w, QImage::Format_RGB888));
+    QImage::Format format = QImage::Format_RGB888;
+    int bpp = 3; // bytes per pixel
+    simChar *img = simCreateBufferE(w * h * bpp);
+    std::memcpy(img, data, w * h * bpp);
+    simInt resolution[2] = {w, h};
+    simTransformImage((simUChar *)img, resolution, 4, NULL, NULL, NULL);
+    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)img, w, h, bpp * w, format));
+    simReleaseBufferE(img);
     QLabel *label = static_cast<QLabel*>(image->qwidget);
     label->setPixmap(pixmap);
     label->resize(pixmap.size());
