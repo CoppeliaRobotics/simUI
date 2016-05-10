@@ -310,6 +310,17 @@ void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setI
         ss << "invalid image widget id: " << in->id;
         throw std::runtime_error(ss.str());
     }
+
+    QImage::Format format = QImage::Format_RGB888;
+    int bpp = 3; // bytes per pixel
+    int sz = in->width * in->height * bpp;
+    if(in->data.size() != sz)
+    {
+        std::stringstream ss;
+        ss << "bad image size. expected: " << sz << ". got: " << in->data.size() << ".";
+        throw std::runtime_error(ss.str());
+    }
+
     UIFunctions::getInstance()->setImage(imageWidget, in->data.c_str(), in->width, in->height);
 }
 
