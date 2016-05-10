@@ -2,6 +2,7 @@
 #define LAYOUTWIDGET_H_INCLUDED
 
 #include <vector>
+#include <map>
 #include <string>
 
 #include <QWidget>
@@ -30,7 +31,7 @@ protected:
 public:
     Stretch();
 
-    void parse(tinyxml2::XMLElement *e);    
+    void parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);    
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class LayoutWidget;
@@ -45,7 +46,7 @@ protected:
 public:
     virtual ~LayoutWidget();
 
-    void parse(tinyxml2::XMLElement *e);    
+    void parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);    
     void createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 };
 

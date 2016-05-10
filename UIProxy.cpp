@@ -48,7 +48,7 @@ void UIProxy::onButtonClick()
         Widget *widget = Widget::byQWidget(qwidget);
         if(widget)
         {
-            emit buttonClick(widget->id);
+            emit buttonClick(widget);
         }
     }
 }
@@ -61,7 +61,7 @@ void UIProxy::onValueChange(int value)
         Widget *widget = Widget::byQWidget(qwidget);
         if(widget)
         {
-            emit valueChange(widget->id, value);
+            emit valueChange(widget, value);
         }
     }
 }
@@ -74,7 +74,7 @@ void UIProxy::onValueChange(QString value)
         Widget *widget = Widget::byQWidget(qwidget);
         if(widget)
         {
-            emit valueChange(widget->id, value);
+            emit valueChange(widget, value);
         }
     }
 }

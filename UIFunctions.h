@@ -26,9 +26,9 @@ private:
 public slots:
 
 private slots:
-    void onButtonClick(int id);
-    void onValueChange(int id, int value);
-    void onValueChange(int id, QString value);
+    void onButtonClick(Widget *widget);
+    void onValueChange(Widget *widget, int value);
+    void onValueChange(Widget *widget, QString value);
     void onWindowClose(Window *window);
 
 signals:

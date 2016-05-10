@@ -23,8 +23,6 @@ private:
     const std::string widgetClass;
 
 protected:
-    static int nextId;
-    static std::map<int, Widget *> widgets;
     static std::map<QWidget *, Widget *> widgetByQWidget;
 
     int id;
@@ -37,23 +35,19 @@ protected:
 public:
     virtual ~Widget();
 
-    virtual void parse(tinyxml2::XMLElement *e);
+    virtual void parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     virtual QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent) = 0;
 
     inline QWidget * getQWidget() {return qwidget;}
 
     template<typename T>
-    static T * parse1(tinyxml2::XMLElement *e);
-    static Widget * parseAny(tinyxml2::XMLElement *e);
+    static T * parse1(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
+    static Widget * parseAny(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
 
-    static Widget * byId(int id);
+    static Widget * byId(int handle, int id);
     static Widget * byQWidget(QWidget *w);
 
     std::string str();
-
-#ifdef DEBUG
-    static void dumpTables();
-#endif
 
     friend class UIFunctions;
     friend class UIProxy;
@@ -61,31 +55,25 @@ public:
 };
 
 template<typename T>
-T * Widget::parse1(tinyxml2::XMLElement *e)
+T * Widget::parse1(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     T *obj = new T;
     try
     {
-        obj->parse(e);
+        obj->parse(widgets, e);
 
         // object parsed successfully
         // now check if ID is duplicate:
-        std::map<int, Widget *>::const_iterator it = Widget::widgets.find(obj->id);
-        if(it == Widget::widgets.end())
+        if(widgets.find(obj->id) != widgets.end())
         {
-            Widget::widgets[obj->id] = obj;
-            return obj;
+            std::stringstream ss;
+            ss << "id must be unique (within ui scope). duplicate id: " << obj->id;
+            throw std::range_error(ss.str());
         }
         else
         {
-            std::stringstream ss;
-            ss << "duplicate widget id: " << obj->id;
-#ifdef DEBUG
-            std::cerr << ss.str() << std::endl;
-            Widget::dumpTables();
-#endif
-            delete obj;
-            throw std::range_error(ss.str());
+            widgets[obj->id] = obj;
+            return obj;
         }
     }
     catch(std::exception& ex)

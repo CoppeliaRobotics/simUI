@@ -30,7 +30,7 @@ public:
     Slider(std::string widgetClass);
     virtual ~Slider();
 
-    void parse(tinyxml2::XMLElement *e);
+    void parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class UIFunctions;

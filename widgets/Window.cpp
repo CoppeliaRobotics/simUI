@@ -38,7 +38,7 @@ Window::~Window()
 #endif
 }
 
-void Window::parse(tinyxml2::XMLElement *e)
+void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     std::string tag(e->Value());
     if(tag != "ui")
@@ -54,7 +54,7 @@ void Window::parse(tinyxml2::XMLElement *e)
 
     onclose = xmlutils::getAttrStr(e, "onclose", "");
 
-    LayoutWidget::parse(e);
+    LayoutWidget::parse(widgets, e);
 }
 
 #include <QCloseEvent>

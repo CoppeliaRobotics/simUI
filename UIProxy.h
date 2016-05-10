@@ -41,9 +41,9 @@ private slots:
     void onSceneChange(Window *window, int oldSceneID, int newSceneID);
 
 signals:
-    void buttonClick(int id);
-    void valueChange(int id, int value);
-    void valueChange(int id, QString value);
+    void buttonClick(Widget *widget);
+    void valueChange(Widget *widget, int value);
+    void valueChange(Widget *widget, QString value);
     void windowClose(Window *window);
 };
 

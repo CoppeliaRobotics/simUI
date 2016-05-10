@@ -61,6 +61,13 @@ Proxy* Proxy::byHandle(int handle)
     return ret;
 }
 
+Widget * Proxy::getWidgetById(int id)
+{
+    std::map<int, Widget*>::const_iterator it = widgets.find(id);
+    Widget *ret = it == widgets.end() ? NULL : it->second;
+    return ret;
+}
+
 void Proxy::createQtWidget(UIProxy *uiproxy)
 {
     // this should be executed in the UI thread

@@ -17,9 +17,9 @@ Combobox::~Combobox()
 {
 }
 
-void Combobox::parse(tinyxml2::XMLElement *e)
+void Combobox::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(e);
+    Widget::parse(widgets, e);
 
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {

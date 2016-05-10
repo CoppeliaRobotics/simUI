@@ -18,9 +18,9 @@ Slider::~Slider()
 {
 }
 
-void Slider::parse(tinyxml2::XMLElement *e)
+void Slider::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(e);
+    Widget::parse(widgets, e);
 
     minimum = xmlutils::getAttrInt(e, "minimum", 0);
 

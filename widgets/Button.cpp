@@ -15,9 +15,9 @@ Button::~Button()
 {
 }
 
-void Button::parse(tinyxml2::XMLElement *e)
+void Button::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(e);
+    Widget::parse(widgets, e);
 
     text = xmlutils::getAttrStr(e, "text", "???");
 

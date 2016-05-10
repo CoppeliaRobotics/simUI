@@ -61,7 +61,7 @@
                 <name>onclick</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the click event. Arguments of the function are: (id).</description>
+                <description>Name of a Lua function to handle the click event. Arguments of the function are: (uiHandle, id).</description>
             </attribute>
         </attributes>
     </element>
@@ -85,7 +85,7 @@
                 <name>onchange</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -97,7 +97,7 @@
                 <name>onchange</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -115,7 +115,7 @@
                 <name>onchange</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id).</description>
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id).</description>
             </attribute>
         </attributes>
     </element>
@@ -182,7 +182,7 @@
                 <name>onchange</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -254,7 +254,7 @@
                 <name>onclick</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the click event.  Arguments of the function are: (id).</description>
+                <description>Name of a Lua function to handle the click event.  Arguments of the function are: (uiHandle, id).</description>
             </attribute>
         </attributes>
     </element>
@@ -296,7 +296,7 @@
                 <name>onchange</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -372,7 +372,7 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <name>onchange</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (id, newValue).</description>
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>

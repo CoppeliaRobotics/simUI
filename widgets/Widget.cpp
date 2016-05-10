@@ -17,12 +17,12 @@
 
 #include "UIProxy.h"
 
-int Widget::nextId = -1;
-std::map<int, Widget *> Widget::widgets;
 std::map<QWidget *, Widget *> Widget::widgetByQWidget;
 
 Widget::Widget(std::string widgetClass_)
-    : qwidget(NULL), widgetClass(widgetClass_)
+    : qwidget(NULL),
+      widgetClass(widgetClass_),
+      proxy(NULL)
 {
     // don't do this here because id is set by user:
     // Widget::widgets[id] = this;
@@ -47,7 +47,10 @@ Widget::~Widget()
         Widget::widgetByQWidget.erase(qwidget);
     }
 
-    Widget::widgets.erase(id);
+    if(proxy)
+    {
+        proxy->widgets.erase(id);
+    }
 }
 
 void Widget::setQWidget(QWidget *qwidget_)
@@ -62,13 +65,14 @@ void Widget::setQWidget(QWidget *qwidget_)
 void Widget::setProxy(Proxy *proxy_)
 {
     proxy = proxy_;
+    proxy->widgets[id] = this;
 }
 
-Widget * Widget::byId(int id)
+Widget * Widget::byId(int handle, int id)
 {
-    std::map<int, Widget*>::const_iterator it = Widget::widgets.find(id);
-    Widget *ret = it == Widget::widgets.end() ? NULL : it->second;
-    return ret;
+    Proxy *proxy = Proxy::byHandle(handle);
+    if(!proxy) return NULL;
+    return proxy->getWidgetById(id);
 }
 
 Widget * Widget::byQWidget(QWidget *w)
@@ -78,49 +82,29 @@ Widget * Widget::byQWidget(QWidget *w)
     return ret;
 }
 
-#ifdef DEBUG
-void Widget::dumpTables()
-{
-    std::cerr << "Widget::dumpTables() - begin dump of widgets:" << std::endl;
-    for(std::map<int, Widget *>::const_iterator it = Widget::widgets.begin(); it != Widget::widgets.end(); ++it)
-    {
-        std::cerr << "  " << it->first << ": " << it->second->str() << std::endl;
-    }
-    std::cerr << "Widget::dumpTables() - end dump of widgets:" << std::endl;
-
-    std::cerr << "Widget::dumpTables() - begin dump of widgetByQWidget:" << std::endl;
-    for(std::map<QWidget *, Widget *>::const_iterator it = Widget::widgetByQWidget.begin(); it != Widget::widgetByQWidget.end(); ++it)
-    {
-        std::cerr << "  " << it->first << ": " << it->second->str() << std::endl;
-    }
-
-    std::cerr << "Widget::dumpTables() - end dump of widgetByQWidget:" << std::endl;
-}
-#endif
-
-Widget * Widget::parseAny(tinyxml2::XMLElement *e)
+Widget * Widget::parseAny(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     std::string tag(e->Value());
-    if(tag == "button") return parse1<Button>(e);
-    if(tag == "edit") return parse1<Edit>(e);
-    if(tag == "hslider") return parse1<HSlider>(e);
-    if(tag == "vslider") return parse1<VSlider>(e);
-    if(tag == "label") return parse1<Label>(e);
-    if(tag == "checkbox") return parse1<Checkbox>(e);
-    if(tag == "radiobutton") return parse1<Radiobutton>(e);
-    if(tag == "spinbox") return parse1<Spinbox>(e);
-    if(tag == "combobox") return parse1<Combobox>(e);
-    if(tag == "group") return parse1<Group>(e);
-    if(tag == "tabs") return parse1<Tabs>(e);
-    if(tag == "stretch") return parse1<Stretch>(e);
-    if(tag == "image") return parse1<Image>(e);
+    if(tag == "button") return parse1<Button>(widgets, e);
+    if(tag == "edit") return parse1<Edit>(widgets, e);
+    if(tag == "hslider") return parse1<HSlider>(widgets, e);
+    if(tag == "vslider") return parse1<VSlider>(widgets, e);
+    if(tag == "label") return parse1<Label>(widgets, e);
+    if(tag == "checkbox") return parse1<Checkbox>(widgets, e);
+    if(tag == "radiobutton") return parse1<Radiobutton>(widgets, e);
+    if(tag == "spinbox") return parse1<Spinbox>(widgets, e);
+    if(tag == "combobox") return parse1<Combobox>(widgets, e);
+    if(tag == "group") return parse1<Group>(widgets, e);
+    if(tag == "tabs") return parse1<Tabs>(widgets, e);
+    if(tag == "stretch") return parse1<Stretch>(widgets, e);
+    if(tag == "image") return parse1<Image>(widgets, e);
 
     std::stringstream ss;
     ss << "invalid element <" << tag << ">";
     throw std::range_error(ss.str());
 }
 
-void Widget::parse(tinyxml2::XMLElement *e)
+void Widget::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     if(e->Attribute("id"))
     {
@@ -135,6 +119,7 @@ void Widget::parse(tinyxml2::XMLElement *e)
     {
         // automatically assigned IDs are negative, so we can distinguish them
         // in diagnostics
+        static int nextId = -1;
         id = nextId--;
     }
 

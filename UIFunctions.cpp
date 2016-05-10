@@ -16,9 +16,9 @@ UIFunctions::UIFunctions(QObject *parent)
 {
     UIProxy *uiproxy = UIProxy::getInstance();
     connect(this, SIGNAL(create(Proxy*)), uiproxy, SLOT(onCreate(Proxy*)));
-    connect(uiproxy, SIGNAL(buttonClick(int)), this, SLOT(onButtonClick(int)));
-    connect(uiproxy, SIGNAL(valueChange(int,int)), this, SLOT(onValueChange(int,int)));
-    connect(uiproxy, SIGNAL(valueChange(int,QString)), this, SLOT(onValueChange(int,QString)));
+    connect(uiproxy, SIGNAL(buttonClick(Widget*)), this, SLOT(onButtonClick(Widget*)));
+    connect(uiproxy, SIGNAL(valueChange(Widget*,int)), this, SLOT(onValueChange(Widget*,int)));
+    connect(uiproxy, SIGNAL(valueChange(Widget*,QString)), this, SLOT(onValueChange(Widget*,QString)));
     connect(uiproxy, SIGNAL(windowClose(Window*)), this, SLOT(onWindowClose(Window*)));
     connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)));
     connect(this, SIGNAL(destroyUi(Window*)), uiproxy, SLOT(onDestroyUi(Window*)));
@@ -46,44 +46,41 @@ void UIFunctions::destroyInstance()
         delete UIFunctions::instance;
 }
 
-void UIFunctions::onButtonClick(int id)
+void UIFunctions::onButtonClick(Widget *widget)
 {
-    Widget *widget = Widget::byId(id);
-    if(!widget) return;
     EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
     if(e && e->onclick != "" && widget->proxy->scriptID != -1)
     {
         onclickCallback_in in_args;
-        in_args.id = id;
+        in_args.handle = widget->proxy->handle;
+        in_args.id = widget->id;
         onclickCallback_out out_args;
         onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in_args, &out_args);
     }
 }
 
-void UIFunctions::onValueChange(int id, int value)
+void UIFunctions::onValueChange(Widget *widget, int value)
 {
-    Widget *widget = Widget::byId(id);
-    if(!widget) return;
     EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
     if(e && e->onchange != "" && widget->proxy->scriptID != -1)
     {
         onchangeIntCallback_in in_args;
-        in_args.id = id;
+        in_args.handle = widget->proxy->handle;
+        in_args.id = widget->id;
         in_args.value = value;
         onchangeIntCallback_out out_args;
         onchangeIntCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
     }
 }
 
-void UIFunctions::onValueChange(int id, QString value)
+void UIFunctions::onValueChange(Widget *widget, QString value)
 {
-    Widget *widget = Widget::byId(id);
-    if(!widget) return;
     EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
     if(e && e->onchange != "" && widget->proxy->scriptID != -1)
     {
         onchangeStringCallback_in in_args;
-        in_args.id = id;
+        in_args.handle = widget->proxy->handle;
+        in_args.id = widget->id;
         in_args.value = value.toStdString();
         onchangeStringCallback_out out_args;
         onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);

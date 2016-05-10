@@ -15,9 +15,9 @@ Label::~Label()
 {
 }
 
-void Label::parse(tinyxml2::XMLElement *e)
+void Label::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(e);
+    Widget::parse(widgets, e);
 
     text = xmlutils::getAttrStr(e, "text", "");
 

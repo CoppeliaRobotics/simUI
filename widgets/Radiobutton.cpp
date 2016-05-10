@@ -15,9 +15,9 @@ Radiobutton::~Radiobutton()
 {
 }
 
-void Radiobutton::parse(tinyxml2::XMLElement *e)
+void Radiobutton::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(e);
+    Widget::parse(widgets, e);
 
     text = xmlutils::getAttrStr(e, "text", "???");
 

@@ -15,9 +15,9 @@ Checkbox::~Checkbox()
 {
 }
 
-void Checkbox::parse(tinyxml2::XMLElement *e)
+void Checkbox::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(e);
+    Widget::parse(widgets, e);
 
     text = xmlutils::getAttrStr(e, "text", "???");
 

@@ -2,6 +2,7 @@
 #define WINDOW_H_INCLUDED
 
 #include <vector>
+#include <map>
 #include <string>
 
 #include <QWidget>
@@ -35,7 +36,7 @@ public:
     Window();
     virtual ~Window();
 
-    virtual void parse(tinyxml2::XMLElement *e);
+    virtual void parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     std::string str();

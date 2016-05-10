@@ -35,6 +35,9 @@
     <command name="getSliderValue">
         <description>Get the value of a slider widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -48,6 +51,9 @@
     <command name="setSliderValue">
         <description>Set the value of a slider widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -61,6 +67,9 @@
     <command name="getEditValue">
         <description>Get the value of a edit widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -74,6 +83,9 @@
     <command name="setEditValue">
         <description>Set the value of a edit widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -87,6 +99,9 @@
     <command name="getCheckboxValue">
         <description>Get the value of a checkbox widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -100,6 +115,9 @@
     <command name="setCheckboxValue">
         <description>Set the value of a checkbox widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -113,6 +131,9 @@
     <command name="getRadiobuttonValue">
         <description>Get the value of a radiobutton widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -126,6 +147,9 @@
     <command name="setRadiobuttonValue">
         <description>Set the value of a radiobutton widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -139,6 +163,9 @@
     <command name="getLabelText">
         <description>Get the text of a label widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -152,6 +179,9 @@
     <command name="setLabelText">
         <description>Set the text of a label widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -165,6 +195,9 @@
     <command name="insertComboboxItem">
         <description>Insert an item in a combobox widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -181,6 +214,9 @@
     <command name="removeComboboxItem">
         <description>Remove an item from a combobox widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -194,6 +230,9 @@
     <command name="getComboboxItemCount">
         <description>Get the number of items in the specified combobox widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -207,6 +246,9 @@
     <command name="getComboboxItemText">
         <description>Get the text of an item in a combobox widget.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
@@ -256,6 +298,9 @@
     <command name="setImageData">
         <description>Set image content using specified bitmap (RGB888) data.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>id of a image widget</description>
             </param>
@@ -286,6 +331,9 @@
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>the ID of the clicked button</description>
             </param>
@@ -296,6 +344,9 @@
     <script-function name="onchangeIntCallback">
         <description>Callback for widget change event.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>the ID of the widget</description>
             </param>
@@ -309,6 +360,9 @@
     <script-function name="onchangeStringCallback">
         <description>Callback for widget change event.</description>
         <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
             <param name="id" type="int">
                 <description>the ID of the widget</description>
             </param>

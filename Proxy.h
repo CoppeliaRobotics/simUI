@@ -23,6 +23,8 @@ public:
     inline int getHandle() {return handle;}
     static Proxy* byHandle(int handle);
 
+    Widget * getWidgetById(int id);
+
     void createQtWidget(UIProxy *uiproxy);
 
     inline Window * getWidget() {return ui;}
@@ -38,6 +40,8 @@ private:
     int handle;
 
     static std::map<int, Proxy *> proxies; // handle -> Proxy
+
+    std::map<int, Widget *> widgets; // widgetId -> Widget
 
     static int nextProxyHandle;
 
@@ -55,6 +59,7 @@ private:
 
     friend class UIFunctions;
     friend class UIProxy;
+    friend class Widget;
 };
 
 #endif // PROXY_H_INCLUDED

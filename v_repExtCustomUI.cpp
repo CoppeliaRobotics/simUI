@@ -93,10 +93,11 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
     }
 
     tinyxml2::XMLElement *rootElement = xmldoc.FirstChildElement();
+    std::map<int, Widget*> widgets;
     Window *window = new Window;
     try
     {
-        window->parse(rootElement);
+        window->parse(widgets, rootElement);
     }
     catch(std::exception& ex)
     {
@@ -142,9 +143,9 @@ void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *o
 }
 
 template<typename T>
-T* getWidget(int id, const char *cmd, const char *widget_type_name)
+T* getWidget(int handle, int id, const char *cmd, const char *widget_type_name)
 {
-    Widget *widget = Widget::byId(id);
+    Widget *widget = Widget::byId(handle, id);
     if(!widget)
     {
         std::stringstream ss;
@@ -165,31 +166,31 @@ T* getWidget(int id, const char *cmd, const char *widget_type_name)
 
 void getSliderValue(SScriptCallBack *p, const char *cmd, getSliderValue_in *in, getSliderValue_out *out)
 {
-    QSlider *slider = getWidget<QSlider>(in->id, cmd, "slider");
+    QSlider *slider = getWidget<QSlider>(in->handle, in->id, cmd, "slider");
     out->value = slider->value();
 }
 
 void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, setSliderValue_out *out)
 {
-    QSlider *slider = getWidget<QSlider>(in->id, cmd, "slider");
+    QSlider *slider = getWidget<QSlider>(in->handle, in->id, cmd, "slider");
     slider->setValue(in->value);
 }
 
 void getEditValue(SScriptCallBack *p, const char *cmd, getEditValue_in *in, getEditValue_out *out)
 {
-    QLineEdit *edit = getWidget<QLineEdit>(in->id, cmd, "edit");
+    QLineEdit *edit = getWidget<QLineEdit>(in->handle, in->id, cmd, "edit");
     out->value = edit->text().toStdString();
 }
 
 void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setEditValue_out *out)
 {
-    QLineEdit *edit = getWidget<QLineEdit>(in->id, cmd, "edit");
+    QLineEdit *edit = getWidget<QLineEdit>(in->handle, in->id, cmd, "edit");
     edit->setText(QString::fromStdString(in->value));
 }
 
 void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *in, getCheckboxValue_out *out)
 {
-    QCheckBox *checkbox = getWidget<QCheckBox>(in->id, cmd, "checkbox");
+    QCheckBox *checkbox = getWidget<QCheckBox>(in->handle, in->id, cmd, "checkbox");
     switch(checkbox->checkState())
     {
     case Qt::Unchecked: out->value = 0; break;
@@ -201,7 +202,7 @@ void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *
 
 void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *in, setCheckboxValue_out *out)
 {
-    QCheckBox *checkbox = getWidget<QCheckBox>(in->id, cmd, "checkbox");
+    QCheckBox *checkbox = getWidget<QCheckBox>(in->handle, in->id, cmd, "checkbox");
     switch(in->value)
     {
     case 0: checkbox->setCheckState(Qt::Unchecked); break;
@@ -213,13 +214,13 @@ void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *
 
 void getRadiobuttonValue(SScriptCallBack *p, const char *cmd, getRadiobuttonValue_in *in, getRadiobuttonValue_out *out)
 {
-    QRadioButton *radiobutton = getWidget<QRadioButton>(in->id, cmd, "radiobutton");
+    QRadioButton *radiobutton = getWidget<QRadioButton>(in->handle, in->id, cmd, "radiobutton");
     out->value = radiobutton->isChecked() ? 1 : 0;
 }
 
 void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValue_in *in, setRadiobuttonValue_out *out)
 {
-    QRadioButton *radiobutton = getWidget<QRadioButton>(in->id, cmd, "radiobutton");
+    QRadioButton *radiobutton = getWidget<QRadioButton>(in->handle, in->id, cmd, "radiobutton");
     switch(in->value)
     {
     case 0: radiobutton->setChecked(false); break;
@@ -230,37 +231,37 @@ void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValu
 
 void getLabelText(SScriptCallBack *p, const char *cmd, getLabelText_in *in, getLabelText_out *out)
 {
-    QLabel *label = getWidget<QLabel>(in->id, cmd, "label");
+    QLabel *label = getWidget<QLabel>(in->handle, in->id, cmd, "label");
     out->text = label->text().toStdString();
 }
 
 void setLabelText(SScriptCallBack *p, const char *cmd, setLabelText_in *in, setLabelText_out *out)
 {
-    QLabel *label = getWidget<QLabel>(in->id, cmd, "label");
+    QLabel *label = getWidget<QLabel>(in->handle, in->id, cmd, "label");
     label->setText(QString::fromStdString(in->text));
 }
 
 void insertComboboxItem(SScriptCallBack *p, const char *cmd, insertComboboxItem_in *in, insertComboboxItem_out *out)
 {
-    QComboBox *combobox = getWidget<QComboBox>(in->id, cmd, "combobox");
+    QComboBox *combobox = getWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
     combobox->insertItem(in->index, QString::fromStdString(in->text));
 }
 
 void removeComboboxItem(SScriptCallBack *p, const char *cmd, removeComboboxItem_in *in, removeComboboxItem_out *out)
 {
-    QComboBox *combobox = getWidget<QComboBox>(in->id, cmd, "combobox");
+    QComboBox *combobox = getWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
     combobox->removeItem(in->index);
 }
 
 void getComboboxItemCount(SScriptCallBack *p, const char *cmd, getComboboxItemCount_in *in, getComboboxItemCount_out *out)
 {
-    QComboBox *combobox = getWidget<QComboBox>(in->id, cmd, "combobox");
+    QComboBox *combobox = getWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
     out->count = combobox->count();
 }
 
 void getComboboxItemText(SScriptCallBack *p, const char *cmd, getComboboxItemText_in *in, getComboboxItemText_out *out)
 {
-    QComboBox *combobox = getWidget<QComboBox>(in->id, cmd, "combobox");
+    QComboBox *combobox = getWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
     out->text = combobox->itemText(in->index).toStdString();
 }
 
@@ -302,7 +303,7 @@ void isVisible(SScriptCallBack *p, const char *cmd, isVisible_in *in, isVisible_
 
 void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setImageData_out *out)
 {
-    Image *imageWidget = dynamic_cast<Image*>(Widget::byId(in->id));
+    Image *imageWidget = dynamic_cast<Image*>(Widget::byId(in->handle, in->id));
     if(!imageWidget)
     {
         std::stringstream ss;
