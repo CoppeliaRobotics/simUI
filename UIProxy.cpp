@@ -79,6 +79,10 @@ void UIProxy::onValueChange(QString value)
 
 void UIProxy::onDestroy(Proxy *proxy)
 {
+#ifdef DEBUG
+    std::cerr << "UIProxy->onDestroy(" << (void*)proxy << ")" << std::endl;
+#endif // DEBUG
+
     proxy->ui->onclose = ""; // XXX: crash when destroying Window if there is an onclose handler
     proxy->ui->qwidget->close();
     delete proxy;
@@ -86,22 +90,38 @@ void UIProxy::onDestroy(Proxy *proxy)
 
 void UIProxy::onDestroyUi(Window *window)
 {
+#ifdef DEBUG
+    std::cerr << "UIProxy->onDestroyUi(" << (void*)window << ")" << std::endl;
+#endif // DEBUG
+
     window->onclose = ""; // XXX: crash when destroying Window if there is an onclose handler
     delete window;
 }
 
 void UIProxy::onShowWindow(Window *window)
 {
+#ifdef DEBUG
+    std::cerr << "UIProxy->onShowWindow(" << (void*)window << ")" << std::endl;
+#endif // DEBUG
+
     window->show();
 }
 
 void UIProxy::onHideWindow(Window *window)
 {
+#ifdef DEBUG
+    std::cerr << "UIProxy->onHideWindow(" << (void*)window << ")" << std::endl;
+#endif // DEBUG
+
     window->hide();
 }
 
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
+#ifdef DEBUG
+    std::cerr << "UIProxy->onSetImage(" << (void*)image << ", " << (void*)data << ", " << w << ", " << h << ")" << std::endl;
+#endif // DEBUG
+
     QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, QImage::Format_RGB888));
     QLabel *label = static_cast<QLabel*>(image->qwidget);
     label->setPixmap(pixmap);
