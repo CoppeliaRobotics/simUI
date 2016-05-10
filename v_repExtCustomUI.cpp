@@ -119,7 +119,7 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 #ifdef DEBUG
     std::cerr << "Proxy created in sceneID " << sceneID << std::endl;
 #endif // DEBUG
-    Proxy *proxy = new Proxy(destroy, sceneID, p->scriptID, window);
+    Proxy *proxy = new Proxy(destroy, sceneID, p->scriptID, window, widgets);
     UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
                             // will run code for creating Qt widgets in the UI thread
     out->uiHandle = proxy->getHandle();

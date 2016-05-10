@@ -14,7 +14,7 @@ class UIProxy;
 class Proxy
 {
 public:
-    Proxy(bool destroyAfterSimulationStop, int sceneID, int scriptID, Window *ui);
+    Proxy(bool destroyAfterSimulationStop, int sceneID, int scriptID, Window *ui, std::map<int, Widget*>& widgets);
     virtual ~Proxy();
 
     static void destroyTransientObjects();

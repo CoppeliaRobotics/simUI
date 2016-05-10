@@ -11,12 +11,13 @@
 int Proxy::nextProxyHandle = 1000;
 std::map<int, Proxy *> Proxy::proxies;
 
-Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *ui_)
+Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *ui_, std::map<int, Widget*>& widgets_)
     : handle(nextProxyHandle++),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
       sceneID(sceneID_),
       scriptID(scriptID_),
-      ui(ui_)
+      ui(ui_),
+      widgets(widgets_)
 {
 #ifdef DEBUG
     std::cerr << "Proxy::Proxy() - Proxy::proxies[" << handle << "] = " << this << std::endl;
