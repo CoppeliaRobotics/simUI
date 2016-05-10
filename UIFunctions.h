@@ -1,5 +1,5 @@
-#ifndef MYOBJECT_H_INCLUDED
-#define MYOBJECT_H_INCLUDED
+#ifndef UIFUNCTIONS_H_INCLUDED
+#define UIFUNCTIONS_H_INCLUDED
 
 #include <QObject>
 #include <QString>
@@ -41,5 +41,5 @@ signals:
     void sceneChange(Window *window, int oldSceneID, int newSceneID);
 };
 
-#endif // MYOBJECT_H_INCLUDED
+#endif // UIFUNCTIONS_H_INCLUDED
 
