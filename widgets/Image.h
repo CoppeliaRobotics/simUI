@@ -16,6 +16,9 @@ class UIProxy;
 class Image : public Widget
 {
 protected:
+    int width;
+    int height;
+    std::string file;
 
 public:
     Image();
