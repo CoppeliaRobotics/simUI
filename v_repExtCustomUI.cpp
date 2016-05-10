@@ -321,7 +321,12 @@ void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setI
         throw std::runtime_error(ss.str());
     }
 
-    UIFunctions::getInstance()->setImage(imageWidget, in->data.c_str(), in->width, in->height);
+    simChar *img = new simChar[sz];
+    std::memcpy(img, in->data.c_str(), sz);
+    simInt resolution[2] = {in->width, in->height};
+    simTransformImage((simUChar *)img, resolution, 4, NULL, NULL, NULL);
+
+    UIFunctions::getInstance()->setImage(imageWidget, img, in->width, in->height);
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)

@@ -126,12 +126,8 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
-    simChar *img = simCreateBufferE(w * h * bpp);
-    std::memcpy(img, data, w * h * bpp);
-    simInt resolution[2] = {w, h};
-    simTransformImage((simUChar *)img, resolution, 4, NULL, NULL, NULL);
-    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)img, w, h, bpp * w, format));
-    simReleaseBufferE(img);
+    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, bpp * w, format));
+    delete[] data;
     QLabel *label = static_cast<QLabel*>(image->qwidget);
     label->setPixmap(pixmap);
     label->resize(pixmap.size());
