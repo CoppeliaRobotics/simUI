@@ -193,6 +193,24 @@
             <element>label</element>
         </see-also>
         <attributes>
+            <attribute>
+                <name>file</name>
+                <type>string</type>
+                <default></default>
+                <description>Display the image from the specified file.</description>
+            </attribute>
+            <attribute>
+                <name>width</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Desired width for the initial image.</description>
+            </attribute>
+            <attribute>
+                <name>height</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Desired height for the initial image.</description>
+            </attribute>
         </attributes>
     </element>
     <element>
