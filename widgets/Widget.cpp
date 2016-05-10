@@ -68,11 +68,6 @@ Widget * Widget::byId(int id)
 {
     std::map<int, Widget*>::const_iterator it = Widget::widgets.find(id);
     Widget *ret = it == Widget::widgets.end() ? NULL : it->second;
-
-#ifdef DEBUG
-    std::cerr << "Widget::byId(" << id << ") -> " << ret->str() << std::endl;
-#endif
-
     return ret;
 }
 
@@ -80,11 +75,6 @@ Widget * Widget::byQWidget(QWidget *w)
 {
     std::map<QWidget*, Widget*>::const_iterator it = Widget::widgetByQWidget.find(w);
     Widget *ret = it == Widget::widgetByQWidget.end() ? NULL : it->second;
-
-#ifdef DEBUG
-    std::cerr << "Widget::byQWidget(" << w << ") -> " << ret->str() << std::endl;
-#endif
-
     return ret;
 }
 
