@@ -59,6 +59,20 @@ void Window::parse(tinyxml2::XMLElement *e)
 
 #include <QCloseEvent>
 
+#ifdef WIN_VREP
+#include <windows.h>
+static void sleep_ms(unsigned int ms)
+{
+    Sleep(ms);
+}
+#else
+#include <unistd.h>
+static void sleep_ms(unsigned int ms)
+{
+    usleep(1000 * ms);
+}
+#endif
+
 class QDialog2 : public QDialog
 {
 protected:
@@ -73,25 +87,28 @@ public:
 
     virtual void closeEvent(QCloseEvent * event)
     {
-        if(window->onclose != "")
+        bool ret = true, done = false;
+        UIProxy::getInstance()->windowClose(window, &ret, &done);
+
+        // XXX: busy wait on 'done', with a timeout in case of deadlock
+        simUInt waitStart = simGetSystemTimeInMs(-1);
+        while(!done)
         {
-            oncloseCallback_in in_args;
-            in_args.handle = window->proxy->getHandle();
-            oncloseCallback_out out_args;
-            if(oncloseCallback(window->proxy->getScriptID(), window->onclose.c_str(), &in_args, &out_args))
+            sleep_ms(10);
+            simUInt elapsed = simGetSystemTimeInMs(waitStart);
+            if(elapsed > 1000)
             {
-                if(!out_args.accept)
-                {
-                    event->ignore();
-                    return;
-                }
-            }
-            else
-            {
-                // callback error
+                std::cerr << "WARNING: closeEvent response timed out!" << std::endl;
+                ret = true;
+                break;
             }
         }
-        event->accept();
+        //
+
+        if(ret)
+            event->accept();
+        else
+            event->ignore();
     }
 };
 

@@ -48,6 +48,7 @@ public:
     void onSceneChange(int oldSceneID, int newSceneID);
 
     friend class UIProxy;
+    friend class UIFunctions;
     friend class QDialog2;
 };
 
