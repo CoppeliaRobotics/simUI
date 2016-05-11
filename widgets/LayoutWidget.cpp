@@ -31,7 +31,7 @@ void Stretch::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
 QWidget * Stretch::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    throw std::runtime_error("Stretch be used only in VBox/HBox layouts");
+    throw std::runtime_error("Stretch can be used only in VBox/HBox layouts");
 }
 
 LayoutWidget::~LayoutWidget()

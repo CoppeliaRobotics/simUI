@@ -401,7 +401,7 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
     void* retVal=NULL;
 
     static bool firstInstancePass = true;
-    if(message == sim_message_eventcallback_instancepass && firstInstancePass)
+    if(firstInstancePass && message == sim_message_eventcallback_instancepass)
     {
         firstInstancePass = false;
         UIFunctions::getInstance(); // construct UIFunctions here (SIM thread)
