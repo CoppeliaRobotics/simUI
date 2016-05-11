@@ -48,6 +48,8 @@ public:
 
     void parse(Widget *self, Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);    
     void createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+
+    friend class Stretch;
 };
 
 #endif // LAYOUTWIDGET_H_INCLUDED

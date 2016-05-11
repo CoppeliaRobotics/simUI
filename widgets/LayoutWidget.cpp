@@ -3,6 +3,7 @@
 #include "XMLUtils.h"
 
 #include "Widget.h"
+#include "Window.h"
 
 #include "UIProxy.h"
 
@@ -25,13 +26,19 @@ Stretch::Stretch()
 void Stretch::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     Widget::parse(parent, widgets, e);
+
+    LayoutWidget *layoutWidget = dynamic_cast<LayoutWidget*>(parent);
+    if(!layoutWidget || !(layoutWidget->layout == VBOX || layoutWidget->layout == HBOX))
+    {
+        throw std::runtime_error("stretch must be placed in a widget with layout");
+    }
     
     factor = xmlutils::getAttrInt(e, "factor", 0);
 }
 
 QWidget * Stretch::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    throw std::runtime_error("Stretch can be used only in VBox/HBox layouts");
+    throw std::runtime_error("stretch can be used only in VBox/HBox layouts");
 }
 
 LayoutWidget::~LayoutWidget()
