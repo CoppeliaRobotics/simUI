@@ -13,19 +13,15 @@
 
 #include <QDialog>
 
-class WindowWidget : public Widget
+WindowWidget::WindowWidget()
+    : Widget("window")
 {
-    WindowWidget() : Widget("window")
-    {
-    }
+}
 
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
-    {
-        throw std::runtime_error("WindowWidget cannot be used");
-    }
-
-    friend class Window;
-};
+QWidget * WindowWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+{
+    throw std::runtime_error("WindowWidget cannot be used");
+}
 
 Window::Window()
     : qwidget(NULL),

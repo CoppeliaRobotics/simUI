@@ -14,6 +14,14 @@ class UIProxy;
 
 #include "LayoutWidget.h"
 
+class WindowWidget : public Widget
+{
+    WindowWidget();
+    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+
+    friend class Window;
+};
+
 class Window : public LayoutWidget
 {
 protected:
