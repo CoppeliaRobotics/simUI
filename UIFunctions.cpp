@@ -37,7 +37,12 @@ UIFunctions::~UIFunctions()
 UIFunctions * UIFunctions::getInstance(QObject *parent)
 {
     if(!UIFunctions::instance)
+    {
         UIFunctions::instance = new UIFunctions(parent);
+#ifdef DEBUG
+        std::cerr << "UIFunctions constructed in thread " << QThread::currentThreadId() << std::endl;
+#endif // DEBUG
+    }
     return UIFunctions::instance;
 }
 

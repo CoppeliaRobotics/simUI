@@ -1,6 +1,7 @@
 #include "UIProxy.h"
 #include "widgets/Widget.h"
 
+#include <QThread>
 #include <QWidget>
 #include <QPixmap>
 #include <QImage>
@@ -25,7 +26,12 @@ UIProxy::~UIProxy()
 UIProxy * UIProxy::getInstance(QObject *parent)
 {
     if(!UIProxy::instance)
+    {
         UIProxy::instance = new UIProxy(parent);
+#ifdef DEBUG
+        std::cerr << "UIProxy constructed in thread " << QThread::currentThreadId() << std::endl;
+#endif // DEBUG
+    }
     return UIProxy::instance;
 }
 
