@@ -17,9 +17,9 @@ Image::~Image()
 {
 }
 
-void Image::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void Image::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(widgets, e);
+    Widget::parse(parent, widgets, e);
 
     width = xmlutils::getAttrInt(e, "width", -1);
 

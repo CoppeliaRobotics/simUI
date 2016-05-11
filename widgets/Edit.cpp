@@ -15,9 +15,9 @@ Edit::~Edit()
 {
 }
 
-void Edit::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void Edit::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(widgets, e);
+    Widget::parse(parent, widgets, e);
 
     value = xmlutils::getAttrStr(e, "value", "");
 

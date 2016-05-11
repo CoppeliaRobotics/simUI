@@ -13,6 +13,20 @@
 
 #include <QDialog>
 
+class WindowWidget : public Widget
+{
+    WindowWidget() : Widget("window")
+    {
+    }
+
+    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+    {
+        throw std::runtime_error("WindowWidget cannot be used");
+    }
+
+    friend class Window;
+};
+
 Window::Window()
     : qwidget(NULL),
       qwidget_geometry_saved(false),
@@ -49,7 +63,8 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     onclose = xmlutils::getAttrStr(e, "onclose", "");
 
-    LayoutWidget::parse(widgets, e);
+    WindowWidget dummyWidget;
+    LayoutWidget::parse(&dummyWidget, &dummyWidget, widgets, e);
 }
 
 #include <QCloseEvent>

@@ -15,13 +15,13 @@ Group::~Group()
 {
 }
 
-void Group::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void Group::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(widgets, e);
+    Widget::parse(parent, widgets, e);
 
     flat = xmlutils::getAttrBool(e, "flat", false);
 
-    LayoutWidget::parse(widgets, e);
+    LayoutWidget::parse(this, parent, widgets, e);
 }
 
 QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

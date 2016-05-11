@@ -15,9 +15,9 @@ Spinbox::~Spinbox()
 {
 }
 
-void Spinbox::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void Spinbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(widgets, e);
+    Widget::parse(parent, widgets, e);
 
     minimum = xmlutils::getAttrInt(e, "minimum", 0);
 

@@ -24,7 +24,7 @@ public:
     Image();
     virtual ~Image();
     
-    void parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
+    void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class UIFunctions;

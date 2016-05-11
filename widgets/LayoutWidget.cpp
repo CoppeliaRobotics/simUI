@@ -22,9 +22,9 @@ Stretch::Stretch()
 {
 }
 
-void Stretch::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void Stretch::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(widgets, e);
+    Widget::parse(parent, widgets, e);
     
     factor = xmlutils::getAttrInt(e, "factor", 0);
 }
@@ -49,7 +49,7 @@ LayoutWidget::~LayoutWidget()
     }
 }
 
-void LayoutWidget::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void LayoutWidget::parse(Widget *self, Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     std::string layoutStr = xmlutils::getAttrStr(e, "layout", "vbox");
     if(layoutStr == "vbox") layout = VBOX;
@@ -77,7 +77,7 @@ void LayoutWidget::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *
 
         try
         {
-            Widget *w = Widget::parseAny(widgets, e1);
+            Widget *w = Widget::parseAny(self, widgets, e1);
             row.push_back(w);
         }
         catch(std::exception& ex)

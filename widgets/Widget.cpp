@@ -82,29 +82,29 @@ Widget * Widget::byQWidget(QWidget *w)
     return ret;
 }
 
-Widget * Widget::parseAny(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     std::string tag(e->Value());
-    if(tag == "button") return parse1<Button>(widgets, e);
-    if(tag == "edit") return parse1<Edit>(widgets, e);
-    if(tag == "hslider") return parse1<HSlider>(widgets, e);
-    if(tag == "vslider") return parse1<VSlider>(widgets, e);
-    if(tag == "label") return parse1<Label>(widgets, e);
-    if(tag == "checkbox") return parse1<Checkbox>(widgets, e);
-    if(tag == "radiobutton") return parse1<Radiobutton>(widgets, e);
-    if(tag == "spinbox") return parse1<Spinbox>(widgets, e);
-    if(tag == "combobox") return parse1<Combobox>(widgets, e);
-    if(tag == "group") return parse1<Group>(widgets, e);
-    if(tag == "tabs") return parse1<Tabs>(widgets, e);
-    if(tag == "stretch") return parse1<Stretch>(widgets, e);
-    if(tag == "image") return parse1<Image>(widgets, e);
+    if(tag == "button") return parse1<Button>(parent, widgets, e);
+    if(tag == "edit") return parse1<Edit>(parent, widgets, e);
+    if(tag == "hslider") return parse1<HSlider>(parent, widgets, e);
+    if(tag == "vslider") return parse1<VSlider>(parent, widgets, e);
+    if(tag == "label") return parse1<Label>(parent, widgets, e);
+    if(tag == "checkbox") return parse1<Checkbox>(parent, widgets, e);
+    if(tag == "radiobutton") return parse1<Radiobutton>(parent, widgets, e);
+    if(tag == "spinbox") return parse1<Spinbox>(parent, widgets, e);
+    if(tag == "combobox") return parse1<Combobox>(parent, widgets, e);
+    if(tag == "group") return parse1<Group>(parent, widgets, e);
+    if(tag == "tabs") return parse1<Tabs>(parent, widgets, e);
+    if(tag == "stretch") return parse1<Stretch>(parent, widgets, e);
+    if(tag == "image") return parse1<Image>(parent, widgets, e);
 
     std::stringstream ss;
     ss << "invalid element <" << tag << ">";
     throw std::range_error(ss.str());
 }
 
-void Widget::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     if(e->Attribute("id"))
     {

@@ -16,13 +16,13 @@ Tab::~Tab()
 {
 }
 
-void Tab::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void Tab::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(widgets, e);
+    Widget::parse(parent, widgets, e);
 
     title = xmlutils::getAttrStr(e, "title", "???");
 
-    LayoutWidget::parse(widgets, e);
+    LayoutWidget::parse(this, parent, widgets, e);
 }
 
 QWidget * Tab::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -47,13 +47,13 @@ Tabs::~Tabs()
     }
 }
 
-void Tabs::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+void Tabs::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    Widget::parse(widgets, e);
+    Widget::parse(parent, widgets, e);
 
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {
-        Tab *tab = Widget::parse1<Tab>(widgets, e1);
+        Tab *tab = Widget::parse1<Tab>(this, widgets, e1);
         if(tab)
             tabs.push_back(tab);
     }

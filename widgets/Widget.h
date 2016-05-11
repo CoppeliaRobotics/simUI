@@ -35,14 +35,14 @@ protected:
 public:
     virtual ~Widget();
 
-    virtual void parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
+    virtual void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     virtual QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent) = 0;
 
     inline QWidget * getQWidget() {return qwidget;}
 
     template<typename T>
-    static T * parse1(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    static Widget * parseAny(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
+    static T * parse1(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
+    static Widget * parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
 
     static Widget * byId(int handle, int id);
     static Widget * byQWidget(QWidget *w);
@@ -55,12 +55,12 @@ public:
 };
 
 template<typename T>
-T * Widget::parse1(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
+T * Widget::parse1(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     T *obj = new T;
     try
     {
-        obj->parse(widgets, e);
+        obj->parse(parent, widgets, e);
 
         // object parsed successfully
         // now check if ID is duplicate:
