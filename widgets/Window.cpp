@@ -31,11 +31,6 @@ Window::~Window()
 
         delete qwidget;
     }
-
-#ifdef DEBUG
-    std::cerr << "Window::~Window() - AFTER DTOR:" << std::endl;
-    Widget::dumpTables();
-#endif
 }
 
 void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
