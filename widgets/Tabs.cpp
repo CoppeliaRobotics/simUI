@@ -20,6 +20,11 @@ void Tab::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLEl
 {
     Widget::parse(parent, widgets, e);
 
+    if(!dynamic_cast<Tabs*>(parent))
+    {
+        throw std::runtime_error("tab must be placed in a tabs element");
+    }
+
     title = xmlutils::getAttrStr(e, "title", "???");
 
     LayoutWidget::parse(this, parent, widgets, e);
