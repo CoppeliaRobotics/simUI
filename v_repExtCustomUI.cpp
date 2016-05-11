@@ -135,11 +135,6 @@ void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *o
     }
 
     UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
-
-#ifdef DEBUG
-    std::cerr << "destroy:" << std::endl;
-    Widget::dumpTables();
-#endif
 }
 
 template<typename T>
