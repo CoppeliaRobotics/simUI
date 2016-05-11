@@ -400,6 +400,13 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
     simSetIntegerParameter(sim_intparam_error_report_mode, sim_api_errormessage_ignore);
     void* retVal=NULL;
 
+    static bool firstInstancePass = true;
+    if(message == sim_message_eventcallback_instancepass && firstInstancePass)
+    {
+        firstInstancePass = false;
+        UIFunctions::getInstance(); // construct UIFunctions here (SIM thread)
+    }
+
     if(message == sim_message_eventcallback_simulationended)
     { // Simulation just ended
         // TODO: move this to sim_message_eventcallback_simulationabouttoend
