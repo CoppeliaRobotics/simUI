@@ -21,12 +21,13 @@
                 </style>
             </head>
             <body>
+                <table width="800" align="center"><tr><td>
                 <a name="top"/>
-                <h1>CustomUI Plugin - UI XML Syntax</h1>
+                <h1 style="text-align: center;">CustomUI Plugin - UI XML Syntax</h1>
                 <h3>Elements:</h3>
                 <ul>
                     <xsl:for-each select="elements/element">
-                        <li><a href="#{name/node()}" class="tt">&lt;<xsl:copy-of select="name/node()"/>&gt;</a></li>
+                        <li style="display: inline;"><a href="#{name/node()}" class="tt">&lt;<xsl:copy-of select="name/node()"/>&gt;</a></li>
                     </xsl:for-each>
                 </ul>
                 <hr/>
@@ -90,6 +91,7 @@
                         </xsl:if>
                     </xsl:for-each>
                 </table>
+                </td></tr></table>
             </body>
         </html>
     </xsl:template>
