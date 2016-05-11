@@ -30,7 +30,7 @@ void Stretch::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
     LayoutWidget *layoutWidget = dynamic_cast<LayoutWidget*>(parent);
     if(!layoutWidget || !(layoutWidget->layout == VBOX || layoutWidget->layout == HBOX))
     {
-        throw std::runtime_error("stretch must be placed in a widget with layout");
+        throw std::runtime_error("stretch must be placed in a widget with vbox/hbox layout");
     }
     
     factor = xmlutils::getAttrInt(e, "factor", 0);
