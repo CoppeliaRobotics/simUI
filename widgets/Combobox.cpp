@@ -35,6 +35,7 @@ void Combobox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
 QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QComboBox *combobox = new QComboBox(parent);
+    combobox->setEnabled(enabled);
     combobox->setStyleSheet(QString::fromStdString(style));
     for(std::vector<std::string>::const_iterator it = items.begin(); it != items.end(); ++it)
     {

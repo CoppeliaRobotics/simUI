@@ -125,6 +125,8 @@ void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 
     style = xmlutils::getAttrStr(e, "style", "");
 
+    enabled = xmlutils::getAttrBool(e, "enabled", true);
+
     std::string tag(e->Value());
     if(tag != widgetClass)
     {

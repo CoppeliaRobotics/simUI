@@ -31,6 +31,7 @@ void Image::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QLabel *label = new QLabel(parent);
+    label->setEnabled(enabled);
     label->setStyleSheet(QString::fromStdString(style));
     if(file != "")
     {

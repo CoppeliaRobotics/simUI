@@ -27,6 +27,7 @@ protected:
 
     int id;
     std::string style;
+    bool enabled;
 
     Widget(std::string widgetClass);
 

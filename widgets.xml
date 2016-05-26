@@ -10,6 +10,12 @@
         </see-also>
         <attributes>
             <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -52,6 +58,12 @@
         <description>Push button widget.</description>
         <attributes>
             <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -81,6 +93,12 @@
         <name>checkbox</name>
         <description>Checkbox widget.</description>
         <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
             <attribute>
                 <name>style</name>
                 <type>string</type>
@@ -112,6 +130,12 @@
         <description>A combobox widget. It allows to select one from many items from a dropdown menu.  Items can be added as child XML nodes, e.g. &lt;item&gt;Item text&lt;/item&gt;, or dynamically via the Lua API.</description>
         <attributes>
             <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -129,6 +153,12 @@
         <name>edit</name>
         <description>A widget for text input.</description>
         <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
             <attribute>
                 <name>style</name>
                 <type>string</type>
@@ -164,6 +194,12 @@
         </see-also>
         <attributes>
             <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -190,6 +226,12 @@
             <element>vslider</element>
         </see-also>
         <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
             <attribute>
                 <name>style</name>
                 <type>string</type>
@@ -242,6 +284,12 @@
         </see-also>
         <attributes>
             <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -275,6 +323,12 @@
         </see-also>
         <attributes>
             <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -298,6 +352,12 @@
         <name>radiobutton</name>
         <description>A radio button widget.</description>
         <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
             <attribute>
                 <name>style</name>
                 <type>string</type>
@@ -328,6 +388,12 @@
         <name>spinbox</name>
         <description>A widget for numeric input, with increase/decrease buttons.</description>
         <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
             <attribute>
                 <name>style</name>
                 <type>string</type>
@@ -377,6 +443,12 @@
         <description>A tabs widget. Must contain only &lt;tab&gt; child elements.</description>
         <attributes>
             <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -396,6 +468,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
             <element>br</element>
         </see-also>
         <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
             <attribute>
                 <name>style</name>
                 <type>string</type>
@@ -423,6 +501,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
             <element>hslider</element>
         </see-also>
         <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
             <attribute>
                 <name>style</name>
                 <type>string</type>

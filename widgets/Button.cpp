@@ -29,6 +29,7 @@ void Button::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QPushButton *button = new QPushButton(QString::fromStdString(text), parent);
+    button->setEnabled(enabled);
     button->setStyleSheet(QString::fromStdString(style));
     button->setAutoDefault(false);
     button->setDefault(defaulT);

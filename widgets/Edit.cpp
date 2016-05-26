@@ -29,6 +29,7 @@ void Edit::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QLineEdit *edit = new QLineEdit(parent);
+    edit->setEnabled(enabled);
     edit->setStyleSheet(QString::fromStdString(style));
     edit->setText(QString::fromStdString(value));
     QObject::connect(edit, SIGNAL(textChanged(QString)), uiproxy, SLOT(onValueChange(QString)));

@@ -29,6 +29,7 @@ void Checkbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
 QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QCheckBox *checkbox = new QCheckBox(QString::fromStdString(text), parent);
+    checkbox->setEnabled(enabled);
     checkbox->setStyleSheet(QString::fromStdString(style));
     checkbox->setChecked(checked);
     QObject::connect(checkbox, SIGNAL(stateChanged(int)), uiproxy, SLOT(onValueChange(int)));
