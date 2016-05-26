@@ -7,6 +7,9 @@ class Event
 {
 protected:
 
+public:
+    Event();
+
     friend class UIFunctions;
 };
 
@@ -14,6 +17,9 @@ class EventOnClick : public Event
 {
 protected:
     std::string onclick;
+
+public:
+    EventOnClick();
 
     friend class UIFunctions;
 };
@@ -26,16 +32,25 @@ protected:
                          // used to prevent stack overflow when triggering an event
                          // from the relative change callback
 
+public:
+    EventOnChange();
+
     friend class UIFunctions;
 };
 
 class EventOnChangeInt : public EventOnChange
 {
+public:
+    EventOnChangeInt();
+
     friend class UIFunctions;
 };
 
 class EventOnChangeString : public EventOnChange
 {
+public:
+    EventOnChangeString();
+
     friend class UIFunctions;
 };
 
@@ -43,6 +58,9 @@ class EventOnEditingFinished : public Event
 {
 protected:
     std::string oneditingfinished;
+
+public:
+    EventOnEditingFinished();
 
     friend class UIFunctions;
 };
