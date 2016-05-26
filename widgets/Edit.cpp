@@ -22,6 +22,8 @@ void Edit::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     value = xmlutils::getAttrStr(e, "value", "");
 
     onchange = xmlutils::getAttrStr(e, "onchange", "");
+
+    oneditingfinished = xmlutils::getAttrStr(e, "oneditingfinished", "");
 }
 
 QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -30,6 +32,7 @@ QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     edit->setStyleSheet(QString::fromStdString(style));
     edit->setText(QString::fromStdString(value));
     QObject::connect(edit, SIGNAL(textChanged(QString)), uiproxy, SLOT(onValueChange(QString)));
+    QObject::connect(edit, SIGNAL(editingFinished()), uiproxy, SLOT(onEditingFinished()));
     setQWidget(edit);
     setProxy(proxy);
     return edit;

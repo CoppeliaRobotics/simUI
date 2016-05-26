@@ -14,7 +14,7 @@ class UIProxy;
 #include "Widget.h"
 #include "Event.h"
 
-class Edit : public Widget, public EventOnChangeString
+class Edit : public Widget, public EventOnChangeString, public EventOnEditingFinished
 {
 protected:
     std::string value;

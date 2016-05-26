@@ -19,6 +19,7 @@ UIFunctions::UIFunctions(QObject *parent)
     connect(uiproxy, SIGNAL(buttonClick(Widget*)), this, SLOT(onButtonClick(Widget*)));
     connect(uiproxy, SIGNAL(valueChange(Widget*,int)), this, SLOT(onValueChange(Widget*,int)));
     connect(uiproxy, SIGNAL(valueChange(Widget*,QString)), this, SLOT(onValueChange(Widget*,QString)));
+    connect(uiproxy, SIGNAL(editingFinished(Widget*)), this, SLOT(onEditingFinished(Widget*)));
     connect(uiproxy, SIGNAL(windowClose(Window*)), this, SLOT(onWindowClose(Window*)));
     connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(destroyUi(Window*)), uiproxy, SLOT(onDestroyUi(Window*)), Qt::BlockingQueuedConnection);
@@ -106,6 +107,22 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
         e->onchangeActive = true;
         onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
         e->onchangeActive = false;
+    }
+}
+
+void UIFunctions::onEditingFinished(Widget *widget)
+{
+    EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(widget);
+
+    if(!e) return;
+
+    if(e->oneditingfinished != "" && widget->proxy->scriptID != -1)
+    {
+        oneditingfinishedCallback_in in_args;
+        in_args.handle = widget->proxy->handle;
+        in_args.id = widget->id;
+        oneditingfinishedCallback_out out_args;
+        oneditingfinishedCallback(widget->proxy->scriptID, e->oneditingfinished.c_str(), &in_args, &out_args);
     }
 }
 

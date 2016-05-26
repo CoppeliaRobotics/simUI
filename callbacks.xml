@@ -370,6 +370,19 @@
         <return>
         </return>
     </script-function>
+    <script-function name="oneditingfinishedCallback">
+        <description>Callback for editing finished event.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the widget</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
     <script-function name="oncloseCallback">
         <description>Callback for window close event. It will be called when the user clicks the close button of the window. When an onclose callback is specified, the window will not close automatically when the user clicks the window close button.</description>
         <params>

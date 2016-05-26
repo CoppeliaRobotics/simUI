@@ -33,6 +33,7 @@ private slots:
     void onButtonClick();
     void onValueChange(int value);
     void onValueChange(QString value);
+    void onEditingFinished();
     void onDestroy(Proxy *proxy);
     void onDestroyUi(Window *window);
     void onShowWindow(Window *window);
@@ -44,6 +45,7 @@ signals:
     void buttonClick(Widget *widget);
     void valueChange(Widget *widget, int value);
     void valueChange(Widget *widget, QString value);
+    void editingFinished(Widget *widget);
     void windowClose(Window *window);
     void loadImageFromFile(Image *image, const char *filename, int w, int h);
 };

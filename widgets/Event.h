@@ -39,5 +39,13 @@ class EventOnChangeString : public EventOnChange
     friend class UIFunctions;
 };
 
+class EventOnEditingFinished : public Event
+{
+protected:
+    std::string oneditingfinished;
+
+    friend class UIFunctions;
+};
+
 #endif // EVENT_H_INCLUDED
 

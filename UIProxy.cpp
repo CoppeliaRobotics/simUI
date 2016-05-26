@@ -85,6 +85,19 @@ void UIProxy::onValueChange(QString value)
     }
 }
 
+void UIProxy::onEditingFinished()
+{
+    QWidget *qwidget = dynamic_cast<QWidget*>(sender());
+    if(qwidget)
+    {
+        Widget *widget = Widget::byQWidget(qwidget);
+        if(widget)
+        {
+            emit editingFinished(widget);
+        }
+    }
+}
+
 void UIProxy::onDestroy(Proxy *proxy)
 {
 #ifdef DEBUG
