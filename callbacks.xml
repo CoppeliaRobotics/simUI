@@ -317,6 +317,22 @@
         <return>
         </return>
     </command>
+    <command name="setEnabled">
+        <description>Enable or disable a widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="enabled" type="bool">
+                <description>enabled</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

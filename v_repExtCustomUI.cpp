@@ -324,6 +324,19 @@ void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setI
     UIFunctions::getInstance()->setImage(imageWidget, img, in->width, in->height);
 }
 
+void setEnabled(SScriptCallBack *p, const char *cmd, setEnabled_in *in, setEnabled_out *out)
+{
+    Widget *widget = Widget::byId(in->handle, in->id);
+    if(!widget)
+    {
+        std::stringstream ss;
+        ss << "invalid widget id: " << in->id;
+        throw std::runtime_error(ss.str());
+    }
+
+    UIFunctions::getInstance()->setEnabled(widget, in->enabled);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

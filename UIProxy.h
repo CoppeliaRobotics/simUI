@@ -40,6 +40,7 @@ private slots:
     void onHideWindow(Window *window);
     void onSetImage(Image *image, const char *data, int w, int h);
     void onSceneChange(Window *window, int oldSceneID, int newSceneID);
+    void onSetEnabled(Widget *widget, bool enabled);
 
 signals:
     void buttonClick(Widget *widget);

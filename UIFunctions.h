@@ -41,6 +41,7 @@ signals:
     void hideWindow(Window *window);
     void setImage(Image *image, const char *data, int w, int h);
     void sceneChange(Window *window, int oldSceneID, int newSceneID);
+    void setEnabled(Widget *widget, bool enabled);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED
