@@ -34,16 +34,16 @@ void Spinbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
 
 QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QSpinBox *slider = new QSpinBox(parent);
-    slider->setStyleSheet(QString::fromStdString(style));
-    slider->setMinimum(minimum);
-    slider->setMaximum(maximum);
-    slider->setPrefix(QString::fromStdString(prefix));
-    slider->setSuffix(QString::fromStdString(suffix));
-    slider->setSingleStep(step);
-    QObject::connect(slider, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
-    setQWidget(slider);
+    QSpinBox *spinbox = new QSpinBox(parent);
+    spinbox->setStyleSheet(QString::fromStdString(style));
+    spinbox->setMinimum(minimum);
+    spinbox->setMaximum(maximum);
+    spinbox->setPrefix(QString::fromStdString(prefix));
+    spinbox->setSuffix(QString::fromStdString(suffix));
+    spinbox->setSingleStep(step);
+    QObject::connect(spinbox, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
+    setQWidget(spinbox);
     setProxy(proxy);
-    return slider;
+    return spinbox;
 }
 
