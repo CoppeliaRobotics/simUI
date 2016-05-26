@@ -68,28 +68,44 @@ void UIFunctions::onButtonClick(Widget *widget)
 void UIFunctions::onValueChange(Widget *widget, int value)
 {
     EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
-    if(e && e->onchange != "" && widget->proxy->scriptID != -1)
+
+    if(!e) return;
+
+    // prevent stack overflow when the event is triggered from inside the callback:
+    if(e->onchangeActive) return;
+
+    if(e->onchange != "" && widget->proxy->scriptID != -1)
     {
         onchangeIntCallback_in in_args;
         in_args.handle = widget->proxy->handle;
         in_args.id = widget->id;
         in_args.value = value;
         onchangeIntCallback_out out_args;
+        e->onchangeActive = true;
         onchangeIntCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
+        e->onchangeActive = false;
     }
 }
 
 void UIFunctions::onValueChange(Widget *widget, QString value)
 {
     EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
-    if(e && e->onchange != "" && widget->proxy->scriptID != -1)
+
+    if(!e) return;
+
+    // prevent stack overflow when the event is triggered from inside the callback:
+    if(e->onchangeActive) return;
+
+    if(e->onchange != "" && widget->proxy->scriptID != -1)
     {
         onchangeStringCallback_in in_args;
         in_args.handle = widget->proxy->handle;
         in_args.id = widget->id;
         in_args.value = value.toStdString();
         onchangeStringCallback_out out_args;
+        e->onchangeActive = true;
         onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
+        e->onchangeActive = false;
     }
 }
 

@@ -22,6 +22,9 @@ class EventOnChange : public Event
 {
 protected:
     std::string onchange;
+    bool onchangeActive; // set to true only during the time the callback is running
+                         // used to prevent stack overflow when triggering an event
+                         // from the relative change callback
 
     friend class UIFunctions;
 };
