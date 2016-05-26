@@ -29,6 +29,7 @@ protected:
     bool resizable;
     bool closeable;
     std::string onclose;
+    std::string style;
 
     QWidget *qwidget;
 

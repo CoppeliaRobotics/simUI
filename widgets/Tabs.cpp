@@ -33,6 +33,7 @@ void Tab::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLEl
 QWidget * Tab::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QWidget *tab = new QWidget(parent);
+    tab->setStyleSheet(QString::fromStdString(style));
     LayoutWidget::createQtWidget(proxy, uiproxy, tab);
     setQWidget(tab);
     setProxy(proxy);
@@ -67,6 +68,7 @@ void Tabs::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 QWidget * Tabs::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QTabWidget *tabwidget = new QTabWidget(parent);
+    tabwidget->setStyleSheet(QString::fromStdString(style));
     for(std::vector<Tab*>::const_iterator it = tabs.begin(); it != tabs.end(); ++it)
     {
         QWidget *tab = (*it)->createQtWidget(proxy, uiproxy, tabwidget);

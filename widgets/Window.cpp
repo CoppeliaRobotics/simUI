@@ -59,6 +59,8 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     onclose = xmlutils::getAttrStr(e, "onclose", "");
 
+    style = xmlutils::getAttrStr(e, "style", "");
+
     WindowWidget dummyWidget;
     LayoutWidget::parse(&dummyWidget, &dummyWidget, widgets, e);
 }
@@ -94,6 +96,7 @@ public:
 QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QDialog *window = new QDialog2(this, parent);
+    window->setStyleSheet(QString::fromStdString(style));
     LayoutWidget::createQtWidget(proxy, uiproxy, window);
     window->setWindowTitle(QString::fromStdString(title));
     Qt::WindowFlags flags = Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint;

@@ -29,6 +29,7 @@ void Radiobutton::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
 QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QRadioButton *button = new QRadioButton(QString::fromStdString(text), parent);
+    button->setStyleSheet(QString::fromStdString(style));
     button->setChecked(checked);
     QObject::connect(button, SIGNAL(released()), uiproxy, SLOT(onButtonClick()));
     setQWidget(button);

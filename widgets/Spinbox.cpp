@@ -35,6 +35,7 @@ void Spinbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
 QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QSpinBox *slider = new QSpinBox(parent);
+    slider->setStyleSheet(QString::fromStdString(style));
     slider->setMinimum(minimum);
     slider->setMaximum(maximum);
     slider->setPrefix(QString::fromStdString(prefix));

@@ -26,6 +26,7 @@ protected:
     static std::map<QWidget *, Widget *> widgetByQWidget;
 
     int id;
+    std::string style;
 
     Widget(std::string widgetClass);
 

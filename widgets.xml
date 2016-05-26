@@ -10,6 +10,12 @@
         </see-also>
         <attributes>
             <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
                 <name>title</name>
                 <type>string</type>
                 <default>Custom UI</default>
@@ -46,6 +52,12 @@
         <description>Push button widget.</description>
         <attributes>
             <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
                 <name>text</name>
                 <type>string</type>
                 <default>???</default>
@@ -69,6 +81,12 @@
         <name>checkbox</name>
         <description>Checkbox widget.</description>
         <attributes>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
             <attribute>
                 <name>text</name>
                 <type>string</type>
@@ -94,6 +112,12 @@
         <description>A combobox widget. It allows to select one from many items from a dropdown menu.  Items can be added as child XML nodes, e.g. &lt;item&gt;Item text&lt;/item&gt;, or dynamically via the Lua API.</description>
         <attributes>
             <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
                 <name>onchange</name>
                 <type>string</type>
                 <default />
@@ -106,6 +130,12 @@
         <description>A widget for text input.</description>
         <attributes>
             <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
                 <name>value</name>
                 <type>string</type>
                 <default>???</default>
@@ -117,6 +147,12 @@
                 <default />
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id).</description>
             </attribute>
+            <attribute>
+                <name>oneditingfinished</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the editing finished event.  Arguments of the function are: (uiHandle, id).</description>
+            </attribute>
         </attributes>
     </element>
     <element>
@@ -127,6 +163,12 @@
             <element>br</element>
         </see-also>
         <attributes>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
             <attribute>
                 <name>flat</name>
                 <type>bool</type>
@@ -148,6 +190,12 @@
             <element>vslider</element>
         </see-also>
         <attributes>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
             <attribute>
                 <name>minimum</name>
                 <type>int</type>
@@ -194,6 +242,12 @@
         </see-also>
         <attributes>
             <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
                 <name>file</name>
                 <type>string</type>
                 <default></default>
@@ -221,6 +275,12 @@
         </see-also>
         <attributes>
             <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
                 <name>text</name>
                 <type>string</type>
                 <default>???</default>
@@ -238,6 +298,12 @@
         <name>radiobutton</name>
         <description>A radio button widget.</description>
         <attributes>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
             <attribute>
                 <name>text</name>
                 <type>string</type>
@@ -262,6 +328,12 @@
         <name>spinbox</name>
         <description>A widget for numeric input, with increase/decrease buttons.</description>
         <attributes>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
             <attribute>
                 <name>minimum</name>
                 <type>int</type>
@@ -303,7 +375,14 @@
     <element>
         <name>tabs</name>
         <description>A tabs widget. Must contain only &lt;tab&gt; child elements.</description>
-        <attributes />
+        <attributes>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+        </attributes>
         <see-also>
             <element>tab</element>
         </see-also>
@@ -317,6 +396,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
             <element>br</element>
         </see-also>
         <attributes>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
             <attribute>
                 <name>title</name>
                 <type>string</type>
@@ -338,6 +423,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
             <element>hslider</element>
         </see-also>
         <attributes>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
             <attribute>
                 <name>minimum</name>
                 <type>int</type>

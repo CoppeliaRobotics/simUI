@@ -123,6 +123,8 @@ void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
         id = nextId--;
     }
 
+    style = xmlutils::getAttrStr(e, "style", "");
+
     std::string tag(e->Value());
     if(tag != widgetClass)
     {
