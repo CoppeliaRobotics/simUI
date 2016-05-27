@@ -164,7 +164,7 @@ void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 void UIProxy::onSetEnabled(Widget *widget, bool enabled)
 {
 #ifdef DEBUG
-    std::cerr << "UIProxy->onSceneChange(" << (void*)window << ", " << oldSceneID << ", " << newSceneID << ")" << std::endl;
+    std::cerr << "UIProxy->onSetEnabled(" << (void*)widget << ", " << enabled << ")" << std::endl;
 #endif // DEBUG
 
     widget->getQWidget()->setEnabled(enabled);
