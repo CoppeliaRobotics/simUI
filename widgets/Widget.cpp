@@ -28,6 +28,8 @@ Widget::Widget(std::string widgetClass_)
 {
     // don't do this here because id is set by user:
     // Widget::widgets[id] = this;
+
+    DBG << "this=" << this << ", widgetClass=" << widgetClass << std::endl;
 }
 
 Widget::~Widget()
@@ -43,11 +45,15 @@ Widget::~Widget()
         //qwidget->deleteLater();
 
         Widget::widgetByQWidget.erase(qwidget);
+
+        DBG << this << "  removed from Widget::widgetByQWidget table which now has size " << Widget::widgetByQWidget.size() << std::endl;
     }
 
     if(proxy)
     {
         proxy->widgets.erase(id);
+
+        DBG << this << "  removed from proxy->widgets table which now has size " << proxy->widgets.size() << std::endl;
     }
 }
 

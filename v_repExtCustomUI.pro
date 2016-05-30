@@ -69,6 +69,7 @@ QMAKE_EXTRA_TARGETS += widgets_html
 PRE_TARGETDEPS += widgets.html
 
 HEADERS += \
+    debug.h \
     v_repExtCustomUI.h \
     ../include/v_repLib.h \
     stubs.h \
@@ -97,6 +98,7 @@ HEADERS += \
     tinyxml2.h
 
 SOURCES += \
+    debug.cpp \
     v_repExtCustomUI.cpp \
     ../common/v_repLib.cpp \
     stubs.cpp \
