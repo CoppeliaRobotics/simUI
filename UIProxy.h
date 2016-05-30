@@ -35,7 +35,6 @@ private slots:
     void onValueChange(QString value);
     void onEditingFinished();
     void onDestroy(Proxy *proxy);
-    void onDestroyUi(Window *window);
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
     void onSetImage(Image *image, const char *data, int w, int h);

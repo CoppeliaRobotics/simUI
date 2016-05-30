@@ -103,7 +103,7 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
     catch(std::exception& ex)
     {
         simSetLastError(cmd, ex.what());
-        UIFunctions::getInstance()->destroyUi(window); // must delete on UI thread or will crash
+        delete window;
         return;
     }
 

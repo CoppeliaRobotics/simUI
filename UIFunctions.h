@@ -36,7 +36,6 @@ private slots:
 signals:
     void create(Proxy *proxy);
     void destroy(Proxy *proxy);
-    void destroyUi(Window *window);
     void showWindow(Window *window);
     void hideWindow(Window *window);
     void setImage(Image *image, const char *data, int w, int h);
