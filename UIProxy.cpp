@@ -133,12 +133,18 @@ void UIProxy::onDestroy(Proxy *proxy)
 {
     DBG << "proxy=" << (void*)proxy << std::endl;
 
+    if(!proxy) return;
+    if(!proxy->ui) return;
+    if(!proxy->ui->qwidget) return;
+
     proxy->ui->qwidget->deleteLater();
 }
 
 void UIProxy::onShowWindow(Window *window)
 {
     DBG << "window=" << (void*)window << std::endl;
+
+    if(!window) return;
 
     window->show();
 }
@@ -147,12 +153,17 @@ void UIProxy::onHideWindow(Window *window)
 {
     DBG << "window=" << (void*)window << std::endl;
 
+    if(!window) return;
+
     window->hide();
 }
 
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
     DBG << "image=" << (void*)image << ", data=" << (void*)data << ", w=" << w << ", h=" << h << std::endl;
+
+    if(!image) return;
+    if(!data) return;
 
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
@@ -167,12 +178,16 @@ void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 {
     DBG << "window=" << (void*)window << ", oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
 
+    if(!window) return;
+
     window->onSceneChange(oldSceneID, newSceneID);
 }
 
 void UIProxy::onSetEnabled(Widget *widget, bool enabled)
 {
     DBG << "widget=" << (void*)widget << ", enabled=" << enabled << std::endl;
+
+    if(!widget) return;
 
     widget->getQWidget()->setEnabled(enabled);
 }
