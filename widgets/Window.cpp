@@ -31,10 +31,13 @@ Window::Window()
       visibility_state(true),
       proxy(NULL)
 {
+    DBG << std::endl;
 }
 
 Window::~Window()
 {
+    DBG << std::endl;
+
     if(qwidget)
     {
         DBG << "deleting member 'qwidget'" << std::endl;
