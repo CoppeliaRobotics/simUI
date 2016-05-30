@@ -39,7 +39,9 @@ Proxy::~Proxy()
     if(ui)
     {
         DBG << "delete member 'ui'..." << std::endl;
+
         delete ui;
+        ui = NULL;
     }
 
     DBG << "end" << std::endl;
