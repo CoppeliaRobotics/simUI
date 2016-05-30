@@ -49,8 +49,6 @@ public:
     static Widget * byId(int handle, int id);
     static Widget * byQWidget(QWidget *w);
 
-    std::string str();
-
     friend class UIFunctions;
     friend class UIProxy;
     friend class Window;

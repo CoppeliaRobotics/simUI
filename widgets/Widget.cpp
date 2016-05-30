@@ -136,10 +136,3 @@ void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     }
 }
 
-std::string Widget::str()
-{
-    std::stringstream ss;
-    ss << "Widget[" << this << "," << widgetClass << "]";
-    return ss.str();
-}
-
