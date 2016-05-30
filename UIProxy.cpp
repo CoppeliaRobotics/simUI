@@ -11,6 +11,8 @@
 
 using namespace tinyxml2;
 
+// UIProxy is a singleton
+
 UIProxy *UIProxy::instance = NULL;
 
 UIProxy::UIProxy(QObject *parent)
@@ -45,6 +47,13 @@ void UIProxy::onCreate(Proxy *proxy)
 {
     proxy->createQtWidget(this);
 }
+
+// The following slots are directly connected to Qt Widgets' signals.
+// Here we look up the sender to find the corresponding Widget object,
+// and emit a signal with the Widget object pointer.
+//
+// That signal will be connected to a slot in UIFunctions, such
+// that the callback is called from the SIM thread.
 
 void UIProxy::onButtonClick()
 {
@@ -88,15 +97,45 @@ void UIProxy::onValueChange(QString value)
 void UIProxy::onEditingFinished()
 {
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
+
+#ifdef DEBUG
+    std::cerr << "UIProxy::onEditingFinished()" << std::endl;
+#endif // DEBUG
+
     if(qwidget)
     {
         Widget *widget = Widget::byQWidget(qwidget);
+
+#ifdef DEBUG
+        std::cerr << "    qwidget = " << qwidget << std::endl;
+#endif // DEBUG
+
         if(widget)
         {
+#ifdef DEBUG
+            std::cerr << "    widget->id = " << widget->id << std::endl;
+            std::cerr << "    widget->widgetClass = " << widget->widgetClass << std::endl;
+#endif // DEBUG
+
             emit editingFinished(widget);
         }
+        else
+        {
+#ifdef DEBUG
+            std::cerr << "    not mapped to a Widget object" << std::endl;
+#endif // DEBUG
+        }
+    }
+    else
+    {
+#ifdef DEBUG
+        std::cerr << "    sender() is not a QWidget" << std::endl;
+#endif // DEBUG
     }
 }
+
+// The following slots are wrappers for functions called from SIM thread
+// which should instead execute in the UI thread.
 
 void UIProxy::onDestroy(Proxy *proxy)
 {

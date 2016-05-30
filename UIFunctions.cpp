@@ -9,11 +9,15 @@
 
 #include "stubs.h"
 
+// UIFunctions is a singleton
+
 UIFunctions *UIFunctions::instance = NULL;
 
 UIFunctions::UIFunctions(QObject *parent)
     : QObject(parent)
 {
+    // connect signals/slots from UIProxy to UIFunctions and vice-versa
+
     UIProxy *uiproxy = UIProxy::getInstance();
     connect(this, SIGNAL(create(Proxy*)), uiproxy, SLOT(onCreate(Proxy*)), Qt::BlockingQueuedConnection);
     connect(uiproxy, SIGNAL(buttonClick(Widget*)), this, SLOT(onButtonClick(Widget*)));
@@ -57,6 +61,7 @@ void UIFunctions::destroyInstance()
 void UIFunctions::onButtonClick(Widget *widget)
 {
     EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
+
     if(e && e->onclick != "" && widget->proxy->scriptID != -1)
     {
         onclickCallback_in in_args;
