@@ -65,8 +65,6 @@ void UIFunctions::onButtonClick(Widget *widget)
     if(!widget) return;
     if(!widget->proxy) return;
 
-    if(widget->proxy->destroying) return;
-
     EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
 
     if(!e) return;
@@ -84,8 +82,6 @@ void UIFunctions::onValueChange(Widget *widget, int value)
 {
     if(!widget) return;
     if(!widget->proxy) return;
-
-    if(widget->proxy->destroying) return;
 
     EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
 
@@ -111,8 +107,6 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
     if(!widget) return;
     if(!widget->proxy) return;
 
-    if(widget->proxy->destroying) return;
-
     EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
 
     if(!e) return;
@@ -137,8 +131,6 @@ void UIFunctions::onEditingFinished(Widget *widget)
     if(!widget) return;
     if(!widget->proxy) return;
 
-    if(widget->proxy->destroying) return;
-
     EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(widget);
 
     if(!e) return;
@@ -156,8 +148,6 @@ void UIFunctions::onWindowClose(Window *window)
 {
     if(!window) return;
     if(!window->proxy) return;
-
-    if(window->proxy->destroying) return;
 
     oncloseCallback_in in_args;
     in_args.handle = window->proxy->getHandle();

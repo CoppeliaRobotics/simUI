@@ -14,35 +14,31 @@ std::map<int, Proxy *> Proxy::proxies;
 
 Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *ui_, std::map<int, Widget*>& widgets_)
     : handle(nextProxyHandle++),
-      destroying(false),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
       sceneID(sceneID_),
       scriptID(scriptID_),
       ui(ui_),
       widgets(widgets_)
 {
-    DBG << "Proxy::proxies[" << handle << "] = " << this << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
-
     Proxy::proxies[handle] = this;
+
+    DBG << "Proxy::proxies[" << handle << "] = " << this << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
 }
 
 Proxy::~Proxy()
 {
-    DBG << "begin..." << std::endl;
-
-    destroying = true;
-
     // should be destroyed from the UI thread
 
-    Proxy::proxies.erase(handle);
+    DBG << "begin..." << std::endl;
 
     if(ui)
     {
-        DBG << "delete member 'ui'..." << std::endl;
+        DBG << "delete 'ui' member..." << std::endl;
 
         delete ui;
-        ui = NULL;
     }
+
+    Proxy::proxies.erase(handle);
 
     DBG << "end" << std::endl;
 }

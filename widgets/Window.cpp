@@ -37,13 +37,6 @@ Window::Window()
 Window::~Window()
 {
     DBG << std::endl;
-
-    if(qwidget)
-    {
-        DBG << "deleting member 'qwidget'" << std::endl;
-
-        delete qwidget;
-    }
 }
 
 void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
@@ -80,6 +73,12 @@ public:
         : QDialog(parent),
           window(window_)
     {
+    }
+
+    virtual ~QDialog2()
+    {
+        delete window->proxy;
+        window->proxy = NULL;
     }
 
     virtual void closeEvent(QCloseEvent * event)

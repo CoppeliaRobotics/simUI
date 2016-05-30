@@ -39,9 +39,6 @@ private:
     // internal handle of this object (used by the plugin):
     int handle;
 
-    // set to true when this object is being destroyed:
-    bool destroying;
-
     static std::map<int, Proxy *> proxies; // handle -> Proxy
 
     std::map<int, Widget *> widgets; // widgetId -> Widget

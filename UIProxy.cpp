@@ -133,18 +133,12 @@ void UIProxy::onDestroy(Proxy *proxy)
 {
     DBG << "proxy=" << (void*)proxy << std::endl;
 
-    proxy->destroying = true;
-
-    proxy->ui->qwidget->close();
-
-    delete proxy;
+    proxy->ui->qwidget->deleteLater();
 }
 
 void UIProxy::onDestroyUi(Window *window)
 {
     DBG << "window=" << (void*)window << std::endl;
-
-    window->proxy->destroying = true;
 
     delete window;
 }
