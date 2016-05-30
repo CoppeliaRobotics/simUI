@@ -21,7 +21,7 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Wind
       ui(ui_),
       widgets(widgets_)
 {
-    DBG << "Proxy::proxies[" << handle << "] = " << this << std::endl;
+    DBG << "Proxy::proxies[" << handle << "] = " << this << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
 
     Proxy::proxies[handle] = this;
 }
@@ -52,7 +52,7 @@ Proxy* Proxy::byHandle(int handle)
     std::map<int, Proxy*>::const_iterator it = Proxy::proxies.find(handle);
     Proxy *ret = it == Proxy::proxies.end() ? NULL : it->second;
 
-    DBG << "handle " << handle << " -> " << ret << std::endl;
+    DBG << "handle " << handle << " -> " << ret << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
 
     return ret;
 }
