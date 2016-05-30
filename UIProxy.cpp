@@ -1,4 +1,5 @@
 #include "UIProxy.h"
+#include "debug.h"
 #include "widgets/Widget.h"
 
 #include <QThread>
@@ -30,9 +31,8 @@ UIProxy * UIProxy::getInstance(QObject *parent)
     if(!UIProxy::instance)
     {
         UIProxy::instance = new UIProxy(parent);
-#ifdef DEBUG
-        std::cerr << "UIProxy constructed in thread " << QThread::currentThreadId() << std::endl;
-#endif // DEBUG
+
+        DBG << "UIProxy constructed in thread " << QThread::currentThreadId() << std::endl;
     }
     return UIProxy::instance;
 }
@@ -98,39 +98,29 @@ void UIProxy::onEditingFinished()
 {
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
 
-#ifdef DEBUG
-    std::cerr << "UIProxy::onEditingFinished()" << std::endl;
-#endif // DEBUG
+    DBG << "begin..." << std::endl;
 
     if(qwidget)
     {
         Widget *widget = Widget::byQWidget(qwidget);
 
-#ifdef DEBUG
-        std::cerr << "    qwidget = " << qwidget << std::endl;
-#endif // DEBUG
+        DBG << "    qwidget = " << qwidget << std::endl;
 
         if(widget)
         {
-#ifdef DEBUG
-            std::cerr << "    widget->id = " << widget->id << std::endl;
-            std::cerr << "    widget->widgetClass = " << widget->widgetClass << std::endl;
-#endif // DEBUG
+            DBG << "    widget->id = " << widget->id << std::endl;
+            DBG << "    widget->widgetClass = " << widget->widgetClass << std::endl;
 
             emit editingFinished(widget);
         }
         else
         {
-#ifdef DEBUG
-            std::cerr << "    not mapped to a Widget object" << std::endl;
-#endif // DEBUG
+            DBG << "    not mapped to a Widget object" << std::endl;
         }
     }
     else
     {
-#ifdef DEBUG
-        std::cerr << "    sender() is not a QWidget" << std::endl;
-#endif // DEBUG
+        DBG << "    sender() is not a QWidget" << std::endl;
     }
 }
 
@@ -139,48 +129,41 @@ void UIProxy::onEditingFinished()
 
 void UIProxy::onDestroy(Proxy *proxy)
 {
-#ifdef DEBUG
-    std::cerr << "UIProxy->onDestroy(" << (void*)proxy << ")" << std::endl;
-#endif // DEBUG
+    DBG << "proxy=" << (void*)proxy << std::endl;
 
-    proxy->ui->onclose = ""; // XXX: crash when destroying Window if there is an onclose handler
+    proxy->destroying = true;
+
     proxy->ui->qwidget->close();
+
     delete proxy;
 }
 
 void UIProxy::onDestroyUi(Window *window)
 {
-#ifdef DEBUG
-    std::cerr << "UIProxy->onDestroyUi(" << (void*)window << ")" << std::endl;
-#endif // DEBUG
+    DBG << "window=" << (void*)window << std::endl;
 
-    window->onclose = ""; // XXX: crash when destroying Window if there is an onclose handler
+    window->proxy->destroying = true;
+
     delete window;
 }
 
 void UIProxy::onShowWindow(Window *window)
 {
-#ifdef DEBUG
-    std::cerr << "UIProxy->onShowWindow(" << (void*)window << ")" << std::endl;
-#endif // DEBUG
+    DBG << "window=" << (void*)window << std::endl;
 
     window->show();
 }
 
 void UIProxy::onHideWindow(Window *window)
 {
-#ifdef DEBUG
-    std::cerr << "UIProxy->onHideWindow(" << (void*)window << ")" << std::endl;
-#endif // DEBUG
+    DBG << "window=" << (void*)window << std::endl;
 
     window->hide();
 }
 
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
-#ifdef DEBUG
-    std::cerr << "UIProxy->onSetImage(" << (void*)image << ", " << (void*)data << ", " << w << ", " << h << ")" << std::endl;
-#endif // DEBUG
+    DBG << "image=" << (void*)image << ", data=" << (void*)data << ", w=" << w << ", h=" << h << std::endl;
 
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
@@ -193,18 +176,14 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 
 void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 {
-#ifdef DEBUG
-    std::cerr << "UIProxy->onSceneChange(" << (void*)window << ", " << oldSceneID << ", " << newSceneID << ")" << std::endl;
-#endif // DEBUG
+    DBG << "window=" << (void*)window << ", oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
 
     window->onSceneChange(oldSceneID, newSceneID);
 }
 
 void UIProxy::onSetEnabled(Widget *widget, bool enabled)
 {
-#ifdef DEBUG
-    std::cerr << "UIProxy->onSetEnabled(" << (void*)widget << ", " << enabled << ")" << std::endl;
-#endif // DEBUG
+    DBG << "widget=" << (void*)widget << ", enabled=" << enabled << std::endl;
 
     widget->getQWidget()->setEnabled(enabled);
 }
