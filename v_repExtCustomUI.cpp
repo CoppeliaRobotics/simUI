@@ -28,6 +28,7 @@
 // -------------------------------------------------------------------
 
 #include "v_repExtCustomUI.h"
+#include "debug.h"
 #include "v_repLib.h"
 #include <iostream>
 #include <fstream>
@@ -116,9 +117,7 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
         destroy = true;
 
     int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
-#ifdef DEBUG
-    std::cerr << "Proxy created in sceneID " << sceneID << std::endl;
-#endif // DEBUG
+    DBG << "Proxy created in sceneID " << sceneID << std::endl;
     Proxy *proxy = new Proxy(destroy, sceneID, p->scriptID, window, widgets);
     UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
                             // will run code for creating Qt widgets in the UI thread

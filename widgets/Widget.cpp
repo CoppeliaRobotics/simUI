@@ -13,6 +13,8 @@
 #include "LayoutWidget.h"
 #include "Image.h"
 
+#include "debug.h"
+
 #include "XMLUtils.h"
 
 #include "UIProxy.h"
@@ -30,17 +32,13 @@ Widget::Widget(std::string widgetClass_)
 
 Widget::~Widget()
 {
-#ifdef DEBUG
-    std::cerr << str() << "::~Widget()" << std::endl;
-#endif
+    DBG << this << std::endl;
 
     // this should be destroyed from the UI thread
 
     if(qwidget)
     {
-#ifdef DEBUG
-        std::cerr << str() << "::~Widget() - delete 'qwidget' member (deleteLater())" << std::endl;
-#endif
+        //DBG << this << "  delete 'qwidget' member (deleteLater())" << std::endl;
 
         //qwidget->deleteLater();
 

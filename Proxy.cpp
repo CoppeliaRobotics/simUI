@@ -1,4 +1,5 @@
 #include "Proxy.h"
+#include "debug.h"
 
 #include <vector>
 #include <map>
@@ -13,24 +14,23 @@ std::map<int, Proxy *> Proxy::proxies;
 
 Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *ui_, std::map<int, Widget*>& widgets_)
     : handle(nextProxyHandle++),
+      destroying(false),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
       sceneID(sceneID_),
       scriptID(scriptID_),
       ui(ui_),
       widgets(widgets_)
 {
-#ifdef DEBUG
-    std::cerr << "Proxy::Proxy() - Proxy::proxies[" << handle << "] = " << this << std::endl;
-#endif
+    DBG << "Proxy::proxies[" << handle << "] = " << this << std::endl;
 
     Proxy::proxies[handle] = this;
 }
 
 Proxy::~Proxy()
 {
-#ifdef DEBUG
-    std::cerr << "Proxy::~Proxy() - begin..." << std::endl;
-#endif
+    DBG << "begin..." << std::endl;
+
+    destroying = true;
 
     // should be destroyed from the UI thread
 
@@ -38,16 +38,11 @@ Proxy::~Proxy()
 
     if(ui)
     {
-#ifdef DEBUG
-        std::cerr << "Proxy::~Proxy() - delete member 'ui'" << std::endl;
-#endif
-
+        DBG << "delete member 'ui'..." << std::endl;
         delete ui;
     }
 
-#ifdef DEBUG
-    std::cerr << "Proxy::~Proxy() - end" << std::endl;
-#endif
+    DBG << "end" << std::endl;
 }
 
 Proxy* Proxy::byHandle(int handle)
@@ -55,9 +50,7 @@ Proxy* Proxy::byHandle(int handle)
     std::map<int, Proxy*>::const_iterator it = Proxy::proxies.find(handle);
     Proxy *ret = it == Proxy::proxies.end() ? NULL : it->second;
 
-#ifdef DEBUG
-    std::cerr << "Proxy::byHandle(" << handle << ") -> " << ret << std::endl;
-#endif
+    DBG << "handle " << handle << " -> " << ret << std::endl;
 
     return ret;
 }
@@ -81,17 +74,6 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 // were created during simulation, which otherwise would leak indefinitely:
 void Proxy::destroyTransientObjects()
 {
-#ifdef DEBUG
-    std::cerr << "Proxy::destroyTransientObjects() - content of Proxy::proxies:" << std::endl;
-
-    for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
-    {
-        std::cerr << "    " << it->first << ": " << it->second << std::endl;
-    }
-    
-    std::cerr << "Proxy::destroyTransientObjects() - end" << std::endl;
-#endif
-
     std::vector<int> t;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
@@ -120,10 +102,6 @@ void Proxy::destroyAllObjects()
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)
 {
-#ifdef DEBUG
-    std::cerr << "Proxy(" << (void*)this << ")->sceneChange(" << oldSceneID << ", " << newSceneID << ")" << std::endl;
-#endif // DEBUG
-
     if(ui)
     {
         UIFunctions::getInstance()->sceneChange(ui, oldSceneID, newSceneID);
@@ -132,10 +110,6 @@ void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID)
 {
-#ifdef DEBUG
-    std::cerr << "Proxy::sceneChange(" << oldSceneID << ", " << newSceneID << ")" << std::endl;
-#endif // DEBUG
-
     void *arg = 0;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)

@@ -43,10 +43,6 @@ QWidget * Stretch::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
 
 LayoutWidget::~LayoutWidget()
 {
-#ifdef DEBUG
-    std::cerr << "LayoutWidget::~LayoutWidget()" << std::endl;
-#endif
-
     for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
     {
         for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)

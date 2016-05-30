@@ -1,6 +1,8 @@
 #include "Window.h"
 #include "Widget.h"
 
+#include "debug.h"
+
 #include "XMLUtils.h"
 
 #include "UIProxy.h"
@@ -35,9 +37,7 @@ Window::~Window()
 {
     if(qwidget)
     {
-#ifdef DEBUG
-        std::cerr << "Window::~Window() - deleting member 'qwidget'" << std::endl;
-#endif
+        DBG << "deleting member 'qwidget'" << std::endl;
 
         delete qwidget;
     }
@@ -154,15 +154,12 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
 {
     int mySceneID = proxy->getSceneID();
 
-#ifdef DEBUG
-        std::cerr << "Window->onSceneChange(" << oldSceneID << ", " << newSceneID << ") [mySceneID=" << mySceneID << "]" << std::endl;
-#endif // DEBUG
+    DBG << "oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
+    DBG << "mySceneID=" << mySceneID << std::endl;
 
     if(oldSceneID == mySceneID && newSceneID != mySceneID)
     {
-#ifdef DEBUG
-        std::cerr << "Window->onSceneChange: hidden" << std::endl;
-#endif // DEBUG
+        DBG << "hidden" << std::endl;
 
         bool saved_visibility_state = visibility_state;
         hide();
@@ -171,9 +168,7 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
 
     if(oldSceneID != mySceneID && newSceneID == mySceneID)
     {
-#ifdef DEBUG
-        std::cerr << "Window->onSceneChange: shown" << std::endl;
-#endif // DEBUG
+        DBG << "shown" << std::endl;
 
         if(visibility_state)
             show();

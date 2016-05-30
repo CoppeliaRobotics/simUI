@@ -1,4 +1,5 @@
 #include "UIFunctions.h"
+#include "debug.h"
 #include "UIProxy.h"
 #include "widgets/Event.h"
 #include "widgets/Widget.h"
@@ -45,9 +46,8 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
     if(!UIFunctions::instance)
     {
         UIFunctions::instance = new UIFunctions(parent);
-#ifdef DEBUG
-        std::cerr << "UIFunctions constructed in thread " << QThread::currentThreadId() << std::endl;
-#endif // DEBUG
+
+        DBG << "UIFunctions constructed in thread " << QThread::currentThreadId() << std::endl;
     }
     return UIFunctions::instance;
 }
@@ -60,20 +60,31 @@ void UIFunctions::destroyInstance()
 
 void UIFunctions::onButtonClick(Widget *widget)
 {
+    if(!widget) return;
+    if(!widget->proxy) return;
+
+    if(widget->proxy->destroying) return;
+
     EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
 
-    if(e && e->onclick != "" && widget->proxy->scriptID != -1)
-    {
-        onclickCallback_in in_args;
-        in_args.handle = widget->proxy->handle;
-        in_args.id = widget->id;
-        onclickCallback_out out_args;
-        onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in_args, &out_args);
-    }
+    if(!e) return;
+
+    if(e->onclick == "" || widget->proxy->scriptID == -1) return;
+
+    onclickCallback_in in_args;
+    in_args.handle = widget->proxy->handle;
+    in_args.id = widget->id;
+    onclickCallback_out out_args;
+    onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in_args, &out_args);
 }
 
 void UIFunctions::onValueChange(Widget *widget, int value)
 {
+    if(!widget) return;
+    if(!widget->proxy) return;
+
+    if(widget->proxy->destroying) return;
+
     EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
 
     if(!e) return;
@@ -81,21 +92,25 @@ void UIFunctions::onValueChange(Widget *widget, int value)
     // prevent stack overflow when the event is triggered from inside the callback:
     if(e->onchangeActive) return;
 
-    if(e->onchange != "" && widget->proxy->scriptID != -1)
-    {
-        onchangeIntCallback_in in_args;
-        in_args.handle = widget->proxy->handle;
-        in_args.id = widget->id;
-        in_args.value = value;
-        onchangeIntCallback_out out_args;
-        e->onchangeActive = true;
-        onchangeIntCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
-        e->onchangeActive = false;
-    }
+    if(e->onchange == "" || widget->proxy->scriptID == -1) return;
+
+    onchangeIntCallback_in in_args;
+    in_args.handle = widget->proxy->handle;
+    in_args.id = widget->id;
+    in_args.value = value;
+    onchangeIntCallback_out out_args;
+    e->onchangeActive = true;
+    onchangeIntCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
+    e->onchangeActive = false;
 }
 
 void UIFunctions::onValueChange(Widget *widget, QString value)
 {
+    if(!widget) return;
+    if(!widget->proxy) return;
+
+    if(widget->proxy->destroying) return;
+
     EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
 
     if(!e) return;
@@ -103,37 +118,45 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
     // prevent stack overflow when the event is triggered from inside the callback:
     if(e->onchangeActive) return;
 
-    if(e->onchange != "" && widget->proxy->scriptID != -1)
-    {
-        onchangeStringCallback_in in_args;
-        in_args.handle = widget->proxy->handle;
-        in_args.id = widget->id;
-        in_args.value = value.toStdString();
-        onchangeStringCallback_out out_args;
-        e->onchangeActive = true;
-        onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
-        e->onchangeActive = false;
-    }
+    if(e->onchange == "" || widget->proxy->scriptID == -1) return;
+
+    onchangeStringCallback_in in_args;
+    in_args.handle = widget->proxy->handle;
+    in_args.id = widget->id;
+    in_args.value = value.toStdString();
+    onchangeStringCallback_out out_args;
+    e->onchangeActive = true;
+    onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
+    e->onchangeActive = false;
 }
 
 void UIFunctions::onEditingFinished(Widget *widget)
 {
+    if(!widget) return;
+    if(!widget->proxy) return;
+
+    if(widget->proxy->destroying) return;
+
     EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(widget);
 
     if(!e) return;
 
-    if(e->oneditingfinished != "" && widget->proxy->scriptID != -1)
-    {
-        oneditingfinishedCallback_in in_args;
-        in_args.handle = widget->proxy->handle;
-        in_args.id = widget->id;
-        oneditingfinishedCallback_out out_args;
-        oneditingfinishedCallback(widget->proxy->scriptID, e->oneditingfinished.c_str(), &in_args, &out_args);
-    }
+    if(e->oneditingfinished == "" || widget->proxy->scriptID == -1) return;
+
+    oneditingfinishedCallback_in in_args;
+    in_args.handle = widget->proxy->handle;
+    in_args.id = widget->id;
+    oneditingfinishedCallback_out out_args;
+    oneditingfinishedCallback(widget->proxy->scriptID, e->oneditingfinished.c_str(), &in_args, &out_args);
 }
 
 void UIFunctions::onWindowClose(Window *window)
 {
+    if(!window) return;
+    if(!window->proxy) return;
+
+    if(window->proxy->destroying) return;
+
     oncloseCallback_in in_args;
     in_args.handle = window->proxy->getHandle();
     oncloseCallback_out out_args;
