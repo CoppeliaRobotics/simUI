@@ -32,7 +32,7 @@ Widget::Widget(std::string widgetClass_)
 
 Widget::~Widget()
 {
-    DBG << this << std::endl;
+    DBG << "this=" << this << ", id=" << id << ", widgetClass=" << widgetClass << std::endl;
 
     // this should be destroyed from the UI thread
 
