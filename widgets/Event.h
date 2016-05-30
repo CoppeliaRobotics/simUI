@@ -9,6 +9,7 @@ protected:
 
 public:
     Event();
+    virtual ~Event();
 
     friend class UIFunctions;
 };
@@ -20,6 +21,7 @@ protected:
 
 public:
     EventOnClick();
+    virtual ~EventOnClick();
 
     friend class UIFunctions;
 };
@@ -34,6 +36,7 @@ protected:
 
 public:
     EventOnChange();
+    virtual ~EventOnChange();
 
     friend class UIFunctions;
 };
@@ -42,6 +45,7 @@ class EventOnChangeInt : public EventOnChange
 {
 public:
     EventOnChangeInt();
+    virtual ~EventOnChangeInt();
 
     friend class UIFunctions;
 };
@@ -50,6 +54,7 @@ class EventOnChangeString : public EventOnChange
 {
 public:
     EventOnChangeString();
+    virtual ~EventOnChangeString();
 
     friend class UIFunctions;
 };
@@ -61,6 +66,7 @@ protected:
 
 public:
     EventOnEditingFinished();
+    virtual ~EventOnEditingFinished();
 
     friend class UIFunctions;
 };

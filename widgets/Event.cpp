@@ -4,8 +4,16 @@ Event::Event()
 {
 }
 
+Event::~Event()
+{
+}
+
 EventOnClick::EventOnClick()
     : onclick("")
+{
+}
+
+EventOnClick::~EventOnClick()
 {
 }
 
@@ -15,7 +23,15 @@ EventOnChange::EventOnChange()
 {
 }
 
+EventOnChange::~EventOnChange()
+{
+}
+
 EventOnChangeInt::EventOnChangeInt()
+{
+}
+
+EventOnChangeInt::~EventOnChangeInt()
 {
 }
 
@@ -23,8 +39,16 @@ EventOnChangeString::EventOnChangeString()
 {
 }
 
+EventOnChangeString::~EventOnChangeString()
+{
+}
+
 EventOnEditingFinished::EventOnEditingFinished()
     : oneditingfinished("")
+{
+}
+
+EventOnEditingFinished::~EventOnEditingFinished()
 {
 }
 
