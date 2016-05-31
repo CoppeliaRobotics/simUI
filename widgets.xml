@@ -181,7 +181,7 @@
                 <name>oneditingfinished</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the editing finished event.  Arguments of the function are: (uiHandle, id).</description>
+                <description>Name of a Lua function to handle the editing finished event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>

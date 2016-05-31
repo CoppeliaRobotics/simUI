@@ -22,7 +22,7 @@ UIFunctions::UIFunctions(QObject *parent)
     connect(uiproxy, SIGNAL(buttonClick(Widget*)), this, SLOT(onButtonClick(Widget*)));
     connect(uiproxy, SIGNAL(valueChange(Widget*,int)), this, SLOT(onValueChange(Widget*,int)));
     connect(uiproxy, SIGNAL(valueChange(Widget*,QString)), this, SLOT(onValueChange(Widget*,QString)));
-    connect(uiproxy, SIGNAL(editingFinished(Widget*)), this, SLOT(onEditingFinished(Widget*)));
+    connect(uiproxy, SIGNAL(editingFinished(Edit*,QString)), this, SLOT(onEditingFinished(Edit*,QString)));
     connect(uiproxy, SIGNAL(windowClose(Window*)), this, SLOT(onWindowClose(Window*)));
     connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(showWindow(Window*)), uiproxy, SLOT(onShowWindow(Window*)), Qt::BlockingQueuedConnection);
@@ -117,21 +117,22 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
     onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
 }
 
-void UIFunctions::onEditingFinished(Widget *widget)
+void UIFunctions::onEditingFinished(Edit *edit, QString value)
 {
-    if(!widget) return;
-    if(!widget->proxy) return;
+    if(!edit) return;
+    if(!edit->proxy) return;
 
-    EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(widget);
+    EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(edit);
 
     if(!e) return;
-    if(e->oneditingfinished == "" || widget->proxy->scriptID == -1) return;
+    if(e->oneditingfinished == "" || edit->proxy->scriptID == -1) return;
 
     oneditingfinishedCallback_in in_args;
-    in_args.handle = widget->proxy->handle;
-    in_args.id = widget->id;
+    in_args.handle = edit->proxy->handle;
+    in_args.id = edit->id;
+    in_args.value = value.toStdString();
     oneditingfinishedCallback_out out_args;
-    oneditingfinishedCallback(widget->proxy->scriptID, e->oneditingfinished.c_str(), &in_args, &out_args);
+    oneditingfinishedCallback(edit->proxy->scriptID, e->oneditingfinished.c_str(), &in_args, &out_args);
 }
 
 void UIFunctions::onWindowClose(Window *window)

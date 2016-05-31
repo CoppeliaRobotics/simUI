@@ -51,7 +51,7 @@ signals:
     void buttonClick(Widget *widget);
     void valueChange(Widget *widget, int value);
     void valueChange(Widget *widget, QString value);
-    void editingFinished(Widget *widget);
+    void editingFinished(Edit *edit, QString value);
     void windowClose(Window *window);
     void loadImageFromFile(Image *image, const char *filename, int w, int h);
 };

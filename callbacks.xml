@@ -419,6 +419,9 @@
             <param name="id" type="int">
                 <description>the ID of the widget</description>
             </param>
+            <param name="value" type="string">
+                <description>the new value</description>
+            </param>
         </params>
         <return>
         </return>

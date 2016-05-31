@@ -106,15 +106,16 @@ void UIProxy::onValueChange(QString value)
 
 void UIProxy::onEditingFinished()
 {
-    QWidget *qwidget = dynamic_cast<QWidget*>(sender());
+    QLineEdit *qedit = dynamic_cast<QLineEdit*>(sender());
 
-    if(qwidget)
+    if(qedit)
     {
-        Widget *widget = Widget::byQWidget(qwidget);
+        QString text = qedit->text();
+        Edit *edit = dynamic_cast<Edit*>(Widget::byQWidget(qedit));
 
-        if(widget)
+        if(edit)
         {
-            emit editingFinished(widget);
+            emit editingFinished(edit, text);
         }
     }
 }
