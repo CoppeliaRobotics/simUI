@@ -100,29 +100,14 @@ void UIProxy::onEditingFinished()
 {
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
 
-    DBG << "begin..." << std::endl;
-
     if(qwidget)
     {
         Widget *widget = Widget::byQWidget(qwidget);
 
-        DBG << "    qwidget = " << qwidget << std::endl;
-
         if(widget)
         {
-            DBG << "    widget->id = " << widget->id << std::endl;
-            DBG << "    widget->widgetClass = " << widget->widgetClass << std::endl;
-
             emit editingFinished(widget);
         }
-        else
-        {
-            DBG << "    not mapped to a Widget object" << std::endl;
-        }
-    }
-    else
-    {
-        DBG << "    sender() is not a QWidget" << std::endl;
     }
 }
 
