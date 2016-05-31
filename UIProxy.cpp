@@ -1,12 +1,20 @@
 #include "UIProxy.h"
 #include "debug.h"
-#include "widgets/Widget.h"
 
 #include <QThread>
 #include <QWidget>
 #include <QPixmap>
 #include <QImage>
 #include <QLabel>
+#include <QSlider>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QRadioButton>
+#include <QWidget>
+#include <QGroupBox>
+#include <QComboBox>
+#include <QDialog>
 
 #include "stubs.h"
 
@@ -175,5 +183,72 @@ void UIProxy::onSetEnabled(Widget *widget, bool enabled)
     if(!widget) return;
 
     widget->getQWidget()->setEnabled(enabled);
+}
+
+void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals)
+{
+    QLineEdit *qedit = static_cast<QLineEdit*>(edit->getQWidget());
+    bool oldSignalsState = qedit->blockSignals(suppressSignals);
+    qedit->setText(QString::fromStdString(value));
+    qedit->blockSignals(oldSignalsState);
+}
+
+void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignals)
+{
+    QLabel *qlabel = static_cast<QLabel*>(label->getQWidget());
+    bool oldSignalsState = qlabel->blockSignals(suppressSignals);
+    qlabel->setText(QString::fromStdString(text));
+    qlabel->blockSignals(oldSignalsState);
+}
+
+void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
+{
+    QSlider *qslider = static_cast<QSlider*>(slider->getQWidget());
+    bool oldSignalsState = qslider->blockSignals(suppressSignals);
+    qslider->setValue(value);
+    qslider->blockSignals(oldSignalsState);
+}
+
+void UIProxy::onSetCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals)
+{
+    QCheckBox *qcheckbox = static_cast<QCheckBox*>(checkbox->getQWidget());
+    bool oldSignalsState = qcheckbox->blockSignals(suppressSignals);
+    switch(value)
+    {
+    case 0: qcheckbox->setCheckState(Qt::Unchecked); break;
+    case 1: qcheckbox->setCheckState(Qt::PartiallyChecked); break;
+    case 2: qcheckbox->setCheckState(Qt::Checked); break;
+    default: throw std::string("invalid checkbox value");
+    }
+    qcheckbox->blockSignals(oldSignalsState);
+}
+
+void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals)
+{
+    QRadioButton *qradiobutton = static_cast<QRadioButton*>(radiobutton->getQWidget());
+    bool oldSignalsState = qradiobutton->blockSignals(suppressSignals);
+    switch(value)
+    {
+    case 0: qradiobutton->setChecked(false); break;
+    case 1: qradiobutton->setChecked(true); break;
+    default: throw std::string("invalid radiobutton value");
+    }
+    qradiobutton->blockSignals(oldSignalsState);
+}
+
+void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals)
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
+    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
+    qcombobox->insertItem(index, QString::fromStdString(text));
+    qcombobox->blockSignals(oldSignalsState);
+}
+
+void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals)
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
+    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
+    qcombobox->removeItem(index);
+    qcombobox->blockSignals(oldSignalsState);
 }
 

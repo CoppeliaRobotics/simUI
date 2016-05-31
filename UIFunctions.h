@@ -5,8 +5,7 @@
 #include <QString>
 
 #include "Proxy.h"
-#include "widgets/Window.h"
-#include "widgets/Image.h"
+#include "widgets/all.h"
 
 class UIFunctions : public QObject
 {
@@ -41,6 +40,13 @@ signals:
     void setImage(Image *image, const char *data, int w, int h);
     void sceneChange(Window *window, int oldSceneID, int newSceneID);
     void setEnabled(Widget *widget, bool enabled);
+    void setEditValue(Edit *edit, std::string value, bool suppressSignals);
+    void setLabelText(Label *label, std::string text, bool suppressSignals);
+    void setSliderValue(Slider *slider, int value, bool suppressSignals);
+    void setCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals);
+    void setRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals);
+    void insertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals);
+    void removeComboboxItem(Combobox *combobox, int index, bool suppressSignals);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

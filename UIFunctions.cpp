@@ -1,8 +1,6 @@
 #include "UIFunctions.h"
 #include "debug.h"
 #include "UIProxy.h"
-#include "widgets/Event.h"
-#include "widgets/Widget.h"
 
 #include <QThread>
 
@@ -33,6 +31,13 @@ UIFunctions::UIFunctions(QObject *parent)
     connect(uiproxy, SIGNAL(loadImageFromFile(Image*,const char *,int,int)), this, SLOT(onLoadImageFromFile(Image*,const char *,int,int)));
     connect(this, SIGNAL(sceneChange(Window*,int,int)), uiproxy, SLOT(onSceneChange(Window*,int,int)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setEnabled(Widget*,bool)), uiproxy, SLOT(onSetEnabled(Widget*,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setEditValue(Edit*,std::string,bool)), uiproxy, SLOT(onSetEditValue(Edit*,std::string,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setLabelText(Label*,std::string,bool)), uiproxy, SLOT(onSetLabelText(Label*,std::string,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setSliderValue(Slider*,int,bool)), uiproxy, SLOT(onSetSliderValue(Slider*,int,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setCheckboxValue(Checkbox*,int,bool)), uiproxy, SLOT(onSetCheckboxValue(Checkbox*,int,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setRadiobuttonValue(Radiobutton*,int,bool)), uiproxy, SLOT(onSetRadiobuttonValue(Radiobutton*,int,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(insertComboboxItem(Combobox*,int,std::string,bool)), uiproxy, SLOT(onInsertComboboxItem(Combobox*,int,std::string,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(removeComboboxItem(Combobox*,int,bool)), uiproxy, SLOT(onRemoveComboboxItem(Combobox*,int,bool)), Qt::BlockingQueuedConnection);
 }
 
 UIFunctions::~UIFunctions()

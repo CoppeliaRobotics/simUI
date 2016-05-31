@@ -78,9 +78,7 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 #include "Proxy.h"
 #include "UIFunctions.h"
 #include "UIProxy.h"
-#include "widgets/Window.h"
-#include "widgets/Widget.h"
-#include "widgets/Image.h"
+#include "widgets/all.h"
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
@@ -147,6 +145,22 @@ T* getWidget(int handle, int id, const char *cmd, const char *widget_type_name)
         throw std::runtime_error(ss.str());
     }
 
+    T *twidget = dynamic_cast<T*>(widget);
+    if(!twidget)
+    {
+        std::stringstream ss;
+        ss << "invalid widget type. expected " << widget_type_name;
+        throw std::runtime_error(ss.str());
+    }
+
+    return twidget;
+}
+
+template<typename T>
+T* getQWidget(int handle, int id, const char *cmd, const char *widget_type_name)
+{
+    Widget *widget = getWidget<Widget>(handle, id, cmd, widget_type_name);
+
     T *qwidget = dynamic_cast<T*>(widget->getQWidget());
     if(!qwidget)
     {
@@ -160,31 +174,31 @@ T* getWidget(int handle, int id, const char *cmd, const char *widget_type_name)
 
 void getSliderValue(SScriptCallBack *p, const char *cmd, getSliderValue_in *in, getSliderValue_out *out)
 {
-    QSlider *slider = getWidget<QSlider>(in->handle, in->id, cmd, "slider");
+    QSlider *slider = getQWidget<QSlider>(in->handle, in->id, cmd, "slider");
     out->value = slider->value();
 }
 
 void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, setSliderValue_out *out)
 {
-    QSlider *slider = getWidget<QSlider>(in->handle, in->id, cmd, "slider");
-    slider->setValue(in->value);
+    Slider *slider = getWidget<Slider>(in->handle, in->id, cmd, "slider");
+    UIFunctions::getInstance()->setSliderValue(slider, in->value, in->suppressEvents);
 }
 
 void getEditValue(SScriptCallBack *p, const char *cmd, getEditValue_in *in, getEditValue_out *out)
 {
-    QLineEdit *edit = getWidget<QLineEdit>(in->handle, in->id, cmd, "edit");
+    QLineEdit *edit = getQWidget<QLineEdit>(in->handle, in->id, cmd, "edit");
     out->value = edit->text().toStdString();
 }
 
 void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setEditValue_out *out)
 {
-    QLineEdit *edit = getWidget<QLineEdit>(in->handle, in->id, cmd, "edit");
-    edit->setText(QString::fromStdString(in->value));
+    Edit *edit = getWidget<Edit>(in->handle, in->id, cmd, "edit");
+    UIFunctions::getInstance()->setEditValue(edit, in->value, in->suppressEvents);
 }
 
 void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *in, getCheckboxValue_out *out)
 {
-    QCheckBox *checkbox = getWidget<QCheckBox>(in->handle, in->id, cmd, "checkbox");
+    QCheckBox *checkbox = getQWidget<QCheckBox>(in->handle, in->id, cmd, "checkbox");
     switch(checkbox->checkState())
     {
     case Qt::Unchecked: out->value = 0; break;
@@ -196,55 +210,44 @@ void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *
 
 void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *in, setCheckboxValue_out *out)
 {
-    QCheckBox *checkbox = getWidget<QCheckBox>(in->handle, in->id, cmd, "checkbox");
-    switch(in->value)
-    {
-    case 0: checkbox->setCheckState(Qt::Unchecked); break;
-    case 1: checkbox->setCheckState(Qt::PartiallyChecked); break;
-    case 2: checkbox->setCheckState(Qt::Checked); break;
-    default: simSetLastError(cmd, "invalid checkbox value"); break;
-    }
+    Checkbox *checkbox = getWidget<Checkbox>(in->handle, in->id, cmd, "checkbox");
+    UIFunctions::getInstance()->setCheckboxValue(checkbox, in->value, in->suppressEvents);
 }
 
 void getRadiobuttonValue(SScriptCallBack *p, const char *cmd, getRadiobuttonValue_in *in, getRadiobuttonValue_out *out)
 {
-    QRadioButton *radiobutton = getWidget<QRadioButton>(in->handle, in->id, cmd, "radiobutton");
+    QRadioButton *radiobutton = getQWidget<QRadioButton>(in->handle, in->id, cmd, "radiobutton");
     out->value = radiobutton->isChecked() ? 1 : 0;
 }
 
 void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValue_in *in, setRadiobuttonValue_out *out)
 {
-    QRadioButton *radiobutton = getWidget<QRadioButton>(in->handle, in->id, cmd, "radiobutton");
-    switch(in->value)
-    {
-    case 0: radiobutton->setChecked(false); break;
-    case 1: radiobutton->setChecked(true); break;
-    default: simSetLastError(cmd, "invalid radiobutton value"); break;
-    }
+    Radiobutton *radiobutton = getWidget<Radiobutton>(in->handle, in->id, cmd, "radiobutton");
+    UIFunctions::getInstance()->setRadiobuttonValue(radiobutton, in->value, in->suppressEvents);
 }
 
 void getLabelText(SScriptCallBack *p, const char *cmd, getLabelText_in *in, getLabelText_out *out)
 {
-    QLabel *label = getWidget<QLabel>(in->handle, in->id, cmd, "label");
+    QLabel *label = getQWidget<QLabel>(in->handle, in->id, cmd, "label");
     out->text = label->text().toStdString();
 }
 
 void setLabelText(SScriptCallBack *p, const char *cmd, setLabelText_in *in, setLabelText_out *out)
 {
-    QLabel *label = getWidget<QLabel>(in->handle, in->id, cmd, "label");
-    label->setText(QString::fromStdString(in->text));
+    Label *label = getWidget<Label>(in->handle, in->id, cmd, "label");
+    UIFunctions::getInstance()->setLabelText(label, in->text, in->suppressEvents);
 }
 
 void insertComboboxItem(SScriptCallBack *p, const char *cmd, insertComboboxItem_in *in, insertComboboxItem_out *out)
 {
-    QComboBox *combobox = getWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
-    combobox->insertItem(in->index, QString::fromStdString(in->text));
+    Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
+    UIFunctions::getInstance()->insertComboboxItem(combobox, in->index, in->text, in->suppressEvents);
 }
 
 void removeComboboxItem(SScriptCallBack *p, const char *cmd, removeComboboxItem_in *in, removeComboboxItem_out *out)
 {
-    QComboBox *combobox = getWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
-    combobox->removeItem(in->index);
+    Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
+    UIFunctions::getInstance()->removeComboboxItem(combobox, in->index, in->suppressEvents);
 }
 
 void getComboboxItemCount(SScriptCallBack *p, const char *cmd, getComboboxItemCount_in *in, getComboboxItemCount_out *out)

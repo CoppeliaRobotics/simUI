@@ -60,6 +60,9 @@
             <param name="value" type="int">
                 <description>value</description>
             </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -91,6 +94,9 @@
             </param>
             <param name="value" type="string">
                 <description>value</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -124,6 +130,9 @@
             <param name="value" type="int">
                 <description>value</description>
             </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -155,6 +164,9 @@
             </param>
             <param name="value" type="int">
                 <description>value</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -188,6 +200,9 @@
             <param name="text" type="string">
                 <description>text</description>
             </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -207,6 +222,9 @@
             <param name="text" type="string">
                 <description>Item text.</description>
             </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -222,6 +240,9 @@
             </param>
             <param name="index" type="int">
                 <description>Item index.</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -328,6 +349,9 @@
             </param>
             <param name="enabled" type="bool">
                 <description>enabled</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>

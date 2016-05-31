@@ -8,8 +8,7 @@
 #include <QWidget>
 
 #include "Proxy.h"
-#include "widgets/Window.h"
-#include "widgets/Image.h"
+#include "widgets/all.h"
 
 class UIProxy : public QObject
 {
@@ -40,6 +39,13 @@ private slots:
     void onSetImage(Image *image, const char *data, int w, int h);
     void onSceneChange(Window *window, int oldSceneID, int newSceneID);
     void onSetEnabled(Widget *widget, bool enabled);
+    void onSetEditValue(Edit *edit, std::string value, bool suppressSignals);
+    void onSetLabelText(Label *label, std::string text, bool suppressSignals);
+    void onSetSliderValue(Slider *slider, int value, bool suppressSignals);
+    void onSetCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals);
+    void onSetRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals);
+    void onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals);
+    void onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals);
 
 signals:
     void buttonClick(Widget *widget);

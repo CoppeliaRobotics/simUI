@@ -92,6 +92,7 @@ HEADERS += \
     widgets/VSlider.h \
     widgets/Widget.h \
     widgets/Window.h \
+    widgets/all.h \
     LuaCallbackFunction.h \
     Proxy.h \
     XMLUtils.h \
