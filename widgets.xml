@@ -175,7 +175,7 @@
                 <name>onchange</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id).</description>
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
             <attribute>
                 <name>oneditingfinished</name>
