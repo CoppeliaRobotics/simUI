@@ -67,7 +67,6 @@ void UIFunctions::onButtonClick(Widget *widget)
     EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
 
     if(!e) return;
-
     if(e->onclick == "" || widget->proxy->scriptID == -1) return;
 
     onclickCallback_in in_args;
@@ -85,10 +84,6 @@ void UIFunctions::onValueChange(Widget *widget, int value)
     EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
 
     if(!e) return;
-
-    // prevent stack overflow when the event is triggered from inside the callback:
-    if(e->onchangeActive) return;
-
     if(e->onchange == "" || widget->proxy->scriptID == -1) return;
 
     onchangeIntCallback_in in_args;
@@ -96,9 +91,7 @@ void UIFunctions::onValueChange(Widget *widget, int value)
     in_args.id = widget->id;
     in_args.value = value;
     onchangeIntCallback_out out_args;
-    e->onchangeActive = true;
     onchangeIntCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
-    e->onchangeActive = false;
 }
 
 void UIFunctions::onValueChange(Widget *widget, QString value)
@@ -109,10 +102,6 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
     EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
 
     if(!e) return;
-
-    // prevent stack overflow when the event is triggered from inside the callback:
-    if(e->onchangeActive) return;
-
     if(e->onchange == "" || widget->proxy->scriptID == -1) return;
 
     onchangeStringCallback_in in_args;
@@ -120,9 +109,7 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
     in_args.id = widget->id;
     in_args.value = value.toStdString();
     onchangeStringCallback_out out_args;
-    e->onchangeActive = true;
     onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
-    e->onchangeActive = false;
 }
 
 void UIFunctions::onEditingFinished(Widget *widget)
@@ -133,7 +120,6 @@ void UIFunctions::onEditingFinished(Widget *widget)
     EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(widget);
 
     if(!e) return;
-
     if(e->oneditingfinished == "" || widget->proxy->scriptID == -1) return;
 
     oneditingfinishedCallback_in in_args;

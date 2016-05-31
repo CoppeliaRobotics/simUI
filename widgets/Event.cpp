@@ -18,8 +18,7 @@ EventOnClick::~EventOnClick()
 }
 
 EventOnChange::EventOnChange()
-    : onchange(""),
-      onchangeActive(false)
+    : onchange("")
 {
 }
 
