@@ -51,9 +51,9 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
     {
         UIFunctions::instance = new UIFunctions(parent);
 
-        DBG << "UIFunctions constructed in thread " << QThread::currentThreadId() << std::endl;
-
         simThread();
+
+        DBG << "UIFunctions constructed in thread " << QThread::currentThreadId() << std::endl;
     }
     return UIFunctions::instance;
 }
