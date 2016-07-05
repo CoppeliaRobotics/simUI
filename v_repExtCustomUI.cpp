@@ -149,7 +149,7 @@ T* getWidget(int handle, int id, const char *cmd, const char *widget_type_name)
     if(!twidget)
     {
         std::stringstream ss;
-        ss << "invalid widget type. expected " << widget_type_name;
+        ss << "invalid widget type. expected " << widget_type_name << " (in function getWidget())";
         throw std::runtime_error(ss.str());
     }
 
@@ -165,7 +165,7 @@ T* getQWidget(int handle, int id, const char *cmd, const char *widget_type_name)
     if(!qwidget)
     {
         std::stringstream ss;
-        ss << "invalid widget type. expected " << widget_type_name;
+        ss << "invalid widget type. expected " << widget_type_name << " (in function getQWidget())";
         throw std::runtime_error(ss.str());
     }
 
@@ -252,13 +252,13 @@ void removeComboboxItem(SScriptCallBack *p, const char *cmd, removeComboboxItem_
 
 void getComboboxItemCount(SScriptCallBack *p, const char *cmd, getComboboxItemCount_in *in, getComboboxItemCount_out *out)
 {
-    QComboBox *combobox = getWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
+    QComboBox *combobox = getQWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
     out->count = combobox->count();
 }
 
 void getComboboxItemText(SScriptCallBack *p, const char *cmd, getComboboxItemText_in *in, getComboboxItemText_out *out)
 {
-    QComboBox *combobox = getWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
+    QComboBox *combobox = getQWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
     out->text = combobox->itemText(in->index).toStdString();
 }
 
