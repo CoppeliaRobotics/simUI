@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -24,6 +25,7 @@ private:
 
 protected:
     static std::map<QWidget *, Widget *> widgetByQWidget;
+    static std::set<Widget *> widgets;
 
     int id;
     std::string style;
@@ -48,6 +50,8 @@ public:
 
     static Widget * byId(int handle, int id);
     static Widget * byQWidget(QWidget *w);
+
+    static bool exists(Widget *w);
 
     friend class UIFunctions;
     friend class UIProxy;

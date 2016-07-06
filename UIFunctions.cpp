@@ -64,10 +64,20 @@ void UIFunctions::destroyInstance()
         delete UIFunctions::instance;
 }
 
+/**
+ * while events are delivered, objects may be deleted in the other thread.
+ * (this can happen when stopping the simulation for instance).
+ * in order to prevent a crash, we check with Widget::exists(..) if the
+ * widget pointer refers to an object which is still valid (i.e. not deleted)
+ */
+#define CHECK_WIDGET(widget) \
+    if(!widget) return; \
+    if(!Widget::exists(widget)) {DBG << "warning: widget " << widget << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
+    if(!widget->proxy) return;
+
 void UIFunctions::onButtonClick(Widget *widget)
 {
-    if(!widget) return;
-    if(!widget->proxy) return;
+    CHECK_WIDGET(widget);
 
     EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
 
@@ -83,8 +93,7 @@ void UIFunctions::onButtonClick(Widget *widget)
 
 void UIFunctions::onValueChange(Widget *widget, int value)
 {
-    if(!widget) return;
-    if(!widget->proxy) return;
+    CHECK_WIDGET(widget);
 
     EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
 
@@ -101,8 +110,7 @@ void UIFunctions::onValueChange(Widget *widget, int value)
 
 void UIFunctions::onValueChange(Widget *widget, QString value)
 {
-    if(!widget) return;
-    if(!widget->proxy) return;
+    CHECK_WIDGET(widget);
 
     EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
 
@@ -119,8 +127,7 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
 
 void UIFunctions::onEditingFinished(Edit *edit, QString value)
 {
-    if(!edit) return;
-    if(!edit->proxy) return;
+    CHECK_WIDGET(edit);
 
     EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(edit);
 
@@ -148,6 +155,8 @@ void UIFunctions::onWindowClose(Window *window)
 
 void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
 {
+    CHECK_WIDGET(image);
+
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
     int resolution[2];

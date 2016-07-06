@@ -20,6 +20,7 @@
 #include "UIProxy.h"
 
 std::map<QWidget *, Widget *> Widget::widgetByQWidget;
+std::set<Widget *> Widget::widgets;
 
 Widget::Widget(std::string widgetClass_)
     : qwidget(NULL),
@@ -34,6 +35,8 @@ Widget::Widget(std::string widgetClass_)
 
 Widget::~Widget()
 {
+    Widget::widgets.erase(this);
+
     DBG << "this=" << this << ", id=" << id << ", widgetClass=" << widgetClass << std::endl;
 
     // this should be destroyed from the UI thread
@@ -80,6 +83,11 @@ Widget * Widget::byQWidget(QWidget *w)
     std::map<QWidget*, Widget*>::const_iterator it = Widget::widgetByQWidget.find(w);
     Widget *ret = it == Widget::widgetByQWidget.end() ? NULL : it->second;
     return ret;
+}
+
+bool Widget::exists(Widget *w)
+{
+    return Widget::widgets.find(w) != Widget::widgets.end();
 }
 
 Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
@@ -134,5 +142,7 @@ void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
         ss << "element must be <" << widgetClass << ">";
         throw std::range_error(ss.str());
     }
+
+    Widget::widgets.insert(this);
 }
 
