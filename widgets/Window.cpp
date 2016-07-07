@@ -15,6 +15,8 @@
 
 #include <QDialog>
 
+std::set<Window *> Window::windows;
+
 WindowWidget::WindowWidget()
     : Widget("window")
 {
@@ -36,6 +38,8 @@ Window::Window()
 
 Window::~Window()
 {
+    Window::windows.erase(this);
+
     DBG << std::endl;
 }
 
@@ -59,6 +63,13 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     WindowWidget dummyWidget;
     LayoutWidget::parse(&dummyWidget, &dummyWidget, widgets, e);
+
+    windows.insert(this);
+}
+
+bool Window::exists(Window *w)
+{
+    return Window::windows.find(w) != Window::windows.end();
 }
 
 #include <QCloseEvent>

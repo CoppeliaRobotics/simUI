@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 
 #include <QWidget>
@@ -41,6 +42,8 @@ protected:
 
     Proxy *proxy;
 
+    static std::set<Window *> windows;
+
 public:
     Window();
     virtual ~Window();
@@ -56,6 +59,8 @@ public:
     void show();
 
     void onSceneChange(int oldSceneID, int newSceneID);
+
+    static bool exists(Window *w);
 
     friend class UIProxy;
     friend class UIFunctions;

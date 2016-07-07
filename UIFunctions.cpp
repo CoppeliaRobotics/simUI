@@ -67,17 +67,17 @@ void UIFunctions::destroyInstance()
 /**
  * while events are delivered, objects may be deleted in the other thread.
  * (this can happen when stopping the simulation for instance).
- * in order to prevent a crash, we check with Widget::exists(..) if the
- * widget pointer refers to an object which is still valid (i.e. not deleted)
+ * in order to prevent a crash, we check with Widget/Window::exists(..) if the
+ * pointer refers to an object which is still valid (i.e. not deleted)
  */
-#define CHECK_WIDGET(widget) \
-    if(!widget) return; \
-    if(!Widget::exists(widget)) {DBG << "warning: widget " << widget << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
-    if(!widget->proxy) return;
+#define CHECK_POINTER(clazz,p) \
+    if(!p) return; \
+    if(!clazz::exists(p)) {DBG << "warning: widget/window " << p << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
+    if(!p->proxy) return;
 
 void UIFunctions::onButtonClick(Widget *widget)
 {
-    CHECK_WIDGET(widget);
+    CHECK_POINTER(Widget, widget);
 
     EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
 
@@ -93,7 +93,7 @@ void UIFunctions::onButtonClick(Widget *widget)
 
 void UIFunctions::onValueChange(Widget *widget, int value)
 {
-    CHECK_WIDGET(widget);
+    CHECK_POINTER(Widget, widget);
 
     EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
 
@@ -110,7 +110,7 @@ void UIFunctions::onValueChange(Widget *widget, int value)
 
 void UIFunctions::onValueChange(Widget *widget, QString value)
 {
-    CHECK_WIDGET(widget);
+    CHECK_POINTER(Widget, widget);
 
     EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
 
@@ -127,7 +127,7 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
 
 void UIFunctions::onEditingFinished(Edit *edit, QString value)
 {
-    CHECK_WIDGET(edit);
+    CHECK_POINTER(Widget, edit);
 
     EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(edit);
 
@@ -144,8 +144,7 @@ void UIFunctions::onEditingFinished(Edit *edit, QString value)
 
 void UIFunctions::onWindowClose(Window *window)
 {
-    if(!window) return;
-    if(!window->proxy) return;
+    CHECK_POINTER(Window, window);
 
     oncloseCallback_in in_args;
     in_args.handle = window->proxy->getHandle();
@@ -155,7 +154,7 @@ void UIFunctions::onWindowClose(Window *window)
 
 void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
 {
-    CHECK_WIDGET(image);
+    CHECK_POINTER(Widget, image);
 
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
