@@ -72,7 +72,7 @@ void UIFunctions::destroyInstance()
  */
 #define CHECK_POINTER(clazz,p) \
     if(!p) return; \
-    if(!clazz::exists(p)) {DBG << "warning: widget/window " << p << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
+    if(!clazz::exists(p)) {DBG << "warning: " #clazz << p << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
     if(!p->proxy) return;
 
 void UIFunctions::onButtonClick(Widget *widget)
