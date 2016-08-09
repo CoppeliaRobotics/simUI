@@ -41,6 +41,8 @@
 #include <QThread>
 #include <QSlider>
 #include <QLineEdit>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QRadioButton>
@@ -194,6 +196,20 @@ void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setE
 {
     Edit *edit = getWidget<Edit>(in->handle, in->id, cmd, "edit");
     UIFunctions::getInstance()->setEditValue(edit, in->value, in->suppressEvents);
+}
+
+void getSpinboxValue(SScriptCallBack *p, const char *cmd, getSpinboxValue_in *in, getSpinboxValue_out *out)
+{
+    QAbstractSpinBox *aspinbox = getQWidget<QAbstractSpinBox>(in->handle, in->id, cmd, "spinbox");
+    QSpinBox *spinbox = dynamic_cast<QSpinBox*>(aspinbox);
+    QDoubleSpinBox *doubleSpinbox = dynamic_cast<QDoubleSpinBox*>(aspinbox);
+    out->value = spinbox ? spinbox->value() : doubleSpinbox ? doubleSpinbox->value() : 0;
+}
+
+void setSpinboxValue(SScriptCallBack *p, const char *cmd, setSpinboxValue_in *in, setSpinboxValue_out *out)
+{
+    Spinbox *spinbox = getWidget<Spinbox>(in->handle, in->id, cmd, "spinbox");
+    UIFunctions::getInstance()->setSpinboxValue(spinbox, in->value, in->suppressEvents);
 }
 
 void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *in, getCheckboxValue_out *out)

@@ -17,11 +17,12 @@ class UIProxy;
 class Spinbox : public Widget, public EventOnChangeInt
 {
 protected:
-    int minimum;
-    int maximum;
+    double minimum;
+    double maximum;
     std::string prefix;
     std::string suffix;
     int step;
+    bool float_;
 
 public:
     Spinbox();

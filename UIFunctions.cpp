@@ -32,6 +32,7 @@ UIFunctions::UIFunctions(QObject *parent)
     connect(this, SIGNAL(sceneChange(Window*,int,int)), uiproxy, SLOT(onSceneChange(Window*,int,int)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setEnabled(Widget*,bool)), uiproxy, SLOT(onSetEnabled(Widget*,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setEditValue(Edit*,std::string,bool)), uiproxy, SLOT(onSetEditValue(Edit*,std::string,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setSpinboxValue(Spinbox*,double,bool)), uiproxy, SLOT(onSetSpinboxValue(Spinbox*,double,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setLabelText(Label*,std::string,bool)), uiproxy, SLOT(onSetLabelText(Label*,std::string,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setSliderValue(Slider*,int,bool)), uiproxy, SLOT(onSetSliderValue(Slider*,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setCheckboxValue(Checkbox*,int,bool)), uiproxy, SLOT(onSetCheckboxValue(Checkbox*,int,bool)), Qt::BlockingQueuedConnection);

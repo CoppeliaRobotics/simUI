@@ -41,6 +41,7 @@ signals:
     void sceneChange(Window *window, int oldSceneID, int newSceneID);
     void setEnabled(Widget *widget, bool enabled);
     void setEditValue(Edit *edit, std::string value, bool suppressSignals);
+    void setSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals);
     void setLabelText(Label *label, std::string text, bool suppressSignals);
     void setSliderValue(Slider *slider, int value, bool suppressSignals);
     void setCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals);

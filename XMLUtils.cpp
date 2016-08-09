@@ -39,6 +39,42 @@ int xmlutils::getAttrInt(tinyxml2::XMLElement *e, const char *name, int defaultV
     return ret;
 }
 
+float xmlutils::getAttrFloat(tinyxml2::XMLElement *e, const char *name, float defaultValue)
+{
+    const char *value = e->Attribute(name);
+    float ret;
+
+    if(!value)
+        return defaultValue;
+
+    if(e->QueryFloatAttribute(name, &ret) != tinyxml2::XML_NO_ERROR)
+    {
+        std::stringstream ss;
+        ss << "invalid value '" << value << "' for attribute " << name << ": must be float";
+        throw std::range_error(ss.str());
+    }
+
+    return ret;
+}
+
+double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, const char *name, double defaultValue)
+{
+    const char *value = e->Attribute(name);
+    double ret;
+
+    if(!value)
+        return defaultValue;
+
+    if(e->QueryDoubleAttribute(name, &ret) != tinyxml2::XML_NO_ERROR)
+    {
+        std::stringstream ss;
+        ss << "invalid value '" << value << "' for attribute " << name << ": must be double";
+        throw std::range_error(ss.str());
+    }
+
+    return ret;
+}
+
 std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, const char *name, std::string defaultValue)
 {
     const char *value = e->Attribute(name);

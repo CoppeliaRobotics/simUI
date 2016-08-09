@@ -102,6 +102,41 @@
         <return>
         </return>
     </command>
+    <command name="getSpinboxValue">
+        <description>Get the value of a spinbox widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="value" type="float">
+                <description>value</description>
+            </param>
+        </return>
+    </command>
+    <command name="setSpinboxValue">
+        <description>Set the value of a spinbox widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="value" type="float">
+                <description>value</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="getCheckboxValue">
         <description>Get the value of a checkbox widget.</description>
         <params>

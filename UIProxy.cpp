@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QSlider>
 #include <QLineEdit>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QRadioButton>
@@ -192,6 +194,25 @@ void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals
     bool oldSignalsState = qedit->blockSignals(suppressSignals);
     qedit->setText(QString::fromStdString(value));
     qedit->blockSignals(oldSignalsState);
+}
+
+void UIProxy::onSetSpinboxValue(Spinbox *spinbox_, double value, bool suppressSignals)
+{
+    QSpinBox *spinbox = dynamic_cast<QSpinBox*>(spinbox_->getQWidget());
+    QDoubleSpinBox *doubleSpinbox = dynamic_cast<QDoubleSpinBox*>(spinbox_->getQWidget());
+    if(spinbox)
+    {
+        bool oldSignalsState = spinbox->blockSignals(suppressSignals);
+        spinbox->setValue(int(value));
+        spinbox->blockSignals(oldSignalsState);
+    }
+    else if(doubleSpinbox)
+    {
+        bool oldSignalsState = doubleSpinbox->blockSignals(suppressSignals);
+        doubleSpinbox->setValue(value);
+        doubleSpinbox->blockSignals(oldSignalsState);
+    }
+    else static_cast<QSpinBox*>(spinbox_->getQWidget());
 }
 
 void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignals)

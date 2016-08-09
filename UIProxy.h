@@ -40,6 +40,7 @@ private slots:
     void onSceneChange(Window *window, int oldSceneID, int newSceneID);
     void onSetEnabled(Widget *widget, bool enabled);
     void onSetEditValue(Edit *edit, std::string value, bool suppressSignals);
+    void onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals);
     void onSetLabelText(Label *label, std::string text, bool suppressSignals);
     void onSetSliderValue(Slider *slider, int value, bool suppressSignals);
     void onSetCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals);
