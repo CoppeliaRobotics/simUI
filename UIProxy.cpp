@@ -154,6 +154,13 @@ void UIProxy::onHideWindow(Window *window)
     window->hide();
 }
 
+void UIProxy::onSetPosition(Window *window, int x, int y)
+{
+    if(!window) return;
+
+    window->getQWidget()->move(x, y);
+}
+
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
     DBG << "image=" << (void*)image << ", data=" << (void*)data << ", w=" << w << ", h=" << h << std::endl;

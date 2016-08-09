@@ -314,6 +314,33 @@ void isVisible(SScriptCallBack *p, const char *cmd, isVisible_in *in, isVisible_
     out->visibility = proxy->getWidget()->getQWidget()->isVisible();
 }
 
+void getPosition(SScriptCallBack *p, const char *cmd, getPosition_in *in, getPosition_out *out)
+{
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    QWidget *window = proxy->getWidget()->getQWidget();
+    out->x = window->x();
+    out->y = window->y();
+}
+
+void setPosition(SScriptCallBack *p, const char *cmd, setPosition_in *in, setPosition_out *out)
+{
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    Window *window = proxy->getWidget();
+    UIFunctions::getInstance()->setPosition(window, in->x, in->y);
+}
+
 void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setImageData_out *out)
 {
     Image *imageWidget = dynamic_cast<Image*>(Widget::byId(in->handle, in->id));

@@ -36,6 +36,7 @@ private slots:
     void onDestroy(Proxy *proxy);
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
+    void onSetPosition(Window *window, int x, int y);
     void onSetImage(Image *image, const char *data, int w, int h);
     void onSceneChange(Window *window, int oldSceneID, int newSceneID);
     void onSetEnabled(Widget *widget, bool enabled);

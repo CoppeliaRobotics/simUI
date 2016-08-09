@@ -351,6 +351,41 @@
             </param>
         </return>
     </command>
+    <command name="getPosition">
+        <description>Get the position of a UI window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
+            <param name="x" type="int">
+                <description>X position</description>
+            </param>
+            <param name="y" type="int">
+                <description>Y position</description>
+            </param>
+        </return>
+    </command>
+    <command name="setPosition">
+        <description>Set the position of a UI window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="x" type="int">
+                <description>X position</description>
+            </param>
+            <param name="y" type="int">
+                <description>Y position</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="setImageData">
         <description>Set image content using specified bitmap (RGB888) data.</description>
         <params>

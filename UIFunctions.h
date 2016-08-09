@@ -37,6 +37,7 @@ signals:
     void destroy(Proxy *proxy);
     void showWindow(Window *window);
     void hideWindow(Window *window);
+    void setPosition(Window *window, int x, int y);
     void setImage(Image *image, const char *data, int w, int h);
     void sceneChange(Window *window, int oldSceneID, int newSceneID);
     void setEnabled(Widget *widget, bool enabled);
