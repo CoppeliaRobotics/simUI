@@ -402,13 +402,13 @@
             </attribute>
             <attribute>
                 <name>minimum</name>
-                <type>int</type>
+                <type>int or float</type>
                 <default>0</default>
                 <description>Minimum value.</description>
             </attribute>
             <attribute>
                 <name>maximum</name>
-                <type>int</type>
+                <type>int or float</type>
                 <default>100</default>
                 <description>Maximum value.</description>
             </attribute>
@@ -426,7 +426,7 @@
             </attribute>
             <attribute>
                 <name>step</name>
-                <type>int</type>
+                <type>int or float</type>
                 <default>1</default>
                 <description>Step (increment/decrement) when using the buttons.</description>
             </attribute>
@@ -434,7 +434,7 @@
                 <name>float</name>
                 <type>bool</type>
                 <default>autodetect</default>
-                <description>If true, the spinbox will display a floating point value. If false, the spinbox will display integer values. If omitted, this property will be automatically determined by minimum/maximum values: if any of those is not a round integer, the spinbox will be float.</description>
+                <description>If true, the spinbox will display a floating point value. If false, the spinbox will display integer values. If omitted, this property will be automatically determined by minimum/maximum/step values: if any of those is not a round integer, the spinbox will be float.</description>
             </attribute>
             <attribute>
                 <name>onchange</name>
