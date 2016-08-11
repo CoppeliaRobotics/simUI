@@ -431,6 +431,12 @@
                 <description>Step (increment/decrement) when using the buttons.</description>
             </attribute>
             <attribute>
+                <name>float</name>
+                <type>bool</type>
+                <default>autodetect</default>
+                <description>If true, the spinbox will display a floating point value. If false, the spinbox will display integer values. If omitted, this property will be automatically determined by minimum/maximum values: if any of those is not a round integer, the spinbox will be float.</description>
+            </attribute>
+            <attribute>
                 <name>onchange</name>
                 <type>string</type>
                 <default />
