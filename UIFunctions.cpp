@@ -21,6 +21,7 @@ UIFunctions::UIFunctions(QObject *parent)
     connect(this, SIGNAL(create(Proxy*)), uiproxy, SLOT(onCreate(Proxy*)), Qt::BlockingQueuedConnection);
     connect(uiproxy, SIGNAL(buttonClick(Widget*)), this, SLOT(onButtonClick(Widget*)));
     connect(uiproxy, SIGNAL(valueChange(Widget*,int)), this, SLOT(onValueChange(Widget*,int)));
+    connect(uiproxy, SIGNAL(valueChange(Widget*,double)), this, SLOT(onValueChange(Widget*,double)));
     connect(uiproxy, SIGNAL(valueChange(Widget*,QString)), this, SLOT(onValueChange(Widget*,QString)));
     connect(uiproxy, SIGNAL(editingFinished(Edit*,QString)), this, SLOT(onEditingFinished(Edit*,QString)));
     connect(uiproxy, SIGNAL(windowClose(Window*)), this, SLOT(onWindowClose(Window*)));
@@ -97,17 +98,40 @@ void UIFunctions::onValueChange(Widget *widget, int value)
 {
     CHECK_POINTER(Widget, widget);
 
-    EventOnChangeInt *e = dynamic_cast<EventOnChangeInt*>(widget);
+    /* XXX: spinbox inherits EventOnChangeDouble; however, when float="false",
+     *      it emits a valueChanged(int) signal. So we try to read here also
+     *      for a EventOnChangeDouble handler here to cover for that case.
+     */
+    EventOnChangeInt *ei = dynamic_cast<EventOnChangeInt*>(widget);
+    EventOnChangeDouble *ed = dynamic_cast<Spinbox*>(widget) ? dynamic_cast<EventOnChangeDouble*>(widget) : 0;
 
-    if(!e) return;
-    if(e->onchange == "" || widget->proxy->scriptID == -1) return;
+    if(!ei && !ed) return;
+    std::string onchange = ei ? ei->onchange : ed->onchange;
+    if(onchange == "" || widget->proxy->scriptID == -1) return;
 
     onchangeIntCallback_in in_args;
     in_args.handle = widget->proxy->handle;
     in_args.id = widget->id;
     in_args.value = value;
     onchangeIntCallback_out out_args;
-    onchangeIntCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
+    onchangeIntCallback(widget->proxy->scriptID, onchange.c_str(), &in_args, &out_args);
+}
+
+void UIFunctions::onValueChange(Widget *widget, double value)
+{
+    CHECK_POINTER(Widget, widget);
+
+    EventOnChangeDouble *e = dynamic_cast<EventOnChangeDouble*>(widget);
+
+    if(!e) return;
+    if(e->onchange == "" || widget->proxy->scriptID == -1) return;
+
+    onchangeDoubleCallback_in in_args;
+    in_args.handle = widget->proxy->handle;
+    in_args.id = widget->id;
+    in_args.value = value;
+    onchangeDoubleCallback_out out_args;
+    onchangeDoubleCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
 }
 
 void UIFunctions::onValueChange(Widget *widget, QString value)

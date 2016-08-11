@@ -34,6 +34,14 @@ EventOnChangeInt::~EventOnChangeInt()
 {
 }
 
+EventOnChangeDouble::EventOnChangeDouble()
+{
+}
+
+EventOnChangeDouble::~EventOnChangeDouble()
+{
+}
+
 EventOnChangeString::EventOnChangeString()
 {
 }

@@ -31,6 +31,7 @@ private slots:
     void onCreate(Proxy *proxy);
     void onButtonClick();
     void onValueChange(int value);
+    void onValueChange(double value);
     void onValueChange(QString value);
     void onEditingFinished();
     void onDestroy(Proxy *proxy);
@@ -52,6 +53,7 @@ private slots:
 signals:
     void buttonClick(Widget *widget);
     void valueChange(Widget *widget, int value);
+    void valueChange(Widget *widget, double value);
     void valueChange(Widget *widget, QString value);
     void editingFinished(Edit *edit, QString value);
     void windowClose(Window *window);

@@ -14,7 +14,7 @@ class UIProxy;
 #include "Widget.h"
 #include "Event.h"
 
-class Spinbox : public Widget, public EventOnChangeInt
+class Spinbox : public Widget, public EventOnChangeDouble
 {
 protected:
     double minimum;

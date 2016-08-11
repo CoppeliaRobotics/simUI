@@ -464,6 +464,22 @@
         <return>
         </return>
     </script-function>
+    <script-function name="onchangeDoubleCallback">
+        <description>Callback for widget change event.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the widget</description>
+            </param>
+            <param name="value" type="float">
+                <description>the new value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
     <script-function name="onchangeStringCallback">
         <description>Callback for widget change event.</description>
         <params>

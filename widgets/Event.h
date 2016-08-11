@@ -47,6 +47,15 @@ public:
     friend class UIFunctions;
 };
 
+class EventOnChangeDouble : public EventOnChange
+{
+public:
+    EventOnChangeDouble();
+    virtual ~EventOnChangeDouble();
+
+    friend class UIFunctions;
+};
+
 class EventOnChangeString : public EventOnChange
 {
 public:

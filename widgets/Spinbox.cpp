@@ -54,7 +54,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
         spinbox->setPrefix(QString::fromStdString(prefix));
         spinbox->setSuffix(QString::fromStdString(suffix));
         spinbox->setSingleStep(step);
-        QObject::connect(spinbox, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
+        QObject::connect(spinbox, SIGNAL(valueChanged(double)), uiproxy, SLOT(onValueChange(double)));
         setQWidget(spinbox);
         setProxy(proxy);
         return spinbox;

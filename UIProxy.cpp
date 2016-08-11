@@ -93,6 +93,19 @@ void UIProxy::onValueChange(int value)
     }
 }
 
+void UIProxy::onValueChange(double value)
+{
+    QWidget *qwidget = dynamic_cast<QWidget*>(sender());
+    if(qwidget)
+    {
+        Widget *widget = Widget::byQWidget(qwidget);
+        if(widget)
+        {
+            emit valueChange(widget, value);
+        }
+    }
+}
+
 void UIProxy::onValueChange(QString value)
 {
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
