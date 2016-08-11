@@ -21,7 +21,7 @@ protected:
     double maximum;
     std::string prefix;
     std::string suffix;
-    int step;
+    double step;
     bool float_;
 
 public:
