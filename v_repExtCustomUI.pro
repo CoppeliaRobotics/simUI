@@ -69,6 +69,7 @@ PRE_TARGETDEPS += widgets.html
 
 HEADERS += \
     debug.h \
+    plugin.h \
     v_repExtCustomUI.h \
     ../include/v_repLib.h \
     stubs.h \

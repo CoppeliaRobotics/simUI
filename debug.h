@@ -5,6 +5,8 @@
 
 #include <QThread>
 
+#include "plugin.h"
+
 #ifdef QT_DEBUG
 #define DEBUG
 #endif
@@ -27,7 +29,7 @@ void simThread();
 #endif
 
 #ifdef DEBUG
-#define DBG DEBUG_STREAM << "\033[1;33m[" << threadNickname() << "] \033[1;31m" << __FILE__ << ":" << __LINE__ << "  \033[1;32m" << DBG_WHAT << "\033[0m" << "  "
+#define DBG DEBUG_STREAM << "\033[1;33m[" << PLUGIN_NAME << ":" << threadNickname() << "] \033[1;31m" << __FILE__ << ":" << __LINE__ << "  \033[1;32m" << DBG_WHAT << "\033[0m" << "  "
 #else // DEBUG
 #define DBG if(true) {} else DEBUG_STREAM
 #endif // DEBUG

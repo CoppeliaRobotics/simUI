@@ -28,6 +28,7 @@
 // -------------------------------------------------------------------
 
 #include "v_repExtCustomUI.h"
+#include "plugin.h"
 #include "debug.h"
 #include "v_repLib.h"
 #include <iostream>
@@ -67,9 +68,6 @@
 
 #define CONCAT(x, y, z) x y z
 #define strConCat(x, y, z)    CONCAT(x, y, z)
-
-#define PLUGIN_NAME "CustomUI"
-#define PLUGIN_VERSION 3 // 3 since V3.3.0, 2 since V3.3.0Beta.
 
 LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 
