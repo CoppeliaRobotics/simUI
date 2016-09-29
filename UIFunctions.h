@@ -17,6 +17,8 @@ public:
     static UIFunctions * getInstance(QObject *parent = 0);
     static void destroyInstance();
 
+    void connectSignals();
+
 private:
     UIFunctions(QObject *parent = 0);
 
