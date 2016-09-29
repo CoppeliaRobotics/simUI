@@ -30,6 +30,7 @@
 #include "v_repExtCustomUI.h"
 #include "plugin.h"
 #include "debug.h"
+#include "signal_spy.h"
 #include "v_repLib.h"
 #include <iostream>
 #include <fstream>
@@ -431,6 +432,10 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
         unloadVrepLibrary(vrepLib);
         return(0);
     }
+
+#ifdef DEBUG
+    SignalSpy::start();
+#endif
 
     UIProxy::getInstance(); // construct UIProxy here (UI thread)
 

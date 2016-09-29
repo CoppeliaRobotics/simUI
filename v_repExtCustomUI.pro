@@ -70,6 +70,7 @@ PRE_TARGETDEPS += widgets.html
 
 HEADERS += \
     debug.h \
+    signal_spy.h \
     plugin.h \
     v_repExtCustomUI.h \
     ../include/v_repLib.h \
@@ -101,6 +102,7 @@ HEADERS += \
 
 SOURCES += \
     debug.cpp \
+    signal_spy.cpp \
     v_repExtCustomUI.cpp \
     ../common/v_repLib.cpp \
     stubs.cpp \
