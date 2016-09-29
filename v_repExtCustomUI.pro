@@ -23,7 +23,7 @@ win32 {
 
 macx {
     DEFINES += MAC_VREP
-    INCLUDEPATH += "/usr/local/Cellar/boost/1.60.0_1/include/"
+    INCLUDEPATH += "/usr/local/Cellar/boost/1.61.0_1/include/"
 }
 
 unix:!macx {
