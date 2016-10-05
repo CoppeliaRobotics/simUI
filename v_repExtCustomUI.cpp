@@ -226,6 +226,16 @@ void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *
 void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *in, setCheckboxValue_out *out)
 {
     Checkbox *checkbox = getWidget<Checkbox>(in->handle, in->id, cmd, "checkbox");
+    switch(in->value)
+    {
+    case 0:
+    case 1:
+    case 2:
+        break;
+    default:
+        simSetLastError(cmd, "invalid checkbox value. must me 0, 1 or 2");
+        return;
+    }
     UIFunctions::getInstance()->setCheckboxValue(checkbox, in->value, in->suppressEvents);
 }
 
@@ -238,6 +248,15 @@ void getRadiobuttonValue(SScriptCallBack *p, const char *cmd, getRadiobuttonValu
 void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValue_in *in, setRadiobuttonValue_out *out)
 {
     Radiobutton *radiobutton = getWidget<Radiobutton>(in->handle, in->id, cmd, "radiobutton");
+    switch(in->value)
+    {
+    case 0:
+    case 1:
+        break;
+    default:
+        simSetLastError(cmd, "invalid radiobutton value. must me 0 or 1");
+        return;
+    }
     UIFunctions::getInstance()->setRadiobuttonValue(radiobutton, in->value, in->suppressEvents);
 }
 
