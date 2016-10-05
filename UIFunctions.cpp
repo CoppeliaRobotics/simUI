@@ -15,7 +15,6 @@ UIFunctions *UIFunctions::instance = NULL;
 UIFunctions::UIFunctions(QObject *parent)
     : QObject(parent)
 {
-    UIProxy *uiproxy = UIProxy::getInstance();
     connectSignals();
 }
 
@@ -45,6 +44,7 @@ void UIFunctions::destroyInstance()
 
 void UIFunctions::connectSignals()
 {
+    UIProxy *uiproxy = UIProxy::getInstance();
     // connect signals/slots from UIProxy to UIFunctions and vice-versa
     connect(this, SIGNAL(create(Proxy*)), uiproxy, SLOT(onCreate(Proxy*)), Qt::BlockingQueuedConnection);
     connect(uiproxy, SIGNAL(buttonClick(Widget*)), this, SLOT(onButtonClick(Widget*)));
