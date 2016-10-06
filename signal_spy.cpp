@@ -1,5 +1,6 @@
 #include "signal_spy.h"
 #include "debug.h"
+#include <string>
 #include <5.5.0/QtCore/private/qobject_p.h>
 
 std::ostream& operator<< (std::ostream &out, const QByteArray &a)
@@ -24,7 +25,8 @@ static int signalToMethodIndex(const QMetaObject * mo, int signal)
 
 static bool spyCondition(QObject *caller)
 {
-    return caller->objectName() == "UIProxy" || caller->objectName() == "UIFunctions";
+    std::string className(caller->metaObject()->className());
+    return className == "UIProxy" || className == "UIFunctions";
 }
 
 QThreadStorage<bool> SignalSpy::entered;
