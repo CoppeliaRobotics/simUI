@@ -1,5 +1,7 @@
 #include "signal_spy.h"
 #include "debug.h"
+#include "UIProxy.h"
+#include "UIFunctions.h"
 #include <string>
 #include <5.5.0/QtCore/private/qobject_p.h>
 
@@ -29,6 +31,13 @@ static bool spyCondition(QObject *caller)
     return className == "UIProxy" || className == "UIFunctions";
 }
 
+static std::string callerNickname(QObject *caller)
+{
+    if(caller == UIFunctions::getInstance()) return " (UIFunctionsSingleton)";
+    if(caller == UIProxy::getInstance()) return " (UIProxySingleton)";
+    return "";
+}
+
 QThreadStorage<bool> SignalSpy::entered;
 
 void SignalSpy::signal(QObject *caller, int signalIndex, void **)
@@ -40,7 +49,7 @@ void SignalSpy::signal(QObject *caller, int signalIndex, void **)
         int index = signalToMethodIndex(caller->metaObject(), signalIndex);
         if(index >= 0)
         {
-            DBG << caller << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
+            DBG << caller << callerNickname(caller) << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
         }
     }
 }
@@ -51,7 +60,7 @@ void SignalSpy::slot(QObject *caller, int index, void **)
     QScopedValueRollback<bool> roll(entered.localData(), true);
     if(spyCondition(caller))
     {
-        DBG << caller << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
+        DBG << caller << callerNickname(caller) << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
     }
 }
 
