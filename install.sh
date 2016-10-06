@@ -13,5 +13,6 @@ else
     DLEXT=so
 fi
 
+make && \
 cp -v "$(dirname "$0")/libv_repExtCustomUI.$DLEXT" "$TARGET"
 
