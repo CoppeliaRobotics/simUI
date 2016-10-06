@@ -31,7 +31,7 @@ static bool spyCondition(QObject *caller)
 
 QThreadStorage<bool> SignalSpy::entered;
 
-void SignalSpy::signalBegin(QObject *caller, int signalIndex, void **)
+void SignalSpy::signal(QObject *caller, int signalIndex, void **)
 {
     if(entered.localData()) return;
     QScopedValueRollback<bool> roll(entered.localData(), true);
@@ -40,24 +40,24 @@ void SignalSpy::signalBegin(QObject *caller, int signalIndex, void **)
         int index = signalToMethodIndex(caller->metaObject(), signalIndex);
         if(index >= 0)
         {
-            DBG << "SIGNAL: " << caller << "::" << caller->metaObject()->method(index).methodSignature() << std::endl;
+            DBG << caller << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
         }
     }
 }
 
-void SignalSpy::slotBegin(QObject *caller, int index, void **)
+void SignalSpy::slot(QObject *caller, int index, void **)
 {
     if(entered.localData()) return;
     QScopedValueRollback<bool> roll(entered.localData(), true);
     if(spyCondition(caller))
     {
-        DBG << "SLOT: " << caller << "::" << caller->metaObject()->method(index).methodSignature() << std::endl;
+        DBG << caller << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
     }
 }
 
 void SignalSpy::start()
 {
-    QSignalSpyCallbackSet set = {&signalBegin, &slotBegin, 0L, 0L};
+    QSignalSpyCallbackSet set = {&signal, &slot, 0L, 0L};
     qt_signal_spy_callback_set = set;
 }
 
