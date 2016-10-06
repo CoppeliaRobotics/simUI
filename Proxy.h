@@ -19,6 +19,7 @@ public:
 
     static void destroyTransientObjects();
     static void destroyAllObjects();
+    static void destroyAllObjectsFromUIThread();
 
     inline int getHandle() {return handle;}
     static Proxy* byHandle(int handle);

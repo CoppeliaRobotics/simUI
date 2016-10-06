@@ -5,6 +5,7 @@
 #include <map>
 #include <iostream>
 
+#include "UIProxy.h"
 #include "UIFunctions.h"
 
 #include "v_repLib.h"
@@ -20,16 +21,19 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Wind
       ui(ui_),
       widgets(widgets_)
 {
+    DBG << "[enter]" << std::endl;
+
     Proxy::proxies[handle] = this;
 
     DBG << "Proxy::proxies[" << handle << "] = " << this << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
+    DBG << "[leave]" << std::endl;
 }
 
 Proxy::~Proxy()
 {
-    // should be destroyed from the UI thread
+    DBG << "[enter]" << std::endl;
 
-    DBG << "begin..." << std::endl;
+    // should be destroyed from the UI thread
 
     if(ui)
     {
@@ -40,7 +44,7 @@ Proxy::~Proxy()
 
     Proxy::proxies.erase(handle);
 
-    DBG << "end" << std::endl;
+    DBG << "[leave]" << std::endl;
 }
 
 Proxy* Proxy::byHandle(int handle)
@@ -72,6 +76,8 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 // were created during simulation, which otherwise would leak indefinitely:
 void Proxy::destroyTransientObjects()
 {
+    DBG << "[enter]" << std::endl;
+
     std::vector<int> t;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
@@ -84,18 +90,51 @@ void Proxy::destroyTransientObjects()
     {
         Proxy *proxy = Proxy::byHandle(*it);
         if(proxy)
+        {
+            DBG << "destroying proxy " << proxy->getHandle() << "... (call UIFunctions::destroy())" << std::endl;
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+        }
     }
+
+    DBG << "[leave]" << std::endl;
 }
+
+// destroy all objects (must be called from SIM thread):
 
 void Proxy::destroyAllObjects()
 {
+    DBG << "[enter]" << std::endl;
+
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
     {
         Proxy *proxy = it->second;
         if(proxy)
+        {
+            DBG << "destroying proxy " << proxy->getHandle() << "... (call UIFunctions::destroy())" << std::endl;
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+        }
     }
+
+    DBG << "[leave]" << std::endl;
+}
+
+// analogous of previous function, but to be used when called from UI thread:
+
+void Proxy::destroyAllObjectsFromUIThread()
+{
+    DBG << "[enter]" << std::endl;
+
+    for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
+    {
+        Proxy *proxy = it->second;
+        if(proxy)
+        {
+            DBG << "destroying proxy " << proxy->getHandle() << "... (call UIProxy::onDestroy())" << std::endl;
+            UIProxy::getInstance()->onDestroy(proxy); // will also delete proxy
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
 }
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)

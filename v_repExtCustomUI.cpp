@@ -83,6 +83,7 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
+    DBG << "[enter]" << std::endl;
     tinyxml2::XMLDocument xmldoc;
     tinyxml2::XMLError error = xmldoc.Parse(in->xml.c_str(), in->xml.size());
 
@@ -116,23 +117,34 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
         destroy = true;
 
     int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
-    DBG << "Proxy created in sceneID " << sceneID << std::endl;
+    DBG << "Creating a new Proxy object... (destroy at simulation end = " << (destroy ? "true" : "false") << ")" << std::endl;
     Proxy *proxy = new Proxy(destroy, sceneID, p->scriptID, window, widgets);
+    out->uiHandle = proxy->getHandle();
+    DBG << "Proxy " << proxy->getHandle() << " created in scene " << sceneID << std::endl;
+
+    DBG << "call UIFunctions::create() (will emit the create(Proxy*) signal)..." << std::endl;
     UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
                             // will run code for creating Qt widgets in the UI thread
-    out->uiHandle = proxy->getHandle();
+    DBG << "[leave]" << std::endl;
 }
 
 void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *out)
 {
+    DBG << "[enter]" << std::endl;
+
     Proxy *proxy = Proxy::byHandle(in->handle);
     if(!proxy)
     {
+        DBG << "invalid ui handle: " << in->handle << std::endl;
+
         simSetLastError(cmd, "invalid ui handle");
         return;
     }
 
+    DBG << "call UIFunctions::destroy() (will emit the destroy(Proxy*) signal)..." << std::endl;
     UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+
+    DBG << "[leave]" << std::endl;
 }
 
 template<typename T>
@@ -463,12 +475,16 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 
 VREP_DLLEXPORT void v_repEnd()
 {
-    Proxy::destroyAllObjects();
+    DBG << "[enter]" << std::endl;
+
+    Proxy::destroyAllObjectsFromUIThread();
 
     UIFunctions::destroyInstance();
     UIProxy::destroyInstance();
 
     unloadVrepLibrary(vrepLib); // release the library
+
+    DBG << "[leave]" << std::endl;
 }
 
 VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customData, int* replyData)

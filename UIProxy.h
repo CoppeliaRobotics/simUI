@@ -26,6 +26,7 @@ private:
     static UIProxy *instance;
 
 public slots:
+    void onDestroy(Proxy *proxy);
 
 private slots:
     void onCreate(Proxy *proxy);
@@ -34,7 +35,6 @@ private slots:
     void onValueChange(double value);
     void onValueChange(QString value);
     void onEditingFinished();
-    void onDestroy(Proxy *proxy);
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
     void onSetPosition(Window *window, int x, int y);

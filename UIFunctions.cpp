@@ -38,8 +38,16 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
 
 void UIFunctions::destroyInstance()
 {
+    DBG << "[enter]" << std::endl;
+
     if(UIFunctions::instance)
+    {
         delete UIFunctions::instance;
+
+        DBG << "destroyed UIFunctions instance" << std::endl;
+    }
+
+    DBG << "[leave]" << std::endl;
 }
 
 void UIFunctions::connectSignals()
