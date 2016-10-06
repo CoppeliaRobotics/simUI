@@ -1,5 +1,12 @@
 #include "signal_spy.h"
+#include "debug.h"
 #include <5.5.0/QtCore/private/qobject_p.h>
+
+std::ostream& operator<< (std::ostream &out, const QByteArray &a)
+{
+    out << a.data();
+    return out;
+}
 
 static int signalToMethodIndex(const QMetaObject * mo, int signal)
 {
@@ -30,7 +37,9 @@ void SignalSpy::signalBegin(QObject *caller, int signalIndex, void **)
     {
         int index = signalToMethodIndex(caller->metaObject(), signalIndex);
         if(index >= 0)
-            qDebug() << "SIGNAL" << caller << caller->metaObject()->method(index).methodSignature();
+        {
+            DBG << "SIGNAL: " << caller << "::" << caller->metaObject()->method(index).methodSignature();
+        }
     }
 }
 
@@ -40,7 +49,7 @@ void SignalSpy::slotBegin(QObject *caller, int index, void **)
     QScopedValueRollback<bool> roll(entered.localData(), true);
     if(spyCondition(caller))
     {
-        qDebug() << "SLOT" << caller << caller->metaObject()->method(index).methodSignature();
+        DBG << "SLOT: " << caller << "::" << caller->metaObject()->method(index).methodSignature();
     }
 }
 
