@@ -34,7 +34,7 @@ void simThread();
 #define DBG if(true) {} else DEBUG_STREAM
 #endif // DEBUG
 
-#define ASSERT_THREAD(ID) if(ID##_THREAD != NULL && QThread::currentThreadId() != ID##_THREAD) { DBG << "FATAL: should be called from " #ID " thread" << std::endl; exit(1); } else if(ID##_THREAD == NULL) { DBG << "WARNING: cannot check ASSERT_THREAD(" #ID ") because global variable " #ID "_THREAD is not set." << std::endl; }
+#define ASSERT_THREAD(ID) if(ID##_THREAD != NULL && QThread::currentThreadId() != ID##_THREAD) { std::cerr << PLUGIN_NAME << ": " << __FILE__ << ":" << __LINE__ << " FATAL: " << DBG_WHAT << " should be called from " #ID " thread" << std::endl; exit(1); } else if(ID##_THREAD == NULL) { DBG << "WARNING: cannot check ASSERT_THREAD(" #ID ") because global variable " #ID "_THREAD is not set." << std::endl; }
 
 #endif // DEBUG_H_INCLUDED
 
