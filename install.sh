@@ -17,6 +17,7 @@ if [ "x$BUILD_TARGET" = "x" ]; then
     BUILD_TARGET=debug
 fi
 
+cd "`dirname "$0"`"
 make $BUILD_TARGET && \
-cp -v "`dirname "$0"`/libv_repExtCustomUI.$DLEXT" "$INSTALL_TARGET"
+cp -v "libv_repExtCustomUI.$DLEXT" "$INSTALL_TARGET"
 
