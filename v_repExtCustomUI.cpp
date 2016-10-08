@@ -83,6 +83,7 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
+    ASSERT_THREAD(SIM);
     DBG << "[enter]" << std::endl;
     tinyxml2::XMLDocument xmldoc;
     tinyxml2::XMLError error = xmldoc.Parse(in->xml.c_str(), in->xml.size());
@@ -130,6 +131,7 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 
 void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *out)
 {
+    ASSERT_THREAD(SIM);
     DBG << "[enter]" << std::endl;
 
     Proxy *proxy = Proxy::byHandle(in->handle);
@@ -193,6 +195,7 @@ void getSliderValue(SScriptCallBack *p, const char *cmd, getSliderValue_in *in, 
 
 void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, setSliderValue_out *out)
 {
+    ASSERT_THREAD(SIM);
     Slider *slider = getWidget<Slider>(in->handle, in->id, cmd, "slider");
     UIFunctions::getInstance()->setSliderValue(slider, in->value, in->suppressEvents);
 }
@@ -205,6 +208,7 @@ void getEditValue(SScriptCallBack *p, const char *cmd, getEditValue_in *in, getE
 
 void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setEditValue_out *out)
 {
+    ASSERT_THREAD(SIM);
     Edit *edit = getWidget<Edit>(in->handle, in->id, cmd, "edit");
     UIFunctions::getInstance()->setEditValue(edit, in->value, in->suppressEvents);
 }
@@ -219,6 +223,7 @@ void getSpinboxValue(SScriptCallBack *p, const char *cmd, getSpinboxValue_in *in
 
 void setSpinboxValue(SScriptCallBack *p, const char *cmd, setSpinboxValue_in *in, setSpinboxValue_out *out)
 {
+    ASSERT_THREAD(SIM);
     Spinbox *spinbox = getWidget<Spinbox>(in->handle, in->id, cmd, "spinbox");
     UIFunctions::getInstance()->setSpinboxValue(spinbox, in->value, in->suppressEvents);
 }
@@ -237,6 +242,7 @@ void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *
 
 void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *in, setCheckboxValue_out *out)
 {
+    ASSERT_THREAD(SIM);
     Checkbox *checkbox = getWidget<Checkbox>(in->handle, in->id, cmd, "checkbox");
     switch(in->value)
     {
@@ -259,6 +265,7 @@ void getRadiobuttonValue(SScriptCallBack *p, const char *cmd, getRadiobuttonValu
 
 void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValue_in *in, setRadiobuttonValue_out *out)
 {
+    ASSERT_THREAD(SIM);
     Radiobutton *radiobutton = getWidget<Radiobutton>(in->handle, in->id, cmd, "radiobutton");
     switch(in->value)
     {
@@ -280,18 +287,21 @@ void getLabelText(SScriptCallBack *p, const char *cmd, getLabelText_in *in, getL
 
 void setLabelText(SScriptCallBack *p, const char *cmd, setLabelText_in *in, setLabelText_out *out)
 {
+    ASSERT_THREAD(SIM);
     Label *label = getWidget<Label>(in->handle, in->id, cmd, "label");
     UIFunctions::getInstance()->setLabelText(label, in->text, in->suppressEvents);
 }
 
 void insertComboboxItem(SScriptCallBack *p, const char *cmd, insertComboboxItem_in *in, insertComboboxItem_out *out)
 {
+    ASSERT_THREAD(SIM);
     Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
     UIFunctions::getInstance()->insertComboboxItem(combobox, in->index, in->text, in->suppressEvents);
 }
 
 void removeComboboxItem(SScriptCallBack *p, const char *cmd, removeComboboxItem_in *in, removeComboboxItem_out *out)
 {
+    ASSERT_THREAD(SIM);
     Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
     UIFunctions::getInstance()->removeComboboxItem(combobox, in->index, in->suppressEvents);
 }
@@ -310,6 +320,7 @@ void getComboboxItemText(SScriptCallBack *p, const char *cmd, getComboboxItemTex
 
 void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)
 {
+    ASSERT_THREAD(SIM);
     Proxy *proxy = Proxy::byHandle(in->handle);
     if(!proxy)
     {
@@ -322,6 +333,7 @@ void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)
 
 void show(SScriptCallBack *p, const char *cmd, show_in *in, show_out *out)
 {
+    ASSERT_THREAD(SIM);
     Proxy *proxy = Proxy::byHandle(in->handle);
     if(!proxy)
     {
@@ -360,6 +372,7 @@ void getPosition(SScriptCallBack *p, const char *cmd, getPosition_in *in, getPos
 
 void setPosition(SScriptCallBack *p, const char *cmd, setPosition_in *in, setPosition_out *out)
 {
+    ASSERT_THREAD(SIM);
     Proxy *proxy = Proxy::byHandle(in->handle);
     if(!proxy)
     {
@@ -373,6 +386,7 @@ void setPosition(SScriptCallBack *p, const char *cmd, setPosition_in *in, setPos
 
 void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setImageData_out *out)
 {
+    ASSERT_THREAD(SIM);
     Image *imageWidget = dynamic_cast<Image*>(Widget::byId(in->handle, in->id));
     if(!imageWidget)
     {
@@ -401,6 +415,7 @@ void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setI
 
 void setEnabled(SScriptCallBack *p, const char *cmd, setEnabled_in *in, setEnabled_out *out)
 {
+    ASSERT_THREAD(SIM);
     Widget *widget = Widget::byId(in->handle, in->id);
     if(!widget)
     {
@@ -475,6 +490,7 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 
 VREP_DLLEXPORT void v_repEnd()
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     Proxy::destroyAllObjectsFromUIThread();
@@ -506,6 +522,7 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
     if(message == sim_message_eventcallback_simulationended)
     { // Simulation just ended
         // TODO: move this to sim_message_eventcallback_simulationabouttoend
+        // TODO: ASSERT_THREAD(???)
         Proxy::destroyTransientObjects();
     }
 

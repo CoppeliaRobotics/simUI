@@ -31,6 +31,7 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Wind
 
 Proxy::~Proxy()
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     // should be destroyed from the UI thread
@@ -66,7 +67,7 @@ Widget * Proxy::getWidgetById(int id)
 
 void Proxy::createQtWidget(UIProxy *uiproxy)
 {
-    // this should be executed in the UI thread
+    ASSERT_THREAD(UI);
 
     QWidget *mainWindow = (QWidget *)simGetMainWindow(1);
     ui->createQtWidget(this, uiproxy, mainWindow);
@@ -76,6 +77,7 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 // were created during simulation, which otherwise would leak indefinitely:
 void Proxy::destroyTransientObjects()
 {
+    ASSERT_THREAD(SIM);
     DBG << "[enter]" << std::endl;
 
     std::vector<int> t;
@@ -103,6 +105,7 @@ void Proxy::destroyTransientObjects()
 
 void Proxy::destroyAllObjects()
 {
+    ASSERT_THREAD(SIM);
     DBG << "[enter]" << std::endl;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
@@ -122,6 +125,7 @@ void Proxy::destroyAllObjects()
 
 void Proxy::destroyAllObjectsFromUIThread()
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
@@ -139,6 +143,7 @@ void Proxy::destroyAllObjectsFromUIThread()
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)
 {
+    ASSERT_THREAD(SIM);
     if(ui)
     {
         UIFunctions::getInstance()->sceneChange(ui, oldSceneID, newSceneID);
@@ -147,6 +152,7 @@ void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID)
 {
+    ASSERT_THREAD(SIM);
     void *arg = 0;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)

@@ -92,6 +92,7 @@ void UIFunctions::connectSignals()
 
 void UIFunctions::onButtonClick(Widget *widget)
 {
+    ASSERT_THREAD(SIM);
     CHECK_POINTER(Widget, widget);
 
     EventOnClick *e = dynamic_cast<EventOnClick*>(widget);
@@ -108,6 +109,7 @@ void UIFunctions::onButtonClick(Widget *widget)
 
 void UIFunctions::onValueChange(Widget *widget, int value)
 {
+    ASSERT_THREAD(SIM);
     CHECK_POINTER(Widget, widget);
 
     /* XXX: spinbox inherits EventOnChangeDouble; however, when float="false",
@@ -131,6 +133,7 @@ void UIFunctions::onValueChange(Widget *widget, int value)
 
 void UIFunctions::onValueChange(Widget *widget, double value)
 {
+    ASSERT_THREAD(SIM);
     CHECK_POINTER(Widget, widget);
 
     EventOnChangeDouble *e = dynamic_cast<EventOnChangeDouble*>(widget);
@@ -148,6 +151,7 @@ void UIFunctions::onValueChange(Widget *widget, double value)
 
 void UIFunctions::onValueChange(Widget *widget, QString value)
 {
+    ASSERT_THREAD(SIM);
     CHECK_POINTER(Widget, widget);
 
     EventOnChangeString *e = dynamic_cast<EventOnChangeString*>(widget);
@@ -165,6 +169,7 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
 
 void UIFunctions::onEditingFinished(Edit *edit, QString value)
 {
+    ASSERT_THREAD(SIM);
     CHECK_POINTER(Widget, edit);
 
     EventOnEditingFinished *e = dynamic_cast<EventOnEditingFinished*>(edit);
@@ -182,6 +187,7 @@ void UIFunctions::onEditingFinished(Edit *edit, QString value)
 
 void UIFunctions::onWindowClose(Window *window)
 {
+    ASSERT_THREAD(SIM);
     CHECK_POINTER(Window, window);
 
     oncloseCallback_in in_args;
@@ -192,6 +198,7 @@ void UIFunctions::onWindowClose(Window *window)
 
 void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
 {
+    ASSERT_THREAD(SIM);
     CHECK_POINTER(Widget, image);
 
     QImage::Format format = QImage::Format_RGB888;

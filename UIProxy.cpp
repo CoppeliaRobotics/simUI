@@ -65,6 +65,7 @@ void UIProxy::destroyInstance()
 
 void UIProxy::onCreate(Proxy *proxy)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     proxy->createQtWidget(this);
@@ -81,6 +82,7 @@ void UIProxy::onCreate(Proxy *proxy)
 
 void UIProxy::onButtonClick()
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
@@ -98,6 +100,7 @@ void UIProxy::onButtonClick()
 
 void UIProxy::onValueChange(int value)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
@@ -115,6 +118,7 @@ void UIProxy::onValueChange(int value)
 
 void UIProxy::onValueChange(double value)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
@@ -132,6 +136,7 @@ void UIProxy::onValueChange(double value)
 
 void UIProxy::onValueChange(QString value)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
@@ -149,6 +154,7 @@ void UIProxy::onValueChange(QString value)
 
 void UIProxy::onEditingFinished()
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QLineEdit *qedit = dynamic_cast<QLineEdit*>(sender());
@@ -172,6 +178,7 @@ void UIProxy::onEditingFinished()
 
 void UIProxy::onDestroy(Proxy *proxy)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     DBG << "proxy=" << (void*)proxy << std::endl;
@@ -200,6 +207,7 @@ void UIProxy::onDestroy(Proxy *proxy)
 
 void UIProxy::onShowWindow(Window *window)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     DBG << "window=" << (void*)window << std::endl;
@@ -213,6 +221,7 @@ void UIProxy::onShowWindow(Window *window)
 
 void UIProxy::onHideWindow(Window *window)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     DBG << "window=" << (void*)window << std::endl;
@@ -226,6 +235,7 @@ void UIProxy::onHideWindow(Window *window)
 
 void UIProxy::onSetPosition(Window *window, int x, int y)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     if(!window) return;
@@ -237,6 +247,7 @@ void UIProxy::onSetPosition(Window *window, int x, int y)
 
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     DBG << "image=" << (void*)image << ", data=" << (void*)data << ", w=" << w << ", h=" << h << std::endl;
@@ -257,6 +268,7 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 
 void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     DBG << "window=" << (void*)window << ", oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
@@ -270,6 +282,7 @@ void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 
 void UIProxy::onSetEnabled(Widget *widget, bool enabled)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     DBG << "widget=" << (void*)widget << ", enabled=" << enabled << std::endl;
@@ -283,6 +296,7 @@ void UIProxy::onSetEnabled(Widget *widget, bool enabled)
 
 void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QLineEdit *qedit = static_cast<QLineEdit*>(edit->getQWidget());
@@ -295,6 +309,7 @@ void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals
 
 void UIProxy::onSetSpinboxValue(Spinbox *spinbox_, double value, bool suppressSignals)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QSpinBox *spinbox = dynamic_cast<QSpinBox*>(spinbox_->getQWidget());
@@ -318,6 +333,7 @@ void UIProxy::onSetSpinboxValue(Spinbox *spinbox_, double value, bool suppressSi
 
 void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignals)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QLabel *qlabel = static_cast<QLabel*>(label->getQWidget());
@@ -330,6 +346,7 @@ void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignal
 
 void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QSlider *qslider = static_cast<QSlider*>(slider->getQWidget());
@@ -342,6 +359,7 @@ void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 
 void UIProxy::onSetCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QCheckBox *qcheckbox = static_cast<QCheckBox*>(checkbox->getQWidget());
@@ -360,6 +378,7 @@ void UIProxy::onSetCheckboxValue(Checkbox *checkbox, int value, bool suppressSig
 
 void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QRadioButton *qradiobutton = static_cast<QRadioButton*>(radiobutton->getQWidget());
@@ -377,6 +396,7 @@ void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, int value, bool su
 
 void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
@@ -389,6 +409,7 @@ void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string te
 
 void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals)
 {
+    ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
     QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
