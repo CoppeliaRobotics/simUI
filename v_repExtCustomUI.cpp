@@ -427,6 +427,12 @@ void setEnabled(SScriptCallBack *p, const char *cmd, setEnabled_in *in, setEnabl
     UIFunctions::getInstance()->setEnabled(widget, in->enabled);
 }
 
+void getCurrentTab(SScriptCallBack *p, const char *cmd, getCurrentTab_in *in, getCurrentTab_out *out)
+{
+    QTabWidget *tabs = getQWidget<QTabWidget>(in->handle, in->id, cmd, "tabs");
+    out->index = tabs->currentIndex();
+}
+
 void setCurrentTab(SScriptCallBack *p, const char *cmd, setCurrentTab_in *in, setCurrentTab_out *out)
 {
     ASSERT_THREAD(SIM);

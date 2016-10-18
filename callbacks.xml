@@ -427,8 +427,24 @@
         <return>
         </return>
     </command>
+    <command name="getCurrentTab">
+        <description>Get the current tab index of a tabs widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="index" type="int">
+                <description>index of the tab (zero-based)</description>
+            </param>
+        </return>
+    </command>
     <command name="setCurrentTab">
-        <description>Set the current tab in a tabs widget.</description>
+        <description>Set the current tab index in a tabs widget.</description>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
