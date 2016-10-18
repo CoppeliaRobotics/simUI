@@ -57,6 +57,8 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     closeable = xmlutils::getAttrBool(e, "closeable", false);
 
+    modal = xmlutils::getAttrBool(e, "modal", false);
+
     onclose = xmlutils::getAttrStr(e, "onclose", "");
 
     style = xmlutils::getAttrStr(e, "style", "");
@@ -126,6 +128,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     else flags |= Qt::MSWindowsFixedSizeDialogHint;
     if(closeable) flags |= Qt::WindowCloseButtonHint;
     window->setWindowFlags(flags);
+    window->setModal(modal);
     //window->setAttribute(Qt::WA_DeleteOnClose);
     window->show();
 #ifdef LIN_VREP

@@ -29,6 +29,7 @@ protected:
     std::string title;
     bool resizable;
     bool closeable;
+    bool modal;
     std::string onclose;
     std::string style;
 
