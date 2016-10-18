@@ -49,6 +49,7 @@ private slots:
     void onSetRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals);
     void onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals);
     void onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals);
+    void onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals);
 
 signals:
     void buttonClick(Widget *widget);

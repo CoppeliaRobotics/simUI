@@ -420,3 +420,16 @@ void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressS
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QTabWidget *qtabwidget = static_cast<QTabWidget*>(tabs->getQWidget());
+    bool oldSignalsState = qtabwidget->blockSignals(suppressSignals);
+    qtabwidget->setCurrentIndex(index);
+    qtabwidget->blockSignals(oldSignalsState);
+
+    DBG << "[leave]" << std::endl;
+}
+

@@ -427,6 +427,25 @@
         <return>
         </return>
     </command>
+    <command name="setCurrentTab">
+        <description>Set the current tab in a tabs widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="index" type="int">
+                <description>index of the tab (zero-based)</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

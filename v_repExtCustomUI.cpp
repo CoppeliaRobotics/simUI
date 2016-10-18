@@ -427,6 +427,13 @@ void setEnabled(SScriptCallBack *p, const char *cmd, setEnabled_in *in, setEnabl
     UIFunctions::getInstance()->setEnabled(widget, in->enabled);
 }
 
+void setCurrentTab(SScriptCallBack *p, const char *cmd, setCurrentTab_in *in, setCurrentTab_out *out)
+{
+    ASSERT_THREAD(SIM);
+    Tabs *tabs = getWidget<Tabs>(in->handle, in->id, cmd, "tabs");
+    UIFunctions::getInstance()->setCurrentTab(tabs, in->index, in->suppressEvents);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

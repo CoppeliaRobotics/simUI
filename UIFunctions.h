@@ -52,6 +52,7 @@ signals:
     void setRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals);
     void insertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals);
     void removeComboboxItem(Combobox *combobox, int index, bool suppressSignals);
+    void setCurrentTab(Tabs *tabs, int index, bool suppressSignals);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED
