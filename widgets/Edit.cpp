@@ -30,6 +30,7 @@ QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QLineEdit *edit = new QLineEdit(parent);
     edit->setEnabled(enabled);
+    edit->setVisible(visible);
     edit->setStyleSheet(QString::fromStdString(style));
     edit->setText(QString::fromStdString(value));
     QObject::connect(edit, SIGNAL(textChanged(QString)), uiproxy, SLOT(onValueChange(QString)));

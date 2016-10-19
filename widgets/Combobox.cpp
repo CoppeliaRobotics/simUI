@@ -36,6 +36,7 @@ QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
 {
     QComboBox *combobox = new QComboBox(parent);
     combobox->setEnabled(enabled);
+    combobox->setVisible(visible);
     combobox->setStyleSheet(QString::fromStdString(style));
     for(std::vector<std::string>::const_iterator it = items.begin(); it != items.end(); ++it)
     {

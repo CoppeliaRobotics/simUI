@@ -28,6 +28,7 @@ QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QGroupBox *groupBox = new QGroupBox(parent);
     groupBox->setEnabled(enabled);
+    groupBox->setVisible(visible);
     groupBox->setStyleSheet(QString::fromStdString(style));
     groupBox->setFlat(flat);
     LayoutWidget::createQtWidget(proxy, uiproxy, groupBox);

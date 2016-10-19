@@ -34,6 +34,7 @@ QWidget * Tab::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QWidget *tab = new QWidget(parent);
     tab->setEnabled(enabled);
+    tab->setVisible(visible);
     tab->setStyleSheet(QString::fromStdString(style));
     LayoutWidget::createQtWidget(proxy, uiproxy, tab);
     setQWidget(tab);
@@ -70,6 +71,7 @@ QWidget * Tabs::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QTabWidget *tabwidget = new QTabWidget(parent);
     tabwidget->setEnabled(enabled);
+    tabwidget->setVisible(visible);
     tabwidget->setStyleSheet(QString::fromStdString(style));
     for(std::vector<Tab*>::const_iterator it = tabs.begin(); it != tabs.end(); ++it)
     {

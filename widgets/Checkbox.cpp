@@ -30,6 +30,7 @@ QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
 {
     QCheckBox *checkbox = new QCheckBox(QString::fromStdString(text), parent);
     checkbox->setEnabled(enabled);
+    checkbox->setVisible(visible);
     checkbox->setStyleSheet(QString::fromStdString(style));
     checkbox->setChecked(checked);
     QObject::connect(checkbox, SIGNAL(stateChanged(int)), uiproxy, SLOT(onValueChange(int)));

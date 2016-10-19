@@ -28,6 +28,7 @@ QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QLabel *label = new QLabel(QString::fromStdString(text), parent);
     label->setEnabled(enabled);
+    label->setVisible(visible);
     label->setStyleSheet(QString::fromStdString(style));
     label->setWordWrap(wordWrap);
     setQWidget(label);

@@ -51,6 +51,7 @@ QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
 {
     QSlider *slider = new QSlider(getOrientation(), parent);
     slider->setEnabled(enabled);
+    slider->setVisible(visible);
     slider->setStyleSheet(QString::fromStdString(style));
     slider->setMinimum(minimum);
     slider->setMaximum(maximum);

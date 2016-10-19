@@ -48,6 +48,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
     {
         QDoubleSpinBox *spinbox = new QDoubleSpinBox(parent);
         spinbox->setEnabled(enabled);
+        spinbox->setVisible(visible);
         spinbox->setStyleSheet(QString::fromStdString(style));
         spinbox->setMinimum(minimum);
         spinbox->setMaximum(maximum);
@@ -63,6 +64,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
     {
         QSpinBox *spinbox = new QSpinBox(parent);
         spinbox->setEnabled(enabled);
+        spinbox->setVisible(visible);
         spinbox->setStyleSheet(QString::fromStdString(style));
         spinbox->setMinimum(int(minimum));
         spinbox->setMaximum(int(maximum));

@@ -30,6 +30,7 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
 {
     QPushButton *button = new QPushButton(QString::fromStdString(text), parent);
     button->setEnabled(enabled);
+    button->setVisible(visible);
     button->setStyleSheet(QString::fromStdString(style));
     button->setAutoDefault(false);
     button->setDefault(defaulT);

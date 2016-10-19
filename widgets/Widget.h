@@ -30,6 +30,7 @@ protected:
     int id;
     std::string style;
     bool enabled;
+    bool visible;
 
     Widget(std::string widgetClass);
 

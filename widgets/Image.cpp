@@ -32,6 +32,7 @@ QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QLabel *label = new QLabel(parent);
     label->setEnabled(enabled);
+    label->setVisible(visible);
     label->setStyleSheet(QString::fromStdString(style));
     if(file != "")
     {
