@@ -435,6 +435,19 @@ void UIProxy::onSetComboboxItems(Combobox *combobox, QStringList &items, int ind
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
+    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
+    qcombobox->setCurrentIndex(index);
+    qcombobox->blockSignals(oldSignalsState);
+
+    DBG << "[leave]" << std::endl;
+}
+
 void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);

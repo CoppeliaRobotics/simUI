@@ -336,6 +336,13 @@ void setComboboxItems(SScriptCallBack *p, const char *cmd, setComboboxItems_in *
     UIFunctions::getInstance()->setComboboxItems(combobox, items, in->index, in->suppressEvents);
 }
 
+void setComboboxSelectedIndex(SScriptCallBack *p, const char *cmd, setComboboxSelectedIndex_in *in, setComboboxSelectedIndex_out *out)
+{
+    ASSERT_THREAD(SIM);
+    Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
+    UIFunctions::getInstance()->setComboboxSelectedIndex(combobox, in->index, in->suppressEvents);
+}
+
 void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)
 {
     ASSERT_THREAD(SIM);

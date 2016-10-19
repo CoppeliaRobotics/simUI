@@ -356,6 +356,25 @@
         <return>
         </return>
     </command>
+    <command name="setComboboxSelectedIndex">
+        <description>Change the selected item index in a combobox widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="index" type="int">
+                <description>Index of selected item after inserting all the items.</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="hide">
         <description>Hide the UI window.</description>
         <params>

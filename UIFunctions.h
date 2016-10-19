@@ -53,6 +53,7 @@ signals:
     void insertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals);
     void removeComboboxItem(Combobox *combobox, int index, bool suppressSignals);
     void setComboboxItems(Combobox *combobox, QStringList &items, int index, bool suppressEvents);
+    void setComboboxSelectedIndex(Combobox *combobox, int index, bool suppressEvents);
     void setCurrentTab(Tabs *tabs, int index, bool suppressSignals);
 };
 
