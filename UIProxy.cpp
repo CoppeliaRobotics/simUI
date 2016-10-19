@@ -420,6 +420,21 @@ void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressS
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onSetComboboxItems(Combobox *combobox, QStringList &items, int index, bool suppressSignals)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
+    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
+    qcombobox->clear();
+    qcombobox->addItems(items);
+    qcombobox->setCurrentIndex(index);
+    qcombobox->blockSignals(oldSignalsState);
+
+    DBG << "[leave]" << std::endl;
+}
+
 void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);

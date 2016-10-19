@@ -39,6 +39,7 @@
 #include <map>
 
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/foreach.hpp>
 
 #include <QThread>
 #include <QSlider>
@@ -316,6 +317,23 @@ void getComboboxItemText(SScriptCallBack *p, const char *cmd, getComboboxItemTex
 {
     QComboBox *combobox = getQWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
     out->text = combobox->itemText(in->index).toStdString();
+}
+
+void getComboboxItems(SScriptCallBack *p, const char *cmd, getComboboxItems_in *in, getComboboxItems_out *out)
+{
+    QComboBox *combobox = getQWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
+    for(int i = 0; i < combobox->count(); ++i)
+        out->items.push_back(combobox->itemText(i).toStdString());
+}
+
+void setComboboxItems(SScriptCallBack *p, const char *cmd, setComboboxItems_in *in, setComboboxItems_out *out)
+{
+    ASSERT_THREAD(SIM);
+    Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
+    QStringList items;
+    BOOST_FOREACH(std::string &s, in->items)
+        items.push_back(QString::fromStdString(s));
+    UIFunctions::getInstance()->setComboboxItems(combobox, items, in->index, in->suppressEvents);
 }
 
 void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)

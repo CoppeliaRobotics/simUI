@@ -77,6 +77,7 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(setRadiobuttonValue(Radiobutton*,int,bool)), uiproxy, SLOT(onSetRadiobuttonValue(Radiobutton*,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(insertComboboxItem(Combobox*,int,std::string,bool)), uiproxy, SLOT(onInsertComboboxItem(Combobox*,int,std::string,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(removeComboboxItem(Combobox*,int,bool)), uiproxy, SLOT(onRemoveComboboxItem(Combobox*,int,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setComboboxItems(Combobox*,QStringList&,int,bool)), uiproxy, SLOT(onSetComboboxItems(Combobox*,QStringList&,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setCurrentTab(Tabs*,int,bool)), uiproxy, SLOT(onSetCurrentTab(Tabs*,int,bool)), Qt::BlockingQueuedConnection);
 }
 

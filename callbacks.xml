@@ -318,6 +318,44 @@
             </param>
         </return>
     </command>
+    <command name="getComboboxItems">
+        <description>Get the content of a combobox.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="items" type="table" item-type="string">
+                <description>Array of items (strings).</description>
+            </param>
+        </return>
+    </command>
+    <command name="setComboboxItems">
+        <description>Populate a combobox widget with the specified items, and set the selected item to the specified index.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="items" type="table" item-type="string">
+                <description>Array of items (strings).</description>
+            </param>
+            <param name="index" type="int">
+                <description>Index of selected item after inserting all the items.</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="hide">
         <description>Hide the UI window.</description>
         <params>
