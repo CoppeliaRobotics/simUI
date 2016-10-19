@@ -55,6 +55,7 @@ signals:
     void setComboboxItems(Combobox *combobox, QStringList &items, int index, bool suppressEvents);
     void setComboboxSelectedIndex(Combobox *combobox, int index, bool suppressEvents);
     void setCurrentTab(Tabs *tabs, int index, bool suppressSignals);
+    void setWidgetVisibility(Widget *widget, bool visible);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

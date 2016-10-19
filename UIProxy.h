@@ -52,6 +52,7 @@ private slots:
     void onSetComboboxItems(Combobox *combobox, QStringList &items, int index, bool suppressSignals);
     void onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals);
     void onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals);
+    void onSetWidgetVisibility(Widget *widget, bool visible);
 
 signals:
     void buttonClick(Widget *widget);

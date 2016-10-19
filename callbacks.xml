@@ -519,6 +519,38 @@
         <return>
         </return>
     </command>
+    <command name="getWidgetVisibility">
+        <description>Get the visibility status of a widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="visibility" type="bool">
+                <description>true if the window is visible, false otherwise</description>
+            </param>
+        </return>
+    </command>
+    <command name="setWidgetVisibility">
+        <description>Hide or show a widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="visibility" type="bool">
+                <description>true if the window is visible, false otherwise</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

@@ -465,6 +465,26 @@ void setCurrentTab(SScriptCallBack *p, const char *cmd, setCurrentTab_in *in, se
     UIFunctions::getInstance()->setCurrentTab(tabs, in->index, in->suppressEvents);
 }
 
+void getWidgetVisibility(SScriptCallBack *p, const char *cmd, getWidgetVisibility_in *in, getWidgetVisibility_out *out)
+{
+    QWidget *widget = getQWidget<QWidget>(in->handle, in->id, cmd, "widget");
+    out->visibility = widget->isVisible();
+}
+
+void setWidgetVisibility(SScriptCallBack *p, const char *cmd, setWidgetVisibility_in *in, setWidgetVisibility_out *out)
+{
+    ASSERT_THREAD(SIM);
+    Widget *widget = Widget::byId(in->handle, in->id);
+    if(!widget)
+    {
+        std::stringstream ss;
+        ss << "invalid widget id: " << in->id;
+        throw std::runtime_error(ss.str());
+    }
+
+    UIFunctions::getInstance()->setWidgetVisibility(widget, in->visibility);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

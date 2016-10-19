@@ -461,3 +461,17 @@ void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    DBG << "widget=" << (void*)widget << ", visible=" << visible << std::endl;
+
+    if(!widget) return;
+
+    widget->getQWidget()->setVisible(visible);
+
+    DBG << "[leave]" << std::endl;
+}
+

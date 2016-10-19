@@ -80,6 +80,7 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(setComboboxItems(Combobox*,QStringList&,int,bool)), uiproxy, SLOT(onSetComboboxItems(Combobox*,QStringList&,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setComboboxSelectedIndex(Combobox*,int,bool)), uiproxy, SLOT(onSetComboboxSelectedIndex(Combobox*,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setCurrentTab(Tabs*,int,bool)), uiproxy, SLOT(onSetCurrentTab(Tabs*,int,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setWidgetVisibility(Widget*,bool)), uiproxy, SLOT(onSetWidgetVisibility(Widget*,bool)), Qt::BlockingQueuedConnection);
 }
 
 /**
