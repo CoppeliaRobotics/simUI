@@ -34,7 +34,22 @@ void simThread();
 #define DBG if(true) {} else DEBUG_STREAM
 #endif // DEBUG
 
-#define ASSERT_THREAD(ID) if(ID##_THREAD != NULL && QThread::currentThreadId() != ID##_THREAD) { std::cerr << PLUGIN_NAME << ": " << __FILE__ << ":" << __LINE__ << " FATAL: " << DBG_WHAT << " should be called from " #ID " thread" << std::endl; exit(1); } else if(ID##_THREAD == NULL) { DBG << "WARNING: cannot check ASSERT_THREAD(" #ID ") because global variable " #ID "_THREAD is not set." << std::endl; }
+#define ASSERT_THREAD(ID) \
+    if(UI_THREAD == NULL) {\
+        DBG << "WARNING: cannot check ASSERT_THREAD(" #ID ") because global variable UI_THREAD is not set yet." << std::endl;\
+    } else if(strcmp(#ID, "UI") == 0) {\
+        if(QThread::currentThreadId() != UI_THREAD) {\
+            std::cerr << PLUGIN_NAME << ": " << __FILE__ << ":" << __LINE__ << " FATAL: " << DBG_WHAT << " should be called from UI thread" << std::endl;\
+            exit(1);\
+        }\
+    } else if(strcmp(#ID, "!UI") == 0) {\
+        if(QThread::currentThreadId() == UI_THREAD) {\
+            std::cerr << PLUGIN_NAME << ": " << __FILE__ << ":" << __LINE__ << " FATAL: " << DBG_WHAT << " should NOT be called from UI thread" << std::endl;\
+            exit(1);\
+        }\
+    } else {\
+        DBG << "WARNING: cannot check ASSERT_THREAD(" #ID "). Can check only UI and !UI." << std::endl;\
+    }
 
 #endif // DEBUG_H_INCLUDED
 

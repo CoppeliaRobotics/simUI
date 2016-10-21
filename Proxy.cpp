@@ -77,7 +77,7 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 // were created during simulation, which otherwise would leak indefinitely:
 void Proxy::destroyTransientObjects()
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     DBG << "[enter]" << std::endl;
 
     std::vector<int> t;
@@ -105,7 +105,7 @@ void Proxy::destroyTransientObjects()
 
 void Proxy::destroyAllObjects()
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     DBG << "[enter]" << std::endl;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
@@ -143,7 +143,7 @@ void Proxy::destroyAllObjectsFromUIThread()
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     if(ui)
     {
         UIFunctions::getInstance()->sceneChange(ui, oldSceneID, newSceneID);
@@ -152,7 +152,7 @@ void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     void *arg = 0;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)

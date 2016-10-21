@@ -84,7 +84,7 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     DBG << "[enter]" << std::endl;
     tinyxml2::XMLDocument xmldoc;
     tinyxml2::XMLError error = xmldoc.Parse(in->xml.c_str(), in->xml.size());
@@ -132,7 +132,7 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 
 void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     DBG << "[enter]" << std::endl;
 
     Proxy *proxy = Proxy::byHandle(in->handle);
@@ -196,7 +196,7 @@ void getSliderValue(SScriptCallBack *p, const char *cmd, getSliderValue_in *in, 
 
 void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, setSliderValue_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Slider *slider = getWidget<Slider>(in->handle, in->id, cmd, "slider");
     UIFunctions::getInstance()->setSliderValue(slider, in->value, in->suppressEvents);
 }
@@ -209,7 +209,7 @@ void getEditValue(SScriptCallBack *p, const char *cmd, getEditValue_in *in, getE
 
 void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setEditValue_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Edit *edit = getWidget<Edit>(in->handle, in->id, cmd, "edit");
     UIFunctions::getInstance()->setEditValue(edit, in->value, in->suppressEvents);
 }
@@ -224,7 +224,7 @@ void getSpinboxValue(SScriptCallBack *p, const char *cmd, getSpinboxValue_in *in
 
 void setSpinboxValue(SScriptCallBack *p, const char *cmd, setSpinboxValue_in *in, setSpinboxValue_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Spinbox *spinbox = getWidget<Spinbox>(in->handle, in->id, cmd, "spinbox");
     UIFunctions::getInstance()->setSpinboxValue(spinbox, in->value, in->suppressEvents);
 }
@@ -243,7 +243,7 @@ void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *
 
 void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *in, setCheckboxValue_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Checkbox *checkbox = getWidget<Checkbox>(in->handle, in->id, cmd, "checkbox");
     switch(in->value)
     {
@@ -266,7 +266,7 @@ void getRadiobuttonValue(SScriptCallBack *p, const char *cmd, getRadiobuttonValu
 
 void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValue_in *in, setRadiobuttonValue_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Radiobutton *radiobutton = getWidget<Radiobutton>(in->handle, in->id, cmd, "radiobutton");
     switch(in->value)
     {
@@ -288,21 +288,21 @@ void getLabelText(SScriptCallBack *p, const char *cmd, getLabelText_in *in, getL
 
 void setLabelText(SScriptCallBack *p, const char *cmd, setLabelText_in *in, setLabelText_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Label *label = getWidget<Label>(in->handle, in->id, cmd, "label");
     UIFunctions::getInstance()->setLabelText(label, in->text, in->suppressEvents);
 }
 
 void insertComboboxItem(SScriptCallBack *p, const char *cmd, insertComboboxItem_in *in, insertComboboxItem_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
     UIFunctions::getInstance()->insertComboboxItem(combobox, in->index, in->text, in->suppressEvents);
 }
 
 void removeComboboxItem(SScriptCallBack *p, const char *cmd, removeComboboxItem_in *in, removeComboboxItem_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
     UIFunctions::getInstance()->removeComboboxItem(combobox, in->index, in->suppressEvents);
 }
@@ -328,7 +328,7 @@ void getComboboxItems(SScriptCallBack *p, const char *cmd, getComboboxItems_in *
 
 void setComboboxItems(SScriptCallBack *p, const char *cmd, setComboboxItems_in *in, setComboboxItems_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
     QStringList items;
     BOOST_FOREACH(std::string &s, in->items)
@@ -338,14 +338,14 @@ void setComboboxItems(SScriptCallBack *p, const char *cmd, setComboboxItems_in *
 
 void setComboboxSelectedIndex(SScriptCallBack *p, const char *cmd, setComboboxSelectedIndex_in *in, setComboboxSelectedIndex_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
     UIFunctions::getInstance()->setComboboxSelectedIndex(combobox, in->index, in->suppressEvents);
 }
 
 void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Proxy *proxy = Proxy::byHandle(in->handle);
     if(!proxy)
     {
@@ -358,7 +358,7 @@ void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)
 
 void show(SScriptCallBack *p, const char *cmd, show_in *in, show_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Proxy *proxy = Proxy::byHandle(in->handle);
     if(!proxy)
     {
@@ -397,7 +397,7 @@ void getPosition(SScriptCallBack *p, const char *cmd, getPosition_in *in, getPos
 
 void setPosition(SScriptCallBack *p, const char *cmd, setPosition_in *in, setPosition_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Proxy *proxy = Proxy::byHandle(in->handle);
     if(!proxy)
     {
@@ -411,7 +411,7 @@ void setPosition(SScriptCallBack *p, const char *cmd, setPosition_in *in, setPos
 
 void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setImageData_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Image *imageWidget = dynamic_cast<Image*>(Widget::byId(in->handle, in->id));
     if(!imageWidget)
     {
@@ -440,7 +440,7 @@ void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setI
 
 void setEnabled(SScriptCallBack *p, const char *cmd, setEnabled_in *in, setEnabled_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Widget *widget = Widget::byId(in->handle, in->id);
     if(!widget)
     {
@@ -460,7 +460,7 @@ void getCurrentTab(SScriptCallBack *p, const char *cmd, getCurrentTab_in *in, ge
 
 void setCurrentTab(SScriptCallBack *p, const char *cmd, setCurrentTab_in *in, setCurrentTab_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Tabs *tabs = getWidget<Tabs>(in->handle, in->id, cmd, "tabs");
     UIFunctions::getInstance()->setCurrentTab(tabs, in->index, in->suppressEvents);
 }
@@ -473,7 +473,7 @@ void getWidgetVisibility(SScriptCallBack *p, const char *cmd, getWidgetVisibilit
 
 void setWidgetVisibility(SScriptCallBack *p, const char *cmd, setWidgetVisibility_in *in, setWidgetVisibility_out *out)
 {
-    ASSERT_THREAD(SIM);
+    ASSERT_THREAD(!UI);
     Widget *widget = Widget::byId(in->handle, in->id);
     if(!widget)
     {
