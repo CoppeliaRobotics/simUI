@@ -16,6 +16,12 @@
                 <description>Enable status of widget.</description>
             </attribute>
             <attribute>
+                <name>modal</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, the dialog window will be modal.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
