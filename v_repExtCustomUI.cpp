@@ -409,6 +409,61 @@ void setPosition(SScriptCallBack *p, const char *cmd, setPosition_in *in, setPos
     UIFunctions::getInstance()->setPosition(window, in->x, in->y);
 }
 
+void getSize(SScriptCallBack *p, const char *cmd, getSize_in *in, getSize_out *out)
+{
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    QWidget *window = proxy->getWidget()->getQWidget();
+    out->w = window->width();
+    out->h = window->height();
+}
+
+void setSize(SScriptCallBack *p, const char *cmd, setSize_in *in, setSize_out *out)
+{
+    ASSERT_THREAD(!UI);
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    Window *window = proxy->getWidget();
+    UIFunctions::getInstance()->setSize(window, in->w, in->h);
+}
+
+void getTitle(SScriptCallBack *p, const char *cmd, getTitle_in *in, getTitle_out *out)
+{
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    QWidget *window = proxy->getWidget()->getQWidget();
+    out->title = static_cast<QDialog*>(window)->windowTitle().toStdString();
+}
+
+void setTitle(SScriptCallBack *p, const char *cmd, setTitle_in *in, setTitle_out *out)
+{
+    ASSERT_THREAD(!UI);
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+
+    Window *window = proxy->getWidget();
+    UIFunctions::getInstance()->setTitle(window, in->title);
+}
+
 void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setImageData_out *out)
 {
     ASSERT_THREAD(!UI);

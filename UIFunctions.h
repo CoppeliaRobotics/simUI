@@ -41,6 +41,8 @@ signals:
     void showWindow(Window *window);
     void hideWindow(Window *window);
     void setPosition(Window *window, int x, int y);
+    void setSize(Window *window, int w, int h);
+    void setTitle(Window *window, std::string title);
     void setImage(Image *image, const char *data, int w, int h);
     void sceneChange(Window *window, int oldSceneID, int newSceneID);
     void setEnabled(Widget *widget, bool enabled);

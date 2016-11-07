@@ -443,6 +443,70 @@
         <return>
         </return>
     </command>
+    <command name="getSize">
+        <description>Get the size of a UI window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
+            <param name="w" type="int">
+                <description>width</description>
+            </param>
+            <param name="h" type="int">
+                <description>height</description>
+            </param>
+        </return>
+    </command>
+    <command name="setSize">
+        <description>Set the size of a UI window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="w" type="int">
+                <description>width</description>
+            </param>
+            <param name="h" type="int">
+                <description>height</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="getTitle">
+        <description>Get the title of a UI window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
+            <param name="title" type="string">
+                <description>X position</description>
+            </param>
+        </return>
+    </command>
+    <command name="setTitle">
+        <description>Set the title of a UI window.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="title" type="string">
+                <description>X position</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="false">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="setImageData">
         <description>Set image content using specified bitmap (RGB888) data.</description>
         <params>

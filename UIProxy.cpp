@@ -245,6 +245,30 @@ void UIProxy::onSetPosition(Window *window, int x, int y)
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onSetSize(Window *window, int w, int h)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    if(!window) return;
+
+    window->getQWidget()->resize(w, h);
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onSetTitle(Window *window, std::string title)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    if(!window) return;
+
+    static_cast<QDialog*>(window->getQWidget())->setWindowTitle(QString::fromStdString(title));
+
+    DBG << "[leave]" << std::endl;
+}
+
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
     ASSERT_THREAD(UI);
