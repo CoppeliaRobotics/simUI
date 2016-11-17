@@ -94,6 +94,19 @@ public:
         window->proxy = NULL;
     }
 
+    void keyPressEvent(QKeyEvent * event)
+    {
+        if(event->key() == Qt::Key_Escape)
+        {
+            if(window->onclose != "")
+            {
+                event->ignore();
+                UIProxy::getInstance()->windowClose(window);
+            }
+        }
+        else QDialog::keyPressEvent(event);
+    }
+
     virtual void closeEvent(QCloseEvent * event)
     {
         if(window->onclose != "")
