@@ -615,6 +615,32 @@
         <return>
         </return>
     </command>
+    <command name="getCurrentEditWidget">
+        <description>Get the edit widget with focus and selected text.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
+            <param name="id" type="int" default="-1">
+                <description>widget id of an edit widget, or -1 if no edit widget was focused and had selected text.</description>
+            </param>
+        </return>
+    </command>
+    <command name="setCurrentEditWidget">
+        <description>Set the edit widget focus and selected text.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id. this value can be -1, in which case the function will do nothing.</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <enum name="Test" item-prefix="sim_customui_test_" base="39457">
         <item name="a">
         </item>

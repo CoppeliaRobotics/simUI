@@ -43,6 +43,7 @@ public:
     virtual void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     virtual QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent) = 0;
 
+    inline int getId() {return id;}
     inline QWidget * getQWidget() {return qwidget;}
 
     template<typename T>

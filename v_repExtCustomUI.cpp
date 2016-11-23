@@ -540,6 +540,39 @@ void setWidgetVisibility(SScriptCallBack *p, const char *cmd, setWidgetVisibilit
     UIFunctions::getInstance()->setWidgetVisibility(widget, in->visibility);
 }
 
+void getCurrentEditWidget(SScriptCallBack *p, const char *cmd, getCurrentEditWidget_in *in, getCurrentEditWidget_out *out)
+{
+    Proxy *proxy = Proxy::byHandle(in->handle);
+    if(!proxy)
+    {
+        simSetLastError(cmd, "invalid ui handle");
+        return;
+    }
+    QWidget *window = proxy->getWidget()->getQWidget();
+    QLineEdit* qedit = NULL;
+    QList<QLineEdit*> wl = window->findChildren<QLineEdit*>(QString());
+    for(int i = 0; i < wl.size(); i++)
+    {
+        if(wl[i]->selectedText().size() > 0)
+        {
+            qedit = wl[i];
+            break;
+        }
+    }
+    Widget *edit = Widget::byQWidget(qedit);
+    if(edit)
+        out->id = edit->getId();
+}
+
+void setCurrentEditWidget(SScriptCallBack *p, const char *cmd, setCurrentEditWidget_in *in, setCurrentEditWidget_out *out)
+{
+    if(in->id == -1) return;
+    Edit *edit = getWidget<Edit>(in->handle, in->id, cmd, "edit");
+    QLineEdit *qedit = static_cast<QLineEdit*>(edit->getQWidget());
+    qedit->setFocus();
+    qedit->selectAll();
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];
