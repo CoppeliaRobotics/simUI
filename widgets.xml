@@ -52,6 +52,12 @@
                 <description>Layout of the window widget.</description>
             </attribute>
             <attribute>
+                <name>position</name>
+                <type><one-of><value>default</value><value>random</value></one-of></type>
+                <default>default</default>
+                <description>Position of the window widget. Use 'random' to randomize the initial position of the widget.</description>
+            </attribute>
+            <attribute>
                 <name>onclose</name>
                 <type>string</type>
                 <default />

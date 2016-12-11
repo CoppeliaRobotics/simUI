@@ -12,6 +12,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <cstdlib>
 
 #include <QDialog>
 
@@ -62,6 +63,13 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
     onclose = xmlutils::getAttrStr(e, "onclose", "");
 
     style = xmlutils::getAttrStr(e, "style", "");
+
+    std::string position = xmlutils::getAttrStr(e, "position", "default");
+    if(position == "random")
+    {
+        qwidget_pos.setX(-1);
+        qwidget_pos.setY(-1);
+    }
 
     WindowWidget dummyWidget;
     LayoutWidget::parse(&dummyWidget, &dummyWidget, widgets, e);
@@ -143,6 +151,12 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     window->setWindowFlags(flags);
     window->setModal(modal);
     //window->setAttribute(Qt::WA_DeleteOnClose);
+    if(qwidget_pos.x() < 0 && qwidget_pos.y() < 0)
+    {
+        qwidget_pos.setX(rand() % 800 + 100);
+        qwidget_pos.setY(rand() % 600 + 60);
+        window->move(qwidget_pos);
+    }
     window->show();
 #ifdef LIN_VREP
     if(!resizable) window->setFixedSize(window->size());
