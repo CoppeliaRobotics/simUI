@@ -60,7 +60,7 @@
             <param name="value" type="int">
                 <description>value</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -95,7 +95,7 @@
             <param name="value" type="string">
                 <description>value</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -130,7 +130,7 @@
             <param name="value" type="float">
                 <description>value</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -165,7 +165,7 @@
             <param name="value" type="int">
                 <description>value</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -200,7 +200,7 @@
             <param name="value" type="int">
                 <description>value</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -235,7 +235,7 @@
             <param name="text" type="string">
                 <description>text</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -257,7 +257,7 @@
             <param name="text" type="string">
                 <description>Item text.</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -276,7 +276,7 @@
             <param name="index" type="int">
                 <description>Item index.</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -349,7 +349,7 @@
             <param name="index" type="int">
                 <description>Index of selected item after inserting all the items.</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -368,7 +368,7 @@
             <param name="index" type="int">
                 <description>Index of selected item after inserting all the items.</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -436,7 +436,7 @@
             <param name="y" type="int">
                 <description>Y position</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -471,7 +471,7 @@
             <param name="h" type="int">
                 <description>height</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -500,7 +500,7 @@
             <param name="title" type="string">
                 <description>X position</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -541,7 +541,7 @@
             <param name="enabled" type="bool">
                 <description>enabled</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
@@ -576,7 +576,7 @@
             <param name="index" type="int">
                 <description>index of the tab (zero-based)</description>
             </param>
-            <param name="suppressEvents" type="bool" default="false">
+            <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
         </params>
