@@ -71,6 +71,8 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
         qwidget_pos.setY(-1);
     }
 
+    activate = xmlutils::getAttrBool(e, "activate", true);
+
     WindowWidget dummyWidget;
     LayoutWidget::parse(&dummyWidget, &dummyWidget, widgets, e);
 
@@ -157,6 +159,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
         qwidget_pos.setY(rand() % 600 + 60);
         window->move(qwidget_pos);
     }
+    if(!activate) window->setAttribute(Qt::WA_ShowWithoutActivating);
     window->show();
 #ifdef LIN_VREP
     if(!resizable) window->setFixedSize(window->size());

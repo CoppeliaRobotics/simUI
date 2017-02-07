@@ -32,6 +32,7 @@ protected:
     bool modal;
     std::string onclose;
     std::string style;
+    bool activate;
 
     QWidget *qwidget;
 
