@@ -19,6 +19,9 @@ class Button : public Widget, public EventOnClick
 protected:
     std::string text;
     bool defaulT;
+    bool autoRepeat;
+    int autoRepeatDelay;
+    int autoRepeatInterval;
 
 public:
     Button();

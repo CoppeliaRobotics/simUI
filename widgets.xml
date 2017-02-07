@@ -94,6 +94,24 @@
                 <description>If true, this is the default button of the dialog window.</description>
             </attribute>
             <attribute>
+                <name>autoRepeat</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If autoRepeat is enabled, then the click() signal is emitted at regular intervals when the button is down.</description>
+            </attribute>
+            <attribute>
+                <name>autoRepeatDelay</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Defines the initial delay in milliseconds before auto-repetition kicks in.</description>
+            </attribute>
+            <attribute>
+                <name>autoRepeatInterval</name>
+                <type>int</type>
+                <default>200</default>
+                <description>Defines the length of the auto-repetition interval in milliseconds.</description>
+            </attribute>
+            <attribute>
                 <name>onclick</name>
                 <type>string</type>
                 <default />

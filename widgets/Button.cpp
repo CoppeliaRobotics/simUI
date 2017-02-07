@@ -23,6 +23,12 @@ void Button::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 
     defaulT = xmlutils::getAttrBool(e, "default", false);
 
+    autoRepeat = xmlutils::getAttrBool(e, "autoRepeat", false);
+
+    autoRepeatDelay = xmlutils::getAttrInt(e, "autoRepeatDelay", 0);
+
+    autoRepeatInterval = xmlutils::getAttrInt(e, "autoRepeatInterval", 200);
+
     onclick = xmlutils::getAttrStr(e, "onclick", "");
 }
 
@@ -34,6 +40,9 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     button->setStyleSheet(QString::fromStdString(style));
     button->setAutoDefault(false);
     button->setDefault(defaulT);
+    button->setAutoRepeat(autoRepeat);
+    button->setAutoRepeatDelay(autoRepeatDelay);
+    button->setAutoRepeatInterval(autoRepeatInterval);
     QObject::connect(button, SIGNAL(released()), uiproxy, SLOT(onButtonClick()));
     setQWidget(button);
     setProxy(proxy);
