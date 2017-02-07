@@ -19,7 +19,7 @@ bool xmlutils::getAttrBool(tinyxml2::XMLElement *e, const char *name, bool defau
         return false;
 
     std::stringstream ss;
-    ss << "invalid value '" << value << "' for attribute " << name << ": must be true or false";
+    ss << "invalid value '" << value << "' for attribute '" << name << "': must be true or false";
     throw std::range_error(ss.str());
 }
 
@@ -34,7 +34,7 @@ int xmlutils::getAttrInt(tinyxml2::XMLElement *e, const char *name, int defaultV
     if(e->QueryIntAttribute(name, &ret) != tinyxml2::XML_NO_ERROR)
     {
         std::stringstream ss;
-        ss << "invalid value '" << value << "' for attribute " << name << ": must be integer";
+        ss << "invalid value '" << value << "' for attribute '" << name << "': must be integer";
         throw std::range_error(ss.str());
     }
 
@@ -52,7 +52,7 @@ float xmlutils::getAttrFloat(tinyxml2::XMLElement *e, const char *name, float de
     if(e->QueryFloatAttribute(name, &ret) != tinyxml2::XML_NO_ERROR)
     {
         std::stringstream ss;
-        ss << "invalid value '" << value << "' for attribute " << name << ": must be float";
+        ss << "invalid value '" << value << "' for attribute '" << name << "': must be float";
         throw std::range_error(ss.str());
     }
 
@@ -70,7 +70,7 @@ double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, const char *name, double
     if(e->QueryDoubleAttribute(name, &ret) != tinyxml2::XML_NO_ERROR)
     {
         std::stringstream ss;
-        ss << "invalid value '" << value << "' for attribute " << name << ": must be double";
+        ss << "invalid value '" << value << "' for attribute '" << name << "': must be double";
         throw std::range_error(ss.str());
     }
 
@@ -102,7 +102,7 @@ std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const ch
     if(minLength != -1 && maxLength != -1 && (ret.size() < minLength || ret.size() > maxLength))
     {
         std::stringstream ss;
-        ss << "attribute " << name << " must have ";
+        ss << "attribute '" << name << "' must have ";
         if(minLength != maxLength) ss << "from " << minLength << " to " << maxLength;
         else ss << "exactly " << minLength;
         ss << " elements";
@@ -111,13 +111,13 @@ std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const ch
     else if(minLength != -1 && ret.size() < minLength)
     {
         std::stringstream ss;
-        ss << "attribute " << name << " must have at least " << minLength << " elements";
+        ss << "attribute '" << name << "' must have at least " << minLength << " elements";
         throw std::range_error(ss.str());
     }
     else if(maxLength != -1 && ret.size() > maxLength)
     {
         std::stringstream ss;
-        ss << "attribute " << name << " must have at most " << maxLength << " elements";
+        ss << "attribute '" << name << "' must have at most " << maxLength << " elements";
         throw std::range_error(ss.str());
     }
     return ret;
