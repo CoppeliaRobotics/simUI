@@ -33,6 +33,7 @@ protected:
     std::string onclose;
     std::string style;
     bool activate;
+    std::string placement;
 
     QWidget *qwidget;
 

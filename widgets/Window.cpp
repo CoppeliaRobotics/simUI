@@ -64,12 +64,11 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     style = xmlutils::getAttrStr(e, "style", "");
 
-    std::string position = xmlutils::getAttrStr(e, "position", "default");
-    if(position == "random")
-    {
-        qwidget_pos.setX(-1);
-        qwidget_pos.setY(-1);
-    }
+    placement = xmlutils::getAttrStr(e, "placement", "center");
+
+    std::vector<int> position = xmlutils::getAttrIntV(e, "position", "50,50", 2, 2, ",");
+    qwidget_pos.setX(position[0]);
+    qwidget_pos.setY(position[1]);
 
     activate = xmlutils::getAttrBool(e, "activate", true);
 
@@ -153,17 +152,28 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     window->setWindowFlags(flags);
     window->setModal(modal);
     //window->setAttribute(Qt::WA_DeleteOnClose);
-    if(qwidget_pos.x() < 0 && qwidget_pos.y() < 0)
-    {
-        qwidget_pos.setX(rand() % 800 + 100);
-        qwidget_pos.setY(rand() % 600 + 60);
-        window->move(qwidget_pos);
-    }
     if(!activate) window->setAttribute(Qt::WA_ShowWithoutActivating);
     window->show();
 #ifdef LIN_VREP
     if(!resizable) window->setFixedSize(window->size());
 #endif
+    if(placement == "relative")
+    {
+        QPoint p;
+        if(qwidget_pos.x() >= 0)
+            p.setX(parent->window()->frameGeometry().left() + qwidget_pos.x());
+        else
+            p.setX(parent->window()->frameGeometry().right() - window->rect().right() + qwidget_pos.x());
+        if(qwidget_pos.y() >= 0)
+            p.setY(parent->window()->frameGeometry().top() + qwidget_pos.y());
+        else
+            p.setY(parent->window()->frameGeometry().bottom() - window->rect().bottom() + qwidget_pos.y());
+        window->move(p);
+    }
+    else if(placement == "absolute")
+    {
+        window->move(qwidget_pos);
+    }
     qwidget = window;
     this->proxy = proxy;
     return window;
