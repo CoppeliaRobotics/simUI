@@ -672,7 +672,6 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
         Proxy::destroyTransientObjects();
     }
 
-#ifdef VREP_INSTANCE_SWITCH_WORKS
     static int oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
     if(message == sim_message_eventcallback_instanceswitch)
     {
@@ -680,20 +679,6 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
         Proxy::sceneChange(oldSceneID, newSceneID);
         oldSceneID = newSceneID;
     }
-#else
-    // XXX: currently (3.3.1 beta) it is broken
-    if(message == sim_message_eventcallback_instancepass)
-    {
-        static int oldSceneID = -1;
-        if(oldSceneID == -1) oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
-        int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
-        if(sceneID != oldSceneID)
-        {
-            Proxy::sceneChange(oldSceneID, sceneID);
-            oldSceneID = sceneID;
-        }
-    }
-#endif
 
     // Keep following unchanged:
     simSetIntegerParameter(sim_intparam_error_report_mode, errorModeSaved); // restore previous settings
