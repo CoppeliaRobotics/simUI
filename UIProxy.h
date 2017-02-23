@@ -25,6 +25,9 @@ private:
 
     static UIProxy *instance;
 
+public:
+    static QWidget *vrepMainWindow;
+
 public slots:
     void onDestroy(Proxy *proxy);
 

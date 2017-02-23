@@ -69,8 +69,7 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 {
     ASSERT_THREAD(UI);
 
-    QWidget *mainWindow = (QWidget *)simGetMainWindow(1);
-    ui->createQtWidget(this, uiproxy, mainWindow);
+    ui->createQtWidget(this, uiproxy, UIProxy::vrepMainWindow);
 }
 
 // this function will be called at simulation end to destroy objects that

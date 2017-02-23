@@ -26,6 +26,8 @@ using namespace tinyxml2;
 
 UIProxy *UIProxy::instance = NULL;
 
+QWidget *UIProxy::vrepMainWindow = NULL;
+
 UIProxy::UIProxy(QObject *parent)
     : QObject(parent)
 {
@@ -41,6 +43,7 @@ UIProxy * UIProxy::getInstance(QObject *parent)
     if(!UIProxy::instance)
     {
         UIProxy::instance = new UIProxy(parent);
+        UIProxy::vrepMainWindow = (QWidget *)simGetMainWindow(1);
 
         uiThread(); // we remember this currentThreadId as the "UI" thread
 
