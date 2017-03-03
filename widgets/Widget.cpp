@@ -106,6 +106,7 @@ Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyx
     if(tag == "tabs") return parse1<Tabs>(parent, widgets, e);
     if(tag == "stretch") return parse1<Stretch>(parent, widgets, e);
     if(tag == "image") return parse1<Image>(parent, widgets, e);
+    if(tag == "plot") return parse1<Plot>(parent, widgets, e);
 
     std::stringstream ss;
     ss << "invalid element <" << tag << ">";

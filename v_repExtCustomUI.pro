@@ -1,4 +1,4 @@
-QT += core gui widgets
+QT += core gui widgets printsupport
 
 TARGET = v_repExtCustomUI
 TEMPLATE = lib
@@ -7,6 +7,7 @@ DEFINES -= UNICODE
 DEFINES += QT_COMPIL
 CONFIG += shared debug_and_release
 INCLUDEPATH += "../include"
+INCLUDEPATH += "external/QCustomPlot-2.0.0-beta"
 
 *-msvc* {
 	QMAKE_CXXFLAGS += -O2
@@ -87,6 +88,7 @@ HEADERS += \
     widgets/Image.h \
     widgets/Label.h \
     widgets/LayoutWidget.h \
+    widgets/Plot.h \
     widgets/Radiobutton.h \
     widgets/Slider.h \
     widgets/Spinbox.h \
@@ -98,7 +100,8 @@ HEADERS += \
     LuaCallbackFunction.h \
     Proxy.h \
     XMLUtils.h \
-    tinyxml2.h
+    tinyxml2.h \
+    external/QCustomPlot-2.0.0-beta/qcustomplot.h
 
 SOURCES += \
     debug.cpp \
@@ -118,6 +121,7 @@ SOURCES += \
     widgets/Image.cpp \
     widgets/Label.cpp \
     widgets/LayoutWidget.cpp \
+    widgets/Plot.cpp \
     widgets/Radiobutton.cpp \
     widgets/Slider.cpp \
     widgets/Spinbox.cpp \
@@ -128,6 +132,7 @@ SOURCES += \
     LuaCallbackFunction.cpp \
     Proxy.cpp \
     XMLUtils.cpp \
-    tinyxml2.cpp
+    tinyxml2.cpp \
+    external/QCustomPlot-2.0.0-beta/qcustomplot.cpp
 
 

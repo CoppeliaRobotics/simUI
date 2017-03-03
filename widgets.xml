@@ -391,6 +391,64 @@
         </attributes>
     </element>
     <element>
+        <name>plot</name>
+        <description>A widget for displaying time series charts.</description>
+        <attributes>
+            <attribute>
+                <name>background-color</name>
+                <type>int[3]</type>
+                <default>255,255,255</default>
+                <description>Color of the background, as three RGB components in the 0...255 range.</description>
+            </attribute>
+            <attribute>
+                <name>graduation</name>
+                <type>bool</type>
+                <default>false</default>
+            </attribute>
+            <attribute>
+                <name>graduation-color</name>
+                <type>int[3]</type>
+                <default>0,0,0</default>
+            </attribute>
+            <attribute>
+                <name>type</name>
+                <type><one-of><value>time</value><value>xy</value></one-of></type>
+                <default>time</default>
+                <description>Type of the graph.</description>
+            </attribute>
+            <attribute>
+                <name>square</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, the widget will retain a 1:1 aspect ratio.</description>
+            </attribute>
+            <attribute>
+                <name>max-buffer-size</name>
+                <type>int</type>
+                <default>1000</default>
+                <description>Maximum size of the buffer(s).</description>
+            </attribute>
+            <attribute>
+                <name>cyclic-buffer</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, buffers will be cyclic when full.</description>
+            </attribute>
+            <attribute>
+                <name>zoomable</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, zoom is allowed.</description>
+            </attribute>
+            <attribute>
+                <name>simulation</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, ???.</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
         <name>radiobutton</name>
         <description>A radio button widget.</description>
         <attributes>

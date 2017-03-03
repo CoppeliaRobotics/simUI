@@ -12,6 +12,7 @@
 #include "Image.h"
 #include "Label.h"
 #include "LayoutWidget.h"
+#include "Plot.h"
 #include "Radiobutton.h"
 #include "Slider.h"
 #include "Spinbox.h"
