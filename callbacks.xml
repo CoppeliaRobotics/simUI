@@ -641,14 +641,121 @@
         <return>
         </return>
     </command>
-    <enum name="Test" item-prefix="sim_customui_test_" base="39457">
-        <item name="a">
-        </item>
-        <item name="b">
-        </item>
-        <item name="c">
-        </item>
+    <enum name="curve_style" item-prefix="sim_customui_curve_style_" base="22400">
+        <item name="scatter" />
+        <item name="line" />
+        <item name="line_and_scatter" />
+        <item name="step_left" />
+        <item name="step_center" />
+        <item name="step_right" />
+        <item name="impulse" />
     </enum>
+    <enum name="curve_scatter_shape" item-prefix="sim_customui_curve_scatter_shape_" base="28400">
+        <item name="none" />
+        <item name="dot" />
+        <item name="cross" />
+        <item name="plus" />
+        <item name="circle" />
+        <item name="disc" />
+        <item name="square" />
+        <item name="diamond" />
+        <item name="star" />
+        <item name="triangle" />
+        <item name="triangle_inverted" />
+        <item name="cross_square" />
+        <item name="plus_square" />
+        <item name="cross_circle" />
+        <item name="plus_circle" />
+        <item name="peace" />
+    </enum>
+    <struct name="curve_options">
+        <description>Extra options for the curve</description>
+        <param name="scatter_shape" type="int">
+            <description>scatter shape</description>
+        </param>
+    </struct>
+    <command name="addCurve">
+        <description>Adds a curve to a plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="name" type="string">
+                <description>name of the curve</description>
+            </param>
+            <param name="color" type="table" item-type="int">
+                <description>color of the curve, as RGB values in the 0...255 range</description>
+            </param>
+            <param name="size" type="int">
+                <description>size of the line and scatter shape</description>
+            </param>
+            <param name="style" type="int">
+                <description>style of the curve. see curve_style below.</description>
+            </param>
+            <param name="options" type="curve_options">
+                <description>extra options</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="addCurvePoints">
+        <description>Adds points to the specified curve.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="name" type="string">
+                <description>name of the curve</description>
+            </param>
+            <param name="x" type="table" item-type="double">
+                <description>x values</description>
+            </param>
+            <param name="y" type="table" item-type="double">
+                <description>y values</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="clearCurve">
+        <description>Clear points of the specified curve.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="name" type="string">
+                <description>name of the curve</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="removeCurve">
+        <description>Remove the specified curve.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="name" type="string">
+                <description>name of the curve</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

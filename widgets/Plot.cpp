@@ -6,6 +6,8 @@
 
 #include "QCustomPlot.h"
 
+#include <stdexcept>
+
 Plot::Plot()
     : Widget("plot")
 {
@@ -47,21 +49,49 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setEnabled(enabled);
     plot->setVisible(visible);
     plot->setStyleSheet(QString::fromStdString(style));
-    plot->addGraph();
-    QVector<double> x(101), y(101); // initialize with entries 0..100
-    for(int i = 0; i < 101; ++i)
-    {
-        x[i] = i / 50.0 - 1;
-        y[i] = x[i] * x[i];
-    }
-    plot->graph(0)->setData(x, y);
-    plot->xAxis->setLabel("x");
-    plot->yAxis->setLabel("y");
-    plot->xAxis->setRange(-1, 1);
-    plot->yAxis->setRange(0, 1);
-    plot->replot();
+    //plot->xAxis->setLabel("x");
+    //plot->yAxis->setLabel("y");
+    //plot->xAxis->setRange(-1, 1);
+    //plot->yAxis->setRange(0, 1);
+    //plot->replot();
     setQWidget(plot);
     setProxy(proxy);
     return plot;
+}
+
+void Plot::addCurve(std::string name, QCPGraph *curve)
+{
+    std::map<std::string, QCPGraph *>::iterator it = curveByName_.find(name);
+    if(it != curveByName_.end())
+    {
+        std::stringstream ss;
+        ss << "curve with name \"" << name << "\" already exists";
+        throw std::runtime_error(ss.str());
+    }
+    curveByName_[name] = curve;
+}
+
+void Plot::removeCurve(std::string name)
+{
+    std::map<std::string, QCPGraph *>::iterator it = curveByName_.find(name);
+    if(it == curveByName_.end())
+    {
+        std::stringstream ss;
+        ss << "curve with name \"" << name << "\" does not exist";
+        throw std::runtime_error(ss.str());
+    }
+    curveByName_.erase(it);
+}
+
+QCPGraph * Plot::curveByName(std::string name)
+{
+    std::map<std::string, QCPGraph *>::iterator it = curveByName_.find(name);
+    if(it == curveByName_.end())
+    {
+        std::stringstream ss;
+        ss << "curve with name \"" << name << "\" does not exist";
+        throw std::runtime_error(ss.str());
+    }
+    return it->second;
 }
 

@@ -2,6 +2,7 @@
 #define PLOT_H_INCLUDED
 
 #include <vector>
+#include <map>
 #include <string>
 
 #include <QWidget>
@@ -12,6 +13,8 @@ class Proxy;
 class UIProxy;
 
 #include "Widget.h"
+
+class QCPGraph;
 
 class Plot : public Widget
 {
@@ -26,12 +29,18 @@ protected:
     bool zoomable;
     bool simulation;
 
+    std::map<std::string, QCPGraph *> curveByName_;
+
 public:
     Plot();
     virtual ~Plot();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+
+    void addCurve(std::string name, QCPGraph *curve);
+    void removeCurve(std::string name);
+    QCPGraph * curveByName(std::string name);
 
     friend class UIFunctions;
 };

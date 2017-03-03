@@ -41,6 +41,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/foreach.hpp>
 
+#include <QVector>
 #include <QThread>
 #include <QSlider>
 #include <QLineEdit>
@@ -81,6 +82,7 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 #include "UIFunctions.h"
 #include "UIProxy.h"
 #include "widgets/all.h"
+#include "QCustomPlot.h"
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
@@ -571,6 +573,108 @@ void setCurrentEditWidget(SScriptCallBack *p, const char *cmd, setCurrentEditWid
     QLineEdit *qedit = static_cast<QLineEdit*>(edit->getQWidget());
     qedit->setFocus();
     qedit->selectAll();
+}
+
+QCPScatterStyle::ScatterShape scatterShape(int x)
+{
+    switch(x)
+    {
+    case sim_customui_curve_scatter_shape_none:
+        return QCPScatterStyle::ssNone;
+    case sim_customui_curve_scatter_shape_dot:
+        return QCPScatterStyle::ssDot;
+    case sim_customui_curve_scatter_shape_cross:
+        return QCPScatterStyle::ssCross;
+    case sim_customui_curve_scatter_shape_plus:
+        return QCPScatterStyle::ssPlus;
+    case sim_customui_curve_scatter_shape_circle:
+        return QCPScatterStyle::ssCircle;
+    case sim_customui_curve_scatter_shape_disc:
+        return QCPScatterStyle::ssDisc;
+    case sim_customui_curve_scatter_shape_square:
+        return QCPScatterStyle::ssSquare;
+    case sim_customui_curve_scatter_shape_diamond:
+        return QCPScatterStyle::ssDiamond;
+    case sim_customui_curve_scatter_shape_star:
+        return QCPScatterStyle::ssStar;
+    case sim_customui_curve_scatter_shape_triangle:
+        return QCPScatterStyle::ssTriangle;
+    case sim_customui_curve_scatter_shape_triangle_inverted:
+        return QCPScatterStyle::ssTriangleInverted;
+    case sim_customui_curve_scatter_shape_cross_square:
+        return QCPScatterStyle::ssCrossSquare;
+    case sim_customui_curve_scatter_shape_plus_square:
+        return QCPScatterStyle::ssPlusSquare;
+    case sim_customui_curve_scatter_shape_cross_circle:
+        return QCPScatterStyle::ssCrossCircle;
+    case sim_customui_curve_scatter_shape_plus_circle:
+        return QCPScatterStyle::ssPlusCircle;
+    case sim_customui_curve_scatter_shape_peace:
+        return QCPScatterStyle::ssPeace;
+    }
+    return QCPScatterStyle::ssNone;
+}
+
+void addCurve(SScriptCallBack *p, const char *cmd, addCurve_in *in, addCurve_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPGraph *curve = qplot->addGraph();
+    plot->addCurve(in->name, curve);
+    switch(in->style)
+    {
+    case sim_customui_curve_style_scatter:
+        curve->setLineStyle(QCPGraph::lsNone);
+        curve->setScatterStyle(QCPScatterStyle(scatterShape(in->options.scatter_shape), QColor(in->color[0], in->color[1], in->color[2]), in->size));
+        break;
+    case sim_customui_curve_style_line:
+        curve->setLineStyle(QCPGraph::lsLine);
+        break;
+    case sim_customui_curve_style_line_and_scatter:
+        curve->setLineStyle(QCPGraph::lsLine);
+        break;
+    case sim_customui_curve_style_step_left:
+        curve->setLineStyle(QCPGraph::lsStepLeft);
+        break;
+    case sim_customui_curve_style_step_center:
+        curve->setLineStyle(QCPGraph::lsStepCenter);
+        break;
+    case sim_customui_curve_style_step_right:
+        curve->setLineStyle(QCPGraph::lsStepRight);
+        break;
+    case sim_customui_curve_style_impulse:
+        curve->setLineStyle(QCPGraph::lsImpulse);
+        break;
+    }
+    qplot->replot();
+}
+
+void addCurvePoints(SScriptCallBack *p, const char *cmd, addCurvePoints_in *in, addCurvePoints_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPGraph *curve = plot->curveByName(in->name);
+    curve->addData(QVector<double>::fromStdVector(in->x), QVector<double>::fromStdVector(in->y));
+    qplot->replot();
+}
+
+void clearCurve(SScriptCallBack *p, const char *cmd, clearCurve_in *in, clearCurve_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPGraph *curve = plot->curveByName(in->name);
+    curve->setData(QVector<double>(), QVector<double>(), true);
+    qplot->replot();
+}
+
+void removeCurve(SScriptCallBack *p, const char *cmd, removeCurve_in *in, removeCurve_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPGraph *curve = plot->curveByName(in->name);
+    plot->removeCurve(in->name);
+    qplot->removeGraph(curve);
+    qplot->replot();
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
