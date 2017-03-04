@@ -502,3 +502,77 @@ void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onAddCurve(Plot *plot, std::string name, std::vector<int> color, int size, int style, curve_options *opts)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPGraph *curve = qplot->addGraph();
+    plot->addCurve(name, curve);
+    switch(style)
+    {
+    case sim_customui_curve_style_scatter:
+        curve->setLineStyle(QCPGraph::lsNone);
+        curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), QColor(color[0], color[1], color[2]), size));
+        break;
+    case sim_customui_curve_style_line:
+        curve->setLineStyle(QCPGraph::lsLine);
+        break;
+    case sim_customui_curve_style_line_and_scatter:
+        curve->setLineStyle(QCPGraph::lsLine);
+        break;
+    case sim_customui_curve_style_step_left:
+        curve->setLineStyle(QCPGraph::lsStepLeft);
+        break;
+    case sim_customui_curve_style_step_center:
+        curve->setLineStyle(QCPGraph::lsStepCenter);
+        break;
+    case sim_customui_curve_style_step_right:
+        curve->setLineStyle(QCPGraph::lsStepRight);
+        break;
+    case sim_customui_curve_style_impulse:
+        curve->setLineStyle(QCPGraph::lsImpulse);
+        break;
+    }
+    qplot->replot();
+}
+
+void UIProxy::onAddCurvePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPGraph *curve = plot->curveByName(name);
+    curve->addData(QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
+    qplot->replot();
+}
+
+void UIProxy::onClearCurve(Plot *plot, std::string name)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPGraph *curve = plot->curveByName(name);
+    curve->setData(QVector<double>(), QVector<double>(), true);
+    qplot->replot();
+}
+
+void UIProxy::onRemoveCurve(Plot *plot, std::string name)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPGraph *curve = plot->curveByName(name);
+    plot->removeCurve(name);
+    qplot->removeGraph(curve);
+    qplot->replot();
+}
+
+void UIProxy::onSetPlotRanges(Plot *plot, std::vector<double> x, std::vector<double> y)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    qplot->xAxis->setRange(x[0], x[1]);
+    qplot->yAxis->setRange(y[0], y[1]);
+    qplot->replot();
+}
+
+void UIProxy::onSetPlotLabels(Plot *plot, std::string x, std::string y)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    qplot->xAxis->setLabel(QString::fromStdString(x));
+    qplot->yAxis->setLabel(QString::fromStdString(y));
+    qplot->replot();
+}
+

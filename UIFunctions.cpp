@@ -83,6 +83,12 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(setComboboxSelectedIndex(Combobox*,int,bool)), uiproxy, SLOT(onSetComboboxSelectedIndex(Combobox*,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setCurrentTab(Tabs*,int,bool)), uiproxy, SLOT(onSetCurrentTab(Tabs*,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setWidgetVisibility(Widget*,bool)), uiproxy, SLOT(onSetWidgetVisibility(Widget*,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(addCurve(Plot*,std::string,std::vector<int>,int,int,curve_options*)), uiproxy, SLOT(onAddCurve(Plot*,std::string,std::vector<int>,int,int,curve_options*)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(addCurvePoints(Plot*,std::string,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onAddCurvePoints(Plot*,std::string,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(clearCurve(Plot*,std::string)), uiproxy, SLOT(onClearCurve(Plot*,std::string)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(removeCurve(Plot*,std::string)), uiproxy, SLOT(onRemoveCurve(Plot*,std::string)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setPlotRanges(Plot*,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onSetPlotRanges(Plot*,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setPlotLabels(Plot*,std::string,std::string)), uiproxy, SLOT(onSetPlotLabels(Plot*,std::string,std::string)), Qt::BlockingQueuedConnection);
 }
 
 /**

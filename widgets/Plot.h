@@ -14,7 +14,7 @@ class UIProxy;
 
 #include "Widget.h"
 
-class QCPGraph;
+#include "QCustomPlot.h"
 
 class Plot : public Widget
 {
@@ -41,6 +41,8 @@ public:
     void addCurve(std::string name, QCPGraph *curve);
     void removeCurve(std::string name);
     QCPGraph * curveByName(std::string name);
+
+    static QCPScatterStyle::ScatterShape scatterShape(int x);
 
     friend class UIFunctions;
 };

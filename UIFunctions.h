@@ -5,6 +5,7 @@
 #include <QString>
 
 #include "Proxy.h"
+#include "stubs.h"
 #include "widgets/all.h"
 
 class UIFunctions : public QObject
@@ -58,6 +59,12 @@ signals:
     void setComboboxSelectedIndex(Combobox *combobox, int index, bool suppressEvents);
     void setCurrentTab(Tabs *tabs, int index, bool suppressSignals);
     void setWidgetVisibility(Widget *widget, bool visible);
+    void addCurve(Plot *plot, std::string name, std::vector<int> color, int size, int style, curve_options *opts);
+    void addCurvePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y);
+    void clearCurve(Plot *plot, std::string name);
+    void removeCurve(Plot *plot, std::string name);
+    void setPlotRanges(Plot *plot, std::vector<double> x, std::vector<double> y);
+    void setPlotLabels(Plot *plot, std::string x, std::string y);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

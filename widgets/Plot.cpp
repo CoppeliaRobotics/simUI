@@ -4,8 +4,6 @@
 
 #include "UIProxy.h"
 
-#include "QCustomPlot.h"
-
 #include <stdexcept>
 
 Plot::Plot()
@@ -88,5 +86,45 @@ QCPGraph * Plot::curveByName(std::string name)
         throw std::runtime_error(ss.str());
     }
     return it->second;
+}
+
+QCPScatterStyle::ScatterShape Plot::scatterShape(int x)
+{
+    switch(x)
+    {
+    case sim_customui_curve_scatter_shape_none:
+        return QCPScatterStyle::ssNone;
+    case sim_customui_curve_scatter_shape_dot:
+        return QCPScatterStyle::ssDot;
+    case sim_customui_curve_scatter_shape_cross:
+        return QCPScatterStyle::ssCross;
+    case sim_customui_curve_scatter_shape_plus:
+        return QCPScatterStyle::ssPlus;
+    case sim_customui_curve_scatter_shape_circle:
+        return QCPScatterStyle::ssCircle;
+    case sim_customui_curve_scatter_shape_disc:
+        return QCPScatterStyle::ssDisc;
+    case sim_customui_curve_scatter_shape_square:
+        return QCPScatterStyle::ssSquare;
+    case sim_customui_curve_scatter_shape_diamond:
+        return QCPScatterStyle::ssDiamond;
+    case sim_customui_curve_scatter_shape_star:
+        return QCPScatterStyle::ssStar;
+    case sim_customui_curve_scatter_shape_triangle:
+        return QCPScatterStyle::ssTriangle;
+    case sim_customui_curve_scatter_shape_triangle_inverted:
+        return QCPScatterStyle::ssTriangleInverted;
+    case sim_customui_curve_scatter_shape_cross_square:
+        return QCPScatterStyle::ssCrossSquare;
+    case sim_customui_curve_scatter_shape_plus_square:
+        return QCPScatterStyle::ssPlusSquare;
+    case sim_customui_curve_scatter_shape_cross_circle:
+        return QCPScatterStyle::ssCrossCircle;
+    case sim_customui_curve_scatter_shape_plus_circle:
+        return QCPScatterStyle::ssPlusCircle;
+    case sim_customui_curve_scatter_shape_peace:
+        return QCPScatterStyle::ssPeace;
+    }
+    return QCPScatterStyle::ssNone;
 }
 
