@@ -49,11 +49,6 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setEnabled(enabled);
     plot->setVisible(visible);
     plot->setStyleSheet(QString::fromStdString(style));
-    //plot->xAxis->setLabel("x");
-    //plot->yAxis->setLabel("y");
-    //plot->xAxis->setRange(-1, 1);
-    //plot->yAxis->setRange(0, 1);
-    //plot->replot();
     setQWidget(plot);
     setProxy(proxy);
     return plot;
