@@ -507,11 +507,18 @@ void UIProxy::onAddCurve(Plot *plot, std::string name, std::vector<int> color, i
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     QCPGraph *curve = qplot->addGraph();
     plot->addCurve(name, curve);
+    curve->setName(QString::fromStdString(name));
+    QColor qcolor(color[0], color[1], color[2]);
+    curve->setPen(QPen(qcolor));
+
+    if(qplot->graphCount() > 1)
+        qplot->legend->setVisible(true);
+
     switch(style)
     {
     case sim_customui_curve_style_scatter:
         curve->setLineStyle(QCPGraph::lsNone);
-        curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), QColor(color[0], color[1], color[2]), size));
+        curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), qcolor, size));
         break;
     case sim_customui_curve_style_line:
         curve->setLineStyle(QCPGraph::lsLine);
