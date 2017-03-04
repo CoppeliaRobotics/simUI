@@ -703,7 +703,7 @@
         </return>
     </command>
     <command name="addCurvePoints">
-        <description>Adds points to the specified curve.</description>
+        <description>Adds points to the specified curve of the plot widget.</description>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -725,7 +725,7 @@
         </return>
     </command>
     <command name="clearCurve">
-        <description>Clear points of the specified curve.</description>
+        <description>Clear points of the specified curve of the plot widget.</description>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -741,7 +741,7 @@
         </return>
     </command>
     <command name="removeCurve">
-        <description>Remove the specified curve.</description>
+        <description>Remove the specified curve from the plot widget.</description>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -751,6 +751,44 @@
             </param>
             <param name="name" type="string">
                 <description>name of the curve</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setPlotRanges">
+        <description>Set the ranges of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="x" type="table" item-type="double">
+                <description>x range</description>
+            </param>
+            <param name="y" type="table" item-type="double">
+                <description>y range</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setPlotLabels">
+        <description>Set the labels of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="x" type="string">
+                <description>x label</description>
+            </param>
+            <param name="y" type="string">
+                <description>y label</description>
             </param>
         </params>
         <return>

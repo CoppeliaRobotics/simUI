@@ -677,6 +677,24 @@ void removeCurve(SScriptCallBack *p, const char *cmd, removeCurve_in *in, remove
     qplot->replot();
 }
 
+void setPlotRanges(SScriptCallBack *p, const char *cmd, setPlotRanges_in *in, setPlotRanges_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    qplot->xAxis->setRange(in->x[0], in->x[1]);
+    qplot->yAxis->setRange(in->y[0], in->y[1]);
+    qplot->replot();
+}
+
+void setPlotLabels(SScriptCallBack *p, const char *cmd, setPlotLabels_in *in, setPlotLabels_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    qplot->xAxis->setLabel(QString::fromStdString(in->x));
+    qplot->yAxis->setLabel(QString::fromStdString(in->y));
+    qplot->replot();
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];
