@@ -53,6 +53,7 @@ public:
     void rescale(bool onlyEnlargeX, bool onlyEnlargeY);
 
     friend class UIFunctions;
+    friend class MyCustomPlot;
 };
 
 #endif // PLOT_H_INCLUDED

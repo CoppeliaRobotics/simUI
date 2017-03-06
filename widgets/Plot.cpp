@@ -41,9 +41,19 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     simulation = xmlutils::getAttrBool(e, "simulation", false);
 }
 
+class MyCustomPlot : public QCustomPlot
+{
+private:
+    Plot *plot_;
+public:
+    MyCustomPlot(Plot *plot, QWidget *parent) : plot_(plot), QCustomPlot(parent) {}
+    bool hasHeightForWidth() const {return plot_->square;}
+    int heightForWidth(int w) const {return plot_->square ? w : -1;}
+};
+
 QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QCustomPlot *plot = new QCustomPlot(parent);
+    QCustomPlot *plot = new MyCustomPlot(this, parent);
     plot->setEnabled(enabled);
     plot->setVisible(visible);
     plot->setStyleSheet(QString::fromStdString(style));
