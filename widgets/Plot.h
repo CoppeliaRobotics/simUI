@@ -43,6 +43,9 @@ public:
     QCPGraph * curveByName(std::string name);
 
     static QCPScatterStyle::ScatterShape scatterShape(int x);
+
+    void addData(std::string name, const std::vector<double>& x, const std::vector<double>& y);
+
     void trim(QCPGraph *curve);
     void trim();
 

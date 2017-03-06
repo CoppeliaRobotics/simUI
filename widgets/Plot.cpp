@@ -47,6 +47,7 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setEnabled(enabled);
     plot->setVisible(visible);
     plot->setStyleSheet(QString::fromStdString(style));
+    plot->setMinimumSize(QSize(400,200));
     setQWidget(plot);
     setProxy(proxy);
     return plot;
@@ -128,13 +129,30 @@ QCPScatterStyle::ScatterShape Plot::scatterShape(int x)
     return QCPScatterStyle::ssNone;
 }
 
+void Plot::addData(std::string name, const std::vector<double>& x, const std::vector<double>& y)
+{
+    QCPGraph *curve = curveByName(name);
+    if(!cyclic_buffer && max_buffer_size > 0 && curve->dataCount() >= max_buffer_size) return;
+    curve->addData(QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
+    trim(curve);
+}
+
 void Plot::trim(QCPGraph *curve)
 {
     QSharedPointer<QCPGraphDataContainer> pdata = curve->data();
-    if(max_buffer_size > 0 && pdata->size() > max_buffer_size)
+
+    // remove previous samples for cyclic buffer
+    if(max_buffer_size > 0 && cyclic_buffer && pdata->size() > max_buffer_size)
     {
         double k = pdata->at(pdata->size() - max_buffer_size)->key;
         pdata->removeBefore(k);
+    }
+
+    // remove excess samples for non-cyclic buffer
+    if(max_buffer_size > 0 && !cyclic_buffer && pdata->size() > max_buffer_size)
+    {
+        double k = pdata->at(max_buffer_size - 1)->key;
+        pdata->removeAfter(k);
     }
 }
 
