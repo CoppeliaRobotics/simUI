@@ -21,24 +21,24 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
     background_color = xmlutils::getAttrIntV(e, "background-color", "255,255,255", 3, 3, ",");
 
-    bool graduation = xmlutils::getAttrBool(e, "graduation", false);
+    graduation = xmlutils::getAttrBool(e, "graduation", false);
 
     graduation_color = xmlutils::getAttrIntV(e, "graduation-color", "0,0,0", 3, 3, ",");
 
-    std::string type = xmlutils::getAttrStr(e, "type", "time");
+    type = xmlutils::getAttrStr(e, "type", "time");
     if(type == "time") ;
     else if(type == "xy") ;
     else throw std::range_error("the value for the 'type' attribute must be one of 'time', 'xy'");
 
-    bool square = xmlutils::getAttrBool(e, "square", false);
+    square = xmlutils::getAttrBool(e, "square", false);
 
-    int max_buffer_size = xmlutils::getAttrInt(e, "max-buffer-size", 1000);
+    max_buffer_size = xmlutils::getAttrInt(e, "max-buffer-size", 1000);
 
-    bool cyclic_buffer = xmlutils::getAttrBool(e, "cyclic-buffer", false);
+    cyclic_buffer = xmlutils::getAttrBool(e, "cyclic-buffer", false);
 
-    bool zoomable = xmlutils::getAttrBool(e, "zoomable", false);
+    zoomable = xmlutils::getAttrBool(e, "zoomable", false);
 
-    bool simulation = xmlutils::getAttrBool(e, "simulation", false);
+    simulation = xmlutils::getAttrBool(e, "simulation", false);
 }
 
 QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -126,5 +126,23 @@ QCPScatterStyle::ScatterShape Plot::scatterShape(int x)
         return QCPScatterStyle::ssPeace;
     }
     return QCPScatterStyle::ssNone;
+}
+
+#include <iostream>
+
+void Plot::trim(QCPGraph *curve)
+{
+    QSharedPointer<QCPGraphDataContainer> pdata = curve->data();
+    if(max_buffer_size > 0 && pdata->size() > max_buffer_size)
+    {
+        double k = pdata->at(pdata->size() - max_buffer_size)->key;
+        std::cout << "Plot::trim() - called pdata->removeBefore(" << k << ")" << std::endl;
+        pdata->removeBefore(k);
+    }
+    else
+    {
+        std::cout << "Plot::trim() - max_buffer_size = " << max_buffer_size << std::endl;
+        std::cout << "Plot::trim() - pdata->size() = " << pdata->size() << std::endl;
+    }
 }
 

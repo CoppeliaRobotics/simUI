@@ -43,6 +43,7 @@ public:
     QCPGraph * curveByName(std::string name);
 
     static QCPScatterStyle::ScatterShape scatterShape(int x);
+    void trim(QCPGraph *curve);
 
     friend class UIFunctions;
 };

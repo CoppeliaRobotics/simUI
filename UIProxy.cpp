@@ -547,6 +547,7 @@ void UIProxy::onAddCurvePoints(Plot *plot, std::string name, std::vector<double>
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     QCPGraph *curve = plot->curveByName(name);
     curve->addData(QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
+    plot->trim(curve);
     qplot->replot();
 }
 
