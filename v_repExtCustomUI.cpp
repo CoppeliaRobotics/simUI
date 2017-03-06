@@ -610,6 +610,12 @@ void setPlotLabels(SScriptCallBack *p, const char *cmd, setPlotLabels_in *in, se
     UIFunctions::getInstance()->setPlotLabels(plot, in->x, in->y);
 }
 
+void rescaleAxes(SScriptCallBack *p, const char *cmd, rescaleAxes_in *in, rescaleAxes_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->rescaleAxes(plot);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

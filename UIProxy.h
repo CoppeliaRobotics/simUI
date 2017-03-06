@@ -65,6 +65,7 @@ private slots:
     void onRemoveCurve(Plot *plot, std::string name);
     void onSetPlotRanges(Plot *plot, std::vector<double> x, std::vector<double> y);
     void onSetPlotLabels(Plot *plot, std::string x, std::string y);
+    void onRescaleAxes(Plot *plot);
 
 signals:
     void buttonClick(Widget *widget);

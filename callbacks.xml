@@ -794,6 +794,19 @@
         <return>
         </return>
     </command>
+    <command name="rescaleAxes">
+        <description>Rescales the axes such that all curves in the plot are fully visible.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

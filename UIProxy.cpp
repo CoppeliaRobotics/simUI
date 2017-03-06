@@ -583,3 +583,10 @@ void UIProxy::onSetPlotLabels(Plot *plot, std::string x, std::string y)
     qplot->replot();
 }
 
+void UIProxy::onRescaleAxes(Plot *plot)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    qplot->rescaleAxes();
+    qplot->replot();
+}
+

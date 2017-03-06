@@ -89,6 +89,7 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(removeCurve(Plot*,std::string)), uiproxy, SLOT(onRemoveCurve(Plot*,std::string)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setPlotRanges(Plot*,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onSetPlotRanges(Plot*,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setPlotLabels(Plot*,std::string,std::string)), uiproxy, SLOT(onSetPlotLabels(Plot*,std::string,std::string)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(rescaleAxes(Plot*)), uiproxy, SLOT(onRescaleAxes(Plot*)), Qt::BlockingQueuedConnection);
 }
 
 /**
