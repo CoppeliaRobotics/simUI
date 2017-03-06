@@ -44,6 +44,10 @@ public:
 
     static QCPScatterStyle::ScatterShape scatterShape(int x);
     void trim(QCPGraph *curve);
+    void trim();
+
+    void rescale(QCPAbstractPlottable *curve, bool onlyEnlargeX, bool onlyEnlargeY);
+    void rescale(bool onlyEnlargeX, bool onlyEnlargeY);
 
     friend class UIFunctions;
 };

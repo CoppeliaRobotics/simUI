@@ -803,6 +803,12 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
+            <param name="onlyEnlargeX" type="bool" default="false">
+                <description>makes sure the x ranges are only expanded, never reduced</description>
+            </param>
+            <param name="onlyEnlargeY" type="bool" default="false">
+                <description>makes sure the x ranges are only expanded, never reduced</description>
+            </param>
         </params>
         <return>
         </return>

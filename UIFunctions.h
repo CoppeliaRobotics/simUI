@@ -65,7 +65,7 @@ signals:
     void removeCurve(Plot *plot, std::string name);
     void setPlotRanges(Plot *plot, std::vector<double> x, std::vector<double> y);
     void setPlotLabels(Plot *plot, std::string x, std::string y);
-    void rescaleAxes(Plot *plot);
+    void rescaleAxes(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

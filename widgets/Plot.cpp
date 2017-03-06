@@ -128,21 +128,45 @@ QCPScatterStyle::ScatterShape Plot::scatterShape(int x)
     return QCPScatterStyle::ssNone;
 }
 
-#include <iostream>
-
 void Plot::trim(QCPGraph *curve)
 {
     QSharedPointer<QCPGraphDataContainer> pdata = curve->data();
     if(max_buffer_size > 0 && pdata->size() > max_buffer_size)
     {
         double k = pdata->at(pdata->size() - max_buffer_size)->key;
-        std::cout << "Plot::trim() - called pdata->removeBefore(" << k << ")" << std::endl;
         pdata->removeBefore(k);
     }
-    else
+}
+
+void Plot::trim()
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
+    for(int i = 0; i < qplot->plottableCount(); ++i)
     {
-        std::cout << "Plot::trim() - max_buffer_size = " << max_buffer_size << std::endl;
-        std::cout << "Plot::trim() - pdata->size() = " << pdata->size() << std::endl;
+        QCPGraph *curve = dynamic_cast<QCPGraph*>(qplot->plottable(i));
+        if(curve)
+            trim(curve);
+    }
+}
+
+void Plot::rescale(QCPAbstractPlottable *curve, bool onlyEnlargeX, bool onlyEnlargeY)
+{
+    curve->rescaleKeyAxis(onlyEnlargeX);
+    curve->rescaleValueAxis(onlyEnlargeY);
+}
+
+void Plot::rescale(bool onlyEnlargeX, bool onlyEnlargeY)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
+    for(int i = 0; i < qplot->plottableCount(); ++i)
+    {
+        QCPAbstractPlottable *curve = dynamic_cast<QCPAbstractPlottable*>(qplot->plottable(i));
+        if(curve)
+        {
+            rescale(curve, onlyEnlargeX, onlyEnlargeY);
+            onlyEnlargeX = true;
+            onlyEnlargeY = true;
+        }
     }
 }
 

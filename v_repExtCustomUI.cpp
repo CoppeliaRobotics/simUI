@@ -613,7 +613,7 @@ void setPlotLabels(SScriptCallBack *p, const char *cmd, setPlotLabels_in *in, se
 void rescaleAxes(SScriptCallBack *p, const char *cmd, rescaleAxes_in *in, rescaleAxes_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
-    UIFunctions::getInstance()->rescaleAxes(plot);
+    UIFunctions::getInstance()->rescaleAxes(plot, in->onlyEnlargeX, in->onlyEnlargeY);
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)

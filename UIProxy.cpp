@@ -584,10 +584,10 @@ void UIProxy::onSetPlotLabels(Plot *plot, std::string x, std::string y)
     qplot->replot();
 }
 
-void UIProxy::onRescaleAxes(Plot *plot)
+void UIProxy::onRescaleAxes(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY)
 {
+    plot->rescale(onlyEnlargeX, onlyEnlargeY);
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
-    qplot->rescaleAxes();
     qplot->replot();
 }
 
