@@ -41,10 +41,45 @@ class MyCustomPlot : public QCustomPlot
 {
 private:
     Plot *plot_;
+
 public:
-    MyCustomPlot(Plot *plot, QWidget *parent) : plot_(plot), QCustomPlot(parent) {}
-    bool hasHeightForWidth() const {return plot_->square;}
-    int heightForWidth(int w) const {return plot_->square ? w : -1;}
+    MyCustomPlot(Plot *plot, QWidget *parent) : plot_(plot), QCustomPlot(parent)
+    {
+        setMouseTracking(true);
+    }
+
+    bool hasHeightForWidth() const
+    {
+        return plot_->square;
+    }
+
+    int heightForWidth(int w) const
+    {
+        return plot_->square ? w : -1;
+    }
+
+    void mouseMoveEvent(QMouseEvent *event)
+    {
+        int x = this->xAxis->pixelToCoord(event->pos().x());
+        int y = this->yAxis->pixelToCoord(event->pos().y());
+
+        std::cout << "MOUSE AT " << x << ", " << y << std::endl;
+
+        setToolTip(QString("%1 , %2").arg(x).arg(y));
+
+        QCustomPlot::mouseMoveEvent(event);
+    }
+
+    void mouseDoubleClickEvent(QMouseEvent *event)
+    {
+        if(event->button() == Qt::LeftButton)
+        {
+            rescaleAxes();
+            replot();
+        }
+
+        QCustomPlot::mouseDoubleClickEvent(event);
+    }
 };
 
 QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
