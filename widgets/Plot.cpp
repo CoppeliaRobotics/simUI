@@ -58,6 +58,8 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     if(background_color[0] >= 0 && background_color[1] >= 0 && background_color[2] >= 0)
         bgcol.setRgb(background_color[0], background_color[1], background_color[2]);
     plot->setBackground(QBrush(bgcol));
+    if(zoomable)
+        plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
     setQWidget(plot);
     setProxy(proxy);
     return plot;
