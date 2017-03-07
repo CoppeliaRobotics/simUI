@@ -397,18 +397,8 @@
             <attribute>
                 <name>background-color</name>
                 <type>int[3]</type>
-                <default>255,255,255</default>
-                <description>Color of the background, as three RGB components in the 0...255 range.</description>
-            </attribute>
-            <attribute>
-                <name>graduation</name>
-                <type>bool</type>
-                <default>false</default>
-            </attribute>
-            <attribute>
-                <name>graduation-color</name>
-                <type>int[3]</type>
-                <default>0,0,0</default>
+                <default>-1,-1,-1</default>
+                <description>Color of the background, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the color of the window's background.</description>
             </attribute>
             <attribute>
                 <name>type</name>

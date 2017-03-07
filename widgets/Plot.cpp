@@ -19,11 +19,7 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 {
     Widget::parse(parent, widgets, e);
 
-    background_color = xmlutils::getAttrIntV(e, "background-color", "255,255,255", 3, 3, ",");
-
-    graduation = xmlutils::getAttrBool(e, "graduation", false);
-
-    graduation_color = xmlutils::getAttrIntV(e, "graduation-color", "0,0,0", 3, 3, ",");
+    background_color = xmlutils::getAttrIntV(e, "background-color", "-1,-1,-1", 3, 3, ",");
 
     type = xmlutils::getAttrStr(e, "type", "time");
     if(type == "time") ;
@@ -58,6 +54,10 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setVisible(visible);
     plot->setStyleSheet(QString::fromStdString(style));
     plot->setMinimumSize(QSize(400,200));
+    QColor bgcol(plot->palette().color(plot->backgroundRole()));
+    if(background_color[0] >= 0 && background_color[1] >= 0 && background_color[2] >= 0)
+        bgcol.setRgb(background_color[0], background_color[1], background_color[2]);
+    plot->setBackground(QBrush(bgcol));
     setQWidget(plot);
     setProxy(proxy);
     return plot;
