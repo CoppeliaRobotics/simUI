@@ -87,7 +87,13 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     return plot;
 }
 
-void Plot::addCurve(std::string name, QCPGraph *curve)
+void Plot::replot()
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
+    qplot->replot();
+}
+
+void Plot::addCurve(std::string name, std::vector<int> color, int style, curve_options *opts)
 {
     std::map<std::string, QCPGraph *>::iterator it = curveByName_.find(name);
     if(it != curveByName_.end())
@@ -96,19 +102,61 @@ void Plot::addCurve(std::string name, QCPGraph *curve)
         ss << "curve with name \"" << name << "\" already exists";
         throw std::runtime_error(ss.str());
     }
+
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
+    QCPGraph *curve = qplot->addGraph();
+
     curveByName_[name] = curve;
+
+    curve->setName(QString::fromStdString(name));
+    QColor qcolor(color[0], color[1], color[2]);
+    curve->setPen(QPen(qcolor));
+
+    if(qplot->graphCount() > 1)
+        qplot->legend->setVisible(true);
+
+    switch(style)
+    {
+    case sim_customui_curve_style_scatter:
+        curve->setLineStyle(QCPGraph::lsNone);
+        break;
+    case sim_customui_curve_style_line:
+        curve->setLineStyle(QCPGraph::lsLine);
+        break;
+    case sim_customui_curve_style_line_and_scatter:
+        curve->setLineStyle(QCPGraph::lsLine);
+        break;
+    case sim_customui_curve_style_step_left:
+        curve->setLineStyle(QCPGraph::lsStepLeft);
+        break;
+    case sim_customui_curve_style_step_center:
+        curve->setLineStyle(QCPGraph::lsStepCenter);
+        break;
+    case sim_customui_curve_style_step_right:
+        curve->setLineStyle(QCPGraph::lsStepRight);
+        break;
+    case sim_customui_curve_style_impulse:
+        curve->setLineStyle(QCPGraph::lsImpulse);
+        break;
+    }
+
+    if(style == sim_customui_curve_style_scatter || style == sim_customui_curve_style_line_and_scatter)
+        curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), opts->scatter_size));
+}
+
+void Plot::clearCurve(std::string name)
+{
+    QCPGraph *curve = curveByName(name);
+    curve->setData(QVector<double>(), QVector<double>(), true);
 }
 
 void Plot::removeCurve(std::string name)
 {
-    std::map<std::string, QCPGraph *>::iterator it = curveByName_.find(name);
-    if(it == curveByName_.end())
-    {
-        std::stringstream ss;
-        ss << "curve with name \"" << name << "\" does not exist";
-        throw std::runtime_error(ss.str());
-    }
-    curveByName_.erase(it);
+    QCPGraph *curve = curveByName(name);
+    curveByName_.erase(name);
+
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
+    qplot->removeGraph(curve);
 }
 
 QCPGraph * Plot::curveByName(std::string name)

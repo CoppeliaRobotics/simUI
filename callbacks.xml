@@ -670,8 +670,11 @@
     </enum>
     <struct name="curve_options">
         <description>Extra options for the curve</description>
-        <param name="scatter_shape" type="int">
+        <param name="scatter_shape" type="int" default="sim_customui_curve_scatter_shape_disc">
             <description>scatter shape</description>
+        </param>
+        <param name="scatter_size" type="int" default="10">
+            <description>size of the scatter shape</description>
         </param>
     </struct>
     <command name="addCurve">
@@ -688,9 +691,6 @@
             </param>
             <param name="color" type="table" item-type="int">
                 <description>color of the curve, as RGB values in the 0...255 range</description>
-            </param>
-            <param name="size" type="int">
-                <description>size of the line and scatter shape</description>
             </param>
             <param name="style" type="int">
                 <description>style of the curve. see curve_style below.</description>

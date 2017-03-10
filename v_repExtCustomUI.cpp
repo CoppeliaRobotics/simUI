@@ -577,7 +577,7 @@ void setCurrentEditWidget(SScriptCallBack *p, const char *cmd, setCurrentEditWid
 void addCurve(SScriptCallBack *p, const char *cmd, addCurve_in *in, addCurve_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
-    UIFunctions::getInstance()->addCurve(plot, in->name, in->color, in->size, in->style, &in->options);
+    UIFunctions::getInstance()->addCurve(plot, in->name, in->color, in->style, &in->options);
 }
 
 void addCurvePoints(SScriptCallBack *p, const char *cmd, addCurvePoints_in *in, addCurvePoints_out *out)

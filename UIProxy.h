@@ -59,7 +59,7 @@ private slots:
     void onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals);
     void onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals);
     void onSetWidgetVisibility(Widget *widget, bool visible);
-    void onAddCurve(Plot *plot, std::string name, std::vector<int> color, int size, int style, curve_options *opts);
+    void onAddCurve(Plot *plot, std::string name, std::vector<int> color, int style, curve_options *opts);
     void onAddCurvePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y);
     void onClearCurve(Plot *plot, std::string name);
     void onRemoveCurve(Plot *plot, std::string name);
