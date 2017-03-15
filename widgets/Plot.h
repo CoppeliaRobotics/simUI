@@ -45,6 +45,9 @@ public:
     void addCurve(std::string name, std::vector<int> color, int style, curve_options *opts);
     void clearCurve(std::string name);
     void removeCurve(std::string name);
+    std::map<std::string, QCPGraph *>::iterator findCurve(std::string name);
+    std::map<std::string, QCPGraph *>::iterator curveNameMustExist(std::string name);
+    void curveNameMustNotExist(std::string name);
     QCPGraph * curveByName(std::string name);
     static QCPScatterStyle::ScatterShape scatterShape(int x);
     void addData(std::string name, const std::vector<double>& x, const std::vector<double>& y);

@@ -87,6 +87,34 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     return plot;
 }
 
+std::map<std::string, QCPGraph *>::iterator Plot::findCurve(std::string name)
+{
+    return curveByName_.find(name);
+}
+
+std::map<std::string, QCPGraph *>::iterator Plot::curveNameMustExist(std::string name)
+{
+    std::map<std::string, QCPGraph *>::iterator it = findCurve(name);
+    if(it == curveByName_.end())
+    {
+        std::stringstream ss;
+        ss << "curve with name \"" << name << "\" does not exist";
+        throw std::runtime_error(ss.str());
+    }
+    return it;
+}
+
+void Plot::curveNameMustNotExist(std::string name)
+{
+    std::map<std::string, QCPGraph *>::iterator it = findCurve(name);
+    if(it != curveByName_.end())
+    {
+        std::stringstream ss;
+        ss << "curve with name \"" << name << "\" already exists";
+        throw std::runtime_error(ss.str());
+    }
+}
+
 void Plot::replot()
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
@@ -95,13 +123,7 @@ void Plot::replot()
 
 void Plot::addCurve(std::string name, std::vector<int> color, int style, curve_options *opts)
 {
-    std::map<std::string, QCPGraph *>::iterator it = curveByName_.find(name);
-    if(it != curveByName_.end())
-    {
-        std::stringstream ss;
-        ss << "curve with name \"" << name << "\" already exists";
-        throw std::runtime_error(ss.str());
-    }
+    curveNameMustNotExist(name);
 
     QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
     QCPGraph *curve = qplot->addGraph();
@@ -161,13 +183,7 @@ void Plot::removeCurve(std::string name)
 
 QCPGraph * Plot::curveByName(std::string name)
 {
-    std::map<std::string, QCPGraph *>::iterator it = curveByName_.find(name);
-    if(it == curveByName_.end())
-    {
-        std::stringstream ss;
-        ss << "curve with name \"" << name << "\" does not exist";
-        throw std::runtime_error(ss.str());
-    }
+    std::map<std::string, QCPGraph *>::iterator it = curveNameMustExist(name);
     return it->second;
 }
 

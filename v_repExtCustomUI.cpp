@@ -577,24 +577,28 @@ void setCurrentEditWidget(SScriptCallBack *p, const char *cmd, setCurrentEditWid
 void addCurve(SScriptCallBack *p, const char *cmd, addCurve_in *in, addCurve_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    plot->curveNameMustNotExist(in->name);
     UIFunctions::getInstance()->addCurve(plot, in->name, in->color, in->style, &in->options);
 }
 
 void addCurvePoints(SScriptCallBack *p, const char *cmd, addCurvePoints_in *in, addCurvePoints_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    plot->curveNameMustExist(in->name);
     UIFunctions::getInstance()->addCurvePoints(plot, in->name, in->x, in->y);
 }
 
 void clearCurve(SScriptCallBack *p, const char *cmd, clearCurve_in *in, clearCurve_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    plot->curveNameMustExist(in->name);
     UIFunctions::getInstance()->clearCurve(plot, in->name);
 }
 
 void removeCurve(SScriptCallBack *p, const char *cmd, removeCurve_in *in, removeCurve_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    plot->curveNameMustExist(in->name);
     UIFunctions::getInstance()->removeCurve(plot, in->name);
 }
 
