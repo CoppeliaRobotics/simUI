@@ -14,7 +14,7 @@ class UIProxy;
 
 #include "Widget.h"
 
-#include "QCustomPlot.h"
+#include "qcustomplot.h"
 
 struct curve_options;
 
