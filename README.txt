@@ -28,6 +28,7 @@ Compiling:
 	> unzip ~/Downloads/SaxonHE9-7-0-4J.zip 
 	> mkdir bin
 	> echo -e '#!/bin/sh\njava -jar "`dirname "$0"`/../saxon9he.jar" "$@"' > bin/saxon
+	> echo -e '#!/bin/sh\njava -jar "`dirname "$(readlink -f "$0")"`/../saxon9he.jar" "$@"' > bin/saxon
 	> chmod a+x bin/saxon
 	> export PATH=$PATH:~/saxon/bin
 
