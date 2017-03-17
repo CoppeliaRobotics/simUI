@@ -676,6 +676,9 @@
         <param name="scatter_size" type="int" default="10">
             <description>size of the scatter shape</description>
         </param>
+        <param name="line_size" type="int" default="2">
+            <description>size of the line</description>
+        </param>
     </struct>
     <command name="addCurve">
         <description>Adds a curve to a plot widget.</description>
