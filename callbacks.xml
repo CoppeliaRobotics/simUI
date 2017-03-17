@@ -868,6 +868,69 @@
         <return>
         </return>
     </command>
+    <command name="growPlotRanges">
+        <description>Increase the ranges of the plot widget by a fixed amount.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="xmin" type="double">
+                <description>minimum x range</description>
+            </param>
+            <param name="xmax" type="double">
+                <description>maximum x range</description>
+            </param>
+            <param name="ymin" type="double">
+                <description>minimum y range</description>
+            </param>
+            <param name="ymax" type="double">
+                <description>maximum y range</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="growPlotXRange">
+        <description>Increase the X range of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="xmin" type="double">
+                <description>minimum x range</description>
+            </param>
+            <param name="xmax" type="double">
+                <description>maximum x range</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="growPlotYRange">
+        <description>Increase the Y range of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="ymin" type="double">
+                <description>minimum y range</description>
+            </param>
+            <param name="ymax" type="double">
+                <description>maximum y range</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="setPlotLabels">
         <description>Set the labels of the plot widget.</description>
         <params>

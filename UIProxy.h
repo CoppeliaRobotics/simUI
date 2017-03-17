@@ -68,6 +68,9 @@ private slots:
     void onSetPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax);
     void onSetPlotXRange(Plot *plot, double xmin, double xmax);
     void onSetPlotYRange(Plot *plot, double ymin, double ymax);
+    void onGrowPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax);
+    void onGrowPlotXRange(Plot *plot, double xmin, double xmax);
+    void onGrowPlotYRange(Plot *plot, double ymin, double ymax);
     void onSetPlotLabels(Plot *plot, std::string x, std::string y);
     void onSetPlotXLabel(Plot *plot, std::string label);
     void onSetPlotYLabel(Plot *plot, std::string label);

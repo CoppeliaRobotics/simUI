@@ -551,6 +551,29 @@ void UIProxy::onSetPlotYRange(Plot *plot, double ymin, double ymax)
     qplot->yAxis->setRange(ymin, ymax);
 }
 
+void UIProxy::onGrowPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPRange xrange = qplot->xAxis->range();
+    qplot->xAxis->setRange(xrange.lower - xmin, xrange.upper + xmax);
+    QCPRange yrange = qplot->yAxis->range();
+    qplot->yAxis->setRange(yrange.lower - ymin, yrange.upper + ymax);
+}
+
+void UIProxy::onGrowPlotXRange(Plot *plot, double xmin, double xmax)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPRange xrange = qplot->xAxis->range();
+    qplot->xAxis->setRange(xrange.lower - xmin, xrange.upper + xmax);
+}
+
+void UIProxy::onGrowPlotYRange(Plot *plot, double ymin, double ymax)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    QCPRange yrange = qplot->yAxis->range();
+    qplot->yAxis->setRange(yrange.lower - ymin, yrange.upper + ymax);
+}
+
 void UIProxy::onSetPlotLabels(Plot *plot, std::string x, std::string y)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());

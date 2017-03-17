@@ -92,6 +92,9 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(setPlotRanges(Plot*,double,double,double,double)), uiproxy, SLOT(onSetPlotRanges(Plot*,double,double,double,double)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setPlotXRange(Plot*,double,double)), uiproxy, SLOT(onSetPlotXRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setPlotYRange(Plot*,double,double)), uiproxy, SLOT(onSetPlotYRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(growPlotRanges(Plot*,double,double,double,double)), uiproxy, SLOT(onGrowPlotRanges(Plot*,double,double,double,double)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(growPlotXRange(Plot*,double,double)), uiproxy, SLOT(onGrowPlotXRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(growPlotYRange(Plot*,double,double)), uiproxy, SLOT(onGrowPlotYRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setPlotLabels(Plot*,std::string,std::string)), uiproxy, SLOT(onSetPlotLabels(Plot*,std::string,std::string)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setPlotXLabel(Plot*,std::string)), uiproxy, SLOT(onSetPlotXLabel(Plot*,std::string)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setPlotYLabel(Plot*,std::string)), uiproxy, SLOT(onSetPlotYLabel(Plot*,std::string)), Qt::BlockingQueuedConnection);

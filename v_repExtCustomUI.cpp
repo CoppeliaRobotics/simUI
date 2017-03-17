@@ -633,6 +633,24 @@ void setPlotYRange(SScriptCallBack *p, const char *cmd, setPlotYRange_in *in, se
     UIFunctions::getInstance()->setPlotYRange(plot, in->ymin, in->ymax);
 }
 
+void growPlotRanges(SScriptCallBack *p, const char *cmd, growPlotRanges_in *in, growPlotRanges_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->growPlotRanges(plot, in->xmin, in->xmax, in->ymin, in->ymax);
+}
+
+void growPlotXRange(SScriptCallBack *p, const char *cmd, growPlotXRange_in *in, growPlotXRange_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->growPlotXRange(plot, in->xmin, in->xmax);
+}
+
+void growPlotYRange(SScriptCallBack *p, const char *cmd, growPlotYRange_in *in, growPlotYRange_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->growPlotYRange(plot, in->ymin, in->ymax);
+}
+
 void setPlotLabels(SScriptCallBack *p, const char *cmd, setPlotLabels_in *in, setPlotLabels_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");

@@ -68,6 +68,9 @@ signals:
     void setPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax);
     void setPlotXRange(Plot *plot, double xmin, double xmax);
     void setPlotYRange(Plot *plot, double ymin, double ymax);
+    void growPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax);
+    void growPlotXRange(Plot *plot, double xmin, double xmax);
+    void growPlotYRange(Plot *plot, double ymin, double ymax);
     void setPlotLabels(Plot *plot, std::string x, std::string y);
     void setPlotXLabel(Plot *plot, std::string label);
     void setPlotYLabel(Plot *plot, std::string label);
