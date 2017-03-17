@@ -132,7 +132,10 @@ void Plot::addCurve(std::string name, std::vector<int> color, int style, curve_o
 
     curve->setName(QString::fromStdString(name));
     QColor qcolor(color[0], color[1], color[2]);
-    curve->setPen(QPen(qcolor));
+    QPen qpen;
+    qpen.setColor(qcolor);
+    qpen.setWidth(opts->line_size);
+    curve->setPen(qpen);
 
     if(qplot->graphCount() > 1)
         qplot->legend->setVisible(true);
