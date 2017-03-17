@@ -83,13 +83,22 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(setComboboxSelectedIndex(Combobox*,int,bool)), uiproxy, SLOT(onSetComboboxSelectedIndex(Combobox*,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setCurrentTab(Tabs*,int,bool)), uiproxy, SLOT(onSetCurrentTab(Tabs*,int,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setWidgetVisibility(Widget*,bool)), uiproxy, SLOT(onSetWidgetVisibility(Widget*,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(addCurve(Plot*,std::string,std::vector<int>,int,curve_options*)), uiproxy, SLOT(onAddCurve(Plot*,std::string,std::vector<int>,int,curve_options*)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(addCurvePoints(Plot*,std::string,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onAddCurvePoints(Plot*,std::string,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(replot(Plot*)), uiproxy, SLOT(onReplot(Plot*)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(addCurve(Plot*,int,std::string,std::vector<int>,int,curve_options*)), uiproxy, SLOT(onAddCurve(Plot*,int,std::string,std::vector<int>,int,curve_options*)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(addCurveTimePoints(Plot*,std::string,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onAddCurveTimePoints(Plot*,std::string,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(addCurveXYPoints(Plot*,std::string,std::vector<double>,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onAddCurveXYPoints(Plot*,std::string,std::vector<double>,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(clearCurve(Plot*,std::string)), uiproxy, SLOT(onClearCurve(Plot*,std::string)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(removeCurve(Plot*,std::string)), uiproxy, SLOT(onRemoveCurve(Plot*,std::string)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setPlotRanges(Plot*,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onSetPlotRanges(Plot*,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setPlotRanges(Plot*,double,double,double,double)), uiproxy, SLOT(onSetPlotRanges(Plot*,double,double,double,double)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setPlotXRange(Plot*,double,double)), uiproxy, SLOT(onSetPlotXRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setPlotYRange(Plot*,double,double)), uiproxy, SLOT(onSetPlotYRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setPlotLabels(Plot*,std::string,std::string)), uiproxy, SLOT(onSetPlotLabels(Plot*,std::string,std::string)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(rescaleAxes(Plot*,bool,bool)), uiproxy, SLOT(onRescaleAxes(Plot*,bool,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setPlotXLabel(Plot*,std::string)), uiproxy, SLOT(onSetPlotXLabel(Plot*,std::string)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setPlotYLabel(Plot*,std::string)), uiproxy, SLOT(onSetPlotYLabel(Plot*,std::string)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(rescaleAxes(Plot*,std::string,bool,bool)), uiproxy, SLOT(onRescaleAxes(Plot*,std::string,bool,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(rescaleAxesAll(Plot*,bool,bool)), uiproxy, SLOT(onRescaleAxesAll(Plot*,bool,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setMouseOptions(Plot*,bool,bool,bool,bool)), uiproxy, SLOT(onSetMouseOptions(Plot*,bool,bool,bool,bool)), Qt::BlockingQueuedConnection);
+    connect(this, SIGNAL(setLegendVisibility(Plot*,bool)), uiproxy, SLOT(onSetLegendVisibility(Plot*,bool)), Qt::BlockingQueuedConnection);
 }
 
 /**

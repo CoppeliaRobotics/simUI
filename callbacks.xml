@@ -641,10 +641,28 @@
         <return>
         </return>
     </command>
+    <command name="replot">
+        <description>Refresh all the plots of a plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <enum name="curve_type" item-prefix="sim_customui_curve_type_" base="20400">
+        <item name="time" />
+        <item name="xy" />
+    </enum>
     <enum name="curve_style" item-prefix="sim_customui_curve_style_" base="22400">
         <item name="scatter" />
         <item name="line" />
         <item name="line_and_scatter" />
+        <!-- following styles are only available in time plots: -->
         <item name="step_left" />
         <item name="step_center" />
         <item name="step_right" />
@@ -689,6 +707,9 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
+            <param name="type" type="int">
+                <description>type of the curve. see curve_type below.</description>
+            </param>
             <param name="name" type="string">
                 <description>name of the curve</description>
             </param>
@@ -705,7 +726,29 @@
         <return>
         </return>
     </command>
-    <command name="addCurvePoints">
+    <command name="addCurveTimePoints">
+        <description>Adds time points to the specified curve of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="name" type="string">
+                <description>name of the curve</description>
+            </param>
+            <param name="x" type="table" item-type="double">
+                <description>x values</description>
+            </param>
+            <param name="y" type="table" item-type="double">
+                <description>y values</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="addCurveXYPoints">
         <description>Adds points to the specified curve of the plot widget.</description>
         <params>
             <param name="handle" type="int">
@@ -716,6 +759,9 @@
             </param>
             <param name="name" type="string">
                 <description>name of the curve</description>
+            </param>
+            <param name="t" type="table" item-type="double">
+                <description>x values</description>
             </param>
             <param name="x" type="table" item-type="double">
                 <description>x values</description>
@@ -768,11 +814,55 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
-            <param name="x" type="table" item-type="double">
-                <description>x range</description>
+            <param name="xmin" type="double">
+                <description>minimum x range</description>
             </param>
-            <param name="y" type="table" item-type="double">
-                <description>y range</description>
+            <param name="xmax" type="double">
+                <description>maximum x range</description>
+            </param>
+            <param name="ymin" type="double">
+                <description>minimum y range</description>
+            </param>
+            <param name="ymax" type="double">
+                <description>maximum y range</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setPlotXRange">
+        <description>Set the X range of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="xmin" type="double">
+                <description>minimum x range</description>
+            </param>
+            <param name="xmax" type="double">
+                <description>maximum x range</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setPlotYRange">
+        <description>Set the Y range of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="ymin" type="double">
+                <description>minimum y range</description>
+            </param>
+            <param name="ymax" type="double">
+                <description>maximum y range</description>
             </param>
         </params>
         <return>
@@ -797,7 +887,61 @@
         <return>
         </return>
     </command>
+    <command name="setPlotXLabel">
+        <description>Set the X label of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="label" type="string">
+                <description>x label</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setPlotYLabel">
+        <description>Set the Y label of the plot widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="label" type="string">
+                <description>y label</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="rescaleAxes">
+        <description>Rescales the axes such that the specified curve in the plot is fully visible.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="name" type="string">
+                <description>name of the curve</description>
+            </param>
+            <param name="onlyEnlargeX" type="bool" default="false">
+                <description>makes sure the x ranges are only expanded, never reduced</description>
+            </param>
+            <param name="onlyEnlargeY" type="bool" default="false">
+                <description>makes sure the x ranges are only expanded, never reduced</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="rescaleAxesAll">
         <description>Rescales the axes such that all curves in the plot are fully visible.</description>
         <params>
             <param name="handle" type="int">
@@ -811,6 +955,47 @@
             </param>
             <param name="onlyEnlargeY" type="bool" default="false">
                 <description>makes sure the x ranges are only expanded, never reduced</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setMouseOptions">
+        <description>Set options for interacting with mouse.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="panX" type="bool">
+                <description>if true, panning (by dragging with the mouse) the X axis is allowed</description>
+            </param>
+            <param name="panY" type="bool">
+                <description>if true, panning (by dragging with the mouse) the Y axis is allowed</description>
+            </param>
+            <param name="zoomX" type="bool">
+                <description>if true, zooming (by mouse wheel) the X axis is allowed</description>
+            </param>
+            <param name="zoomY" type="bool">
+                <description>if true, zooming (by mouse wheel) the Y axis is allowed</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setLegendVisibility">
+        <description>Set visibility of the plot legend (default is hidden).</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="visible" type="bool">
+                <description>if true, the plot legend will be visible</description>
             </param>
         </params>
         <return>

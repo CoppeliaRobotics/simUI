@@ -59,13 +59,22 @@ signals:
     void setComboboxSelectedIndex(Combobox *combobox, int index, bool suppressEvents);
     void setCurrentTab(Tabs *tabs, int index, bool suppressSignals);
     void setWidgetVisibility(Widget *widget, bool visible);
-    void addCurve(Plot *plot, std::string name, std::vector<int> color, int style, curve_options *opts);
-    void addCurvePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y);
+    void replot(Plot *plot);
+    void addCurve(Plot *plot, int type, std::string name, std::vector<int> color, int style, curve_options *opts);
+    void addCurveTimePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y);
+    void addCurveXYPoints(Plot *plot, std::string name, std::vector<double> t, std::vector<double> x, std::vector<double> y);
     void clearCurve(Plot *plot, std::string name);
     void removeCurve(Plot *plot, std::string name);
-    void setPlotRanges(Plot *plot, std::vector<double> x, std::vector<double> y);
+    void setPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax);
+    void setPlotXRange(Plot *plot, double xmin, double xmax);
+    void setPlotYRange(Plot *plot, double ymin, double ymax);
     void setPlotLabels(Plot *plot, std::string x, std::string y);
-    void rescaleAxes(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY);
+    void setPlotXLabel(Plot *plot, std::string label);
+    void setPlotYLabel(Plot *plot, std::string label);
+    void rescaleAxes(Plot *plot, std::string name, bool onlyEnlargeX, bool onlyEnlargeY);
+    void rescaleAxesAll(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY);
+    void setMouseOptions(Plot *plot, bool panX, bool panY, bool zoomX, bool zoomY);
+    void setLegendVisibility(Plot *plot, bool visible);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

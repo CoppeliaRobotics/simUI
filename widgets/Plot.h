@@ -18,6 +18,8 @@ class UIProxy;
 
 struct curve_options;
 
+typedef std::map<std::string, QCPAbstractPlottable*> CurveMap;
+
 class Plot : public Widget
 {
 protected:
@@ -28,10 +30,8 @@ protected:
     bool square;
     int max_buffer_size;
     bool cyclic_buffer;
-    bool zoomable;
-    bool simulation;
 
-    std::map<std::string, QCPGraph *> curveByName_;
+    CurveMap curveByName_;
 
 public:
     Plot();
@@ -40,21 +40,30 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
-    void replot();
+    void replot(bool queue = true);
 
-    void addCurve(std::string name, std::vector<int> color, int style, curve_options *opts);
+    void addCurve(int type, std::string name, std::vector<int> color, int style, curve_options *opts);
+    void setCurveCommonOptions(QCPAbstractPlottable *curve, std::string name, std::vector<int> color, int style, curve_options *opts);
+    QCPGraph * addTimeCurve(std::string name, std::vector<int> color, int style, curve_options *opts);
+    QCPCurve * addXYCurve(std::string name, std::vector<int> color, int style, curve_options *opts);
     void clearCurve(std::string name);
     void removeCurve(std::string name);
-    std::map<std::string, QCPGraph *>::iterator findCurve(std::string name);
-    std::map<std::string, QCPGraph *>::iterator curveNameMustExist(std::string name);
+    CurveMap::iterator findCurve(std::string name);
+    CurveMap::iterator curveNameMustExist(std::string name);
     void curveNameMustNotExist(std::string name);
-    QCPGraph * curveByName(std::string name);
+    QCPAbstractPlottable * curveByName(std::string name);
     static QCPScatterStyle::ScatterShape scatterShape(int x);
-    void addData(std::string name, const std::vector<double>& x, const std::vector<double>& y);
-    void trim(QCPGraph *curve);
-    void trim();
-    void rescale(QCPAbstractPlottable *curve, bool onlyEnlargeX, bool onlyEnlargeY);
-    void rescale(bool onlyEnlargeX, bool onlyEnlargeY);
+    void addTimeData(std::string name, const std::vector<double>& x, const std::vector<double>& y);
+    void addXYData(std::string name, const std::vector<double>& t, const std::vector<double>& x, const std::vector<double>& y);
+    void setXRange(double min, double max);
+    void setYRange(double min, double max);
+    void setXLabel(std::string label);
+    void setYLabel(std::string label);
+    void rescaleAxes(std::string name, bool onlyEnlargeX, bool onlyEnlargeY);
+    void rescaleAxes(QCPAbstractPlottable *curve, bool onlyEnlargeX, bool onlyEnlargeY);
+    void rescaleAxesAll(bool onlyEnlargeX, bool onlyEnlargeY);
+    void setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY);
+    void setLegendVisibility(bool visible);
 
     friend class UIFunctions;
     friend class MyCustomPlot;

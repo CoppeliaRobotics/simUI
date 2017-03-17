@@ -59,13 +59,22 @@ private slots:
     void onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals);
     void onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals);
     void onSetWidgetVisibility(Widget *widget, bool visible);
-    void onAddCurve(Plot *plot, std::string name, std::vector<int> color, int style, curve_options *opts);
-    void onAddCurvePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y);
+    void onReplot(Plot *plot);
+    void onAddCurve(Plot *plot, int type, std::string name, std::vector<int> color, int style, curve_options *opts);
+    void onAddCurveTimePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y);
+    void onAddCurveXYPoints(Plot *plot, std::string name, std::vector<double> t, std::vector<double> x, std::vector<double> y);
     void onClearCurve(Plot *plot, std::string name);
     void onRemoveCurve(Plot *plot, std::string name);
-    void onSetPlotRanges(Plot *plot, std::vector<double> x, std::vector<double> y);
+    void onSetPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax);
+    void onSetPlotXRange(Plot *plot, double xmin, double xmax);
+    void onSetPlotYRange(Plot *plot, double ymin, double ymax);
     void onSetPlotLabels(Plot *plot, std::string x, std::string y);
-    void onRescaleAxes(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY);
+    void onSetPlotXLabel(Plot *plot, std::string label);
+    void onSetPlotYLabel(Plot *plot, std::string label);
+    void onRescaleAxes(Plot *plot, std::string name, bool onlyEnlargeX, bool onlyEnlargeY);
+    void onRescaleAxesAll(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY);
+    void onSetMouseOptions(Plot *plot, bool panX, bool panY, bool zoomX, bool zoomY);
+    void onSetLegendVisibility(Plot *plot, bool visible);
 
 signals:
     void buttonClick(Widget *widget);

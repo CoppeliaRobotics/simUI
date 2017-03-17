@@ -574,18 +574,31 @@ void setCurrentEditWidget(SScriptCallBack *p, const char *cmd, setCurrentEditWid
     qedit->selectAll();
 }
 
+void replot(SScriptCallBack *p, const char *cmd, replot_in *in, replot_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->replot(plot);
+}
+
 void addCurve(SScriptCallBack *p, const char *cmd, addCurve_in *in, addCurve_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
     plot->curveNameMustNotExist(in->name);
-    UIFunctions::getInstance()->addCurve(plot, in->name, in->color, in->style, &in->options);
+    UIFunctions::getInstance()->addCurve(plot, in->type, in->name, in->color, in->style, &in->options);
 }
 
-void addCurvePoints(SScriptCallBack *p, const char *cmd, addCurvePoints_in *in, addCurvePoints_out *out)
+void addCurveTimePoints(SScriptCallBack *p, const char *cmd, addCurveTimePoints_in *in, addCurveTimePoints_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
     plot->curveNameMustExist(in->name);
-    UIFunctions::getInstance()->addCurvePoints(plot, in->name, in->x, in->y);
+    UIFunctions::getInstance()->addCurveTimePoints(plot, in->name, in->x, in->y);
+}
+
+void addCurveXYPoints(SScriptCallBack *p, const char *cmd, addCurveXYPoints_in *in, addCurveXYPoints_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    plot->curveNameMustExist(in->name);
+    UIFunctions::getInstance()->addCurveXYPoints(plot, in->name, in->t, in->x, in->y);
 }
 
 void clearCurve(SScriptCallBack *p, const char *cmd, clearCurve_in *in, clearCurve_out *out)
@@ -605,7 +618,19 @@ void removeCurve(SScriptCallBack *p, const char *cmd, removeCurve_in *in, remove
 void setPlotRanges(SScriptCallBack *p, const char *cmd, setPlotRanges_in *in, setPlotRanges_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
-    UIFunctions::getInstance()->setPlotRanges(plot, in->x, in->y);
+    UIFunctions::getInstance()->setPlotRanges(plot, in->xmin, in->xmax, in->ymin, in->ymax);
+}
+
+void setPlotXRange(SScriptCallBack *p, const char *cmd, setPlotXRange_in *in, setPlotXRange_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->setPlotXRange(plot, in->xmin, in->xmax);
+}
+
+void setPlotYRange(SScriptCallBack *p, const char *cmd, setPlotYRange_in *in, setPlotYRange_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->setPlotYRange(plot, in->ymin, in->ymax);
 }
 
 void setPlotLabels(SScriptCallBack *p, const char *cmd, setPlotLabels_in *in, setPlotLabels_out *out)
@@ -614,10 +639,41 @@ void setPlotLabels(SScriptCallBack *p, const char *cmd, setPlotLabels_in *in, se
     UIFunctions::getInstance()->setPlotLabels(plot, in->x, in->y);
 }
 
+void setPlotXLabel(SScriptCallBack *p, const char *cmd, setPlotXLabel_in *in, setPlotXLabel_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->setPlotXLabel(plot, in->label);
+}
+
+void setPlotYLabel(SScriptCallBack *p, const char *cmd, setPlotYLabel_in *in, setPlotYLabel_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->setPlotYLabel(plot, in->label);
+}
+
 void rescaleAxes(SScriptCallBack *p, const char *cmd, rescaleAxes_in *in, rescaleAxes_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
-    UIFunctions::getInstance()->rescaleAxes(plot, in->onlyEnlargeX, in->onlyEnlargeY);
+    plot->curveNameMustExist(in->name);
+    UIFunctions::getInstance()->rescaleAxes(plot, in->name, in->onlyEnlargeX, in->onlyEnlargeY);
+}
+
+void rescaleAxesAll(SScriptCallBack *p, const char *cmd, rescaleAxesAll_in *in, rescaleAxesAll_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->rescaleAxesAll(plot, in->onlyEnlargeX, in->onlyEnlargeY);
+}
+
+void setMouseOptions(SScriptCallBack *p, const char *cmd, setMouseOptions_in *in, setMouseOptions_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->setMouseOptions(plot, in->panX, in->panY, in->zoomX, in->zoomY);
+}
+
+void setLegendVisibility(SScriptCallBack *p, const char *cmd, setLegendVisibility_in *in, setLegendVisibility_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    UIFunctions::getInstance()->setLegendVisibility(plot, in->visible);
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)

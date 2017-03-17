@@ -502,36 +502,53 @@ void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onAddCurve(Plot *plot, std::string name, std::vector<int> color, int style, curve_options *opts)
+void UIProxy::onReplot(Plot *plot)
 {
-    plot->addCurve(name, color, style, opts);
     plot->replot();
 }
 
-void UIProxy::onAddCurvePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y)
+void UIProxy::onAddCurve(Plot *plot, int type, std::string name, std::vector<int> color, int style, curve_options *opts)
 {
-    plot->addData(name, x, y);
-    plot->replot();
+    plot->addCurve(type, name, color, style, opts);
+}
+
+void UIProxy::onAddCurveTimePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y)
+{
+    plot->addTimeData(name, x, y);
+}
+
+void UIProxy::onAddCurveXYPoints(Plot *plot, std::string name, std::vector<double> t, std::vector<double> x, std::vector<double> y)
+{
+    plot->addXYData(name, t, x, y);
 }
 
 void UIProxy::onClearCurve(Plot *plot, std::string name)
 {
     plot->clearCurve(name);
-    plot->replot();
 }
 
 void UIProxy::onRemoveCurve(Plot *plot, std::string name)
 {
     plot->removeCurve(name);
-    plot->replot();
 }
 
-void UIProxy::onSetPlotRanges(Plot *plot, std::vector<double> x, std::vector<double> y)
+void UIProxy::onSetPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
-    qplot->xAxis->setRange(x[0], x[1]);
-    qplot->yAxis->setRange(y[0], y[1]);
-    qplot->replot();
+    qplot->xAxis->setRange(xmin, xmax);
+    qplot->yAxis->setRange(ymin, ymax);
+}
+
+void UIProxy::onSetPlotXRange(Plot *plot, double xmin, double xmax)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    qplot->xAxis->setRange(xmin, xmax);
+}
+
+void UIProxy::onSetPlotYRange(Plot *plot, double ymin, double ymax)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    qplot->yAxis->setRange(ymin, ymax);
 }
 
 void UIProxy::onSetPlotLabels(Plot *plot, std::string x, std::string y)
@@ -539,13 +556,37 @@ void UIProxy::onSetPlotLabels(Plot *plot, std::string x, std::string y)
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     qplot->xAxis->setLabel(QString::fromStdString(x));
     qplot->yAxis->setLabel(QString::fromStdString(y));
-    qplot->replot();
 }
 
-void UIProxy::onRescaleAxes(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY)
+void UIProxy::onSetPlotXLabel(Plot *plot, std::string label)
 {
-    plot->rescale(onlyEnlargeX, onlyEnlargeY);
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
-    qplot->replot();
+    qplot->xAxis->setLabel(QString::fromStdString(label));
+}
+
+void UIProxy::onSetPlotYLabel(Plot *plot, std::string label)
+{
+    QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
+    qplot->yAxis->setLabel(QString::fromStdString(label));
+}
+
+void UIProxy::onRescaleAxes(Plot *plot, std::string name, bool onlyEnlargeX, bool onlyEnlargeY)
+{
+    plot->rescaleAxes(name, onlyEnlargeX, onlyEnlargeY);
+}
+
+void UIProxy::onRescaleAxesAll(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY)
+{
+    plot->rescaleAxesAll(onlyEnlargeX, onlyEnlargeY);
+}
+
+void UIProxy::onSetMouseOptions(Plot *plot, bool panX, bool panY, bool zoomX, bool zoomY)
+{
+    plot->setMouseOptions(panX, panY, zoomX, zoomY);
+}
+
+void UIProxy::onSetLegendVisibility(Plot *plot, bool visible)
+{
+    plot->setLegendVisibility(visible);
 }
 
