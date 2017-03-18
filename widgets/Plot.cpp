@@ -39,7 +39,7 @@ private:
     Plot *plot_;
 
 public:
-    MyCustomPlot(Plot *plot, QWidget *parent) : plot_(plot), QCustomPlot(parent)
+    MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), plot_(plot)
     {
     }
 
