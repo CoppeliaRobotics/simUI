@@ -20,6 +20,8 @@ INCLUDEPATH += "external/QCustomPlot-2.0.0-beta"
 
 win32 {
     DEFINES += WIN_VREP
+    DEFINES += NOMINMAX
+    DEFINES += strcasecmp=_stricmp
     INCLUDEPATH += "c:/local/boost_1_62_0"
 }
 
