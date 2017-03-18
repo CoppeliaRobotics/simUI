@@ -216,11 +216,10 @@ void Plot::clearCurve(std::string name)
 {
     QCPAbstractPlottable *curve = curveByName(name);
 
-    QCPGraph *curve_t = dynamic_cast<QCPGraph*>(curve);
-    QCPCurve *curve_xy = dynamic_cast<QCPCurve*>(curve);
-
-    if(curve_t) curve_t->setData(QVector<double>(), QVector<double>(), true);
-    if(curve_xy) curve_xy->setData(QVector<double>(), QVector<double>(), QVector<double>(), true);
+    if(QCPGraph *curve_t = dynamic_cast<QCPGraph*>(curve))
+        curve_t->setData(QVector<double>(), QVector<double>(), true);
+    else if(QCPCurve *curve_xy = dynamic_cast<QCPCurve*>(curve))
+        curve_xy->setData(QVector<double>(), QVector<double>(), QVector<double>(), true);
 }
 
 void Plot::removeCurve(std::string name)
