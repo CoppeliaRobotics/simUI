@@ -22,6 +22,18 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
     background_color = xmlutils::getAttrIntV(e, "background-color", "-1,-1,-1", 3, 3, ",");
 
+    std::vector<int> grid_color = xmlutils::getAttrIntV(e, "grid-color", "-1,-1,-1", 3, 3, ",");
+
+    grid_x_color = xmlutils::getAttrIntV(e, "grid-x-color", "-1,-1,-1", 3, 3, ",");
+    if(grid_x_color[0] == -1 && grid_x_color[1] == -1 && grid_x_color[2] == -1)
+        for(int i = 0; i < 3; i++)
+            grid_x_color[i] = grid_color[i];
+
+    grid_y_color = xmlutils::getAttrIntV(e, "grid-y-color", "-1,-1,-1", 3, 3, ",");
+    if(grid_y_color[0] == -1 && grid_y_color[1] == -1 && grid_y_color[2] == -1)
+        for(int i = 0; i < 3; i++)
+            grid_y_color[i] = grid_color[i];
+
     type = xmlutils::getAttrStr(e, "type", "time");
     if(type == "time") ;
     else if(type == "xy") ;
@@ -38,8 +50,7 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
 QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    //QCustomPlot *plot = new MyCustomPlot(this, parent);
-    QCustomPlot *plot = new QCustomPlot(parent);
+    QCustomPlot *plot = new MyCustomPlot(this, parent);
     plot->setEnabled(enabled);
     plot->setVisible(visible);
     plot->setStyleSheet(QString::fromStdString(style));
@@ -50,6 +61,18 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setBackground(QBrush(bgcol));
     plot->setInteraction(QCP::iSelectPlottables);
     //plot->setSelectionRectMode(QCP::srmZoom); // overrides range drag
+    if(grid_x_color[0] >= 0 && grid_x_color[1] >= 0 && grid_x_color[2] >= 0)
+    {
+        QPen pen = plot->xAxis->grid()->pen();
+        pen.setColor(QColor(grid_x_color[0], grid_x_color[1], grid_x_color[2]));
+        plot->xAxis->grid()->setPen(pen);
+    }
+    if(grid_y_color[0] >= 0 && grid_y_color[1] >= 0 && grid_y_color[2] >= 0)
+    {
+        QPen pen = plot->yAxis->grid()->pen();
+        pen.setColor(QColor(grid_y_color[0], grid_y_color[1], grid_y_color[2]));
+        plot->yAxis->grid()->setPen(pen);
+    }
     QObject::connect(plot, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), uiproxy, SLOT(onPlottableClick(QCPAbstractPlottable*,int,QMouseEvent*)));
     setQWidget(plot);
     setProxy(proxy);

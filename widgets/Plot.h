@@ -24,8 +24,8 @@ class Plot : public Widget
 {
 protected:
     std::vector<int> background_color;
-    bool graduation;
-    std::vector<int> graduation_color;
+    std::vector<int> grid_x_color;
+    std::vector<int> grid_y_color;
     std::string type;
     bool square;
     int max_buffer_size;
