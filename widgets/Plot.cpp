@@ -287,18 +287,21 @@ void Plot::addTimeData(std::string name, const std::vector<double>& x, const std
 
     curve->addData(QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
 
-    QSharedPointer<QCPGraphDataContainer> pdata = curve->data();
-    if(max_buffer_size > 0 && cyclic_buffer && pdata->size() > max_buffer_size)
+    if(max_buffer_size > 0)
     {
-        // remove previous samples for cyclic buffer
-        double k = pdata->at(pdata->size() - max_buffer_size)->key;
-        pdata->removeBefore(k);
-    }
-    if(max_buffer_size > 0 && !cyclic_buffer && pdata->size() > max_buffer_size)
-    {
-        // remove excess samples for non-cyclic buffer
-        double k = pdata->at(max_buffer_size - 1)->key;
-        pdata->removeAfter(k);
+        QSharedPointer<QCPGraphDataContainer> pdata = curve->data();
+        if(cyclic_buffer && pdata->size() > max_buffer_size)
+        {
+            // remove previous samples for cyclic buffer
+            double k = pdata->at(pdata->size() - max_buffer_size)->key;
+            pdata->removeBefore(k);
+        }
+        if(!cyclic_buffer && pdata->size() > max_buffer_size)
+        {
+            // remove excess samples for non-cyclic buffer
+            double k = pdata->at(max_buffer_size - 1)->key;
+            pdata->removeAfter(k);
+        }
     }
 }
 
@@ -310,18 +313,21 @@ void Plot::addXYData(std::string name, const std::vector<double>& t, const std::
 
     curve->addData(QVector<double>::fromStdVector(t), QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
 
-    QSharedPointer<QCPCurveDataContainer> pdata = curve->data();
-    if(max_buffer_size > 0 && cyclic_buffer && pdata->size() > max_buffer_size)
+    if(max_buffer_size > 0)
     {
-        // remove previous samples for cyclic buffer
-        double k = pdata->at(pdata->size() - max_buffer_size)->t;
-        pdata->removeBefore(k);
-    }
-    if(max_buffer_size > 0 && !cyclic_buffer && pdata->size() > max_buffer_size)
-    {
-        // remove excess samples for non-cyclic buffer
-        double k = pdata->at(max_buffer_size - 1)->t;
-        pdata->removeAfter(k);
+        QSharedPointer<QCPCurveDataContainer> pdata = curve->data();
+        if(cyclic_buffer && pdata->size() > max_buffer_size)
+        {
+            // remove previous samples for cyclic buffer
+            double k = pdata->at(pdata->size() - max_buffer_size)->t;
+            pdata->removeBefore(k);
+        }
+        if(!cyclic_buffer && pdata->size() > max_buffer_size)
+        {
+            // remove excess samples for non-cyclic buffer
+            double k = pdata->at(max_buffer_size - 1)->t;
+            pdata->removeAfter(k);
+        }
     }
 }
 
