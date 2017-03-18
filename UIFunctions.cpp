@@ -251,6 +251,22 @@ void UIFunctions::onPlottableClick(Plot *plot, QCPAbstractPlottable *plottable, 
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, plot);
 
-    DBG << "onPlottableClick plot=" << plot << ", plottable=" << plottable << ", index=" << index << std::endl;
+    if(plot->onclick == "" || plot->proxy->scriptID == -1) return;
+
+    float x = NAN, y = NAN;
+    if(QCPGraph *graph = dynamic_cast<QCPGraph*>(plottable))
+    {
+        QCPGraphData d = *graph->data()->at(index);
+        x = d.key;
+        y = d.value;
+    }
+    else if(QCPCurve *curve = dynamic_cast<QCPCurve*>(plottable))
+    {
+        QCPCurveData d = *curve->data()->at(index);
+        x = d.key;
+        y = d.value;
+    }
+
+    onplottableClickCallback(plot->proxy->getScriptID(), plot->onclick.c_str(), plot->proxy->getHandle(), plot->id, plottable->name().toStdString(), index, x, y);
 }
 

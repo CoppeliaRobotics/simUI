@@ -1151,4 +1151,29 @@
         <return>
         </return>
     </script-function>
+    <script-function name="onplottableClickCallback">
+        <description>Callback for plot widget plottableClick event.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the plot widget</description>
+            </param>
+            <param name="curve" type="string">
+                <description>the name of the curve</description>
+            </param>
+            <param name="index" type="int">
+                <description>the index of the clicked point in the curve</description>
+            </param>
+            <param name="x" type="float">
+                <description>the x value of the clicked point</description>
+            </param>
+            <param name="y" type="float">
+                <description>the y value of the clicked point</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
 </plugin>

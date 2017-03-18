@@ -30,6 +30,7 @@ protected:
     bool square;
     int max_buffer_size;
     bool cyclic_buffer;
+    std::string onclick;
 
     CurveMap curveByName_;
 

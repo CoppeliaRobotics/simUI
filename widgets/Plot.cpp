@@ -32,6 +32,8 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     max_buffer_size = xmlutils::getAttrInt(e, "max-buffer-size", 1000);
 
     cyclic_buffer = xmlutils::getAttrBool(e, "cyclic-buffer", false);
+
+    onclick = xmlutils::getAttrStr(e, "onclick", "");
 }
 
 QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -48,7 +50,7 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setBackground(QBrush(bgcol));
     plot->setInteraction(QCP::iSelectPlottables);
     //plot->setSelectionRectMode(QCP::srmZoom); // overrides range drag
-    DBG << "QCP connect: " << QObject::connect(plot, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), uiproxy, SLOT(onPlottableClick(QCPAbstractPlottable*,int,QMouseEvent*))) << std::endl;
+    QObject::connect(plot, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), uiproxy, SLOT(onPlottableClick(QCPAbstractPlottable*,int,QMouseEvent*)));
     setQWidget(plot);
     setProxy(proxy);
     return plot;
