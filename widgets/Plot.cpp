@@ -111,11 +111,10 @@ void Plot::curveNameMustNotExist(std::string name)
 
 void Plot::replot(bool queue)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
     if(queue)
-        qplot->replot(QCustomPlot::rpQueuedReplot); // can help performance when doing a lot of replots
+        qplot()->replot(QCustomPlot::rpQueuedReplot); // can help performance when doing a lot of replots
     else
-        qplot->replot();
+        qplot()->replot();
 }
 
 void Plot::addCurve(int type, std::string name, std::vector<int> color, int style, curve_options *opts)
@@ -154,8 +153,7 @@ void Plot::setCurveCommonOptions(QCPAbstractPlottable *curve, std::string name, 
 
 QCPGraph * Plot::addTimeCurve(std::string name, std::vector<int> color, int style, curve_options *opts)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    QCPGraph *curve = new QCPGraph(qplot->xAxis, qplot->yAxis);
+    QCPGraph *curve = new QCPGraph(qplot()->xAxis, qplot()->yAxis);
 
     switch(style)
     {
@@ -190,8 +188,7 @@ QCPGraph * Plot::addTimeCurve(std::string name, std::vector<int> color, int styl
 
 QCPCurve * Plot::addXYCurve(std::string name, std::vector<int> color, int style, curve_options *opts)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    QCPCurve *curve = new QCPCurve(qplot->xAxis, qplot->yAxis);
+    QCPCurve *curve = new QCPCurve(qplot()->xAxis, qplot()->yAxis);
 
     switch(style)
     {
@@ -226,10 +223,7 @@ void Plot::removeCurve(std::string name)
 {
     QCPAbstractPlottable *curve = curveByName(name);
     curveByName_.erase(name);
-
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-
-    qplot->removePlottable(curve);
+    qplot()->removePlottable(curve);
 }
 
 QCPAbstractPlottable * Plot::curveByName(std::string name)
@@ -332,26 +326,22 @@ void Plot::addXYData(std::string name, const std::vector<double>& t, const std::
 
 void Plot::setXRange(double min, double max)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    qplot->xAxis->setRange(min, max);
+    qplot()->xAxis->setRange(min, max);
 }
 
 void Plot::setYRange(double min, double max)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    qplot->yAxis->setRange(min, max);
+    qplot()->yAxis->setRange(min, max);
 }
 
 void Plot::setXLabel(std::string label)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    qplot->xAxis->setLabel(QString::fromStdString(label));
+    qplot()->xAxis->setLabel(QString::fromStdString(label));
 }
 
 void Plot::setYLabel(std::string label)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    qplot->yAxis->setLabel(QString::fromStdString(label));
+    qplot()->yAxis->setLabel(QString::fromStdString(label));
 }
 
 void Plot::rescaleAxes(std::string name, bool onlyEnlargeX, bool onlyEnlargeY)
@@ -368,10 +358,9 @@ void Plot::rescaleAxes(QCPAbstractPlottable *curve, bool onlyEnlargeX, bool only
 
 void Plot::rescaleAxesAll(bool onlyEnlargeX, bool onlyEnlargeY)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    for(int i = 0; i < qplot->plottableCount(); ++i)
+    for(int i = 0; i < qplot()->plottableCount(); ++i)
     {
-        QCPAbstractPlottable *curve = qplot->plottable(i);
+        QCPAbstractPlottable *curve = qplot()->plottable(i);
         rescaleAxes(curve, onlyEnlargeX, onlyEnlargeY);
         onlyEnlargeX = true;
         onlyEnlargeY = true;
@@ -380,13 +369,12 @@ void Plot::rescaleAxesAll(bool onlyEnlargeX, bool onlyEnlargeY)
 
 void Plot::setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    QCP::Interactions interactions = qplot->interactions();
+    QCP::Interactions interactions = qplot()->interactions();
     interactions &= ~(QCP::iRangeDrag | QCP::iRangeZoom);
     if(panX || panY) interactions |= QCP::iRangeDrag;
     if(zoomX || zoomY) interactions |= QCP::iRangeZoom;
-    qplot->setInteractions(interactions);
-    QCPAxisRect *ar = qplot->axisRect(0);
+    qplot()->setInteractions(interactions);
+    QCPAxisRect *ar = qplot()->axisRect(0);
     Qt::Orientations panning, zooming;
     if(panX) panning |= Qt::Horizontal;
     if(panY) panning |= Qt::Vertical;
@@ -401,7 +389,6 @@ void Plot::setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY)
 
 void Plot::setLegendVisibility(bool visible)
 {
-    QCustomPlot *qplot = static_cast<QCustomPlot*>(getQWidget());
-    qplot->legend->setVisible(visible);
+    qplot()->legend->setVisible(visible);
 }
 

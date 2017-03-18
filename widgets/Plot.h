@@ -40,6 +40,8 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
+    inline QCustomPlot * qplot() {return static_cast<QCustomPlot*>(getQWidget());}
+
     void replot(bool queue = true);
 
     void addCurve(int type, std::string name, std::vector<int> color, int style, curve_options *opts);
