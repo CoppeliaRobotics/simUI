@@ -64,6 +64,12 @@
                 <description>Position of the window widget.</description>
             </attribute>
             <attribute>
+                <name>size</name>
+                <type>int[2]</type>
+                <default>-1,-1</default>
+                <description>Initial size of the window widget. -1,-1 will use the default behavior (automatically compute the optimal size).</description>
+            </attribute>
+            <attribute>
                 <name>activate</name>
                 <type>bool</type>
                 <default>true</default>
