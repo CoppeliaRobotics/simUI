@@ -384,7 +384,7 @@ void Plot::setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY)
     ar->setRangeZoom(zooming);
     simFloat wheelZoomFactor;
     if(simGetFloatParameter(sim_floatparam_mouse_wheel_zoom_factor, &wheelZoomFactor) != -1)
-        ar->setRangeZoomFactor(wheelZoomFactor, wheelZoomFactor);
+        ar->setRangeZoomFactor(pow(0.85, -wheelZoomFactor), pow(0.85, -wheelZoomFactor));
 }
 
 void Plot::setLegendVisibility(bool visible)
