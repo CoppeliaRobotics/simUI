@@ -176,6 +176,22 @@ void UIProxy::onEditingFinished()
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    if(QWidget *qwidget = dynamic_cast<QWidget*>(sender()))
+    {
+        if(Plot *plot = dynamic_cast<Plot*>(Widget::byQWidget(qwidget)))
+        {
+            emit plottableClick(plot, plottable, index, event);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
 // The following slots are wrappers for functions called from SIM thread
 // which should instead execute in the UI thread.
 
@@ -612,4 +628,3 @@ void UIProxy::onSetLegendVisibility(Plot *plot, bool visible)
 {
     plot->setLegendVisibility(visible);
 }
-

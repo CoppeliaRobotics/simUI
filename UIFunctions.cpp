@@ -102,6 +102,7 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(rescaleAxesAll(Plot*,bool,bool)), uiproxy, SLOT(onRescaleAxesAll(Plot*,bool,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setMouseOptions(Plot*,bool,bool,bool,bool)), uiproxy, SLOT(onSetMouseOptions(Plot*,bool,bool,bool,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setLegendVisibility(Plot*,bool)), uiproxy, SLOT(onSetLegendVisibility(Plot*,bool)), Qt::BlockingQueuedConnection);
+    connect(uiproxy, SIGNAL(plottableClick(Plot*,QCPAbstractPlottable*,int,QMouseEvent*)), this, SLOT(onPlottableClick(Plot*,QCPAbstractPlottable*,int,QMouseEvent*)));
 }
 
 /**
@@ -243,5 +244,13 @@ void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w,
     {
         setImage(image, (simChar *)data, resolution[0], resolution[1]);
     }
+}
+
+void UIFunctions::onPlottableClick(Plot *plot, QCPAbstractPlottable *plottable, int index, QMouseEvent *event)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, plot);
+
+    DBG << "onPlottableClick plot=" << plot << ", plottable=" << plottable << ", index=" << index << std::endl;
 }
 

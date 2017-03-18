@@ -3,6 +3,7 @@
 #include "XMLUtils.h"
 
 #include "UIProxy.h"
+#include "debug.h"
 
 #include <stdexcept>
 
@@ -33,41 +34,10 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     cyclic_buffer = xmlutils::getAttrBool(e, "cyclic-buffer", false);
 }
 
-class MyCustomPlot : public QCustomPlot
-{
-private:
-    Plot *plot_;
-
-public:
-    MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), plot_(plot)
-    {
-    }
-
-    bool hasHeightForWidth() const
-    {
-        return plot_->square;
-    }
-
-    int heightForWidth(int w) const
-    {
-        return plot_->square ? w : -1;
-    }
-
-    void mouseDoubleClickEvent(QMouseEvent *event)
-    {
-        if(event->button() == Qt::LeftButton)
-        {
-            rescaleAxes();
-            replot();
-        }
-
-        QCustomPlot::mouseDoubleClickEvent(event);
-    }
-};
-
 QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QCustomPlot *plot = new MyCustomPlot(this, parent);
+    //QCustomPlot *plot = new MyCustomPlot(this, parent);
+    QCustomPlot *plot = new QCustomPlot(parent);
     plot->setEnabled(enabled);
     plot->setVisible(visible);
     plot->setStyleSheet(QString::fromStdString(style));
@@ -76,6 +46,9 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     if(background_color[0] >= 0 && background_color[1] >= 0 && background_color[2] >= 0)
         bgcol.setRgb(background_color[0], background_color[1], background_color[2]);
     plot->setBackground(QBrush(bgcol));
+    plot->setInteraction(QCP::iSelectPlottables);
+    //plot->setSelectionRectMode(QCP::srmZoom); // overrides range drag
+    DBG << "QCP connect: " << QObject::connect(plot, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), uiproxy, SLOT(onPlottableClick(QCPAbstractPlottable*,int,QMouseEvent*))) << std::endl;
     setQWidget(plot);
     setProxy(proxy);
     return plot;
@@ -149,6 +122,8 @@ void Plot::setCurveCommonOptions(QCPAbstractPlottable *curve, std::string name, 
     qpen.setColor(qcolor);
     qpen.setWidth(opts->line_size);
     curve->setPen(qpen);
+
+    curve->setSelectable(QCP::stSingleData);
 }
 
 QCPGraph * Plot::addTimeCurve(std::string name, std::vector<int> color, int style, curve_options *opts)
@@ -392,3 +367,27 @@ void Plot::setLegendVisibility(bool visible)
     qplot()->legend->setVisible(visible);
 }
 
+MyCustomPlot::MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), plot_(plot)
+{
+}
+
+bool MyCustomPlot::hasHeightForWidth() const
+{
+    return plot_->square;
+}
+
+int MyCustomPlot::heightForWidth(int w) const
+{
+    return plot_->square ? w : -1;
+}
+
+void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        rescaleAxes();
+        replot();
+    }
+
+    QCustomPlot::mouseDoubleClickEvent(event);
+}

@@ -71,5 +71,17 @@ public:
     friend class MyCustomPlot;
 };
 
+class MyCustomPlot : public QCustomPlot
+{
+    Q_OBJECT
+private:
+    Plot *plot_;
+public:
+    MyCustomPlot(Plot *plot, QWidget *parent);
+    bool hasHeightForWidth() const;
+    int heightForWidth(int w) const;
+    void mouseDoubleClickEvent(QMouseEvent *event);
+};
+
 #endif // PLOT_H_INCLUDED
 

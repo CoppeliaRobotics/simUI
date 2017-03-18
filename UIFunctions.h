@@ -35,6 +35,7 @@ private slots:
     void onEditingFinished(Edit *edit, QString value);
     void onWindowClose(Window *window);
     void onLoadImageFromFile(Image *image, const char *filename, int w, int h);
+    void onPlottableClick(Plot *plot, QCPAbstractPlottable *plottable, int index, QMouseEvent *event);
 
 signals:
     void create(Proxy *proxy);
