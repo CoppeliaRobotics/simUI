@@ -12615,6 +12615,7 @@ QCustomPlot::QCustomPlot(QWidget *parent) :
   mOpenGl(false),
   mMouseHasMoved(false),
   mMouseEventLayerable(0),
+  mMouseSignalLayerable(0),
   mReplotting(false),
   mReplotQueued(false),
   mOpenGlMultisamples(16),
@@ -14552,12 +14553,18 @@ void QCustomPlot::mousePressEvent(QMouseEvent *event)
       mSelectionRect->startSelection(event);
   } else
   {
-    // no selection rect interaction, so forward event to layerable under the cursor:
+    // no selection rect interaction, prepare for click signal emission and forward event to layerable under the cursor:
     QList<QVariant> details;
     QList<QCPLayerable*> candidates = layerableListAt(mMousePressPos, false, &details);
+    if (!candidates.isEmpty())
+    {
+      mMouseSignalLayerable = candidates.first(); // candidate for signal emission is always topmost hit layerable (signal emitted in release event)
+      mMouseSignalLayerableDetails = details.first();
+    }
+    // forward event to topmost candidate which accepts the event:
     for (int i=0; i<candidates.size(); ++i)
     {
-      event->accept(); // default impl of QCPLayerable's mouse events ignore the event, in that case propagate to next candidate in list
+      event->accept(); // default impl of QCPLayerable's mouse events call ignore() on the event, in that case propagate to next candidate in list
       candidates.at(i)->mousePressEvent(event, details.at(i));
       if (event->isAccepted())
       {
@@ -14624,20 +14631,21 @@ void QCustomPlot::mouseReleaseEvent(QMouseEvent *event)
       processPointSelection(event);
     
     // emit specialized click signals of QCustomPlot instance:
-    if (QCPAbstractPlottable *ap = qobject_cast<QCPAbstractPlottable*>(mMouseEventLayerable))
+    if (QCPAbstractPlottable *ap = qobject_cast<QCPAbstractPlottable*>(mMouseSignalLayerable))
     {
       int dataIndex = 0;
-      if (!mMouseEventLayerableDetails.value<QCPDataSelection>().isEmpty())
-        dataIndex = mMouseEventLayerableDetails.value<QCPDataSelection>().dataRange().begin();
+      if (!mMouseSignalLayerableDetails.value<QCPDataSelection>().isEmpty())
+        dataIndex = mMouseSignalLayerableDetails.value<QCPDataSelection>().dataRange().begin();
       emit plottableClick(ap, dataIndex, event);
-    } else if (QCPAxis *ax = qobject_cast<QCPAxis*>(mMouseEventLayerable))
-      emit axisClick(ax, mMouseEventLayerableDetails.value<QCPAxis::SelectablePart>(), event);
-    else if (QCPAbstractItem *ai = qobject_cast<QCPAbstractItem*>(mMouseEventLayerable))
+    } else if (QCPAxis *ax = qobject_cast<QCPAxis*>(mMouseSignalLayerable))
+      emit axisClick(ax, mMouseSignalLayerableDetails.value<QCPAxis::SelectablePart>(), event);
+    else if (QCPAbstractItem *ai = qobject_cast<QCPAbstractItem*>(mMouseSignalLayerable))
       emit itemClick(ai, event);
-    else if (QCPLegend *lg = qobject_cast<QCPLegend*>(mMouseEventLayerable))
+    else if (QCPLegend *lg = qobject_cast<QCPLegend*>(mMouseSignalLayerable))
       emit legendClick(lg, 0, event);
-    else if (QCPAbstractLegendItem *li = qobject_cast<QCPAbstractLegendItem*>(mMouseEventLayerable))
+    else if (QCPAbstractLegendItem *li = qobject_cast<QCPAbstractLegendItem*>(mMouseSignalLayerable))
       emit legendClick(li->parentLegend(), li, event);
+    mMouseSignalLayerable = 0;
   }
   
   if (mSelectionRect && mSelectionRect->isActive()) // Note: if a click was detected above, the selection rect is canceled there
