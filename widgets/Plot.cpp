@@ -60,6 +60,7 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         bgcol.setRgb(background_color[0], background_color[1], background_color[2]);
     plot->setBackground(QBrush(bgcol));
     plot->setInteraction(QCP::iSelectPlottables);
+    plot->setAutoAddPlottableToLegend(false);
     //plot->setSelectionRectMode(QCP::srmZoom); // overrides range drag
     if(grid_x_color[0] >= 0 && grid_x_color[1] >= 0 && grid_x_color[2] >= 0)
     {
@@ -149,6 +150,9 @@ void Plot::setCurveCommonOptions(QCPAbstractPlottable *curve, std::string name, 
     curve->setPen(qpen);
 
     curve->setSelectable(QCP::stSingleData);
+
+    if(opts->add_to_legend)
+        curve->addToLegend(qplot()->legend);
 }
 
 QCPGraph * Plot::addTimeCurve(std::string name, std::vector<int> color, int style, curve_options *opts)

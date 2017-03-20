@@ -697,6 +697,9 @@
         <param name="line_size" type="int" default="2">
             <description>size of the line</description>
         </param>
+        <param name="add_to_legend" type="bool" default="true">
+            <description>if false, the curve will not be added to the legend</description>
+        </param>
     </struct>
     <command name="addCurve">
         <description>Adds a curve to a plot widget.</description>
