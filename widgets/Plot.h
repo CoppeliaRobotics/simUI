@@ -31,6 +31,10 @@ protected:
     int max_buffer_size;
     bool cyclic_buffer;
     std::string onclick;
+    bool x_ticks;
+    bool y_ticks;
+    bool x_tick_labels;
+    bool y_tick_labels;
 
     CurveMap curveByName_;
 

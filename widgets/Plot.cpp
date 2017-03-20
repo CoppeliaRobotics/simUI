@@ -46,6 +46,14 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     cyclic_buffer = xmlutils::getAttrBool(e, "cyclic-buffer", false);
 
     onclick = xmlutils::getAttrStr(e, "onclick", "");
+
+    bool ticks = xmlutils::getAttrBool(e, "ticks", true);
+    x_ticks = xmlutils::getAttrBool(e, "x-ticks", ticks);
+    y_ticks = xmlutils::getAttrBool(e, "y-ticks", ticks);
+
+    bool tick_labels = xmlutils::getAttrBool(e, "tick-labels", true);
+    x_tick_labels = xmlutils::getAttrBool(e, "x-tick-labels", tick_labels);
+    y_tick_labels = xmlutils::getAttrBool(e, "y-tick-labels", tick_labels);
 }
 
 QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -74,6 +82,10 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         pen.setColor(QColor(grid_y_color[0], grid_y_color[1], grid_y_color[2]));
         plot->yAxis->grid()->setPen(pen);
     }
+    plot->xAxis->setTicks(x_ticks);
+    plot->yAxis->setTicks(y_ticks);
+    plot->xAxis->setTickLabels(x_tick_labels);
+    plot->yAxis->setTickLabels(y_tick_labels);
     QObject::connect(plot, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), uiproxy, SLOT(onPlottableClick(QCPAbstractPlottable*,int,QMouseEvent*)));
     setQWidget(plot);
     setProxy(proxy);
