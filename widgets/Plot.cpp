@@ -69,7 +69,6 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setBackground(QBrush(bgcol));
     plot->setInteraction(QCP::iSelectPlottables);
     plot->setAutoAddPlottableToLegend(false);
-    //plot->setSelectionRectMode(QCP::srmZoom); // overrides range drag
     if(grid_x_color[0] >= 0 && grid_x_color[1] >= 0 && grid_x_color[2] >= 0)
     {
         QPen pen = plot->xAxis->grid()->pen();
@@ -410,6 +409,7 @@ void Plot::setLegendVisibility(bool visible)
 
 MyCustomPlot::MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), plot_(plot)
 {
+    QObject::connect(this, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(onMousePress(QMouseEvent*)));
 }
 
 bool MyCustomPlot::hasHeightForWidth() const
@@ -432,3 +432,13 @@ void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
 
     QCustomPlot::mouseDoubleClickEvent(event);
 }
+
+void MyCustomPlot::onMousePress(QMouseEvent *event)
+{
+    Qt::KeyboardModifiers mods = event->modifiers();
+    if(mods == Qt::ControlModifier)
+        this->setSelectionRectMode(QCP::srmZoom);
+    else if(mods == Qt::NoModifier)
+        this->setSelectionRectMode(QCP::srmNone);
+}
+

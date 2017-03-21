@@ -86,6 +86,8 @@ public:
     bool hasHeightForWidth() const;
     int heightForWidth(int w) const;
     void mouseDoubleClickEvent(QMouseEvent *event);
+private slots:
+    void onMousePress(QMouseEvent *event);
 };
 
 #endif // PLOT_H_INCLUDED
