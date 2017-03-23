@@ -6,6 +6,13 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 
+bool xmlutils::hasAttr(tinyxml2::XMLElement *e, const char *name)
+{
+    const char *value = e->Attribute(name);
+    if(value) return true;
+    else return false;
+}
+
 bool xmlutils::getAttrBool(tinyxml2::XMLElement *e, const char *name, bool defaultValue)
 {
     const char *value = e->Attribute(name);
@@ -77,6 +84,20 @@ double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, const char *name, double
     return ret;
 }
 
+std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, const char *name)
+{
+    const char *value = e->Attribute(name);
+
+    if(!value)
+    {
+        std::stringstream ss;
+        ss << "missing value for attribute '" << name << "'";
+        throw std::range_error(ss.str());
+    }
+
+    return std::string(value);
+}
+
 std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, const char *name, std::string defaultValue)
 {
     const char *value = e->Attribute(name);
@@ -87,83 +108,272 @@ std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, const char *name, std:
     return std::string(value);
 }
 
-std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
+void xmlutils::string2vector(std::string s, std::vector<std::string>& v, int minLength, int maxLength, const char *sep)
 {
-    std::string s = getAttrStr(e, name, defaultValue);
-
     boost::char_separator<char> bsep(sep);
     boost::tokenizer< boost::char_separator<char> > tokenizer(s, bsep);
-    std::vector<std::string> ret;
+    v.clear();
     for(boost::tokenizer< boost::char_separator<char> >::iterator it = tokenizer.begin(); it != tokenizer.end(); ++it)
     {
         std::string tok = *it;
-        ret.push_back(tok);
+        v.push_back(tok);
     }
-    if(minLength != -1 && maxLength != -1 && (ret.size() < minLength || ret.size() > maxLength))
+    if(minLength != -1 && maxLength != -1 && (v.size() < minLength || v.size() > maxLength))
     {
         std::stringstream ss;
-        ss << "attribute '" << name << "' must have ";
+        ss << "must have ";
         if(minLength != maxLength) ss << "from " << minLength << " to " << maxLength;
         else ss << "exactly " << minLength;
         ss << " elements";
         throw std::range_error(ss.str());
     }
-    else if(minLength != -1 && ret.size() < minLength)
+    else if(minLength != -1 && v.size() < minLength)
     {
         std::stringstream ss;
-        ss << "attribute '" << name << "' must have at least " << minLength << " elements";
+        ss << "must have at least " << minLength << " elements";
         throw std::range_error(ss.str());
     }
-    else if(maxLength != -1 && ret.size() > maxLength)
+    else if(maxLength != -1 && v.size() > maxLength)
     {
         std::stringstream ss;
-        ss << "attribute '" << name << "' must have at most " << maxLength << " elements";
+        ss << "must have at most " << maxLength << " elements";
         throw std::range_error(ss.str());
     }
-    return ret;
+}
+
+void xmlutils::string2vector(std::string s, std::vector<bool>& v, int minLength, int maxLength, const char *sep)
+{
+    std::vector<std::string> vs;
+    string2vector(s, vs, minLength, maxLength, sep);
+    v.clear();
+    for(std::vector<std::string>::iterator it = vs.begin(); it != vs.end(); ++it)
+        v.push_back(boost::lexical_cast<bool>(*it));
+}
+
+void xmlutils::string2vector(std::string s, std::vector<float>& v, int minLength, int maxLength, const char *sep)
+{
+    std::vector<std::string> vs;
+    string2vector(s, vs, minLength, maxLength, sep);
+    v.clear();
+    for(std::vector<std::string>::iterator it = vs.begin(); it != vs.end(); ++it)
+        v.push_back(boost::lexical_cast<float>(*it));
+}
+
+void xmlutils::string2vector(std::string s, std::vector<double>& v, int minLength, int maxLength, const char *sep)
+{
+    std::vector<std::string> vs;
+    string2vector(s, vs, minLength, maxLength, sep);
+    v.clear();
+    for(std::vector<std::string>::iterator it = vs.begin(); it != vs.end(); ++it)
+        v.push_back(boost::lexical_cast<double>(*it));
+}
+
+void xmlutils::string2vector(std::string s, std::vector<int>& v, int minLength, int maxLength, const char *sep)
+{
+    std::vector<std::string> vs;
+    string2vector(s, vs, minLength, maxLength, sep);
+    v.clear();
+    for(std::vector<std::string>::iterator it = vs.begin(); it != vs.end(); ++it)
+        v.push_back(boost::lexical_cast<int>(*it));
+}
+
+std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
+{
+    std::vector<std::string> defaultValueV;
+    try
+    {
+        string2vector(defaultValue, defaultValueV, minLength, maxLength, sep);
+    }
+    catch(std::range_error &ex)
+    {
+        std::stringstream ss;
+        ss << "invalid default value for attribute '" << name << "': " << ex.what();
+        throw std::range_error(ss.str());
+    }
+
+    return getAttrStrV(e, name, defaultValueV, minLength, maxLength, sep);
+}
+
+std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const char *name, std::vector<std::string> defaultValue, int minLength, int maxLength, const char *sep)
+{
+    if(hasAttr(e, name))
+    {
+        try
+        {
+            std::vector<std::string> ret;
+            string2vector(getAttrStr(e, name), ret, minLength, maxLength, sep);
+            return ret;
+        }
+        catch(std::range_error &ex)
+        {
+            std::stringstream ss;
+            ss << "attribute '" << name << "' " << ex.what();
+            throw std::range_error(ss.str());
+        }
+    }
+    else
+    {
+        return defaultValue;
+    }
 }
 
 std::vector<bool> xmlutils::getAttrBoolV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
-    std::vector<std::string> v = getAttrStrV(e, name, defaultValue, minLength, maxLength, sep);
-    std::vector<bool> ret;
-    for(std::vector<std::string>::iterator it = v.begin(); it != v.end(); ++it)
+    std::vector<bool> defaultValueV;
+    try
     {
-        ret.push_back(boost::lexical_cast<bool>(*it));
+        string2vector(defaultValue, defaultValueV, minLength, maxLength, sep);
     }
-    return ret;
+    catch(std::range_error &ex)
+    {
+        std::stringstream ss;
+        ss << "invalid default value for attribute '" << name << "': " << ex.what();
+        throw std::range_error(ss.str());
+    }
+
+    return getAttrBoolV(e, name, defaultValueV, minLength, maxLength, sep);
+}
+
+std::vector<bool> xmlutils::getAttrBoolV(tinyxml2::XMLElement *e, const char *name, std::vector<bool> defaultValue, int minLength, int maxLength, const char *sep)
+{
+    if(hasAttr(e, name))
+    {
+        try
+        {
+            std::vector<bool> ret;
+            string2vector(getAttrStr(e, name), ret, minLength, maxLength, sep);
+            return ret;
+        }
+        catch(std::range_error &ex)
+        {
+            std::stringstream ss;
+            ss << "attribute '" << name << "' " << ex.what();
+            throw std::range_error(ss.str());
+        }
+    }
+    else
+    {
+        return defaultValue;
+    }
 }
 
 std::vector<float> xmlutils::getAttrFloatV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
-    std::vector<std::string> v = getAttrStrV(e, name, defaultValue, minLength, maxLength, sep);
-    std::vector<float> ret;
-    for(std::vector<std::string>::iterator it = v.begin(); it != v.end(); ++it)
+    std::vector<float> defaultValueV;
+    try
     {
-        ret.push_back(boost::lexical_cast<float>(*it));
+        string2vector(defaultValue, defaultValueV, minLength, maxLength, sep);
     }
-    return ret;
+    catch(std::range_error &ex)
+    {
+        std::stringstream ss;
+        ss << "invalid default value for attribute '" << name << "': " << ex.what();
+        throw std::range_error(ss.str());
+    }
+
+    return getAttrFloatV(e, name, defaultValueV, minLength, maxLength, sep);
+}
+
+std::vector<float> xmlutils::getAttrFloatV(tinyxml2::XMLElement *e, const char *name, std::vector<float> defaultValue, int minLength, int maxLength, const char *sep)
+{
+    if(hasAttr(e, name))
+    {
+        try
+        {
+            std::vector<float> ret;
+            string2vector(getAttrStr(e, name), ret, minLength, maxLength, sep);
+            return ret;
+        }
+        catch(std::range_error &ex)
+        {
+            std::stringstream ss;
+            ss << "attribute '" << name << "' " << ex.what();
+            throw std::range_error(ss.str());
+        }
+    }
+    else
+    {
+        return defaultValue;
+    }
 }
 
 std::vector<double> xmlutils::getAttrDoubleV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
-    std::vector<std::string> v = getAttrStrV(e, name, defaultValue, minLength, maxLength, sep);
-    std::vector<double> ret;
-    for(std::vector<std::string>::iterator it = v.begin(); it != v.end(); ++it)
+    std::vector<double> defaultValueV;
+    try
     {
-        ret.push_back(boost::lexical_cast<double>(*it));
+        string2vector(defaultValue, defaultValueV, minLength, maxLength, sep);
     }
-    return ret;
+    catch(std::range_error &ex)
+    {
+        std::stringstream ss;
+        ss << "invalid default value for attribute '" << name << "': " << ex.what();
+        throw std::range_error(ss.str());
+    }
+
+    return getAttrDoubleV(e, name, defaultValueV, minLength, maxLength, sep);
+}
+
+std::vector<double> xmlutils::getAttrDoubleV(tinyxml2::XMLElement *e, const char *name, std::vector<double> defaultValue, int minLength, int maxLength, const char *sep)
+{
+    if(hasAttr(e, name))
+    {
+        try
+        {
+            std::vector<double> ret;
+            string2vector(getAttrStr(e, name), ret, minLength, maxLength, sep);
+            return ret;
+        }
+        catch(std::range_error &ex)
+        {
+            std::stringstream ss;
+            ss << "attribute '" << name << "' " << ex.what();
+            throw std::range_error(ss.str());
+        }
+    }
+    else
+    {
+        return defaultValue;
+    }
 }
 
 std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
-    std::vector<std::string> v = getAttrStrV(e, name, defaultValue, minLength, maxLength, sep);
-    std::vector<int> ret;
-    for(std::vector<std::string>::iterator it = v.begin(); it != v.end(); ++it)
+    std::vector<int> defaultValueV;
+    try
     {
-        ret.push_back(boost::lexical_cast<int>(*it));
+        string2vector(defaultValue, defaultValueV, minLength, maxLength, sep);
     }
-    return ret;
+    catch(std::range_error &ex)
+    {
+        std::stringstream ss;
+        ss << "invalid default value for attribute '" << name << "': " << ex.what();
+        throw std::range_error(ss.str());
+    }
+
+    return getAttrIntV(e, name, defaultValueV, minLength, maxLength, sep);
+}
+
+std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, const char *name, std::vector<int> defaultValue, int minLength, int maxLength, const char *sep)
+{
+    if(hasAttr(e, name))
+    {
+        try
+        {
+            std::vector<int> ret;
+            string2vector(getAttrStr(e, name), ret, minLength, maxLength, sep);
+            return ret;
+        }
+        catch(std::range_error &ex)
+        {
+            std::stringstream ss;
+            ss << "attribute '" << name << "' " << ex.what();
+            throw std::range_error(ss.str());
+        }
+    }
+    else
+    {
+        return defaultValue;
+    }
 }
 
