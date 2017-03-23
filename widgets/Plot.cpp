@@ -130,7 +130,7 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     }
     if(isValidColor(label_y_color))
     {
-        plot->xAxis->setLabelColor(toQColor(label_y_color));
+        plot->yAxis->setLabelColor(toQColor(label_y_color));
     }
     if(isValidColor(tick_label_x_color))
     {
