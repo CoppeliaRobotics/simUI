@@ -230,9 +230,8 @@ void Plot::setCurveCommonOptions(QCPAbstractPlottable *curve, std::string name, 
 
     curve->setName(QString::fromStdString(name));
 
-    QColor qcolor(color[0], color[1], color[2]);
     QPen qpen;
-    qpen.setColor(qcolor);
+    qpen.setColor(toQColor(color));
     qpen.setWidth(opts->line_size);
     curve->setPen(qpen);
 
@@ -275,6 +274,8 @@ QCPGraph * Plot::addTimeCurve(std::string name, std::vector<int> color, int styl
     if(style == sim_customui_curve_style_scatter || style == sim_customui_curve_style_line_and_scatter)
         curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), opts->scatter_size));
 
+    curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * 1.6), QCPScatterStyle::spAll);
+
     return curve;
 }
 
@@ -297,6 +298,8 @@ QCPCurve * Plot::addXYCurve(std::string name, std::vector<int> color, int style,
 
     if(style == sim_customui_curve_style_scatter || style == sim_customui_curve_style_line_and_scatter)
         curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), opts->scatter_size));
+
+    curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * 1.5), QCPScatterStyle::spAll);
 
     return curve;
 }
