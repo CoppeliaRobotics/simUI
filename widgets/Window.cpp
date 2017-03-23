@@ -71,8 +71,8 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
     qwidget_pos.setY(position[1]);
 
     std::vector<int> size = xmlutils::getAttrIntV(e, "size", "-1,-1", 2, 2, ",");
-    qwidget_pos.setX(size[0]);
-    qwidget_pos.setY(size[1]);
+    qwidget_size.setWidth(size[0]);
+    qwidget_size.setHeight(size[1]);
 
     activate = xmlutils::getAttrBool(e, "activate", true);
 
