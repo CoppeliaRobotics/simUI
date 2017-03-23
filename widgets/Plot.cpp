@@ -144,6 +144,7 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->yAxis->setTicks(y_ticks);
     plot->xAxis->setTickLabels(x_tick_labels);
     plot->yAxis->setTickLabels(y_tick_labels);
+    plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QObject::connect(plot, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), uiproxy, SLOT(onPlottableClick(QCPAbstractPlottable*,int,QMouseEvent*)));
     setQWidget(plot);
     setProxy(proxy);
