@@ -91,9 +91,8 @@ private:
     Plot *plot_;
 public:
     MyCustomPlot(Plot *plot, QWidget *parent);
-    bool hasHeightForWidth() const;
-    int heightForWidth(int w) const;
     void mouseDoubleClickEvent(QMouseEvent *event);
+    void resizeEvent(QResizeEvent *event);
 private slots:
     void onMousePress(QMouseEvent *event);
 };

@@ -81,7 +81,7 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setEnabled(enabled);
     plot->setVisible(visible);
     plot->setStyleSheet(QString::fromStdString(style));
-    plot->setMinimumSize(QSize(400,200));
+    plot->setMinimumSize(QSize(square ? 200 : 400, 200));
     QColor bgcol(plot->palette().color(plot->backgroundRole()));
     if(isValidColor(background_color))
         bgcol = toQColor(background_color);
@@ -489,16 +489,6 @@ MyCustomPlot::MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), p
     QObject::connect(this, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(onMousePress(QMouseEvent*)));
 }
 
-bool MyCustomPlot::hasHeightForWidth() const
-{
-    return plot_->square;
-}
-
-int MyCustomPlot::heightForWidth(int w) const
-{
-    return plot_->square ? w : -1;
-}
-
 void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
@@ -508,6 +498,20 @@ void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
     }
 
     QCustomPlot::mouseDoubleClickEvent(event);
+}
+
+void MyCustomPlot::resizeEvent(QResizeEvent *event)
+{
+    if(plot_->square)
+    {
+        int w = width(), h = height(), m = std::min(w, h);
+        if(w != m || h != m)
+        {
+            resize(m, m);
+            return;
+        }
+    }
+    QCustomPlot::resizeEvent(event);
 }
 
 void MyCustomPlot::onMousePress(QMouseEvent *event)
