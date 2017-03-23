@@ -7,6 +7,8 @@
 
 #include <stdexcept>
 
+#define SELECTED_SCATTER_MULT 2.0
+
 Plot::Plot()
     : Widget("plot")
 {
@@ -274,7 +276,7 @@ QCPGraph * Plot::addTimeCurve(std::string name, std::vector<int> color, int styl
     if(style == sim_customui_curve_style_scatter || style == sim_customui_curve_style_line_and_scatter)
         curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), opts->scatter_size));
 
-    curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * 1.6), QCPScatterStyle::spAll);
+    curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * SELECTED_SCATTER_MULT), QCPScatterStyle::spAll);
 
     return curve;
 }
@@ -299,7 +301,7 @@ QCPCurve * Plot::addXYCurve(std::string name, std::vector<int> color, int style,
     if(style == sim_customui_curve_style_scatter || style == sim_customui_curve_style_line_and_scatter)
         curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), opts->scatter_size));
 
-    curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * 1.6), QCPScatterStyle::spAll);
+    curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * SELECTED_SCATTER_MULT), QCPScatterStyle::spAll);
 
     return curve;
 }
