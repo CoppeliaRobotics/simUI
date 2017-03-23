@@ -590,14 +590,16 @@ void addCurve(SScriptCallBack *p, const char *cmd, addCurve_in *in, addCurve_out
 void addCurveTimePoints(SScriptCallBack *p, const char *cmd, addCurveTimePoints_in *in, addCurveTimePoints_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
-    plot->curveNameMustExist(in->name);
+    QCPAbstractPlottable *curve = plot->curveNameMustExist(in->name)->second;
+    plot->curveMustBeTime(curve);
     UIFunctions::getInstance()->addCurveTimePoints(plot, in->name, in->x, in->y);
 }
 
 void addCurveXYPoints(SScriptCallBack *p, const char *cmd, addCurveXYPoints_in *in, addCurveXYPoints_out *out)
 {
     Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
-    plot->curveNameMustExist(in->name);
+    QCPAbstractPlottable *curve = plot->curveNameMustExist(in->name)->second;
+    plot->curveMustBeXY(curve);
     UIFunctions::getInstance()->addCurveXYPoints(plot, in->name, in->t, in->x, in->y);
 }
 

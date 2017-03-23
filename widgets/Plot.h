@@ -64,6 +64,8 @@ public:
     CurveMap::iterator findCurve(std::string name);
     CurveMap::iterator curveNameMustExist(std::string name);
     void curveNameMustNotExist(std::string name);
+    QCPGraph * curveMustBeTime(QCPAbstractPlottable *curve);
+    QCPCurve * curveMustBeXY(QCPAbstractPlottable *curve);
     QCPAbstractPlottable * curveByName(std::string name);
     static QCPScatterStyle::ScatterShape scatterShape(int x);
     void addTimeData(std::string name, const std::vector<double>& x, const std::vector<double>& y);

@@ -178,6 +178,22 @@ void Plot::curveNameMustNotExist(std::string name)
     }
 }
 
+QCPGraph * Plot::curveMustBeTime(QCPAbstractPlottable *curve)
+{
+    QCPGraph *ret = dynamic_cast<QCPGraph*>(curve);
+    if(!ret)
+        throw std::runtime_error("curve must be of type 'time'");
+    return ret;
+}
+
+QCPCurve * Plot::curveMustBeXY(QCPAbstractPlottable *curve)
+{
+    QCPCurve *ret = dynamic_cast<QCPCurve*>(curve);
+    if(!ret)
+        throw std::runtime_error("curve must be of type 'xy'");
+    return ret;
+}
+
 void Plot::replot(bool queue)
 {
     if(queue)
@@ -219,7 +235,8 @@ void Plot::setCurveCommonOptions(QCPAbstractPlottable *curve, std::string name, 
     qpen.setWidth(opts->line_size);
     curve->setPen(qpen);
 
-    curve->setSelectable(QCP::stSingleData);
+    if(opts->selectable)
+        curve->setSelectable(QCP::stSingleData);
 
     if(opts->add_to_legend)
         curve->addToLegend(qplot()->legend);
@@ -348,7 +365,7 @@ QCPScatterStyle::ScatterShape Plot::scatterShape(int x)
 
 void Plot::addTimeData(std::string name, const std::vector<double>& x, const std::vector<double>& y)
 {
-    QCPGraph *curve = dynamic_cast<QCPGraph*>(curveByName(name));
+    QCPGraph *curve = curveMustBeTime(curveByName(name));
 
     if(!cyclic_buffer && max_buffer_size > 0 && curve->dataCount() >= max_buffer_size) return;
 
@@ -374,7 +391,7 @@ void Plot::addTimeData(std::string name, const std::vector<double>& x, const std
 
 void Plot::addXYData(std::string name, const std::vector<double>& t, const std::vector<double>& x, const std::vector<double>& y)
 {
-    QCPCurve *curve = dynamic_cast<QCPCurve*>(curveByName(name));
+    QCPCurve *curve = curveMustBeXY(curveByName(name));
 
     if(!cyclic_buffer && max_buffer_size > 0 && curve->dataCount() >= max_buffer_size) return;
 
