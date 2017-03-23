@@ -16,23 +16,42 @@ Plot::~Plot()
 {
 }
 
+static bool isValidColor(const std::vector<int>& c)
+{
+    for(int i = 0; i < 3; i++)
+        if(c[i] < 0 || c[i] > 255)
+            return false;
+    return true;
+}
+
+static QColor toQColor(const std::vector<int>& c)
+{
+    return QColor(c[0], c[1], c[2]);
+}
+
 void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     Widget::parse(parent, widgets, e);
 
     background_color = xmlutils::getAttrIntV(e, "background-color", "-1,-1,-1", 3, 3, ",");
 
-    std::vector<int> grid_color = xmlutils::getAttrIntV(e, "grid-color", "-1,-1,-1", 3, 3, ",");
+    std::vector<int> foreground_color = xmlutils::getAttrIntV(e, "foreground-color", "-1,-1,-1", 3, 3, ",");
 
-    grid_x_color = xmlutils::getAttrIntV(e, "grid-x-color", "-1,-1,-1", 3, 3, ",");
-    if(grid_x_color[0] == -1 && grid_x_color[1] == -1 && grid_x_color[2] == -1)
-        for(int i = 0; i < 3; i++)
-            grid_x_color[i] = grid_color[i];
+    std::vector<int> axis_color = xmlutils::getAttrIntV(e, "axis-color", foreground_color, 3, 3, ",");
+    axis_x_color = xmlutils::getAttrIntV(e, "axis-x-color", axis_color, 3, 3, ",");
+    axis_y_color = xmlutils::getAttrIntV(e, "axis-y-color", axis_color, 3, 3, ",");
 
-    grid_y_color = xmlutils::getAttrIntV(e, "grid-y-color", "-1,-1,-1", 3, 3, ",");
-    if(grid_y_color[0] == -1 && grid_y_color[1] == -1 && grid_y_color[2] == -1)
-        for(int i = 0; i < 3; i++)
-            grid_y_color[i] = grid_color[i];
+    std::vector<int> label_color = xmlutils::getAttrIntV(e, "label-color", foreground_color, 3, 3, ",");
+    label_x_color = xmlutils::getAttrIntV(e, "label-x-color", label_color, 3, 3, ",");
+    label_y_color = xmlutils::getAttrIntV(e, "label-y-color", label_color, 3, 3, ",");
+
+    std::vector<int> grid_color = xmlutils::getAttrIntV(e, "grid-color", foreground_color, 3, 3, ",");
+    grid_x_color = xmlutils::getAttrIntV(e, "grid-x-color", grid_color, 3, 3, ",");
+    grid_y_color = xmlutils::getAttrIntV(e, "grid-y-color", grid_color, 3, 3, ",");
+
+    std::vector<int> tick_label_color = xmlutils::getAttrIntV(e, "tick-label-color", foreground_color, 3, 3, ",");
+    tick_label_x_color = xmlutils::getAttrIntV(e, "tick-label-x-color", tick_label_color, 3, 3, ",");
+    tick_label_y_color = xmlutils::getAttrIntV(e, "tick-label-y-color", tick_label_color, 3, 3, ",");
 
     type = xmlutils::getAttrStr(e, "type", "time");
     if(type == "time") ;
@@ -64,22 +83,62 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setStyleSheet(QString::fromStdString(style));
     plot->setMinimumSize(QSize(400,200));
     QColor bgcol(plot->palette().color(plot->backgroundRole()));
-    if(background_color[0] >= 0 && background_color[1] >= 0 && background_color[2] >= 0)
-        bgcol.setRgb(background_color[0], background_color[1], background_color[2]);
+    if(isValidColor(background_color))
+        bgcol = toQColor(background_color);
     plot->setBackground(QBrush(bgcol));
     plot->setInteraction(QCP::iSelectPlottables);
     plot->setAutoAddPlottableToLegend(false);
-    if(grid_x_color[0] >= 0 && grid_x_color[1] >= 0 && grid_x_color[2] >= 0)
+    if(isValidColor(grid_x_color))
     {
         QPen pen = plot->xAxis->grid()->pen();
-        pen.setColor(QColor(grid_x_color[0], grid_x_color[1], grid_x_color[2]));
+        pen.setColor(toQColor(grid_x_color));
         plot->xAxis->grid()->setPen(pen);
     }
-    if(grid_y_color[0] >= 0 && grid_y_color[1] >= 0 && grid_y_color[2] >= 0)
+    if(isValidColor(grid_y_color))
     {
         QPen pen = plot->yAxis->grid()->pen();
-        pen.setColor(QColor(grid_y_color[0], grid_y_color[1], grid_y_color[2]));
+        pen.setColor(toQColor(grid_y_color));
         plot->yAxis->grid()->setPen(pen);
+    }
+    if(isValidColor(axis_x_color))
+    {
+        QPen basePen = plot->xAxis->basePen();
+        basePen.setColor(toQColor(axis_x_color));
+        plot->xAxis->setBasePen(basePen);
+        QPen tickPen = plot->xAxis->tickPen();
+        tickPen.setColor(toQColor(axis_x_color));
+        plot->xAxis->setTickPen(tickPen);
+        QPen subTickPen = plot->xAxis->subTickPen();
+        subTickPen.setColor(toQColor(axis_x_color));
+        plot->xAxis->setSubTickPen(subTickPen);
+    }
+    if(isValidColor(axis_y_color))
+    {
+        QPen basePen = plot->yAxis->basePen();
+        basePen.setColor(toQColor(axis_y_color));
+        plot->yAxis->setBasePen(basePen);
+        QPen tickPen = plot->yAxis->tickPen();
+        tickPen.setColor(toQColor(axis_y_color));
+        plot->yAxis->setTickPen(tickPen);
+        QPen subTickPen = plot->yAxis->subTickPen();
+        subTickPen.setColor(toQColor(axis_y_color));
+        plot->yAxis->setSubTickPen(subTickPen);
+    }
+    if(isValidColor(label_x_color))
+    {
+        plot->xAxis->setLabelColor(toQColor(label_x_color));
+    }
+    if(isValidColor(label_y_color))
+    {
+        plot->xAxis->setLabelColor(toQColor(label_y_color));
+    }
+    if(isValidColor(tick_label_x_color))
+    {
+        plot->xAxis->setTickLabelColor(toQColor(tick_label_x_color));
+    }
+    if(isValidColor(tick_label_y_color))
+    {
+        plot->yAxis->setTickLabelColor(toQColor(tick_label_y_color));
     }
     plot->xAxis->setTicks(x_ticks);
     plot->yAxis->setTicks(y_ticks);

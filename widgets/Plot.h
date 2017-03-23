@@ -24,6 +24,12 @@ class Plot : public Widget
 {
 protected:
     std::vector<int> background_color;
+    std::vector<int> axis_x_color;
+    std::vector<int> axis_y_color;
+    std::vector<int> tick_label_x_color;
+    std::vector<int> tick_label_y_color;
+    std::vector<int> label_x_color;
+    std::vector<int> label_y_color;
     std::vector<int> grid_x_color;
     std::vector<int> grid_y_color;
     std::string type;

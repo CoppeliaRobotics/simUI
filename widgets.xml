@@ -401,10 +401,64 @@
         <description>A widget for displaying time series charts.</description>
         <attributes>
             <attribute>
+                <name>background-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the background, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the color of the window's background.</description>
+            </attribute>
+            <attribute>
+                <name>foreground-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the foreground elements (i.e.: axes, axes labels, tick labels, tick marks and grid lines), as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color. This value can be overridden by any of the specific attributes for the individual elements.</description>
+            </attribute>
+            <attribute>
+                <name>axis-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the axes, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color. Can be overridden by axis-x-color and axis-y-color.</description>
+            </attribute>
+            <attribute>
+                <name>label-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the axis labels, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color. Can be overridden by label-x-color and label-y-color.</description>
+            </attribute>
+            <attribute>
                 <name>grid-color</name>
                 <type>int[3]</type>
                 <default>-1,-1,-1</default>
-                <description>Color of the grid, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
+                <description>Color of the grid, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color. Can be overridden by grid-x-color and grid-y-color.</description>
+            </attribute>
+            <attribute>
+                <name>tick-label-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the tick labels, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
+            </attribute>
+            <attribute>
+                <name>axis-x-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the X axis, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
+            </attribute>
+            <attribute>
+                <name>axis-y-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the Y axis, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
+            </attribute>
+            <attribute>
+                <name>label-x-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the X label, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
+            </attribute>
+            <attribute>
+                <name>label-y-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the Y label, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
             </attribute>
             <attribute>
                 <name>grid-x-color</name>
@@ -419,10 +473,16 @@
                 <description>Color of the Y grid, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
             </attribute>
             <attribute>
-                <name>background-color</name>
+                <name>tick-label-x-color</name>
                 <type>int[3]</type>
                 <default>-1,-1,-1</default>
-                <description>Color of the background, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the color of the window's background.</description>
+                <description>Color of the X tick labels, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
+            </attribute>
+            <attribute>
+                <name>tick-label-y-color</name>
+                <type>int[3]</type>
+                <default>-1,-1,-1</default>
+                <description>Color of the Y tick labels, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
             </attribute>
             <attribute>
                 <name>type</name>
