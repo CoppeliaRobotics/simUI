@@ -520,7 +520,7 @@ void MyCustomPlot::resizeEvent(QResizeEvent *event)
 void MyCustomPlot::onMousePress(QMouseEvent *event)
 {
     Qt::KeyboardModifiers mods = event->modifiers();
-    if(mods == Qt::ControlModifier)
+    if(mods == Qt::ShiftModifier)
         this->setSelectionRectMode(QCP::srmZoom);
     else if(mods == Qt::NoModifier)
         this->setSelectionRectMode(QCP::srmNone);
