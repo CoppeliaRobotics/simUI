@@ -61,14 +61,14 @@ PRE_TARGETDEPS += stubs.cpp
 reference_html.target = reference.html
 reference_html.output = reference.html
 reference_html.input = callbacks.xml
-reference_html.commands = xsltproc -o reference.html callbacks.xsl callbacks.xml
+reference_html.commands = xsltproc --path \"$$PWD/\" -o reference.html callbacks.xsl callbacks.xml
 QMAKE_EXTRA_TARGETS += reference_html
 PRE_TARGETDEPS += reference.html
 
 widgets_html.target = widgets.html
 widgets_html.output = widgets.html
 widgets_html.input = widgets.xml
-widgets_html.commands = xsltproc -o widgets.html widgets.xsl widgets.xml
+widgets_html.commands = xsltproc --path \"$$PWD/\" -o widgets.html widgets.xsl widgets.xml
 QMAKE_EXTRA_TARGETS += widgets_html
 PRE_TARGETDEPS += widgets.html
 
