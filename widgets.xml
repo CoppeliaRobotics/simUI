@@ -485,12 +485,6 @@
                 <description>Color of the Y tick labels, as three RGB components in the 0...255 range. The special value -1,-1,-1 means to use the default color.</description>
             </attribute>
             <attribute>
-                <name>type</name>
-                <type><one-of><value>time</value><value>xy</value></one-of></type>
-                <default>time</default>
-                <description>Type of the graph.</description>
-            </attribute>
-            <attribute>
                 <name>square</name>
                 <type>bool</type>
                 <default>false</default>
