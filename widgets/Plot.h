@@ -94,6 +94,7 @@ public:
     void mouseDoubleClickEvent(QMouseEvent *event);
     void resizeEvent(QResizeEvent *event);
 private slots:
+    void adjustTicks();
     void onMousePress(QMouseEvent *event);
 };
 

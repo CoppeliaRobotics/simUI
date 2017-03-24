@@ -492,6 +492,8 @@ void Plot::setLegendVisibility(bool visible)
 MyCustomPlot::MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), plot_(plot)
 {
     QObject::connect(this, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(onMousePress(QMouseEvent*)));
+    QObject::connect(xAxis, SIGNAL(rangeChanged(const QCPRange&)), this, SLOT(adjustTicks()));
+    QObject::connect(yAxis, SIGNAL(rangeChanged(const QCPRange&)), this, SLOT(adjustTicks()));
 }
 
 void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
@@ -507,16 +509,17 @@ void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
 
 void MyCustomPlot::resizeEvent(QResizeEvent *event)
 {
+    QCustomPlot::resizeEvent(event);
+    adjustTicks();
+}
+
+void MyCustomPlot::adjustTicks()
+{
     if(plot_->square)
     {
-        int w = width(), h = height(), m = std::min(w, h);
-        if(w != m || h != m)
-        {
-            resize(m, m);
-            return;
-        }
+        yAxis->setScaleRatio(xAxis, 1.0);
+        replot();
     }
-    QCustomPlot::resizeEvent(event);
 }
 
 void MyCustomPlot::onMousePress(QMouseEvent *event)
