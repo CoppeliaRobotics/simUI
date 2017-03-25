@@ -7,6 +7,8 @@
 
 #include <stdexcept>
 
+#include <boost/foreach.hpp>
+
 #define SELECTED_SCATTER_MULT 2.0
 
 Plot::Plot()
@@ -278,6 +280,11 @@ QCPGraph * Plot::addTimeCurve(std::string name, std::vector<int> color, int styl
 
     curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * SELECTED_SCATTER_MULT), QCPScatterStyle::spAll);
 
+    if(opts->track)
+    {
+        tracers[curve] = new Tracer(qplot(), curve, this, opts);
+    }
+
     return curve;
 }
 
@@ -321,6 +328,17 @@ void Plot::removeCurve(std::string name)
     QCPAbstractPlottable *curve = curveByName(name);
     curveByName_.erase(name);
     qplot()->removePlottable(curve);
+
+    // remove tracer if any:
+    if(QCPGraph *graph = dynamic_cast<QCPGraph*>(curve))
+    {
+        std::map<QCPGraph*, Tracer*>::iterator it = tracers.find(graph);
+        if(it != tracers.end())
+        {
+            delete it->second;
+            tracers.erase(it);
+        }
+    }
 }
 
 QCPAbstractPlottable * Plot::curveByName(std::string name)
@@ -489,9 +507,59 @@ void Plot::setLegendVisibility(bool visible)
     qplot()->legend->setVisible(visible);
 }
 
+Tracer::Tracer(QCustomPlot *qplot_, QCPGraph *curve_, Plot *plot_, curve_options *opts_)
+    : qplot(qplot_), curve(curve_), plot(plot_), opts(opts_)
+{
+    itemTracer = new QCPItemTracer(qplot);
+    itemTracer->setGraph(curve);
+    itemTracer->setInterpolating(false);
+    //itemTracer->setPen(QPen(Qt::red));
+    //itemTracer->setBrush(Qt::red);
+    itemTracer->setSize(7);
+    itemTracer->setStyle(QCPItemTracer::tsSquare);
+    itemTracer->setVisible(false);
+
+    itemTracerLabel = new QCPItemText(qplot);
+    itemTracerLabel->setBrush(Qt::white);
+    itemTracerLabel->setPositionAlignment(Qt::AlignLeft | Qt::AlignBottom);
+    itemTracerLabel->setPadding(QMargins(8,8,8,8));
+    itemTracerLabel->setVisible(false);
+    itemTracerLabel->setLayer("axes");
+}
+
+void Tracer::trace(const QPoint& p)
+{
+    double positionX = qplot->xAxis->pixelToCoord(p.x());
+
+    for(int i = curve->findBegin(positionX); i < curve->findEnd(positionX); i++)
+    {
+        double dist = curve->selectTest(p, false);
+        if(dist >= 0.0 && dist <= 5.0)
+        {
+            itemTracer->setGraphKey(positionX);
+            itemTracer->setVisible(true);
+
+            double graphY = curve->dataMainValue(i);
+            QString txt;
+            txt.sprintf("%f, %f", positionX, graphY);
+            itemTracerLabel->setText(txt);
+            itemTracerLabel->position->setCoords(positionX, graphY);
+            itemTracerLabel->setVisible(true);
+        }
+        else
+        {
+            itemTracer->setVisible(false);
+            itemTracerLabel->setVisible(false);
+        }
+        qplot->replot();
+        break;
+    }
+}
+
 MyCustomPlot::MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), plot_(plot)
 {
     QObject::connect(this, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(onMousePress(QMouseEvent*)));
+    QObject::connect(this, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(onMouseMove(QMouseEvent*)));
     QObject::connect(xAxis, SIGNAL(rangeChanged(const QCPRange&)), this, SLOT(adjustTicks()));
     QObject::connect(yAxis, SIGNAL(rangeChanged(const QCPRange&)), this, SLOT(adjustTicks()));
 }
@@ -529,5 +597,14 @@ void MyCustomPlot::onMousePress(QMouseEvent *event)
         this->setSelectionRectMode(QCP::srmZoom);
     else if(mods == Qt::NoModifier)
         this->setSelectionRectMode(QCP::srmNone);
+}
+
+void MyCustomPlot::onMouseMove(QMouseEvent *event)
+{
+    typedef std::map<QCPGraph*, Tracer*> map_type;
+    BOOST_FOREACH(map_type::value_type &i, plot_->tracers)
+    {
+        i.second->trace(event->pos());
+    }
 }
 

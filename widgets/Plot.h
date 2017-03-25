@@ -18,6 +18,8 @@ class UIProxy;
 
 struct curve_options;
 
+struct Tracer;
+
 typedef std::map<std::string, QCPAbstractPlottable*> CurveMap;
 
 class Plot : public Widget
@@ -43,6 +45,8 @@ protected:
     bool y_tick_labels;
 
     CurveMap curveByName_;
+
+    std::map<QCPGraph*, Tracer*> tracers;
 
 public:
     Plot();
@@ -84,6 +88,20 @@ public:
     friend class MyCustomPlot;
 };
 
+struct Tracer
+{
+    QCustomPlot *qplot;
+    QCPGraph *curve;
+    Plot *plot;
+    curve_options *opts;
+
+    QCPItemTracer *itemTracer;
+    QCPItemText *itemTracerLabel;
+
+    Tracer(QCustomPlot *qplot, QCPGraph *curve, Plot *plot, curve_options *opts);
+    void trace(const QPoint& p);
+};
+
 class MyCustomPlot : public QCustomPlot
 {
     Q_OBJECT
@@ -96,6 +114,7 @@ public:
 private slots:
     void adjustTicks();
     void onMousePress(QMouseEvent *event);
+    void onMouseMove(QMouseEvent *event);
 };
 
 #endif // PLOT_H_INCLUDED

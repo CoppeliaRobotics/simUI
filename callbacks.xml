@@ -703,6 +703,9 @@
         <param name="selectable" type="bool" default="true">
             <description>if false, the curve points cannot be selected and will not react to click events</description>
         </param>
+        <param name="track" type="bool" default="false">
+            <description>if true, enable the mouse tracker</description>
+        </param>
     </struct>
     <command name="addCurve">
         <description>Adds a curve to a plot widget.</description>
