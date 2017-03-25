@@ -689,7 +689,7 @@
     <struct name="curve_options">
         <description>Extra options for the curve</description>
         <param name="scatter_shape" type="int" default="sim_customui_curve_scatter_shape_disc">
-            <description>scatter shape</description>
+            <description>scatter shape. see <a href="#enum_curve_scatter_shape">curve_scatter_shape</a>.</description>
         </param>
         <param name="scatter_size" type="int" default="10">
             <description>size of the scatter shape</description>
@@ -709,6 +709,12 @@
     </struct>
     <command name="addCurve">
         <description>Adds a curve to a plot widget.</description>
+        <see-also>
+            <command name="addCurveXYPoints" />
+            <command name="addCurveTimePoints" />
+            <command name="clearCurve" />
+            <command name="removeCurve" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -717,7 +723,7 @@
                 <description>widget id</description>
             </param>
             <param name="type" type="int">
-                <description>type of the curve. see curve_type below.</description>
+                <description>type of the curve. see <a href="#enum_curve_type">curve_type</a>.</description>
             </param>
             <param name="name" type="string">
                 <description>name of the curve</description>
@@ -726,10 +732,10 @@
                 <description>color of the curve, as RGB values in the 0...255 range</description>
             </param>
             <param name="style" type="int">
-                <description>style of the curve. see curve_style below.</description>
+                <description>style of the curve. see <a href="#enum_curve_style">curve_style</a>.</description>
             </param>
             <param name="options" type="curve_options">
-                <description>extra options</description>
+                <description>extra options. see <a href="#struct_curve_options">curve_options</a>.</description>
             </param>
         </params>
         <return>
@@ -737,6 +743,11 @@
     </command>
     <command name="addCurveTimePoints">
         <description>Adds time points to the specified curve of the plot widget.</description>
+        <see-also>
+            <command name="addCurveXYPoints" />
+            <command name="clearCurve" />
+            <command name="removeCurve" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -759,6 +770,11 @@
     </command>
     <command name="addCurveXYPoints">
         <description>Adds points to the specified curve of the plot widget.</description>
+        <see-also>
+            <command name="addCurveTimePoints" />
+            <command name="clearCurve" />
+            <command name="removeCurve" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -784,6 +800,11 @@
     </command>
     <command name="clearCurve">
         <description>Clear points of the specified curve of the plot widget.</description>
+        <see-also>
+            <command name="addCurveXYPoints" />
+            <command name="addCurveTimePoints" />
+            <command name="removeCurve" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -800,6 +821,9 @@
     </command>
     <command name="removeCurve">
         <description>Remove the specified curve from the plot widget.</description>
+        <see-also>
+            <command name="clearCurve" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -816,6 +840,13 @@
     </command>
     <command name="setPlotRanges">
         <description>Set the ranges of the plot widget.</description>
+        <see-also>
+            <command name="setPlotXRange" />
+            <command name="setPlotYRange" />
+            <command name="growPlotRanges" />
+            <command name="growPlotXRange" />
+            <command name="growPlotYRange" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -841,6 +872,13 @@
     </command>
     <command name="setPlotXRange">
         <description>Set the X range of the plot widget.</description>
+        <see-also>
+            <command name="setPlotRanges" />
+            <command name="setPlotYRange" />
+            <command name="growPlotRanges" />
+            <command name="growPlotXRange" />
+            <command name="growPlotYRange" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -860,6 +898,13 @@
     </command>
     <command name="setPlotYRange">
         <description>Set the Y range of the plot widget.</description>
+        <see-also>
+            <command name="setPlotRanges" />
+            <command name="setPlotXRange" />
+            <command name="growPlotRanges" />
+            <command name="growPlotXRange" />
+            <command name="growPlotYRange" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -879,6 +924,10 @@
     </command>
     <command name="growPlotRanges">
         <description>Increase the ranges of the plot widget by a fixed amount.</description>
+        <see-also>
+            <command name="growPlotXRange" />
+            <command name="growPlotYRange" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -904,6 +953,10 @@
     </command>
     <command name="growPlotXRange">
         <description>Increase the X range of the plot widget.</description>
+        <see-also>
+            <command name="growPlotRanges" />
+            <command name="growPlotYRange" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -923,6 +976,10 @@
     </command>
     <command name="growPlotYRange">
         <description>Increase the Y range of the plot widget.</description>
+        <see-also>
+            <command name="growPlotRanges" />
+            <command name="growPlotXRange" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -942,6 +999,10 @@
     </command>
     <command name="setPlotLabels">
         <description>Set the labels of the plot widget.</description>
+        <see-also>
+            <command name="setPlotXLabel" />
+            <command name="setPlotYLabel" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -961,6 +1022,10 @@
     </command>
     <command name="setPlotXLabel">
         <description>Set the X label of the plot widget.</description>
+        <see-also>
+            <command name="setPlotLabels" />
+            <command name="setPlotYLabel" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -977,6 +1042,10 @@
     </command>
     <command name="setPlotYLabel">
         <description>Set the Y label of the plot widget.</description>
+        <see-also>
+            <command name="setPlotLabels" />
+            <command name="setPlotXLabel" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -993,6 +1062,9 @@
     </command>
     <command name="rescaleAxes">
         <description>Rescales the axes such that the specified curve in the plot is fully visible.</description>
+        <see-also>
+            <command name="rescaleAxesAll" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -1015,6 +1087,9 @@
     </command>
     <command name="rescaleAxesAll">
         <description>Rescales the axes such that all curves in the plot are fully visible.</description>
+        <see-also>
+            <command name="rescaleAxes" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
