@@ -6,7 +6,7 @@
     <command name="create">
         <description>Create a window.</description>
         <see-also>
-            <command name="destroy" />
+            <command-ref name="destroy" />
         </see-also>
         <params>
             <param name="xml" type="string">
@@ -22,7 +22,7 @@
     <command name="destroy">
         <description>Destroy a window.</description>
         <see-also>
-            <command name="create" />
+            <command-ref name="create" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -35,7 +35,7 @@
     <command name="getSliderValue">
         <description>Get the value of a slider widget.</description>
         <see-also>
-            <command name="setSliderValue" />
+            <command-ref name="setSliderValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -54,7 +54,7 @@
     <command name="setSliderValue">
         <description>Set the value of a slider widget.</description>
         <see-also>
-            <command name="getSliderValue" />
+            <command-ref name="getSliderValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -76,8 +76,8 @@
     <command name="getEditValue">
         <description>Get the value of a edit widget.</description>
         <see-also>
-            <command name="setEditValue" />
-            <command name="getCurrentEditWidget" />
+            <command-ref name="setEditValue" />
+            <command-ref name="getCurrentEditWidget" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -96,8 +96,8 @@
     <command name="setEditValue">
         <description>Set the value of a edit widget.</description>
         <see-also>
-            <command name="getEditValue" />
-            <command name="setCurrentEditWidget" />
+            <command-ref name="getEditValue" />
+            <command-ref name="setCurrentEditWidget" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -119,7 +119,7 @@
     <command name="getSpinboxValue">
         <description>Get the value of a spinbox widget.</description>
         <see-also>
-            <command name="setSpinboxValue" />
+            <command-ref name="setSpinboxValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -138,7 +138,7 @@
     <command name="setSpinboxValue">
         <description>Set the value of a spinbox widget.</description>
         <see-also>
-            <command name="getSpinboxValue" />
+            <command-ref name="getSpinboxValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -160,7 +160,7 @@
     <command name="getCheckboxValue">
         <description>Get the value of a checkbox widget.</description>
         <see-also>
-            <command name="setCheckboxValue" />
+            <command-ref name="setCheckboxValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -179,7 +179,7 @@
     <command name="setCheckboxValue">
         <description>Set the value of a checkbox widget.</description>
         <see-also>
-            <command name="getCheckboxValue" />
+            <command-ref name="getCheckboxValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -201,7 +201,7 @@
     <command name="getRadiobuttonValue">
         <description>Get the value of a radiobutton widget.</description>
         <see-also>
-            <command name="setRadiobuttonValue" />
+            <command-ref name="setRadiobuttonValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -220,7 +220,7 @@
     <command name="setRadiobuttonValue">
         <description>Set the value of a radiobutton widget.</description>
         <see-also>
-            <command name="getRadiobuttonValue" />
+            <command-ref name="getRadiobuttonValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -242,7 +242,7 @@
     <command name="getLabelText">
         <description>Get the text of a label widget.</description>
         <see-also>
-            <command name="setLabelText" />
+            <command-ref name="setLabelText" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -261,7 +261,7 @@
     <command name="setLabelText">
         <description>Set the text of a label widget.</description>
         <see-also>
-            <command name="getLabelText" />
+            <command-ref name="getLabelText" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -283,11 +283,11 @@
     <command name="insertComboboxItem">
         <description>Insert an item in a combobox widget.</description>
         <see-also>
-            <command name="removeComboboxItem" />
-            <command name="getComboboxItemCount" />
-            <command name="getComboboxItems" />
-            <command name="setComboboxItems" />
-            <command name="setComboboxSelectedIndex" />
+            <command-ref name="removeComboboxItem" />
+            <command-ref name="getComboboxItemCount" />
+            <command-ref name="getComboboxItems" />
+            <command-ref name="setComboboxItems" />
+            <command-ref name="setComboboxSelectedIndex" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -312,11 +312,11 @@
     <command name="removeComboboxItem">
         <description>Remove an item from a combobox widget.</description>
         <see-also>
-            <command name="insertComboboxItem" />
-            <command name="getComboboxItemCount" />
-            <command name="getComboboxItems" />
-            <command name="setComboboxItems" />
-            <command name="setComboboxSelectedIndex" />
+            <command-ref name="insertComboboxItem" />
+            <command-ref name="getComboboxItemCount" />
+            <command-ref name="getComboboxItems" />
+            <command-ref name="setComboboxItems" />
+            <command-ref name="setComboboxSelectedIndex" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -338,12 +338,12 @@
     <command name="getComboboxItemCount">
         <description>Get the number of items in the specified combobox widget.</description>
         <see-also>
-            <command name="insertComboboxItem" />
-            <command name="removeComboboxItem" />
-            <command name="getComboboxItemText" />
-            <command name="getComboboxItems" />
-            <command name="setComboboxItems" />
-            <command name="setComboboxSelectedIndex" />
+            <command-ref name="insertComboboxItem" />
+            <command-ref name="removeComboboxItem" />
+            <command-ref name="getComboboxItemText" />
+            <command-ref name="getComboboxItems" />
+            <command-ref name="setComboboxItems" />
+            <command-ref name="setComboboxSelectedIndex" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -362,11 +362,11 @@
     <command name="getComboboxItemText">
         <description>Get the text of an item in a combobox widget.</description>
         <see-also>
-            <command name="insertComboboxItem" />
-            <command name="removeComboboxItem" />
-            <command name="getComboboxItemCount" />
-            <command name="getComboboxItems" />
-            <command name="setComboboxItems" />
+            <command-ref name="insertComboboxItem" />
+            <command-ref name="removeComboboxItem" />
+            <command-ref name="getComboboxItemCount" />
+            <command-ref name="getComboboxItems" />
+            <command-ref name="setComboboxItems" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -388,11 +388,11 @@
     <command name="getComboboxItems">
         <description>Get the content of a combobox.</description>
         <see-also>
-            <command name="insertComboboxItem" />
-            <command name="removeComboboxItem" />
-            <command name="getComboboxItemCount" />
-            <command name="getComboboxItemText" />
-            <command name="setComboboxItems" />
+            <command-ref name="insertComboboxItem" />
+            <command-ref name="removeComboboxItem" />
+            <command-ref name="getComboboxItemCount" />
+            <command-ref name="getComboboxItemText" />
+            <command-ref name="setComboboxItems" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -411,12 +411,12 @@
     <command name="setComboboxItems">
         <description>Populate a combobox widget with the specified items, and set the selected item to the specified index.</description>
         <see-also>
-            <command name="insertComboboxItem" />
-            <command name="removeComboboxItem" />
-            <command name="getComboboxItemCount" />
-            <command name="getComboboxItemText" />
-            <command name="getComboboxItems" />
-            <command name="setComboboxSelectedIndex" />
+            <command-ref name="insertComboboxItem" />
+            <command-ref name="removeComboboxItem" />
+            <command-ref name="getComboboxItemCount" />
+            <command-ref name="getComboboxItemText" />
+            <command-ref name="getComboboxItems" />
+            <command-ref name="setComboboxSelectedIndex" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -441,12 +441,12 @@
     <command name="setComboboxSelectedIndex">
         <description>Change the selected item index in a combobox widget.</description>
         <see-also>
-            <command name="insertComboboxItem" />
-            <command name="removeComboboxItem" />
-            <command name="getComboboxItemCount" />
-            <command name="getComboboxItemText" />
-            <command name="getComboboxItems" />
-            <command name="setComboboxItems" />
+            <command-ref name="insertComboboxItem" />
+            <command-ref name="removeComboboxItem" />
+            <command-ref name="getComboboxItemCount" />
+            <command-ref name="getComboboxItemText" />
+            <command-ref name="getComboboxItems" />
+            <command-ref name="setComboboxItems" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -468,8 +468,8 @@
     <command name="hide">
         <description>Hide the UI window.</description>
         <see-also>
-            <command name="show" />
-            <command name="isVisible" />
+            <command-ref name="show" />
+            <command-ref name="isVisible" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -482,8 +482,8 @@
     <command name="show">
         <description>Show the UI window.</description>
         <see-also>
-            <command name="hide" />
-            <command name="isVisible" />
+            <command-ref name="hide" />
+            <command-ref name="isVisible" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -496,8 +496,8 @@
     <command name="isVisible">
         <description>Check if the window is visible.</description>
         <see-also>
-            <command name="show" />
-            <command name="hide" />
+            <command-ref name="show" />
+            <command-ref name="hide" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -513,8 +513,8 @@
     <command name="getPosition">
         <description>Get the position of a UI window.</description>
         <see-also>
-            <command name="setPosition" />
-            <command name="getSize" />
+            <command-ref name="setPosition" />
+            <command-ref name="getSize" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -533,8 +533,8 @@
     <command name="setPosition">
         <description>Set the position of a UI window.</description>
         <see-also>
-            <command name="getPosition" />
-            <command name="setSize" />
+            <command-ref name="getPosition" />
+            <command-ref name="setSize" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -556,8 +556,8 @@
     <command name="getSize">
         <description>Get the size of a UI window.</description>
         <see-also>
-            <command name="getPosition" />
-            <command name="setSize" />
+            <command-ref name="getPosition" />
+            <command-ref name="setSize" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -576,8 +576,8 @@
     <command name="setSize">
         <description>Set the size of a UI window.</description>
         <see-also>
-            <command name="getSize" />
-            <command name="setPosition" />
+            <command-ref name="getSize" />
+            <command-ref name="setPosition" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -599,7 +599,7 @@
     <command name="getTitle">
         <description>Get the title of a UI window.</description>
         <see-also>
-            <command name="setTitle" />
+            <command-ref name="setTitle" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -615,7 +615,7 @@
     <command name="setTitle">
         <description>Set the title of a UI window.</description>
         <see-also>
-            <command name="getTitle" />
+            <command-ref name="getTitle" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -675,7 +675,7 @@
     <command name="getCurrentTab">
         <description>Get the current tab index of a tabs widget.</description>
         <see-also>
-            <command name="setCurrentTab" />
+            <command-ref name="setCurrentTab" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -694,7 +694,7 @@
     <command name="setCurrentTab">
         <description>Set the current tab index in a tabs widget.</description>
         <see-also>
-            <command name="getCurrentTab" />
+            <command-ref name="getCurrentTab" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -716,7 +716,7 @@
     <command name="getWidgetVisibility">
         <description>Get the visibility status of a widget.</description>
         <see-also>
-            <command name="setWidgetVisibility" />
+            <command-ref name="setWidgetVisibility" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -735,8 +735,8 @@
     <command name="setWidgetVisibility">
         <description>Hide or show a widget.</description>
         <see-also>
-            <command name="setWidgetVisibility" />
-            <command name="setEnabled" />
+            <command-ref name="setWidgetVisibility" />
+            <command-ref name="setEnabled" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -755,7 +755,7 @@
     <command name="getCurrentEditWidget">
         <description>Get the edit widget with focus and selected text.</description>
         <see-also>
-            <command name="setCurrentEditWidget" />
+            <command-ref name="setCurrentEditWidget" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -771,7 +771,7 @@
     <command name="setCurrentEditWidget">
         <description>Set the edit widget focus and selected text.</description>
         <see-also>
-            <command name="getCurrentEditWidget" />
+            <command-ref name="getCurrentEditWidget" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -844,10 +844,11 @@
     <struct name="curve_options">
         <description>Extra options for the curve</description>
         <see-also>
-            <command name="addCurve" />
+            <command-ref name="addCurve" />
+            <enum-ref name="curve_scatter_shape" />
         </see-also>
         <param name="scatter_shape" type="int" default="sim_customui_curve_scatter_shape_disc">
-            <description>scatter shape. see <a href="#curve_scatter_shape">curve_scatter_shape</a>.</description>
+            <description>scatter shape. see <enum-ref name="curve_scatter_shape"/>.</description>
         </param>
         <param name="scatter_size" type="int" default="10">
             <description>size of the scatter shape</description>
@@ -868,10 +869,13 @@
     <command name="addCurve">
         <description>Adds a curve to a plot widget.</description>
         <see-also>
-            <command name="addCurveXYPoints" />
-            <command name="addCurveTimePoints" />
-            <command name="clearCurve" />
-            <command name="removeCurve" />
+            <command-ref name="addCurveXYPoints" />
+            <command-ref name="addCurveTimePoints" />
+            <command-ref name="clearCurve" />
+            <command-ref name="removeCurve" />
+            <enum-ref name="curve_type" />
+            <enum-ref name="curve_style" />
+            <struct-ref name="curve_options" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -881,7 +885,7 @@
                 <description>widget id</description>
             </param>
             <param name="type" type="int">
-                <description>type of the curve. see <a href="#curve_type">curve_type</a>.</description>
+                <description>type of the curve. see <enum-ref name="curve_type"/>.</description>
             </param>
             <param name="name" type="string">
                 <description>name of the curve</description>
@@ -890,10 +894,10 @@
                 <description>color of the curve, as RGB values in the 0...255 range</description>
             </param>
             <param name="style" type="int">
-                <description>style of the curve. see <a href="#curve_style">curve_style</a>.</description>
+                <description>style of the curve. see <enum-ref name="curve_style"/>.</description>
             </param>
             <param name="options" type="curve_options">
-                <description>extra options. see <a href="#curve_options">curve_options</a>.</description>
+                <description>extra options. see <struct-ref name="curve_options"/>.</description>
             </param>
         </params>
         <return>
@@ -902,9 +906,9 @@
     <command name="addCurveTimePoints">
         <description>Adds time points to the specified curve of the plot widget.</description>
         <see-also>
-            <command name="addCurveXYPoints" />
-            <command name="clearCurve" />
-            <command name="removeCurve" />
+            <command-ref name="addCurveXYPoints" />
+            <command-ref name="clearCurve" />
+            <command-ref name="removeCurve" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -929,9 +933,9 @@
     <command name="addCurveXYPoints">
         <description>Adds points to the specified curve of the plot widget.</description>
         <see-also>
-            <command name="addCurveTimePoints" />
-            <command name="clearCurve" />
-            <command name="removeCurve" />
+            <command-ref name="addCurveTimePoints" />
+            <command-ref name="clearCurve" />
+            <command-ref name="removeCurve" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -959,9 +963,9 @@
     <command name="clearCurve">
         <description>Clear points of the specified curve of the plot widget.</description>
         <see-also>
-            <command name="addCurveXYPoints" />
-            <command name="addCurveTimePoints" />
-            <command name="removeCurve" />
+            <command-ref name="addCurveXYPoints" />
+            <command-ref name="addCurveTimePoints" />
+            <command-ref name="removeCurve" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -980,7 +984,7 @@
     <command name="removeCurve">
         <description>Remove the specified curve from the plot widget.</description>
         <see-also>
-            <command name="clearCurve" />
+            <command-ref name="clearCurve" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -999,11 +1003,11 @@
     <command name="setPlotRanges">
         <description>Set the ranges of the plot widget.</description>
         <see-also>
-            <command name="setPlotXRange" />
-            <command name="setPlotYRange" />
-            <command name="growPlotRanges" />
-            <command name="growPlotXRange" />
-            <command name="growPlotYRange" />
+            <command-ref name="setPlotXRange" />
+            <command-ref name="setPlotYRange" />
+            <command-ref name="growPlotRanges" />
+            <command-ref name="growPlotXRange" />
+            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1031,11 +1035,11 @@
     <command name="setPlotXRange">
         <description>Set the X range of the plot widget.</description>
         <see-also>
-            <command name="setPlotRanges" />
-            <command name="setPlotYRange" />
-            <command name="growPlotRanges" />
-            <command name="growPlotXRange" />
-            <command name="growPlotYRange" />
+            <command-ref name="setPlotRanges" />
+            <command-ref name="setPlotYRange" />
+            <command-ref name="growPlotRanges" />
+            <command-ref name="growPlotXRange" />
+            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1057,11 +1061,11 @@
     <command name="setPlotYRange">
         <description>Set the Y range of the plot widget.</description>
         <see-also>
-            <command name="setPlotRanges" />
-            <command name="setPlotXRange" />
-            <command name="growPlotRanges" />
-            <command name="growPlotXRange" />
-            <command name="growPlotYRange" />
+            <command-ref name="setPlotRanges" />
+            <command-ref name="setPlotXRange" />
+            <command-ref name="growPlotRanges" />
+            <command-ref name="growPlotXRange" />
+            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1083,8 +1087,8 @@
     <command name="growPlotRanges">
         <description>Increase the ranges of the plot widget by a fixed amount.</description>
         <see-also>
-            <command name="growPlotXRange" />
-            <command name="growPlotYRange" />
+            <command-ref name="growPlotXRange" />
+            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1112,8 +1116,8 @@
     <command name="growPlotXRange">
         <description>Increase the X range of the plot widget.</description>
         <see-also>
-            <command name="growPlotRanges" />
-            <command name="growPlotYRange" />
+            <command-ref name="growPlotRanges" />
+            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1135,8 +1139,8 @@
     <command name="growPlotYRange">
         <description>Increase the Y range of the plot widget.</description>
         <see-also>
-            <command name="growPlotRanges" />
-            <command name="growPlotXRange" />
+            <command-ref name="growPlotRanges" />
+            <command-ref name="growPlotXRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1158,8 +1162,8 @@
     <command name="setPlotLabels">
         <description>Set the labels of the plot widget.</description>
         <see-also>
-            <command name="setPlotXLabel" />
-            <command name="setPlotYLabel" />
+            <command-ref name="setPlotXLabel" />
+            <command-ref name="setPlotYLabel" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1181,8 +1185,8 @@
     <command name="setPlotXLabel">
         <description>Set the X label of the plot widget.</description>
         <see-also>
-            <command name="setPlotLabels" />
-            <command name="setPlotYLabel" />
+            <command-ref name="setPlotLabels" />
+            <command-ref name="setPlotYLabel" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1201,8 +1205,8 @@
     <command name="setPlotYLabel">
         <description>Set the Y label of the plot widget.</description>
         <see-also>
-            <command name="setPlotLabels" />
-            <command name="setPlotXLabel" />
+            <command-ref name="setPlotLabels" />
+            <command-ref name="setPlotXLabel" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1221,7 +1225,7 @@
     <command name="rescaleAxes">
         <description>Rescales the axes such that the specified curve in the plot is fully visible.</description>
         <see-also>
-            <command name="rescaleAxesAll" />
+            <command-ref name="rescaleAxesAll" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1246,7 +1250,7 @@
     <command name="rescaleAxesAll">
         <description>Rescales the axes such that all curves in the plot are fully visible.</description>
         <see-also>
-            <command name="rescaleAxes" />
+            <command-ref name="rescaleAxes" />
         </see-also>
         <params>
             <param name="handle" type="int">

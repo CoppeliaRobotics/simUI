@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="html" encoding="utf-8" indent="yes"/>
+    <xsl:template match="command-ref">
+        <a href="#cmd:{@name}"><xsl:call-template name="functionPrefix"/><xsl:value-of select="@name"/></a>
+    </xsl:template>
+    <xsl:template match="enum-ref">
+        <a href="#enum:{@name}"><xsl:value-of select="@name"/></a>
+    </xsl:template>
+    <xsl:template match="struct-ref">
+        <a href="#struct:{@name}"><xsl:value-of select="@name"/></a>
+    </xsl:template>
     <xsl:template name="functionPrefix">
         <!-- if plugin node defined a prefix attribute, we use it for
              functions prefix, otherwise we use the name attribute -->
@@ -33,12 +42,18 @@
                             <xsl:value-of select="@default"/>
                         </xsl:if>
                         <xsl:text>): </xsl:text>
-                        <xsl:copy-of select="description/node()"/>
+                        <xsl:apply-templates select="description/node()"/>
                     </div>
                 </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>-</xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    <xsl:template name="renderRelated">
+        <xsl:for-each select="see-also/*[name()='command-ref' or name()='enum-ref' or name()='struct-ref']">
+            <xsl:apply-templates select="."/>
+            <xsl:if test="not(position() = last())">, </xsl:if>
+        </xsl:for-each>
     </xsl:template>
     <xsl:template match="/">
         <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"&gt;</xsl:text>
@@ -56,21 +71,20 @@
                                 <h1><xsl:value-of select="/plugin/@name"/> Plugin API reference</h1>
                                 <xsl:if test="/plugin/description and (/plugin/description != '')">
                                     <p class="infoBox">
-                                        <xsl:copy-of select="/plugin/description/node()"/>
+                                        <xsl:apply-templates select="/plugin/description/node()"/>
                                     </p>
                                 </xsl:if>
                                 <xsl:for-each select="plugin/command">
                                     <xsl:sort select="@name"/>
                                     <xsl:if test="description != ''">
-                                        <h3 class="subsectionBar"><a name="{@name}" id="{@name}"></a><xsl:call-template name="functionPrefix"/><xsl:value-of select="@name"/></h3>
+                                        <h3 class="subsectionBar"><a name="cmd:{@name}" id="cmd:{@name}"></a><xsl:call-template name="functionPrefix"/><xsl:value-of select="@name"/></h3>
                                         <table class="apiTable">
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftDescr">
                                                     Description
                                                 </td>
                                                 <td class="apiTableRightDescr">
-                                                    <xsl:copy-of select="description/node()"/>
-                                                    <br/>
+                                                    <xsl:apply-templates select="description/node()"/>
                                                 </td>
                                             </tr>
                                             <!--
@@ -137,13 +151,7 @@
                                                     See also
                                                 </td>
                                                 <td class="apiTableRightDescr">
-                                                    <xsl:for-each select="see-also/command">
-                                                        <a href="#{@name}">
-                                                            <xsl:call-template name="functionPrefix"/>
-                                                            <xsl:value-of select="@name" />
-                                                        </a>
-                                                        <xsl:if test="not(position() = last())">, </xsl:if>
-                                                    </xsl:for-each>
+                                                    <xsl:call-template name="renderRelated"/>
                                                 </td>
                                             </tr>
                                             </xsl:if>
@@ -156,7 +164,7 @@
                                     <br/>
                                     <h1>Constants</h1>
                                     <xsl:for-each select="plugin/enum">
-                                    <h3 class="subsectionBar"><a name="{@name}" id="{@name}"></a><xsl:value-of select="@name"/></h3>
+                                    <h3 class="subsectionBar"><a name="enum:{@name}" id="enum:{@name}"></a><xsl:value-of select="@name"/></h3>
                                     <table class="apiConstantsTable">
                                         <tbody>
                                             <tr>
@@ -169,7 +177,7 @@
                                                             </strong>
                                                             <xsl:if test="description">
                                                                 <xsl:text>: </xsl:text>
-                                                                <xsl:copy-of select="description/node()"/>
+                                                                <xsl:apply-templates select="description/node()"/>
                                                             </xsl:if>
                                                         </div>
                                                     </xsl:for-each>
@@ -184,14 +192,14 @@
                                     <br/>
                                     <h1>Data structures</h1>
                                     <xsl:for-each select="plugin/struct">
-                                    <h3 class="subsectionBar"><a name="{@name}" id="{@name}"></a><xsl:value-of select="@name"/></h3>
+                                    <h3 class="subsectionBar"><a name="struct:{@name}" id="struct:{@name}"></a><xsl:value-of select="@name"/></h3>
                                     <table class="apiTable">
                                         <tr class="apiTableTr">
                                             <td class="apiTableLeftDescr">
                                                 Description
                                             </td>
                                             <td class="apiTableRightDescr">
-                                                <xsl:copy-of select="description/node()"/>
+                                                <xsl:apply-templates select="description/node()"/>
                                                 <br/>
                                             </td>
                                         </tr>
@@ -209,13 +217,7 @@
                                                 See also
                                             </td>
                                             <td class="apiTableRightDescr">
-                                                <xsl:for-each select="see-also/command">
-                                                    <a href="#{@name}">
-                                                        <xsl:call-template name="functionPrefix"/>
-                                                        <xsl:value-of select="@name" />
-                                                    </a>
-                                                    <xsl:if test="not(position() = last())">, </xsl:if>
-                                                </xsl:for-each>
+                                                <xsl:call-template name="renderRelated"/>
                                             </td>
                                         </tr>
                                         </xsl:if>
