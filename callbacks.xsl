@@ -179,7 +179,10 @@
                                             <td class="apiTableLeftDescr">
                                                 Description
                                             </td>
-                                            <td class="apiTableRightDescr"><xsl:copy-of select="description/node()"/><br/><xsl:if test="see-also/*">See also: <xsl:for-each select="see-also/command"><a href="#{@name}"><xsl:call-template name="functionPrefix"/><xsl:value-of select="@name" /></a><xsl:if test="not(position() = last())">, </xsl:if></xsl:for-each></xsl:if></td>
+                                            <td class="apiTableRightDescr">
+                                                <xsl:copy-of select="description/node()"/>
+                                                <br/>
+                                            </td>
                                         </tr>
                                         <tr class="apiTableTr">
                                             <td class="apiTableLeftLParam">Fields</td>
@@ -187,6 +190,22 @@
                                                 <xsl:call-template name="renderParams"/>
                                             </td>
                                         </tr>
+                                        <xsl:if test="see-also/*">
+                                        <tr class="apiTableTr">
+                                            <td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+                                            <td class="apiTableRightDescr">
+                                                <xsl:for-each select="see-also/command">
+                                                    <a href="#{@name}">
+                                                        <xsl:call-template name="functionPrefix"/>
+                                                        <xsl:value-of select="@name" />
+                                                    </a>
+                                                    <xsl:if test="not(position() = last())">, </xsl:if>
+                                                </xsl:for-each>
+                                            </td>
+                                        </tr>
+                                        </xsl:if>
                                     </table>
                                     <br/>
                                     </xsl:for-each>
