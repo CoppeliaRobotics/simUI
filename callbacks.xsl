@@ -15,6 +15,30 @@
         </xsl:choose>
         <xsl:text>_</xsl:text>
     </xsl:template>
+    <xsl:template name="renderParams">
+        <xsl:choose>
+            <xsl:when test="param">
+                <xsl:for-each select="param">
+                    <div>
+                        <strong><xsl:value-of select="@name"/></strong>
+                        <xsl:text> (</xsl:text>
+                        <xsl:value-of select="@type"/>
+                        <xsl:if test="@type='table'">
+                            <xsl:text> of </xsl:text>
+                            <xsl:value-of select="@item-type"/>
+                        </xsl:if>
+                        <xsl:if test="@default">
+                            <xsl:text>, default: </xsl:text>
+                            <xsl:value-of select="@default"/>
+                        </xsl:if>
+                        <xsl:text>): </xsl:text>
+                        <xsl:copy-of select="description/node()"/>
+                    </div>
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>-</xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
     <xsl:template match="/">
         <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"&gt;</xsl:text>
         <html>
@@ -29,7 +53,11 @@
                         <tr>
                             <td>
                                 <h1><xsl:value-of select="/plugin/@name"/> Plugin API reference</h1>
-                                <xsl:if test="/plugin/description and (/plugin/description != '')"><p class="infoBox"><xsl:copy-of select="/plugin/description/node()"/></p></xsl:if>
+                                <xsl:if test="/plugin/description and (/plugin/description != '')">
+                                    <p class="infoBox">
+                                        <xsl:copy-of select="/plugin/description/node()"/>
+                                    </p>
+                                </xsl:if>
                                 <xsl:for-each select="plugin/command">
                                     <xsl:sort select="@name"/>
                                     <xsl:if test="description != ''">
@@ -39,7 +67,13 @@
                                                 <td class="apiTableLeftDescr">
                                                     Description
                                                 </td>
-                                                <td class="apiTableRightDescr"><xsl:copy-of select="description/node()"/><br/><xsl:if test="see-also/*">See also: <xsl:for-each select="see-also/command"><a href="#{@name}"><xsl:call-template name="functionPrefix"/><xsl:value-of select="@name" /></a><xsl:if test="not(position() = last())">, </xsl:if></xsl:for-each></xsl:if></td>
+                                                <td class="apiTableRightDescr">
+                                                    <xsl:copy-of select="description/node()"/>
+                                                    <!--<xsl:copy>
+                                                        <xsl:apply-templates select="description/node()"/>
+                                                    </xsl:copy>-->
+                                                    <br/>
+                                                </td>
                                             </tr>
                                             <!--
                                             <tr class="apiTableTr">
@@ -57,16 +91,60 @@
                                             -->
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftLSyn">Lua synopsis</td>
-                                                <td class="apiTableRightLSyn"><xsl:for-each select="return/param"><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@name"/><xsl:if test="not(position() = last())">, </xsl:if></xsl:for-each><xsl:if test="return/param">=</xsl:if><xsl:call-template name="functionPrefix"/><xsl:value-of select="@name"/>(<xsl:for-each select="params/param"><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@name"/><xsl:if test="@default"> = <xsl:value-of select="@default"/></xsl:if><xsl:if test="not(position() = last())">, </xsl:if></xsl:for-each>)<br/></td>
+                                                <td class="apiTableRightLSyn">
+                                                    <xsl:for-each select="return/param">
+                                                        <xsl:value-of select="@type"/>
+                                                        <xsl:text> </xsl:text>
+                                                        <xsl:value-of select="@name"/>
+                                                        <xsl:if test="not(position() = last())">, </xsl:if>
+                                                    </xsl:for-each>
+                                                    <xsl:if test="return/param">=</xsl:if>
+                                                    <xsl:call-template name="functionPrefix"/>
+                                                    <xsl:value-of select="@name"/>
+                                                    <xsl:text>(</xsl:text>
+                                                    <xsl:for-each select="params/param">
+                                                        <xsl:value-of select="@type"/>
+                                                        <xsl:text> </xsl:text>
+                                                        <xsl:value-of select="@name"/>
+                                                        <xsl:if test="@default">=<xsl:value-of select="@default"/></xsl:if>
+                                                        <xsl:if test="not(position() = last())">, </xsl:if>
+                                                    </xsl:for-each>
+                                                    <xsl:text>)</xsl:text>
+                                                    <br/>
+                                                </td>
                                             </tr>
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftLParam">Lua parameters</td>
-                                                <td class="apiTableRightLParam"><xsl:choose><xsl:when test="params/param"><xsl:for-each select="params/param"><div><strong><xsl:value-of select="@name"/></strong>: <xsl:copy-of select="node()"/></div></xsl:for-each></xsl:when><xsl:otherwise>-</xsl:otherwise></xsl:choose></td>
+                                                <td class="apiTableRightLParam">
+                                                    <xsl:for-each select="params">
+                                                        <xsl:call-template name="renderParams"/>
+                                                    </xsl:for-each>
+                                                </td>
                                             </tr>
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftLRet">Lua return values</td>
-                                                <td class="apiTableRightLRet"><xsl:choose><xsl:when test="return/param"><xsl:for-each select="return/param"><div><strong><xsl:value-of select="@name"/></strong>: <xsl:copy-of select="node()"/></div></xsl:for-each></xsl:when><xsl:otherwise>-</xsl:otherwise></xsl:choose></td>
+                                                <td class="apiTableRightLRet">
+                                                    <xsl:for-each select="return">
+                                                        <xsl:call-template name="renderParams"/>
+                                                    </xsl:for-each>
+                                                </td>
                                             </tr>
+                                            <xsl:if test="see-also/*">
+                                            <tr class="apiTableTr">
+                                                <td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+                                                <td class="apiTableRightDescr">
+                                                    <xsl:for-each select="see-also/command">
+                                                        <a href="#{@name}">
+                                                            <xsl:call-template name="functionPrefix"/>
+                                                            <xsl:value-of select="@name" />
+                                                        </a>
+                                                        <xsl:if test="not(position() = last())">, </xsl:if>
+                                                    </xsl:for-each>
+                                                </td>
+                                            </tr>
+                                            </xsl:if>
                                         </table>
                                         <br/>
                                     </xsl:if>
@@ -76,14 +154,13 @@
                                     <br/>
                                     <h1>Constants</h1>
                                     <xsl:for-each select="plugin/enum">
-                                    <h3 class="subsectionBar"><a name="enum_{@name}" id="enum_{@name}"></a><xsl:value-of select="@name"/></h3>
+                                    <h3 class="subsectionBar"><a name="{@name}" id="{@name}"></a><xsl:value-of select="@name"/></h3>
                                     <table class="apiConstantsTable">
                                         <tbody>
                                             <tr>
                                                 <td>
                                                     <xsl:for-each select="item">
                                                         <div><xsl:value-of select="../@item-prefix"/><xsl:value-of select="@name"/></div>
-                                                        <!--<div class="tab">description</div>-->
                                                     </xsl:for-each>
                                                 </td>
                                             </tr>
@@ -96,11 +173,7 @@
                                     <br/>
                                     <h1>Data structures</h1>
                                     <xsl:for-each select="plugin/struct">
-                                    <h3 class="subsectionBar"><a name="struct_{@name}" id="struct_{@name}"></a><xsl:value-of select="@name"/></h3>
-                                    <style type="text/css">
-                                        table.x tr.b td {border-top: 1px dotted gray; padding-left: 0.3em; padding-right: 0.3em;}
-                                        table.x tr th {font-size: 75%; text-transform: uppercase;}
-                                    </style>
+                                    <h3 class="subsectionBar"><a name="{@name}" id="{@name}"></a><xsl:value-of select="@name"/></h3>
                                     <table class="apiTable">
                                         <tr class="apiTableTr">
                                             <td class="apiTableLeftDescr">
@@ -111,35 +184,7 @@
                                         <tr class="apiTableTr">
                                             <td class="apiTableLeftLParam">Fields</td>
                                             <td class="apiTableRightLParam">
-                                                <xsl:choose>
-                                                    <xsl:when test="param">
-                                                        <table class="x">
-                                                            <tr>
-                                                                <th>Type</th>
-                                                                <th>Name</th>
-                                                                <th>Default value</th>
-                                                                <th>Description</th>
-                                                            </tr>
-                                                            <xsl:for-each select="param">
-                                                                <tr class="b">
-                                                                    <td valign="top">
-                                                                        <xsl:value-of select="@type"/>
-                                                                    </td>
-                                                                    <td valign="top">
-                                                                        <strong><xsl:value-of select="@name"/></strong>
-                                                                    </td>
-                                                                    <td valign="top">
-                                                                        <xsl:value-of select="@default"/>
-                                                                    </td>
-                                                                    <td valign="top">
-                                                                        <xsl:copy-of select="node()"/>
-                                                                    </td>
-                                                                </tr>
-                                                            </xsl:for-each>
-                                                        </table>
-                                                    </xsl:when>
-                                                    <xsl:otherwise>-</xsl:otherwise>
-                                                </xsl:choose>
+                                                <xsl:call-template name="renderParams"/>
                                             </td>
                                         </tr>
                                     </table>
