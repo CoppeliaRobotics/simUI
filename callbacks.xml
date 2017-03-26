@@ -5,8 +5,10 @@
     <description>API functions for creating custom user interfaces.</description>
     <command name="create">
         <description>Create a window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="destroy" />
         </see-also>
         <params>
             <param name="xml" type="string">
@@ -21,8 +23,10 @@
     </command>
     <command name="destroy">
         <description>Destroy a window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="create" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -34,8 +38,11 @@
     </command>
     <command name="getSliderValue">
         <description>Get the value of a slider widget.</description>
+        <categories>
+            <category name="slider" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setSliderValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -53,8 +60,11 @@
     </command>
     <command name="setSliderValue">
         <description>Set the value of a slider widget.</description>
+        <categories>
+            <category name="slider" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="getSliderValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -75,9 +85,11 @@
     </command>
     <command name="getEditValue">
         <description>Get the value of a edit widget.</description>
+        <categories>
+            <category name="edit" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setEditValue" />
-            <command-ref name="getCurrentEditWidget" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -95,9 +107,11 @@
     </command>
     <command name="setEditValue">
         <description>Set the value of a edit widget.</description>
+        <categories>
+            <category name="edit" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="getEditValue" />
-            <command-ref name="setCurrentEditWidget" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -118,8 +132,11 @@
     </command>
     <command name="getSpinboxValue">
         <description>Get the value of a spinbox widget.</description>
+        <categories>
+            <category name="spinbox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setSpinboxValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -137,8 +154,11 @@
     </command>
     <command name="setSpinboxValue">
         <description>Set the value of a spinbox widget.</description>
+        <categories>
+            <category name="spinbox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="getSpinboxValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -159,8 +179,11 @@
     </command>
     <command name="getCheckboxValue">
         <description>Get the value of a checkbox widget.</description>
+        <categories>
+            <category name="checkbox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setCheckboxValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -178,8 +201,11 @@
     </command>
     <command name="setCheckboxValue">
         <description>Set the value of a checkbox widget.</description>
+        <categories>
+            <category name="checkbox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="getCheckboxValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -200,8 +226,11 @@
     </command>
     <command name="getRadiobuttonValue">
         <description>Get the value of a radiobutton widget.</description>
+        <categories>
+            <category name="radiobutton" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setRadiobuttonValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -219,8 +248,11 @@
     </command>
     <command name="setRadiobuttonValue">
         <description>Set the value of a radiobutton widget.</description>
+        <categories>
+            <category name="radiobutton" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="getRadiobuttonValue" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -241,8 +273,11 @@
     </command>
     <command name="getLabelText">
         <description>Get the text of a label widget.</description>
+        <categories>
+            <category name="label" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setLabelText" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -260,8 +295,11 @@
     </command>
     <command name="setLabelText">
         <description>Set the text of a label widget.</description>
+        <categories>
+            <category name="label" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="getLabelText" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -282,12 +320,11 @@
     </command>
     <command name="insertComboboxItem">
         <description>Insert an item in a combobox widget.</description>
+        <categories>
+            <category name="combobox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="removeComboboxItem" />
-            <command-ref name="getComboboxItemCount" />
-            <command-ref name="getComboboxItems" />
-            <command-ref name="setComboboxItems" />
-            <command-ref name="setComboboxSelectedIndex" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -311,12 +348,11 @@
     </command>
     <command name="removeComboboxItem">
         <description>Remove an item from a combobox widget.</description>
+        <categories>
+            <category name="combobox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="insertComboboxItem" />
-            <command-ref name="getComboboxItemCount" />
-            <command-ref name="getComboboxItems" />
-            <command-ref name="setComboboxItems" />
-            <command-ref name="setComboboxSelectedIndex" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -337,13 +373,11 @@
     </command>
     <command name="getComboboxItemCount">
         <description>Get the number of items in the specified combobox widget.</description>
+        <categories>
+            <category name="combobox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="insertComboboxItem" />
-            <command-ref name="removeComboboxItem" />
-            <command-ref name="getComboboxItemText" />
-            <command-ref name="getComboboxItems" />
-            <command-ref name="setComboboxItems" />
-            <command-ref name="setComboboxSelectedIndex" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -361,12 +395,11 @@
     </command>
     <command name="getComboboxItemText">
         <description>Get the text of an item in a combobox widget.</description>
+        <categories>
+            <category name="combobox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="insertComboboxItem" />
-            <command-ref name="removeComboboxItem" />
-            <command-ref name="getComboboxItemCount" />
-            <command-ref name="getComboboxItems" />
-            <command-ref name="setComboboxItems" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -387,12 +420,11 @@
     </command>
     <command name="getComboboxItems">
         <description>Get the content of a combobox.</description>
+        <categories>
+            <category name="combobox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="insertComboboxItem" />
-            <command-ref name="removeComboboxItem" />
-            <command-ref name="getComboboxItemCount" />
-            <command-ref name="getComboboxItemText" />
-            <command-ref name="setComboboxItems" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -410,13 +442,11 @@
     </command>
     <command name="setComboboxItems">
         <description>Populate a combobox widget with the specified items, and set the selected item to the specified index.</description>
+        <categories>
+            <category name="combobox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="insertComboboxItem" />
-            <command-ref name="removeComboboxItem" />
-            <command-ref name="getComboboxItemCount" />
-            <command-ref name="getComboboxItemText" />
-            <command-ref name="getComboboxItems" />
-            <command-ref name="setComboboxSelectedIndex" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -440,13 +470,11 @@
     </command>
     <command name="setComboboxSelectedIndex">
         <description>Change the selected item index in a combobox widget.</description>
+        <categories>
+            <category name="combobox" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="insertComboboxItem" />
-            <command-ref name="removeComboboxItem" />
-            <command-ref name="getComboboxItemCount" />
-            <command-ref name="getComboboxItemText" />
-            <command-ref name="getComboboxItems" />
-            <command-ref name="setComboboxItems" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -467,9 +495,10 @@
     </command>
     <command name="hide">
         <description>Hide the UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="show" />
-            <command-ref name="isVisible" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -481,9 +510,10 @@
     </command>
     <command name="show">
         <description>Show the UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="hide" />
-            <command-ref name="isVisible" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -495,9 +525,10 @@
     </command>
     <command name="isVisible">
         <description>Check if the window is visible.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="show" />
-            <command-ref name="hide" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -512,9 +543,10 @@
     </command>
     <command name="getPosition">
         <description>Get the position of a UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="setPosition" />
-            <command-ref name="getSize" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -532,9 +564,10 @@
     </command>
     <command name="setPosition">
         <description>Set the position of a UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="getPosition" />
-            <command-ref name="setSize" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -555,9 +588,10 @@
     </command>
     <command name="getSize">
         <description>Get the size of a UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="getPosition" />
-            <command-ref name="setSize" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -575,9 +609,10 @@
     </command>
     <command name="setSize">
         <description>Set the size of a UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="getSize" />
-            <command-ref name="setPosition" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -598,8 +633,10 @@
     </command>
     <command name="getTitle">
         <description>Get the title of a UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="setTitle" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -614,8 +651,10 @@
     </command>
     <command name="setTitle">
         <description>Set the title of a UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
         <see-also>
-            <command-ref name="getTitle" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -633,6 +672,10 @@
     </command>
     <command name="setImageData">
         <description>Set image content using specified bitmap (RGB888) data.</description>
+        <categories>
+            <category name="image" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -655,6 +698,9 @@
     </command>
     <command name="setEnabled">
         <description>Enable or disable a widget.</description>
+        <categories>
+            <category name="widgets" />
+        </categories>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -674,8 +720,11 @@
     </command>
     <command name="getCurrentTab">
         <description>Get the current tab index of a tabs widget.</description>
+        <categories>
+            <category name="tabs" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setCurrentTab" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -693,8 +742,11 @@
     </command>
     <command name="setCurrentTab">
         <description>Set the current tab index in a tabs widget.</description>
+        <categories>
+            <category name="tabs" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="getCurrentTab" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -715,8 +767,10 @@
     </command>
     <command name="getWidgetVisibility">
         <description>Get the visibility status of a widget.</description>
+        <categories>
+            <category name="widgets" />
+        </categories>
         <see-also>
-            <command-ref name="setWidgetVisibility" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -734,9 +788,10 @@
     </command>
     <command name="setWidgetVisibility">
         <description>Hide or show a widget.</description>
+        <categories>
+            <category name="widgets" />
+        </categories>
         <see-also>
-            <command-ref name="setWidgetVisibility" />
-            <command-ref name="setEnabled" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -754,8 +809,11 @@
     </command>
     <command name="getCurrentEditWidget">
         <description>Get the edit widget with focus and selected text.</description>
+        <categories>
+            <category name="edit" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setCurrentEditWidget" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -770,8 +828,11 @@
     </command>
     <command name="setCurrentEditWidget">
         <description>Set the edit widget focus and selected text.</description>
+        <categories>
+            <category name="edit" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="getCurrentEditWidget" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -786,6 +847,10 @@
     </command>
     <command name="replot">
         <description>Refresh all the plots of a plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -843,8 +908,11 @@
     </enum>
     <struct name="curve_options">
         <description>Extra options for the curve</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="addCurve" />
             <enum-ref name="curve_scatter_shape" />
         </see-also>
         <param name="scatter_shape" type="int" default="sim_customui_curve_scatter_shape_disc">
@@ -868,11 +936,11 @@
     </struct>
     <command name="addCurve">
         <description>Adds a curve to a plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="addCurveXYPoints" />
-            <command-ref name="addCurveTimePoints" />
-            <command-ref name="clearCurve" />
-            <command-ref name="removeCurve" />
             <enum-ref name="curve_type" />
             <enum-ref name="curve_style" />
             <struct-ref name="curve_options" />
@@ -905,10 +973,11 @@
     </command>
     <command name="addCurveTimePoints">
         <description>Adds time points to the specified curve of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="addCurveXYPoints" />
-            <command-ref name="clearCurve" />
-            <command-ref name="removeCurve" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -932,10 +1001,11 @@
     </command>
     <command name="addCurveXYPoints">
         <description>Adds points to the specified curve of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="addCurveTimePoints" />
-            <command-ref name="clearCurve" />
-            <command-ref name="removeCurve" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -962,10 +1032,11 @@
     </command>
     <command name="clearCurve">
         <description>Clear points of the specified curve of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="addCurveXYPoints" />
-            <command-ref name="addCurveTimePoints" />
-            <command-ref name="removeCurve" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -983,8 +1054,11 @@
     </command>
     <command name="removeCurve">
         <description>Remove the specified curve from the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="clearCurve" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1002,12 +1076,11 @@
     </command>
     <command name="setPlotRanges">
         <description>Set the ranges of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setPlotXRange" />
-            <command-ref name="setPlotYRange" />
-            <command-ref name="growPlotRanges" />
-            <command-ref name="growPlotXRange" />
-            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1034,12 +1107,11 @@
     </command>
     <command name="setPlotXRange">
         <description>Set the X range of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setPlotRanges" />
-            <command-ref name="setPlotYRange" />
-            <command-ref name="growPlotRanges" />
-            <command-ref name="growPlotXRange" />
-            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1060,12 +1132,11 @@
     </command>
     <command name="setPlotYRange">
         <description>Set the Y range of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setPlotRanges" />
-            <command-ref name="setPlotXRange" />
-            <command-ref name="growPlotRanges" />
-            <command-ref name="growPlotXRange" />
-            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1086,9 +1157,11 @@
     </command>
     <command name="growPlotRanges">
         <description>Increase the ranges of the plot widget by a fixed amount.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="growPlotXRange" />
-            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1115,9 +1188,11 @@
     </command>
     <command name="growPlotXRange">
         <description>Increase the X range of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="growPlotRanges" />
-            <command-ref name="growPlotYRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1138,9 +1213,11 @@
     </command>
     <command name="growPlotYRange">
         <description>Increase the Y range of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="growPlotRanges" />
-            <command-ref name="growPlotXRange" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1161,9 +1238,11 @@
     </command>
     <command name="setPlotLabels">
         <description>Set the labels of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setPlotXLabel" />
-            <command-ref name="setPlotYLabel" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1184,9 +1263,11 @@
     </command>
     <command name="setPlotXLabel">
         <description>Set the X label of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setPlotLabels" />
-            <command-ref name="setPlotYLabel" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1204,9 +1285,11 @@
     </command>
     <command name="setPlotYLabel">
         <description>Set the Y label of the plot widget.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="setPlotLabels" />
-            <command-ref name="setPlotXLabel" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1224,8 +1307,11 @@
     </command>
     <command name="rescaleAxes">
         <description>Rescales the axes such that the specified curve in the plot is fully visible.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="rescaleAxesAll" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1249,8 +1335,11 @@
     </command>
     <command name="rescaleAxesAll">
         <description>Rescales the axes such that all curves in the plot are fully visible.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <see-also>
-            <command-ref name="rescaleAxes" />
         </see-also>
         <params>
             <param name="handle" type="int">
@@ -1270,7 +1359,11 @@
         </return>
     </command>
     <command name="setMouseOptions">
-        <description>Set options for interacting with mouse.</description>
+        <description>Set plot widget options for interacting with mouse.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -1296,6 +1389,10 @@
     </command>
     <command name="setLegendVisibility">
         <description>Set visibility of the plot legend (default is hidden).</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
