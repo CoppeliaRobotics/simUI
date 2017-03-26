@@ -944,7 +944,7 @@
                 <description>name of the curve</description>
             </param>
             <param name="t" type="table" item-type="double">
-                <description>x values</description>
+                <description>t values (i.e. the curve parameter, used also to determine how points are connected, according to natural ordering of t)</description>
             </param>
             <param name="x" type="table" item-type="double">
                 <description>x values</description>
