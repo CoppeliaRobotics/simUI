@@ -69,9 +69,6 @@
                                                 </td>
                                                 <td class="apiTableRightDescr">
                                                     <xsl:copy-of select="description/node()"/>
-                                                    <!--<xsl:copy>
-                                                        <xsl:apply-templates select="description/node()"/>
-                                                    </xsl:copy>-->
                                                     <br/>
                                                 </td>
                                             </tr>
@@ -160,7 +157,16 @@
                                             <tr>
                                                 <td>
                                                     <xsl:for-each select="item">
-                                                        <div><xsl:value-of select="../@item-prefix"/><xsl:value-of select="@name"/></div>
+                                                        <div>
+                                                            <strong>
+                                                                <xsl:value-of select="../@item-prefix"/>
+                                                                <xsl:value-of select="@name"/>
+                                                            </strong>
+                                                            <xsl:if test="description">
+                                                                <xsl:text>: </xsl:text>
+                                                                <xsl:copy-of select="description/node()"/>
+                                                            </xsl:if>
+                                                        </div>
                                                     </xsl:for-each>
                                                 </td>
                                             </tr>
