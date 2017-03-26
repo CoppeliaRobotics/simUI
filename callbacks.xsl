@@ -16,6 +16,7 @@
         <xsl:text>_</xsl:text>
     </xsl:template>
     <xsl:template name="renderParams">
+        <xsl:param name="showDefault"/>
         <xsl:choose>
             <xsl:when test="param">
                 <xsl:for-each select="param">
@@ -27,7 +28,7 @@
                             <xsl:text> of </xsl:text>
                             <xsl:value-of select="@item-type"/>
                         </xsl:if>
-                        <xsl:if test="@default">
+                        <xsl:if test="@default and $showDefault='true'">
                             <xsl:text>, default: </xsl:text>
                             <xsl:value-of select="@default"/>
                         </xsl:if>
@@ -114,7 +115,9 @@
                                                 <td class="apiTableLeftLParam">Lua parameters</td>
                                                 <td class="apiTableRightLParam">
                                                     <xsl:for-each select="params">
-                                                        <xsl:call-template name="renderParams"/>
+                                                        <xsl:call-template name="renderParams">
+                                                            <xsl:with-param name="showDefault" select="'true'"/>
+                                                        </xsl:call-template>
                                                     </xsl:for-each>
                                                 </td>
                                             </tr>
@@ -122,7 +125,9 @@
                                                 <td class="apiTableLeftLRet">Lua return values</td>
                                                 <td class="apiTableRightLRet">
                                                     <xsl:for-each select="return">
-                                                        <xsl:call-template name="renderParams"/>
+                                                        <xsl:call-template name="renderParams">
+                                                            <xsl:with-param name="showDefault" select="'false'"/>
+                                                        </xsl:call-template>
                                                     </xsl:for-each>
                                                 </td>
                                             </tr>
@@ -193,7 +198,9 @@
                                         <tr class="apiTableTr">
                                             <td class="apiTableLeftLParam">Fields</td>
                                             <td class="apiTableRightLParam">
-                                                <xsl:call-template name="renderParams"/>
+                                                <xsl:call-template name="renderParams">
+                                                    <xsl:with-param name="showDefault" select="'true'"/>
+                                                </xsl:call-template>
                                             </td>
                                         </tr>
                                         <xsl:if test="see-also/*">
