@@ -798,18 +798,30 @@
         </return>
     </command>
     <enum name="curve_type" item-prefix="sim_customui_curve_type_" base="20400">
-        <item name="time" />
-        <item name="xy" />
+        <item name="time">
+            <description>a curve with an X-simple domain, i.e. <em>y = f(x)</em></description>
+        </item>
+        <item name="xy">
+            <description>a parametric curve, i.e. <em>x = f<sub>x</sub>(t), y = f<sub>y</sub>(t)</em></description>
+        </item>
     </enum>
     <enum name="curve_style" item-prefix="sim_customui_curve_style_" base="22400">
         <item name="scatter" />
         <item name="line" />
         <item name="line_and_scatter" />
         <!-- following styles are only available in time plots: -->
-        <item name="step_left" />
-        <item name="step_center" />
-        <item name="step_right" />
-        <item name="impulse" />
+        <item name="step_left">
+            <description>only available for 'time' curves</description>
+        </item>
+        <item name="step_center">
+            <description>only available for 'time' curves</description>
+        </item>
+        <item name="step_right">
+            <description>only available for 'time' curves</description>
+        </item>
+        <item name="impulse">
+            <description>only available for 'time' curves</description>
+        </item>
     </enum>
     <enum name="curve_scatter_shape" item-prefix="sim_customui_curve_scatter_shape_" base="28400">
         <item name="none" />
