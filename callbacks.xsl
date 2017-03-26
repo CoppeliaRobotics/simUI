@@ -19,6 +19,18 @@
     <xsl:template match="code">
         <pre><xsl:value-of select="."/></pre>
     </xsl:template>
+    <xsl:template match="sub">
+        <sub><xsl:apply-templates select="node()"/></sub>
+    </xsl:template>
+    <xsl:template match="sup">
+        <sup><xsl:apply-templates select="node()"/></sup>
+    </xsl:template>
+    <xsl:template match="em">
+        <em><xsl:apply-templates select="node()"/></em>
+    </xsl:template>
+    <xsl:template match="strong">
+        <strong><xsl:apply-templates select="node()"/></strong>
+    </xsl:template>
     <xsl:template name="functionPrefix">
         <!-- if plugin node defined a prefix attribute, we use it for
              functions prefix, otherwise we use the name attribute -->
