@@ -16,6 +16,9 @@
             <xsl:with-param name="name" select="@name"/>
         </xsl:call-template>
     </xsl:template>
+    <xsl:template match="code">
+        <pre><xsl:value-of select="."/></pre>
+    </xsl:template>
     <xsl:template name="functionPrefix">
         <!-- if plugin node defined a prefix attribute, we use it for
              functions prefix, otherwise we use the name attribute -->
