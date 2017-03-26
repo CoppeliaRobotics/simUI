@@ -965,7 +965,7 @@
                 <description>style of the curve. see <enum-ref name="curve_style"/>.</description>
             </param>
             <param name="options" type="curve_options">
-                <description>extra options. see <struct-ref name="curve_options"/>.</description>
+                <description>data structure holding extra options. see <struct-ref name="curve_options"/>.</description>
             </param>
         </params>
         <return>
