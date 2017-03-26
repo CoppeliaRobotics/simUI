@@ -34,6 +34,9 @@
     </command>
     <command name="getSliderValue">
         <description>Get the value of a slider widget.</description>
+        <see-also>
+            <command name="setSliderValue" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -50,6 +53,9 @@
     </command>
     <command name="setSliderValue">
         <description>Set the value of a slider widget.</description>
+        <see-also>
+            <command name="getSliderValue" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -69,6 +75,10 @@
     </command>
     <command name="getEditValue">
         <description>Get the value of a edit widget.</description>
+        <see-also>
+            <command name="setEditValue" />
+            <command name="getCurrentEditWidget" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -85,6 +95,10 @@
     </command>
     <command name="setEditValue">
         <description>Set the value of a edit widget.</description>
+        <see-also>
+            <command name="getEditValue" />
+            <command name="setCurrentEditWidget" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -104,6 +118,9 @@
     </command>
     <command name="getSpinboxValue">
         <description>Get the value of a spinbox widget.</description>
+        <see-also>
+            <command name="setSpinboxValue" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -120,6 +137,9 @@
     </command>
     <command name="setSpinboxValue">
         <description>Set the value of a spinbox widget.</description>
+        <see-also>
+            <command name="getSpinboxValue" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -139,6 +159,9 @@
     </command>
     <command name="getCheckboxValue">
         <description>Get the value of a checkbox widget.</description>
+        <see-also>
+            <command name="setCheckboxValue" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -155,6 +178,9 @@
     </command>
     <command name="setCheckboxValue">
         <description>Set the value of a checkbox widget.</description>
+        <see-also>
+            <command name="getCheckboxValue" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -174,6 +200,9 @@
     </command>
     <command name="getRadiobuttonValue">
         <description>Get the value of a radiobutton widget.</description>
+        <see-also>
+            <command name="setRadiobuttonValue" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -190,6 +219,9 @@
     </command>
     <command name="setRadiobuttonValue">
         <description>Set the value of a radiobutton widget.</description>
+        <see-also>
+            <command name="getRadiobuttonValue" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -209,6 +241,9 @@
     </command>
     <command name="getLabelText">
         <description>Get the text of a label widget.</description>
+        <see-also>
+            <command name="setLabelText" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -225,6 +260,9 @@
     </command>
     <command name="setLabelText">
         <description>Set the text of a label widget.</description>
+        <see-also>
+            <command name="getLabelText" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -244,6 +282,13 @@
     </command>
     <command name="insertComboboxItem">
         <description>Insert an item in a combobox widget.</description>
+        <see-also>
+            <command name="removeComboboxItem" />
+            <command name="getComboboxItemCount" />
+            <command name="getComboboxItems" />
+            <command name="setComboboxItems" />
+            <command name="setComboboxSelectedIndex" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -266,6 +311,13 @@
     </command>
     <command name="removeComboboxItem">
         <description>Remove an item from a combobox widget.</description>
+        <see-also>
+            <command name="insertComboboxItem" />
+            <command name="getComboboxItemCount" />
+            <command name="getComboboxItems" />
+            <command name="setComboboxItems" />
+            <command name="setComboboxSelectedIndex" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -285,6 +337,14 @@
     </command>
     <command name="getComboboxItemCount">
         <description>Get the number of items in the specified combobox widget.</description>
+        <see-also>
+            <command name="insertComboboxItem" />
+            <command name="removeComboboxItem" />
+            <command name="getComboboxItemText" />
+            <command name="getComboboxItems" />
+            <command name="setComboboxItems" />
+            <command name="setComboboxSelectedIndex" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -301,6 +361,13 @@
     </command>
     <command name="getComboboxItemText">
         <description>Get the text of an item in a combobox widget.</description>
+        <see-also>
+            <command name="insertComboboxItem" />
+            <command name="removeComboboxItem" />
+            <command name="getComboboxItemCount" />
+            <command name="getComboboxItems" />
+            <command name="setComboboxItems" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -320,6 +387,13 @@
     </command>
     <command name="getComboboxItems">
         <description>Get the content of a combobox.</description>
+        <see-also>
+            <command name="insertComboboxItem" />
+            <command name="removeComboboxItem" />
+            <command name="getComboboxItemCount" />
+            <command name="getComboboxItemText" />
+            <command name="setComboboxItems" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -336,6 +410,14 @@
     </command>
     <command name="setComboboxItems">
         <description>Populate a combobox widget with the specified items, and set the selected item to the specified index.</description>
+        <see-also>
+            <command name="insertComboboxItem" />
+            <command name="removeComboboxItem" />
+            <command name="getComboboxItemCount" />
+            <command name="getComboboxItemText" />
+            <command name="getComboboxItems" />
+            <command name="setComboboxSelectedIndex" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -358,6 +440,14 @@
     </command>
     <command name="setComboboxSelectedIndex">
         <description>Change the selected item index in a combobox widget.</description>
+        <see-also>
+            <command name="insertComboboxItem" />
+            <command name="removeComboboxItem" />
+            <command name="getComboboxItemCount" />
+            <command name="getComboboxItemText" />
+            <command name="getComboboxItems" />
+            <command name="setComboboxItems" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -377,6 +467,10 @@
     </command>
     <command name="hide">
         <description>Hide the UI window.</description>
+        <see-also>
+            <command name="show" />
+            <command name="isVisible" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -387,6 +481,10 @@
     </command>
     <command name="show">
         <description>Show the UI window.</description>
+        <see-also>
+            <command name="hide" />
+            <command name="isVisible" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -397,6 +495,10 @@
     </command>
     <command name="isVisible">
         <description>Check if the window is visible.</description>
+        <see-also>
+            <command name="show" />
+            <command name="hide" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -410,6 +512,10 @@
     </command>
     <command name="getPosition">
         <description>Get the position of a UI window.</description>
+        <see-also>
+            <command name="setPosition" />
+            <command name="getSize" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -426,6 +532,10 @@
     </command>
     <command name="setPosition">
         <description>Set the position of a UI window.</description>
+        <see-also>
+            <command name="getPosition" />
+            <command name="setSize" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -445,6 +555,10 @@
     </command>
     <command name="getSize">
         <description>Get the size of a UI window.</description>
+        <see-also>
+            <command name="getPosition" />
+            <command name="setSize" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -461,6 +575,10 @@
     </command>
     <command name="setSize">
         <description>Set the size of a UI window.</description>
+        <see-also>
+            <command name="getSize" />
+            <command name="setPosition" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -480,6 +598,9 @@
     </command>
     <command name="getTitle">
         <description>Get the title of a UI window.</description>
+        <see-also>
+            <command name="setTitle" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -493,6 +614,9 @@
     </command>
     <command name="setTitle">
         <description>Set the title of a UI window.</description>
+        <see-also>
+            <command name="getTitle" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -550,6 +674,9 @@
     </command>
     <command name="getCurrentTab">
         <description>Get the current tab index of a tabs widget.</description>
+        <see-also>
+            <command name="setCurrentTab" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -566,6 +693,9 @@
     </command>
     <command name="setCurrentTab">
         <description>Set the current tab index in a tabs widget.</description>
+        <see-also>
+            <command name="getCurrentTab" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -585,6 +715,9 @@
     </command>
     <command name="getWidgetVisibility">
         <description>Get the visibility status of a widget.</description>
+        <see-also>
+            <command name="setWidgetVisibility" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -601,6 +734,10 @@
     </command>
     <command name="setWidgetVisibility">
         <description>Hide or show a widget.</description>
+        <see-also>
+            <command name="setWidgetVisibility" />
+            <command name="setEnabled" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -617,6 +754,9 @@
     </command>
     <command name="getCurrentEditWidget">
         <description>Get the edit widget with focus and selected text.</description>
+        <see-also>
+            <command name="setCurrentEditWidget" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -630,6 +770,9 @@
     </command>
     <command name="setCurrentEditWidget">
         <description>Set the edit widget focus and selected text.</description>
+        <see-also>
+            <command name="getCurrentEditWidget" />
+        </see-also>
         <params>
             <param name="handle" type="int">
                 <description>ui handle</description>
@@ -688,6 +831,9 @@
     </enum>
     <struct name="curve_options">
         <description>Extra options for the curve</description>
+        <see-also>
+            <command name="addCurve" />
+        </see-also>
         <param name="scatter_shape" type="int" default="sim_customui_curve_scatter_shape_disc">
             <description>scatter shape. see <a href="#curve_scatter_shape">curve_scatter_shape</a>.</description>
         </param>
