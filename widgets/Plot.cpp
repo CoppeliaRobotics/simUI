@@ -79,6 +79,38 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     y_tick_labels = xmlutils::getAttrBool(e, "y-tick-labels", tick_labels);
 }
 
+class QCPSelectionSquare : public QCPSelectionRect
+{
+public:
+    QCPSelectionSquare(QCustomPlot *parentPlot)
+        : QCPSelectionRect(parentPlot)
+    {
+    }
+
+    void squareRect(QRect &rect)
+    {
+        int w = mRect.width(), h = mRect.height(), s = std::min(w, h);
+        mRect.setWidth(s);
+        mRect.setHeight(s);
+    }
+
+    void moveSelection(QMouseEvent *event)
+    {
+        mRect.setBottomRight(event->pos());
+        squareRect(mRect);
+        emit changed(mRect, event);
+        layer()->replot();
+    }
+
+    void endSelection(QMouseEvent *event)
+    {
+        mRect.setBottomRight(event->pos());
+        squareRect(mRect);
+        mActive = false;
+        emit accepted(mRect, event);
+    }
+};
+
 QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     QCustomPlot *plot = new MyCustomPlot(this, parent);
@@ -92,6 +124,8 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->setBackground(QBrush(bgcol));
     plot->setInteraction(QCP::iSelectPlottables);
     plot->setAutoAddPlottableToLegend(false);
+    if(square)
+        plot->setSelectionRect(new QCPSelectionSquare(plot));
     if(isValidColor(grid_x_color))
     {
         QPen pen = plot->xAxis->grid()->pen();
