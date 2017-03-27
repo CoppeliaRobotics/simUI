@@ -201,6 +201,9 @@ QCPCurve * Plot::curveMustBeXY(QCPAbstractPlottable *curve)
 
 void Plot::replot(bool queue)
 {
+    if(square)
+        squareRanges();
+
     if(queue)
         qplot()->replot(QCustomPlot::rpQueuedReplot); // can help performance when doing a lot of replots
     else
@@ -482,6 +485,25 @@ void Plot::rescaleAxesAll(bool onlyEnlargeX, bool onlyEnlargeY)
     }
 }
 
+void Plot::squareRanges()
+{
+    double axesRatio = qplot()->xAxis->range().size() / qplot()->yAxis->range().size();
+    double plotRatio = double(qplot()->size().width()) / double(qplot()->size().height());
+    double ratio = axesRatio / plotRatio;
+    if(axesRatio > plotRatio)
+    {
+        double r = qplot()->yAxis->range().size();
+        double c = qplot()->yAxis->range().center();
+        qplot()->yAxis->setRange(c - r * 0.5 * ratio, c + r * 0.5 * ratio);
+    }
+    else
+    {
+        double r = qplot()->xAxis->range().size();
+        double c = qplot()->xAxis->range().center();
+        qplot()->xAxis->setRange(c - r * 0.5 / ratio, c + r * 0.5 / ratio);
+    }
+}
+
 void Plot::setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY)
 {
     QCP::Interactions interactions = qplot()->interactions();
@@ -560,8 +582,6 @@ MyCustomPlot::MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), p
 {
     QObject::connect(this, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(onMousePress(QMouseEvent*)));
     QObject::connect(this, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(onMouseMove(QMouseEvent*)));
-    QObject::connect(xAxis, SIGNAL(rangeChanged(const QCPRange&)), this, SLOT(adjustTicks()));
-    QObject::connect(yAxis, SIGNAL(rangeChanged(const QCPRange&)), this, SLOT(adjustTicks()));
 }
 
 void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
@@ -569,7 +589,7 @@ void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
     if(event->button() == Qt::LeftButton)
     {
         rescaleAxes();
-        replot();
+        plot_->replot(false);
     }
 
     QCustomPlot::mouseDoubleClickEvent(event);
@@ -578,34 +598,8 @@ void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)
 void MyCustomPlot::resizeEvent(QResizeEvent *event)
 {
     QCustomPlot::resizeEvent(event);
-    adjustTicks();
-}
-
-void MyCustomPlot::adjustTicks()
-{
     if(plot_->square)
-    {
-#if 1
-        yAxis->setScaleRatio(xAxis, 1.0);
-#else
-        double axesRatio = xAxis->range().size() / yAxis->range().size();
-        double plotRatio = double(size().width()) / double(size().height());
-        double ratio = axesRatio / plotRatio;
-        if(axesRatio > plotRatio)
-        {
-            double r = yAxis->range().size();
-            double c = yAxis->range().center();
-            yAxis->setRange(c - r * 0.5 * ratio, c + r * 0.5 * ratio);
-        }
-        else
-        {
-            double r = xAxis->range().size();
-            double c = xAxis->range().center();
-            xAxis->setRange(c - r * 0.5 / ratio, c + r * 0.5 / ratio);
-        }
-#endif
-        replot(QCustomPlot::rpQueuedReplot);
-    }
+        plot_->replot(false);
 }
 
 void MyCustomPlot::onMousePress(QMouseEvent *event)

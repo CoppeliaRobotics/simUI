@@ -81,6 +81,7 @@ public:
     void rescaleAxes(std::string name, bool onlyEnlargeX, bool onlyEnlargeY);
     void rescaleAxes(QCPAbstractPlottable *curve, bool onlyEnlargeX, bool onlyEnlargeY);
     void rescaleAxesAll(bool onlyEnlargeX, bool onlyEnlargeY);
+    void squareRanges();
     void setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY);
     void setLegendVisibility(bool visible);
 
@@ -112,7 +113,6 @@ public:
     void mouseDoubleClickEvent(QMouseEvent *event);
     void resizeEvent(QResizeEvent *event);
 private slots:
-    void adjustTicks();
     void onMousePress(QMouseEvent *event);
     void onMouseMove(QMouseEvent *event);
 };
