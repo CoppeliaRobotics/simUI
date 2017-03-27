@@ -28,6 +28,8 @@ UIProxy *UIProxy::instance = NULL;
 
 QWidget *UIProxy::vrepMainWindow = NULL;
 
+simFloat UIProxy::wheelZoomFactor = 1.0;
+
 UIProxy::UIProxy(QObject *parent)
     : QObject(parent)
 {
