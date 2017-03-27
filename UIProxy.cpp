@@ -520,7 +520,7 @@ void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
 
 void UIProxy::onReplot(Plot *plot)
 {
-    plot->replot();
+    plot->replot(true);
 }
 
 void UIProxy::onAddCurve(Plot *plot, int type, std::string name, std::vector<int> color, int style, curve_options *opts)
