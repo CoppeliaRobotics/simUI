@@ -585,8 +585,23 @@ void MyCustomPlot::adjustTicks()
 {
     if(plot_->square)
     {
-        yAxis->setScaleRatio(xAxis, 1.0);
-        replot();
+        //yAxis->setScaleRatio(xAxis, 1.0);
+        double axesRatio = xAxis->range().size() / yAxis->range().size();
+        double plotRatio = double(size().width()) / double(size().height());
+        double ratio = axesRatio / plotRatio;
+        if(axesRatio > plotRatio)
+        {
+            double r = yAxis->range().size();
+            double c = yAxis->range().center();
+            yAxis->setRange(c - r * 0.5 * ratio, c + r * 0.5 * ratio);
+        }
+        else
+        {
+            double r = xAxis->range().size();
+            double c = xAxis->range().center();
+            xAxis->setRange(c - r * 0.5 / ratio, c + r * 0.5 / ratio);
+        }
+        replot(QCustomPlot::rpQueuedReplot);
     }
 }
 
