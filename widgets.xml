@@ -488,7 +488,7 @@
                 <name>square</name>
                 <type>bool</type>
                 <default>false</default>
-                <description>If true, the widget will retain a 1:1 aspect ratio.</description>
+                <description></description>
             </attribute>
             <attribute>
                 <name>max-buffer-size</name>
