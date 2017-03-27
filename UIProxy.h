@@ -28,6 +28,7 @@ private:
 
 public:
     static QWidget *vrepMainWindow;
+    static simFloat wheelZoomFactor;
 
 public slots:
     void onDestroy(Proxy *proxy);

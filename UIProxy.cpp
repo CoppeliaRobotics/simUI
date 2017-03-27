@@ -44,6 +44,7 @@ UIProxy * UIProxy::getInstance(QObject *parent)
     {
         UIProxy::instance = new UIProxy(parent);
         UIProxy::vrepMainWindow = (QWidget *)simGetMainWindow(1);
+        simGetFloatParameter(sim_floatparam_mouse_wheel_zoom_factor, &UIProxy::wheelZoomFactor);
 
         uiThread(); // we remember this currentThreadId as the "UI" thread
 
