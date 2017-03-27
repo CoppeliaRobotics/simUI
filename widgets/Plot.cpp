@@ -363,8 +363,6 @@ void Plot::clearCurve(std::string name)
 void Plot::removeCurve(std::string name)
 {
     QCPAbstractPlottable *curve = curveByName(name);
-    curveByName_.erase(name);
-    qplot()->removePlottable(curve);
 
     // remove tracer if any:
     if(QCPGraph *graph = dynamic_cast<QCPGraph*>(curve))
@@ -376,6 +374,9 @@ void Plot::removeCurve(std::string name)
             tracers.erase(it);
         }
     }
+
+    curveByName_.erase(name);
+    qplot()->removePlottable(curve);
 }
 
 QCPAbstractPlottable * Plot::curveByName(std::string name)
