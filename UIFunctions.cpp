@@ -227,8 +227,6 @@ void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w,
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, image);
 
-    QImage::Format format = QImage::Format_RGB888;
-    int bpp = 3; // bytes per pixel
     int resolution[2];
     simUChar *data = simLoadImage(resolution, 0, filename, NULL);
     simTransformImage(data, resolution, 4, NULL, NULL, NULL);
