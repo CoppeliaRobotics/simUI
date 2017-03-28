@@ -274,6 +274,18 @@ void Plot::setCurveCommonOptions(QCPAbstractPlottable *curve, std::string name, 
     QPen qpen;
     qpen.setColor(toQColor(color));
     qpen.setWidth(opts->line_size);
+    switch(opts->line_style)
+    {
+    case sim_customui_line_style_solid:
+        qpen.setStyle(Qt::SolidLine);
+        break;
+    case sim_customui_line_style_dashed:
+        qpen.setStyle(Qt::DashLine);
+        break;
+    case sim_customui_line_style_dotted:
+        qpen.setStyle(Qt::DotLine);
+        break;
+    }
     curve->setPen(qpen);
 
     if(opts->selectable)

@@ -906,6 +906,11 @@
         <item name="plus_circle" />
         <item name="peace" />
     </enum>
+    <enum name="line_style" item-prefix="sim_customui_line_style_" base="32000">
+        <item name="solid" />
+        <item name="dotted" />
+        <item name="dashed" />
+    </enum>
     <struct name="curve_options">
         <description>Extra options for the curve creation function <command-ref name="addCurve"/>. Create this data structure in the form of a hash table, e.g.: <code>{line_size=3, add_to_legend=false, selectable=true}</code></description>
         <categories>
@@ -923,6 +928,9 @@
         </param>
         <param name="line_size" type="int" default="2">
             <description>size of the line</description>
+        </param>
+        <param name="line_style" type="int" default="sim_customui_line_style_solid">
+            <description>style of the pen used to draw the line. see <enum-ref name="line_style"/>.</description>
         </param>
         <param name="add_to_legend" type="bool" default="true">
             <description>if false, the curve will not be added to the legend</description>
