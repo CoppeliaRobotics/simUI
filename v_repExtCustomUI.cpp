@@ -476,7 +476,6 @@ void setImageData(SScriptCallBack *p, const char *cmd, setImageData_in *in, setI
         throw std::runtime_error(ss.str());
     }
 
-    QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
     int sz = in->width * in->height * bpp;
     if(in->data.size() != sz)
@@ -786,8 +785,7 @@ VREP_DLLEXPORT void v_repEnd()
 
 VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customData, int* replyData)
 {
-    // Keep following 5 lines at the beginning and unchanged:
-    static bool refreshDlgFlag = true;
+    // Keep following 4 lines at the beginning and unchanged:
     int errorModeSaved;
     simGetIntegerParameter(sim_intparam_error_report_mode, &errorModeSaved);
     simSetIntegerParameter(sim_intparam_error_report_mode, sim_api_errormessage_ignore);
