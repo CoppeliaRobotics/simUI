@@ -720,32 +720,38 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
     temp+="/libv_rep.dylib";
 #endif /* __linux || __APPLE__ */
     vrepLib = loadVrepLibrary(temp.c_str());
-    if (vrepLib == NULL)
+    if(vrepLib == NULL)
     {
         std::cout << "Error, could not find or correctly load the V-REP library. Cannot start '" PLUGIN_NAME "' plugin.\n";
-        return(0);
+        return 0;
     }
-    if (getVrepProcAddresses(vrepLib)==0)
+    if(getVrepProcAddresses(vrepLib)==0)
     {
         std::cout << "Error, could not find all required functions in the V-REP library. Cannot start '" PLUGIN_NAME "' plugin.\n";
         unloadVrepLibrary(vrepLib);
-        return(0);
+        return 0;
     }
 
     int vrepVer;
     simGetIntegerParameter(sim_intparam_program_version, &vrepVer);
-    if (vrepVer < 30203) // if V-REP version is smaller than 3.02.03
+    if(vrepVer < 30203) // if V-REP version is smaller than 3.02.03
     {
         std::cout << "Sorry, your V-REP copy is somewhat old. Cannot start '" PLUGIN_NAME "' plugin.\n";
         unloadVrepLibrary(vrepLib);
-        return(0);
+        return 0;
+    }
+
+    if(simGetMainWindow(1) == NULL)
+    {
+        std::cout << "Initialization failed, running in headless mode. Cannot start '" PLUGIN_NAME "' plugin.\n";
+        return 0;
     }
 
     if(!registerScriptStuff())
     {
         std::cout << "Initialization failed.\n";
         unloadVrepLibrary(vrepLib);
-        return(0);
+        return 0;
     }
 
 #ifdef DEBUG
@@ -754,7 +760,7 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 
     UIProxy::getInstance(); // construct UIProxy here (UI thread)
 
-    return(PLUGIN_VERSION); // initialization went fine, we return the version number of this plugin (can be queried with simGetModuleName)
+    return PLUGIN_VERSION; // initialization went fine, we return the version number of this plugin (can be queried with simGetModuleName)
 }
 
 VREP_DLLEXPORT void v_repEnd()
@@ -805,6 +811,6 @@ VREP_DLLEXPORT void* v_repMessage(int message, int* auxiliaryData, void* customD
 
     // Keep following unchanged:
     simSetIntegerParameter(sim_intparam_error_report_mode, errorModeSaved); // restore previous settings
-    return(retVal);
+    return retVal;
 }
 
