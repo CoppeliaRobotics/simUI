@@ -144,6 +144,17 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     {
         plot->yAxis->setTickLabelColor(toQColor(tick_label_y_color));
     }
+    plot->legend->setBrush(QBrush(bgcol));
+    if(isValidColor(label_y_color))
+    {
+        plot->legend->setTextColor(toQColor(label_y_color));
+    }
+    if(isValidColor(grid_x_color))
+    {
+        QPen pen = plot->legend->borderPen();
+        pen.setColor(toQColor(grid_x_color));
+        plot->legend->setBorderPen(pen);
+    }
     plot->xAxis->setTicks(x_ticks);
     plot->yAxis->setTicks(y_ticks);
     plot->xAxis->setTickLabels(x_tick_labels);
