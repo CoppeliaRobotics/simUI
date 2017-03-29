@@ -14,8 +14,10 @@ INCLUDEPATH += "external/QCustomPlot-2.0.0-beta"
 	QMAKE_CXXFLAGS += -W3
 }
 *-g++*|*clang* {
-	QMAKE_CXXFLAGS += -O3 -Wno-unused-parameter
-	QMAKE_CFLAGS += -O3 -Wno-unused-parameter
+	QMAKE_CXXFLAGS += -O3
+	QMAKE_CFLAGS += -O3
+        QMAKE_CXXFLAGS_WARN_ON = -Wall -Wno-unused-parameter
+        QMAKE_CXXFLAGS_WARN_OFF = -Wall -Wno-unused-parameter
 }
 
 win32 {
