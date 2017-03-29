@@ -24,8 +24,8 @@ std::set<Widget *> Widget::widgets;
 
 Widget::Widget(std::string widgetClass_)
     : qwidget(NULL),
-      widgetClass(widgetClass_),
-      proxy(NULL)
+      proxy(NULL),
+      widgetClass(widgetClass_)
 {
     // don't do this here because id is set by user:
     // Widget::widgets[id] = this;

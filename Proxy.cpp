@@ -17,9 +17,9 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Wind
     : handle(nextProxyHandle++),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
       sceneID(sceneID_),
-      scriptID(scriptID_),
+      widgets(widgets_),
       ui(ui_),
-      widgets(widgets_)
+      scriptID(scriptID_)
 {
     DBG << "[enter]" << std::endl;
 
