@@ -696,6 +696,12 @@ void setLegendVisibility(SScriptCallBack *p, const char *cmd, setLegendVisibilit
     UIFunctions::getInstance()->setLegendVisibility(plot, in->visible);
 }
 
+void getCurveData(SScriptCallBack *p, const char *cmd, getCurveData_in *in, getCurveData_out *out)
+{
+    Plot *plot = getWidget<Plot>(in->handle, in->id, cmd, "plot");
+    plot->getCurveData(in->name, out->x, out->x, out->y);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

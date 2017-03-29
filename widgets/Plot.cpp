@@ -68,7 +68,9 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
     cyclic_buffer = xmlutils::getAttrBool(e, "cyclic-buffer", false);
 
-    onclick = xmlutils::getAttrStr(e, "onclick", "");
+    onCurveClick = xmlutils::getAttrStr(e, "onclick", "");
+
+    onLegendClick = xmlutils::getAttrStr(e, "onlegendclick", "");
 
     bool ticks = xmlutils::getAttrBool(e, "ticks", true);
     x_ticks = xmlutils::getAttrBool(e, "x-ticks", ticks);
@@ -91,6 +93,9 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         bgcol = toQColor(background_color);
     plot->setBackground(QBrush(bgcol));
     plot->setInteraction(QCP::iSelectPlottables);
+    if(onLegendClick != "")
+        plot->setInteraction(QCP::iSelectLegend);
+    plot->legend->setSelectableParts(QCPLegend::spItems);
     plot->setAutoAddPlottableToLegend(false);
     if(isValidColor(grid_x_color))
     {
@@ -161,6 +166,7 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->yAxis->setTickLabels(y_tick_labels);
     plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QObject::connect(plot, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), uiproxy, SLOT(onPlottableClick(QCPAbstractPlottable*,int,QMouseEvent*)));
+    QObject::connect(plot, SIGNAL(legendClick(QCPLegend*,QCPAbstractLegendItem*,QMouseEvent*)), uiproxy, SLOT(onLegendClick(QCPLegend*,QCPAbstractLegendItem*,QMouseEvent*)));
     setQWidget(plot);
     setProxy(proxy);
     return plot;
@@ -463,6 +469,37 @@ void Plot::addXYData(std::string name, const std::vector<double>& t, const std::
             double k = pdata->at(max_buffer_size - 1)->t;
             pdata->removeAfter(k);
         }
+    }
+}
+
+void Plot::getCurveData(std::string name, std::vector<double>& t, std::vector<double>& x, std::vector<double>& y)
+{
+    QCPAbstractPlottable *plottable = curveByName(name);
+
+    t.clear();
+    x.clear();
+    y.clear();
+
+    if(QCPGraph *graph = dynamic_cast<QCPGraph*>(plottable))
+    {
+	QSharedPointer<QCPGraphDataContainer> data = graph->data();
+	for(int i = 0; i < data->size(); ++i)
+	{
+	    QCPGraphDataContainer::const_iterator dataItem = data->at(i);
+	    x.push_back(dataItem->key);
+	    y.push_back(dataItem->value);
+	}
+    }
+    else if(QCPCurve *curve = dynamic_cast<QCPCurve*>(plottable))
+    {
+	QSharedPointer<QCPCurveDataContainer> data = curve->data();
+	for(int i = 0; i < data->size(); ++i)
+	{
+	    QCPCurveDataContainer::const_iterator dataItem = data->at(i);
+	    t.push_back(dataItem->t);
+	    x.push_back(dataItem->key);
+	    y.push_back(dataItem->value);
+	}
     }
 }
 

@@ -38,7 +38,8 @@ protected:
     bool square;
     int max_buffer_size;
     bool cyclic_buffer;
-    std::string onclick;
+    std::string onCurveClick;
+    std::string onLegendClick;
     bool x_ticks;
     bool y_ticks;
     bool x_tick_labels;
@@ -74,6 +75,7 @@ public:
     static QCPScatterStyle::ScatterShape scatterShape(int x);
     void addTimeData(std::string name, const std::vector<double>& x, const std::vector<double>& y);
     void addXYData(std::string name, const std::vector<double>& t, const std::vector<double>& x, const std::vector<double>& y);
+    void getCurveData(std::string name, std::vector<double>& t, std::vector<double>& x, std::vector<double>& y);
     void setXRange(double min, double max);
     void setYRange(double min, double max);
     void setXLabel(std::string label);

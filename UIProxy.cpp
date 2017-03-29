@@ -188,7 +188,46 @@ void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMous
     {
         if(Plot *plot = dynamic_cast<Plot*>(Widget::byQWidget(qwidget)))
         {
-            emit plottableClick(plot, plottable, index, event);
+            std::string name = plottable->name().toStdString();
+
+            float x = NAN, y = NAN;
+            if(QCPGraph *graph = dynamic_cast<QCPGraph*>(plottable))
+            {
+                QCPGraphData d = *graph->data()->at(index);
+                x = d.key;
+                y = d.value;
+            }
+            else if(QCPCurve *curve = dynamic_cast<QCPCurve*>(plottable))
+            {
+                QCPCurveData d = *curve->data()->at(index);
+                x = d.key;
+                y = d.value;
+            }
+
+            emit plottableClick(plot, name, index, x, y);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    if(QWidget *qwidget = dynamic_cast<QWidget*>(sender()))
+    {
+        if(Plot *plot = dynamic_cast<Plot*>(Widget::byQWidget(qwidget)))
+        {
+            if(QCPPlottableLegendItem *item1 = dynamic_cast<QCPPlottableLegendItem*>(item))
+            {
+                QCPAbstractPlottable *plottable = item1->plottable();
+
+                std::string name = plottable->name().toStdString();
+
+                emit legendClick(plot, name);
+            }
         }
     }
 

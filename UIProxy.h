@@ -41,6 +41,7 @@ private slots:
     void onValueChange(QString value);
     void onEditingFinished();
     void onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event);
+    void onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event);
     // ---
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
@@ -90,7 +91,8 @@ signals:
     void editingFinished(Edit *edit, QString value);
     void windowClose(Window *window);
     void loadImageFromFile(Image *image, const char *filename, int w, int h);
-    void plottableClick(Plot *plot, QCPAbstractPlottable *plottable, int index, QMouseEvent *event);
+    void plottableClick(Plot *plot, std::string name, int index, double x, double y);
+    void legendClick(Plot *plot, std::string name);
 };
 
 #endif // UIPROXY_H_INCLUDED

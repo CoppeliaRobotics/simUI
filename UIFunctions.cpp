@@ -102,7 +102,8 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(rescaleAxesAll(Plot*,bool,bool)), uiproxy, SLOT(onRescaleAxesAll(Plot*,bool,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setMouseOptions(Plot*,bool,bool,bool,bool)), uiproxy, SLOT(onSetMouseOptions(Plot*,bool,bool,bool,bool)), Qt::BlockingQueuedConnection);
     connect(this, SIGNAL(setLegendVisibility(Plot*,bool)), uiproxy, SLOT(onSetLegendVisibility(Plot*,bool)), Qt::BlockingQueuedConnection);
-    connect(uiproxy, SIGNAL(plottableClick(Plot*,QCPAbstractPlottable*,int,QMouseEvent*)), this, SLOT(onPlottableClick(Plot*,QCPAbstractPlottable*,int,QMouseEvent*)));
+    connect(uiproxy, SIGNAL(plottableClick(Plot*,std::string,int,double,double)), this, SLOT(onPlottableClick(Plot*,std::string,int,double,double)));
+    connect(uiproxy, SIGNAL(legendClick(Plot*,std::string)), this, SLOT(onLegendClick(Plot*,std::string)));
 }
 
 /**
@@ -244,27 +245,23 @@ void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w,
     }
 }
 
-void UIFunctions::onPlottableClick(Plot *plot, QCPAbstractPlottable *plottable, int index, QMouseEvent *event)
+void UIFunctions::onPlottableClick(Plot *plot, std::string name, int index, double x, double y)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, plot);
 
-    if(plot->onclick == "" || plot->proxy->scriptID == -1) return;
+    if(plot->onCurveClick == "" || plot->proxy->scriptID == -1) return;
 
-    float x = NAN, y = NAN;
-    if(QCPGraph *graph = dynamic_cast<QCPGraph*>(plottable))
-    {
-        QCPGraphData d = *graph->data()->at(index);
-        x = d.key;
-        y = d.value;
-    }
-    else if(QCPCurve *curve = dynamic_cast<QCPCurve*>(plottable))
-    {
-        QCPCurveData d = *curve->data()->at(index);
-        x = d.key;
-        y = d.value;
-    }
+    onPlottableClickCallback(plot->proxy->getScriptID(), plot->onCurveClick.c_str(), plot->proxy->getHandle(), plot->id, name, index, x, y);
+}
 
-    onplottableClickCallback(plot->proxy->getScriptID(), plot->onclick.c_str(), plot->proxy->getHandle(), plot->id, plottable->name().toStdString(), index, x, y);
+void UIFunctions::onLegendClick(Plot *plot, std::string name)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, plot);
+
+    if(plot->onLegendClick == "" || plot->proxy->scriptID == -1) return;
+
+    onLegendClickCallback(plot->proxy->getScriptID(), plot->onLegendClick.c_str(), plot->proxy->getHandle(), plot->id, name);
 }
 

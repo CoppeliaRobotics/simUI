@@ -1415,6 +1415,35 @@
         <return>
         </return>
     </command>
+    <command name="getCurveData">
+        <description>Get the data contained in the specified curve.</description>
+        <categories>
+            <category name="plot" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="name" type="string">
+                <description>name of the curve</description>
+            </param>
+        </params>
+        <return>
+            <param name="t" type="table" item-type="double">
+                <description>t values (if applicable)</description>
+            </param>
+            <param name="x" type="table" item-type="double">
+                <description>x values</description>
+            </param>
+            <param name="y" type="table" item-type="double">
+                <description>y values</description>
+            </param>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
@@ -1502,7 +1531,7 @@
         <return>
         </return>
     </script-function>
-    <script-function name="onplottableClickCallback">
+    <script-function name="onPlottableClickCallback">
         <description>Callback for plot widget plottableClick event.</description>
         <params>
             <param name="handle" type="int">
@@ -1522,6 +1551,22 @@
             </param>
             <param name="y" type="float">
                 <description>the y value of the clicked point</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+    <script-function name="onLegendClickCallback">
+        <description>Callback for plot widget legendClick event.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the plot widget</description>
+            </param>
+            <param name="curve" type="string">
+                <description>the name of the curve</description>
             </param>
         </params>
         <return>
