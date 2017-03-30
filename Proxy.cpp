@@ -16,8 +16,8 @@ std::map<int, Proxy *> Proxy::proxies;
 Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *ui_, std::map<int, Widget*>& widgets_)
     : handle(nextProxyHandle++),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
-      sceneID(sceneID_),
       widgets(widgets_),
+      sceneID(sceneID_),
       ui(ui_),
       scriptID(scriptID_)
 {
