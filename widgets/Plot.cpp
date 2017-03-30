@@ -159,6 +159,8 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         QPen pen = plot->legend->borderPen();
         pen.setColor(toQColor(grid_x_color));
         plot->legend->setBorderPen(pen);
+        plot->legend->setSelectedTextColor(toQColor(grid_x_color));
+        plot->legend->setSelectedIconBorderPen(pen);
     }
     plot->xAxis->setTicks(x_ticks);
     plot->yAxis->setTicks(y_ticks);
