@@ -15,10 +15,10 @@ std::map<int, Proxy *> Proxy::proxies;
 
 Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *ui_, std::map<int, Widget*>& widgets_)
     : handle(nextProxyHandle++),
-      destroyAfterSimulationStop(destroyAfterSimulationStop_),
       widgets(widgets_),
-      sceneID(sceneID_),
+      destroyAfterSimulationStop(destroyAfterSimulationStop_),
       ui(ui_),
+      sceneID(sceneID_),
       scriptID(scriptID_)
 {
     DBG << "[enter]" << std::endl;
