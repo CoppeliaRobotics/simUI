@@ -16,6 +16,7 @@
 #include "Radiobutton.h"
 #include "Slider.h"
 #include "Spinbox.h"
+#include "Table.h"
 #include "Tabs.h"
 #include "VSlider.h"
 
