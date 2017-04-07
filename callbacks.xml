@@ -1594,4 +1594,44 @@
         <return>
         </return>
     </script-function>
+    <enum name="mouse_event_type" item-prefix="sim_customui_mouse_" base="20400">
+        <item name="left_button_down">
+            <description>left mouse button pressed</description>
+        </item>
+        <item name="left_button_up">
+            <description>left mouse button released</description>
+        </item>
+        <item name="move">
+            <description>mouse pointer has been moved</description>
+        </item>
+    </enum>
+    <struct name="keyboard_modifiers">
+        <param name="control" type="bool" default="false" />
+        <param name="shift" type="bool" default="false" />
+    </struct>
+    <script-function name="onMouseEventCallback">
+        <description>Callback for a mouse event.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the widget</description>
+            </param>
+            <param name="type" type="int">
+                <description>the mouse event type, one of the values from <enum-ref name="mouse_event_type"/></description>
+            </param>
+            <param name="mods" type="keyboard_modifiers">
+                <description>modifiers. see <struct-ref name="keyboard_modifiers"/></description>
+            </param>
+            <param name="x" type="int">
+                <description>x coordinate of mouse pointer</description>
+            </param>
+            <param name="y" type="int">
+                <description>y coordinate of mouse pointer</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
 </plugin>

@@ -43,6 +43,9 @@ private slots:
     void onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event);
     void onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event);
     void onCellActivate(int row, int col);
+    void onMouseDown(Image *image, QMouseEvent *event);
+    void onMouseUp(Image *image, QMouseEvent *event);
+    void onMouseMove(Image *image, QMouseEvent *event);
     // ---
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
@@ -95,6 +98,9 @@ signals:
     void plottableClick(Plot *plot, std::string name, int index, double x, double y);
     void legendClick(Plot *plot, std::string name);
     void cellActivate(Table *table, int row, int col, std::string value);
+    void mouseDown(Image *image, QMouseEvent *event);
+    void mouseUp(Image *image, QMouseEvent *event);
+    void mouseMove(Image *image, QMouseEvent *event);
 };
 
 #endif // UIPROXY_H_INCLUDED

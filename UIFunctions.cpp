@@ -105,6 +105,9 @@ void UIFunctions::connectSignals()
     connect(uiproxy, SIGNAL(plottableClick(Plot*,std::string,int,double,double)), this, SLOT(onPlottableClick(Plot*,std::string,int,double,double)));
     connect(uiproxy, SIGNAL(legendClick(Plot*,std::string)), this, SLOT(onLegendClick(Plot*,std::string)));
     connect(uiproxy, SIGNAL(cellActivate(Table*,int,int,std::string)), this, SLOT(onCellActivate(Table*,int,int,std::string)));
+    connect(uiproxy, SIGNAL(mouseDown(Image*,QMouseEvent*)), this, SLOT(onMouseDown(Image*,QMouseEvent*)));
+    connect(uiproxy, SIGNAL(mouseUp(Image*,QMouseEvent*)), this, SLOT(onMouseUp(Image*,QMouseEvent*)));
+    connect(uiproxy, SIGNAL(mouseMove(Image*,QMouseEvent*)), this, SLOT(onMouseMove(Image*,QMouseEvent*)));
 }
 
 /**
@@ -128,11 +131,11 @@ void UIFunctions::onButtonClick(Widget *widget)
     if(!e) return;
     if(e->onclick == "" || widget->proxy->scriptID == -1) return;
 
-    onclickCallback_in in_args;
-    in_args.handle = widget->proxy->handle;
-    in_args.id = widget->id;
-    onclickCallback_out out_args;
-    onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in_args, &out_args);
+    onclickCallback_in in;
+    in.handle = widget->proxy->handle;
+    in.id = widget->id;
+    onclickCallback_out out;
+    onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in, &out);
 }
 
 void UIFunctions::onValueChange(Widget *widget, int value)
@@ -151,12 +154,12 @@ void UIFunctions::onValueChange(Widget *widget, int value)
     std::string onchange = ei ? ei->onchange : ed->onchange;
     if(onchange == "" || widget->proxy->scriptID == -1) return;
 
-    onchangeIntCallback_in in_args;
-    in_args.handle = widget->proxy->handle;
-    in_args.id = widget->id;
-    in_args.value = value;
-    onchangeIntCallback_out out_args;
-    onchangeIntCallback(widget->proxy->scriptID, onchange.c_str(), &in_args, &out_args);
+    onchangeIntCallback_in in;
+    in.handle = widget->proxy->handle;
+    in.id = widget->id;
+    in.value = value;
+    onchangeIntCallback_out out;
+    onchangeIntCallback(widget->proxy->scriptID, onchange.c_str(), &in, &out);
 }
 
 void UIFunctions::onValueChange(Widget *widget, double value)
@@ -169,12 +172,12 @@ void UIFunctions::onValueChange(Widget *widget, double value)
     if(!e) return;
     if(e->onchange == "" || widget->proxy->scriptID == -1) return;
 
-    onchangeDoubleCallback_in in_args;
-    in_args.handle = widget->proxy->handle;
-    in_args.id = widget->id;
-    in_args.value = value;
-    onchangeDoubleCallback_out out_args;
-    onchangeDoubleCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
+    onchangeDoubleCallback_in in;
+    in.handle = widget->proxy->handle;
+    in.id = widget->id;
+    in.value = value;
+    onchangeDoubleCallback_out out;
+    onchangeDoubleCallback(widget->proxy->scriptID, e->onchange.c_str(), &in, &out);
 }
 
 void UIFunctions::onValueChange(Widget *widget, QString value)
@@ -187,12 +190,12 @@ void UIFunctions::onValueChange(Widget *widget, QString value)
     if(!e) return;
     if(e->onchange == "" || widget->proxy->scriptID == -1) return;
 
-    onchangeStringCallback_in in_args;
-    in_args.handle = widget->proxy->handle;
-    in_args.id = widget->id;
-    in_args.value = value.toStdString();
-    onchangeStringCallback_out out_args;
-    onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in_args, &out_args);
+    onchangeStringCallback_in in;
+    in.handle = widget->proxy->handle;
+    in.id = widget->id;
+    in.value = value.toStdString();
+    onchangeStringCallback_out out;
+    onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in, &out);
 }
 
 void UIFunctions::onEditingFinished(Edit *edit, QString value)
@@ -205,12 +208,12 @@ void UIFunctions::onEditingFinished(Edit *edit, QString value)
     if(!e) return;
     if(e->oneditingfinished == "" || edit->proxy->scriptID == -1) return;
 
-    oneditingfinishedCallback_in in_args;
-    in_args.handle = edit->proxy->handle;
-    in_args.id = edit->id;
-    in_args.value = value.toStdString();
-    oneditingfinishedCallback_out out_args;
-    oneditingfinishedCallback(edit->proxy->scriptID, e->oneditingfinished.c_str(), &in_args, &out_args);
+    oneditingfinishedCallback_in in;
+    in.handle = edit->proxy->handle;
+    in.id = edit->id;
+    in.value = value.toStdString();
+    oneditingfinishedCallback_out out;
+    oneditingfinishedCallback(edit->proxy->scriptID, e->oneditingfinished.c_str(), &in, &out);
 }
 
 void UIFunctions::onWindowClose(Window *window)
@@ -218,10 +221,10 @@ void UIFunctions::onWindowClose(Window *window)
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Window, window);
 
-    oncloseCallback_in in_args;
-    in_args.handle = window->proxy->getHandle();
-    oncloseCallback_out out_args;
-    oncloseCallback(window->proxy->getScriptID(), window->onclose.c_str(), &in_args, &out_args);
+    oncloseCallback_in in;
+    in.handle = window->proxy->getHandle();
+    oncloseCallback_out out;
+    oncloseCallback(window->proxy->getScriptID(), window->onclose.c_str(), &in, &out);
 }
 
 void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
@@ -253,7 +256,15 @@ void UIFunctions::onPlottableClick(Plot *plot, std::string name, int index, doub
 
     if(plot->onCurveClick == "" || plot->proxy->scriptID == -1) return;
 
-    onPlottableClickCallback(plot->proxy->getScriptID(), plot->onCurveClick.c_str(), plot->proxy->getHandle(), plot->id, name, index, x, y);
+    onPlottableClickCallback_in in;
+    in.handle = plot->proxy->getHandle();
+    in.id = plot->id;
+    in.curve = name;
+    in.index = index;
+    in.x = x;
+    in.y = y;
+    onPlottableClickCallback_out out;
+    onPlottableClickCallback(plot->proxy->getScriptID(), plot->onCurveClick.c_str(), &in, &out);
 }
 
 void UIFunctions::onLegendClick(Plot *plot, std::string name)
@@ -263,7 +274,12 @@ void UIFunctions::onLegendClick(Plot *plot, std::string name)
 
     if(plot->onLegendClick == "" || plot->proxy->scriptID == -1) return;
 
-    onLegendClickCallback(plot->proxy->getScriptID(), plot->onLegendClick.c_str(), plot->proxy->getHandle(), plot->id, name);
+    onLegendClickCallback_in in;
+    in.handle = plot->proxy->getHandle();
+    in.id = plot->id;
+    in.curve = name;
+    onLegendClickCallback_out out;
+    onLegendClickCallback(plot->proxy->getScriptID(), plot->onLegendClick.c_str(), &in, &out);
 }
 
 void UIFunctions::onCellActivate(Table *table, int row, int col, std::string text)
@@ -273,6 +289,96 @@ void UIFunctions::onCellActivate(Table *table, int row, int col, std::string tex
 
     if(table->onCellActivate == "" || table->proxy->scriptID == -1) return;
 
-    onCellActivateCallback(table->proxy->getScriptID(), table->onCellActivate.c_str(), table->proxy->getHandle(), table->id, row, col, text);
+    onCellActivateCallback_in in;
+    in.handle = table->proxy->getHandle();
+    in.id = table->id;
+    in.row = row;
+    in.column = col;
+    in.cellValue = text;
+    onCellActivateCallback_out out;
+    onCellActivateCallback(table->proxy->getScriptID(), table->onCellActivate.c_str(), &in, &out);
+}
+
+void UIFunctions::onMouseDown(Image *image, QMouseEvent *event)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, image);
+
+    if(image->onMouseDown == "" || image->proxy->scriptID == -1) return;
+
+    onMouseEventCallback_in in;
+    in.handle = image->proxy->getHandle();
+    in.id = image->id;
+    switch(event->button())
+    {
+    case Qt::LeftButton:
+        in.type = sim_customui_mouse_left_button_down;
+        break;
+    case Qt::RightButton:
+        in.type = -1; // TODO: maybe in a future release
+        break;
+    case Qt::MidButton:
+        in.type = -1; // TODO: maybe in a future release
+        break;
+    default:
+        break;
+    }
+    if(event->modifiers() & Qt::ShiftModifier) in.mods.shift = true;
+    if(event->modifiers() & Qt::ControlModifier) in.mods.control = true;
+    in.x = event->x();
+    in.y = event->y();
+    onMouseEventCallback_out out;
+    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseMove.c_str(), &in, &out);
+}
+
+void UIFunctions::onMouseUp(Image *image, QMouseEvent *event)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, image);
+
+    if(image->onMouseUp == "" || image->proxy->scriptID == -1) return;
+
+    onMouseEventCallback_in in;
+    in.handle = image->proxy->getHandle();
+    in.id = image->id;
+    switch(event->button())
+    {
+    case Qt::LeftButton:
+        in.type = sim_customui_mouse_left_button_up;
+        break;
+    case Qt::RightButton:
+        in.type = -1; // TODO: maybe in a future release
+        break;
+    case Qt::MidButton:
+        in.type = -1; // TODO: maybe in a future release
+        break;
+    default:
+        break;
+    }
+    if(event->modifiers() & Qt::ShiftModifier) in.mods.shift = true;
+    if(event->modifiers() & Qt::ControlModifier) in.mods.control = true;
+    in.x = event->x();
+    in.y = event->y();
+    onMouseEventCallback_out out;
+    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseMove.c_str(), &in, &out);
+}
+
+void UIFunctions::onMouseMove(Image *image, QMouseEvent *event)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, image);
+
+    if(image->onMouseMove == "" || image->proxy->scriptID == -1) return;
+
+    onMouseEventCallback_in in;
+    in.handle = image->proxy->getHandle();
+    in.id = image->id;
+    in.type = sim_customui_mouse_move;
+    if(event->modifiers() & Qt::ShiftModifier) in.mods.shift = true;
+    if(event->modifiers() & Qt::ControlModifier) in.mods.control = true;
+    in.x = event->x();
+    in.y = event->y();
+    onMouseEventCallback_out out;
+    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseMove.c_str(), &in, &out);
 }
 

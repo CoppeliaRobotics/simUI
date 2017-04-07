@@ -361,6 +361,24 @@
                 <default>-1</default>
                 <description>Desired height for the initial image.</description>
             </attribute>
+            <attribute>
+                <name>onmousedown</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the mouseDown event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+            </attribute>
+            <attribute>
+                <name>onmouseup</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the mouseUp event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+            </attribute>
+            <attribute>
+                <name>onmousemove</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the mouseMove event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+            </attribute>
         </attributes>
     </element>
     <element>
