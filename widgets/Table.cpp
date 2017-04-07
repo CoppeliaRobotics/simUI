@@ -57,9 +57,7 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     editable = xmlutils::getAttrBool(e, "editable", true);
 
-    onselectionchange = xmlutils::getAttrStr(e, "onselectionchange", "");
-
-    onchange = xmlutils::getAttrStr(e, "onchange", "");
+    onCellActivate = xmlutils::getAttrStr(e, "oncellactivate", "");
 }
 
 QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -89,7 +87,8 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
             tablewidget->setItem(row, column, new QTableWidgetItem(QString::fromStdString(rows[row][column])));
         }
     }
-    QObject::connect(tablewidget, SIGNAL(currentIndexChanged(int)), uiproxy, SLOT(onValueChange(int)));
+    QObject::connect(tablewidget, SIGNAL(cellActivated(int,int)), uiproxy, SLOT(onCellActivate(int,int)));
+    QObject::connect(tablewidget, SIGNAL(cellChanged(int,int)), uiproxy, SLOT(onCellActivate(int,int)));
     setQWidget(tablewidget);
     setEditable(editable);
     setProxy(proxy);

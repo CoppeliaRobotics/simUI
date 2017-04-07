@@ -104,6 +104,7 @@ void UIFunctions::connectSignals()
     connect(this, SIGNAL(setLegendVisibility(Plot*,bool)), uiproxy, SLOT(onSetLegendVisibility(Plot*,bool)), Qt::BlockingQueuedConnection);
     connect(uiproxy, SIGNAL(plottableClick(Plot*,std::string,int,double,double)), this, SLOT(onPlottableClick(Plot*,std::string,int,double,double)));
     connect(uiproxy, SIGNAL(legendClick(Plot*,std::string)), this, SLOT(onLegendClick(Plot*,std::string)));
+    connect(uiproxy, SIGNAL(cellActivate(Table*,int,int,std::string)), this, SLOT(onCellActivate(Table*,int,int,std::string)));
 }
 
 /**
@@ -263,5 +264,15 @@ void UIFunctions::onLegendClick(Plot *plot, std::string name)
     if(plot->onLegendClick == "" || plot->proxy->scriptID == -1) return;
 
     onLegendClickCallback(plot->proxy->getScriptID(), plot->onLegendClick.c_str(), plot->proxy->getHandle(), plot->id, name);
+}
+
+void UIFunctions::onCellActivate(Table *table, int row, int col, std::string text)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, table);
+
+    if(table->onCellActivate == "" || table->proxy->scriptID == -1) return;
+
+    onCellActivateCallback(table->proxy->getScriptID(), table->onCellActivate.c_str(), table->proxy->getHandle(), table->id, row, col, text);
 }
 

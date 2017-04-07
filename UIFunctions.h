@@ -37,6 +37,7 @@ private slots:
     void onLoadImageFromFile(Image *image, const char *filename, int w, int h);
     void onPlottableClick(Plot *plot, std::string name, int index, double x, double y);
     void onLegendClick(Plot *plot, std::string name);
+    void onCellActivate(Table *table, int row, int col, std::string text);
 
 signals:
     void create(Proxy *proxy);

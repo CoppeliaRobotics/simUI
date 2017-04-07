@@ -234,6 +234,26 @@ void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMou
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onCellActivate(int row, int col)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QTableWidget *qwidget = dynamic_cast<QTableWidget*>(sender());
+
+    if(qwidget)
+    {
+        QString text = qwidget->item(row, col)->text();
+        Table *table = dynamic_cast<Table*>(Widget::byQWidget(qwidget));
+        if(table)
+        {
+            emit cellActivate(table, row, col, text.toStdString());
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
 // The following slots are wrappers for functions called from SIM thread
 // which should instead execute in the UI thread.
 

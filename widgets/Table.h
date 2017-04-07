@@ -14,7 +14,7 @@ class UIProxy;
 #include "Widget.h"
 #include "Event.h"
 
-class Table : public Widget, public EventOnChangeString
+class Table : public Widget
 {
 protected:
     bool show_header;
@@ -24,7 +24,7 @@ protected:
     int select_mode;
     std::vector<std::string> header;
     std::vector<std::vector<std::string> > rows;
-    std::string onselectionchange;
+    std::string onCellActivate;
 
 public:
     Table();
