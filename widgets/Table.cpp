@@ -37,7 +37,7 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
         }
         else if(tag1 == "row")
         {
-            rows.push_back(std::vector<std::string>());
+            rows.resize(rows.size()+1);
             for(tinyxml2::XMLElement *e2 = e1->FirstChildElement(); e2; e2 = e2->NextSiblingElement())
             {
                 std::string tag2(e2->Value() ? e2->Value() : "");
@@ -84,7 +84,7 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     tablewidget->setHorizontalHeaderLabels(qtheader);
     for(size_t row = 0; row < rowcount; row++)
     {
-        for(size_t column = 0; column < columncount; column++)
+        for(size_t column = 0; column < rows[row].size(); column++)
         {
             tablewidget->setItem(row, column, new QTableWidgetItem(QString::fromStdString(rows[row][column])));
         }
