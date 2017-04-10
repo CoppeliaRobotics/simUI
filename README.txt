@@ -19,7 +19,7 @@ Compiling:
 
 3) Download and install Qt (same version as V-REP) i.e. 5.5.0
 
-4) Download and install SAXON
+4) Download and install the XSLT processor
 
    On Linux:
 
