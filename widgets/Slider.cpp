@@ -58,7 +58,7 @@ QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     slider->setTickPosition(tickPosition);
     slider->setTickInterval(tickInterval);
     slider->setInvertedAppearance(inverted);
-    QObject::connect(slider, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
+    QObject::connect(slider, &QSlider::valueChanged, uiproxy, &UIProxy::onValueChangeInt);
     setQWidget(slider);
     setProxy(proxy);
     return slider;

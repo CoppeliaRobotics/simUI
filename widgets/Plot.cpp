@@ -167,8 +167,8 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->xAxis->setTickLabels(x_tick_labels);
     plot->yAxis->setTickLabels(y_tick_labels);
     plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    QObject::connect(plot, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), uiproxy, SLOT(onPlottableClick(QCPAbstractPlottable*,int,QMouseEvent*)));
-    QObject::connect(plot, SIGNAL(legendClick(QCPLegend*,QCPAbstractLegendItem*,QMouseEvent*)), uiproxy, SLOT(onLegendClick(QCPLegend*,QCPAbstractLegendItem*,QMouseEvent*)));
+    QObject::connect(plot, &MyCustomPlot::plottableClick, uiproxy, &UIProxy::onPlottableClick);
+    QObject::connect(plot, &MyCustomPlot::legendClick, uiproxy, &UIProxy::onLegendClick);
     setQWidget(plot);
     setProxy(proxy);
     return plot;
@@ -642,8 +642,8 @@ void Tracer::trace(const QPoint& p)
 
 MyCustomPlot::MyCustomPlot(Plot *plot, QWidget *parent) : QCustomPlot(parent), plot_(plot)
 {
-    QObject::connect(this, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(onMousePress(QMouseEvent*)));
-    QObject::connect(this, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(onMouseMove(QMouseEvent*)));
+    QObject::connect(this, &MyCustomPlot::mousePress, this, &MyCustomPlot::onMousePress);
+    QObject::connect(this, &MyCustomPlot::mouseMove, this, &MyCustomPlot::onMouseMove);
 }
 
 void MyCustomPlot::mouseDoubleClickEvent(QMouseEvent *event)

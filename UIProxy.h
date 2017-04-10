@@ -34,9 +34,9 @@ public slots:
     void onDestroy(Proxy *proxy);
     void onCreate(Proxy *proxy);
     void onButtonClick();
-    void onValueChange(int value);
-    void onValueChange(double value);
-    void onValueChange(QString value);
+    void onValueChangeInt(int value);
+    void onValueChangeDouble(double value);
+    void onValueChangeString(QString value);
     void onEditingFinished();
     void onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event);
     void onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event);
@@ -85,9 +85,9 @@ public slots:
 
 signals:
     void buttonClick(Widget *widget);
-    void valueChange(Widget *widget, int value);
-    void valueChange(Widget *widget, double value);
-    void valueChange(Widget *widget, QString value);
+    void valueChangeInt(Widget *widget, int value);
+    void valueChangeDouble(Widget *widget, double value);
+    void valueChangeString(Widget *widget, QString value);
     void editingFinished(Edit *edit, QString value);
     void windowClose(Window *window);
     void loadImageFromFile(Image *image, const char *filename, int w, int h);

@@ -29,9 +29,9 @@ public slots:
 
 private slots:
     void onButtonClick(Widget *widget);
-    void onValueChange(Widget *widget, int value);
-    void onValueChange(Widget *widget, double value);
-    void onValueChange(Widget *widget, QString value);
+    void onValueChangeInt(Widget *widget, int value);
+    void onValueChangeDouble(Widget *widget, double value);
+    void onValueChangeString(Widget *widget, QString value);
     void onEditingFinished(Edit *edit, QString value);
     void onWindowClose(Window *window);
     void onLoadImageFromFile(Image *image, const char *filename, int w, int h);

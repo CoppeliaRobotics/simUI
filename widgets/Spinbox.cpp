@@ -55,7 +55,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
         spinbox->setPrefix(QString::fromStdString(prefix));
         spinbox->setSuffix(QString::fromStdString(suffix));
         spinbox->setSingleStep(step);
-        QObject::connect(spinbox, SIGNAL(valueChanged(double)), uiproxy, SLOT(onValueChange(double)));
+        QObject::connect(spinbox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), uiproxy, &UIProxy::onValueChangeDouble);
         setQWidget(spinbox);
         setProxy(proxy);
         return spinbox;
@@ -71,7 +71,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
         spinbox->setPrefix(QString::fromStdString(prefix));
         spinbox->setSuffix(QString::fromStdString(suffix));
         spinbox->setSingleStep(int(step));
-        QObject::connect(spinbox, SIGNAL(valueChanged(int)), uiproxy, SLOT(onValueChange(int)));
+        QObject::connect(spinbox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), uiproxy, &UIProxy::onValueChangeInt);
         setQWidget(spinbox);
         setProxy(proxy);
         return spinbox;

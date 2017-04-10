@@ -33,7 +33,7 @@ QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *p
     button->setVisible(visible);
     button->setStyleSheet(QString::fromStdString(style));
     button->setChecked(checked);
-    QObject::connect(button, SIGNAL(released()), uiproxy, SLOT(onButtonClick()));
+    QObject::connect(button, &QRadioButton::released, uiproxy, &UIProxy::onButtonClick);
     setQWidget(button);
     setProxy(proxy);
     return button;

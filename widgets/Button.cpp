@@ -43,7 +43,7 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     button->setAutoRepeat(autoRepeat);
     button->setAutoRepeatDelay(autoRepeatDelay);
     button->setAutoRepeatInterval(autoRepeatInterval);
-    QObject::connect(button, SIGNAL(released()), uiproxy, SLOT(onButtonClick()));
+    QObject::connect(button, &QPushButton::released, uiproxy, &UIProxy::onButtonClick);
     setQWidget(button);
     setProxy(proxy);
     return button;

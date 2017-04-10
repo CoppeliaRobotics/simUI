@@ -54,58 +54,58 @@ void UIFunctions::connectSignals()
 {
     UIProxy *uiproxy = UIProxy::getInstance();
     // connect signals/slots from UIProxy to UIFunctions and vice-versa
-    connect(this, SIGNAL(create(Proxy*)), uiproxy, SLOT(onCreate(Proxy*)), Qt::BlockingQueuedConnection);
-    connect(uiproxy, SIGNAL(buttonClick(Widget*)), this, SLOT(onButtonClick(Widget*)));
-    connect(uiproxy, SIGNAL(valueChange(Widget*,int)), this, SLOT(onValueChange(Widget*,int)));
-    connect(uiproxy, SIGNAL(valueChange(Widget*,double)), this, SLOT(onValueChange(Widget*,double)));
-    connect(uiproxy, SIGNAL(valueChange(Widget*,QString)), this, SLOT(onValueChange(Widget*,QString)));
-    connect(uiproxy, SIGNAL(editingFinished(Edit*,QString)), this, SLOT(onEditingFinished(Edit*,QString)));
-    connect(uiproxy, SIGNAL(windowClose(Window*)), this, SLOT(onWindowClose(Window*)));
-    connect(this, SIGNAL(destroy(Proxy*)), uiproxy, SLOT(onDestroy(Proxy*)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(showWindow(Window*)), uiproxy, SLOT(onShowWindow(Window*)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(hideWindow(Window*)), uiproxy, SLOT(onHideWindow(Window*)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setPosition(Window*,int,int)), uiproxy, SLOT(onSetPosition(Window*,int,int)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setSize(Window*,int,int)), uiproxy, SLOT(onSetSize(Window*,int,int)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setTitle(Window*,std::string)), uiproxy, SLOT(onSetTitle(Window*,std::string)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setImage(Image*,const char*,int,int)), uiproxy, SLOT(onSetImage(Image*,const char*,int,int)), Qt::BlockingQueuedConnection);
-    connect(uiproxy, SIGNAL(loadImageFromFile(Image*,const char *,int,int)), this, SLOT(onLoadImageFromFile(Image*,const char *,int,int)));
-    connect(this, SIGNAL(sceneChange(Window*,int,int)), uiproxy, SLOT(onSceneChange(Window*,int,int)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setEnabled(Widget*,bool)), uiproxy, SLOT(onSetEnabled(Widget*,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setEditValue(Edit*,std::string,bool)), uiproxy, SLOT(onSetEditValue(Edit*,std::string,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setSpinboxValue(Spinbox*,double,bool)), uiproxy, SLOT(onSetSpinboxValue(Spinbox*,double,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setLabelText(Label*,std::string,bool)), uiproxy, SLOT(onSetLabelText(Label*,std::string,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setSliderValue(Slider*,int,bool)), uiproxy, SLOT(onSetSliderValue(Slider*,int,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setCheckboxValue(Checkbox*,int,bool)), uiproxy, SLOT(onSetCheckboxValue(Checkbox*,int,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setRadiobuttonValue(Radiobutton*,int,bool)), uiproxy, SLOT(onSetRadiobuttonValue(Radiobutton*,int,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(insertComboboxItem(Combobox*,int,std::string,bool)), uiproxy, SLOT(onInsertComboboxItem(Combobox*,int,std::string,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(removeComboboxItem(Combobox*,int,bool)), uiproxy, SLOT(onRemoveComboboxItem(Combobox*,int,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setComboboxItems(Combobox*,QStringList&,int,bool)), uiproxy, SLOT(onSetComboboxItems(Combobox*,QStringList&,int,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setComboboxSelectedIndex(Combobox*,int,bool)), uiproxy, SLOT(onSetComboboxSelectedIndex(Combobox*,int,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setCurrentTab(Tabs*,int,bool)), uiproxy, SLOT(onSetCurrentTab(Tabs*,int,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setWidgetVisibility(Widget*,bool)), uiproxy, SLOT(onSetWidgetVisibility(Widget*,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(replot(Plot*)), uiproxy, SLOT(onReplot(Plot*)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(addCurve(Plot*,int,std::string,std::vector<int>,int,curve_options*)), uiproxy, SLOT(onAddCurve(Plot*,int,std::string,std::vector<int>,int,curve_options*)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(addCurveTimePoints(Plot*,std::string,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onAddCurveTimePoints(Plot*,std::string,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(addCurveXYPoints(Plot*,std::string,std::vector<double>,std::vector<double>,std::vector<double>)), uiproxy, SLOT(onAddCurveXYPoints(Plot*,std::string,std::vector<double>,std::vector<double>,std::vector<double>)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(clearCurve(Plot*,std::string)), uiproxy, SLOT(onClearCurve(Plot*,std::string)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(removeCurve(Plot*,std::string)), uiproxy, SLOT(onRemoveCurve(Plot*,std::string)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setPlotRanges(Plot*,double,double,double,double)), uiproxy, SLOT(onSetPlotRanges(Plot*,double,double,double,double)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setPlotXRange(Plot*,double,double)), uiproxy, SLOT(onSetPlotXRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setPlotYRange(Plot*,double,double)), uiproxy, SLOT(onSetPlotYRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(growPlotRanges(Plot*,double,double,double,double)), uiproxy, SLOT(onGrowPlotRanges(Plot*,double,double,double,double)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(growPlotXRange(Plot*,double,double)), uiproxy, SLOT(onGrowPlotXRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(growPlotYRange(Plot*,double,double)), uiproxy, SLOT(onGrowPlotYRange(Plot*,double,double)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setPlotLabels(Plot*,std::string,std::string)), uiproxy, SLOT(onSetPlotLabels(Plot*,std::string,std::string)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setPlotXLabel(Plot*,std::string)), uiproxy, SLOT(onSetPlotXLabel(Plot*,std::string)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setPlotYLabel(Plot*,std::string)), uiproxy, SLOT(onSetPlotYLabel(Plot*,std::string)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(rescaleAxes(Plot*,std::string,bool,bool)), uiproxy, SLOT(onRescaleAxes(Plot*,std::string,bool,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(rescaleAxesAll(Plot*,bool,bool)), uiproxy, SLOT(onRescaleAxesAll(Plot*,bool,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setMouseOptions(Plot*,bool,bool,bool,bool)), uiproxy, SLOT(onSetMouseOptions(Plot*,bool,bool,bool,bool)), Qt::BlockingQueuedConnection);
-    connect(this, SIGNAL(setLegendVisibility(Plot*,bool)), uiproxy, SLOT(onSetLegendVisibility(Plot*,bool)), Qt::BlockingQueuedConnection);
-    connect(uiproxy, SIGNAL(plottableClick(Plot*,std::string,int,double,double)), this, SLOT(onPlottableClick(Plot*,std::string,int,double,double)));
-    connect(uiproxy, SIGNAL(legendClick(Plot*,std::string)), this, SLOT(onLegendClick(Plot*,std::string)));
-    connect(uiproxy, SIGNAL(cellActivate(Table*,int,int,std::string)), this, SLOT(onCellActivate(Table*,int,int,std::string)));
-    connect(uiproxy, SIGNAL(mouseEvent(Image*,int,bool,bool,int,int)), this, SLOT(onMouseEvent(Image*,int,bool,bool,int,int)));
+    connect(this, &UIFunctions::create, uiproxy, &UIProxy::onCreate, Qt::BlockingQueuedConnection);
+    connect(uiproxy, &UIProxy::buttonClick, this, &UIFunctions::onButtonClick);
+    connect(uiproxy, &UIProxy::valueChangeInt, this, &UIFunctions::onValueChangeInt);
+    connect(uiproxy, &UIProxy::valueChangeDouble, this, &UIFunctions::onValueChangeDouble);
+    connect(uiproxy, &UIProxy::valueChangeString, this, &UIFunctions::onValueChangeString);
+    connect(uiproxy, &UIProxy::editingFinished, this, &UIFunctions::onEditingFinished);
+    connect(uiproxy, &UIProxy::windowClose, this, &UIFunctions::onWindowClose);
+    connect(this, &UIFunctions::destroy, uiproxy, &UIProxy::onDestroy, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::showWindow, uiproxy, &UIProxy::onShowWindow, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::hideWindow, uiproxy, &UIProxy::onHideWindow, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setPosition, uiproxy, &UIProxy::onSetPosition, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setSize, uiproxy, &UIProxy::onSetSize, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setTitle, uiproxy, &UIProxy::onSetTitle, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setImage, uiproxy, &UIProxy::onSetImage, Qt::BlockingQueuedConnection);
+    connect(uiproxy, &UIProxy::loadImageFromFile, this, &UIFunctions::onLoadImageFromFile);
+    connect(this, &UIFunctions::sceneChange, uiproxy, &UIProxy::onSceneChange, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setEnabled, uiproxy, &UIProxy::onSetEnabled, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setEditValue, uiproxy, &UIProxy::onSetEditValue, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setSpinboxValue, uiproxy, &UIProxy::onSetSpinboxValue, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setLabelText, uiproxy, &UIProxy::onSetLabelText, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setSliderValue, uiproxy, &UIProxy::onSetSliderValue, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setCheckboxValue, uiproxy, &UIProxy::onSetCheckboxValue, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setRadiobuttonValue, uiproxy, &UIProxy::onSetRadiobuttonValue, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::insertComboboxItem, uiproxy, &UIProxy::onInsertComboboxItem, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::removeComboboxItem, uiproxy, &UIProxy::onRemoveComboboxItem, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setComboboxItems, uiproxy, &UIProxy::onSetComboboxItems, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setComboboxSelectedIndex, uiproxy, &UIProxy::onSetComboboxSelectedIndex, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setCurrentTab, uiproxy, &UIProxy::onSetCurrentTab, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setWidgetVisibility, uiproxy, &UIProxy::onSetWidgetVisibility, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::replot, uiproxy, &UIProxy::onReplot, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::addCurve, uiproxy, &UIProxy::onAddCurve, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::addCurveTimePoints, uiproxy, &UIProxy::onAddCurveTimePoints, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::addCurveXYPoints, uiproxy, &UIProxy::onAddCurveXYPoints, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::clearCurve, uiproxy, &UIProxy::onClearCurve, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::removeCurve, uiproxy, &UIProxy::onRemoveCurve, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setPlotRanges, uiproxy, &UIProxy::onSetPlotRanges, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setPlotXRange, uiproxy, &UIProxy::onSetPlotXRange, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setPlotYRange, uiproxy, &UIProxy::onSetPlotYRange, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::growPlotRanges, uiproxy, &UIProxy::onGrowPlotRanges, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::growPlotXRange, uiproxy, &UIProxy::onGrowPlotXRange, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::growPlotYRange, uiproxy, &UIProxy::onGrowPlotYRange, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setPlotLabels, uiproxy, &UIProxy::onSetPlotLabels, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setPlotXLabel, uiproxy, &UIProxy::onSetPlotXLabel, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setPlotYLabel, uiproxy, &UIProxy::onSetPlotYLabel, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::rescaleAxes, uiproxy, &UIProxy::onRescaleAxes, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::rescaleAxesAll, uiproxy, &UIProxy::onRescaleAxesAll, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setMouseOptions, uiproxy, &UIProxy::onSetMouseOptions, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setLegendVisibility, uiproxy, &UIProxy::onSetLegendVisibility, Qt::BlockingQueuedConnection);
+    connect(uiproxy, &UIProxy::plottableClick, this, &UIFunctions::onPlottableClick);
+    connect(uiproxy, &UIProxy::legendClick, this, &UIFunctions::onLegendClick);
+    connect(uiproxy, &UIProxy::cellActivate, this, &UIFunctions::onCellActivate);
+    connect(uiproxy, &UIProxy::mouseEvent, this, &UIFunctions::onMouseEvent);
 }
 
 /**
@@ -136,7 +136,7 @@ void UIFunctions::onButtonClick(Widget *widget)
     onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in, &out);
 }
 
-void UIFunctions::onValueChange(Widget *widget, int value)
+void UIFunctions::onValueChangeInt(Widget *widget, int value)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, widget);
@@ -160,7 +160,7 @@ void UIFunctions::onValueChange(Widget *widget, int value)
     onchangeIntCallback(widget->proxy->scriptID, onchange.c_str(), &in, &out);
 }
 
-void UIFunctions::onValueChange(Widget *widget, double value)
+void UIFunctions::onValueChangeDouble(Widget *widget, double value)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, widget);
@@ -178,7 +178,7 @@ void UIFunctions::onValueChange(Widget *widget, double value)
     onchangeDoubleCallback(widget->proxy->scriptID, e->onchange.c_str(), &in, &out);
 }
 
-void UIFunctions::onValueChange(Widget *widget, QString value)
+void UIFunctions::onValueChangeString(Widget *widget, QString value)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, widget);

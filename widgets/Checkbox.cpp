@@ -21,7 +21,7 @@ void Checkbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
 
     text = xmlutils::getAttrStr(e, "text", "???");
 
-    checked = xmlutils::getAttrBool(e, "checked", false);    
+    checked = xmlutils::getAttrBool(e, "checked", false);
 
     onchange = xmlutils::getAttrStr(e, "onchange", "");
 }
@@ -33,7 +33,7 @@ QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
     checkbox->setVisible(visible);
     checkbox->setStyleSheet(QString::fromStdString(style));
     checkbox->setChecked(checked);
-    QObject::connect(checkbox, SIGNAL(stateChanged(int)), uiproxy, SLOT(onValueChange(int)));
+    QObject::connect(checkbox, &QCheckBox::stateChanged, uiproxy, &UIProxy::onValueChangeInt);
     setQWidget(checkbox);
     setProxy(proxy);
     return checkbox;

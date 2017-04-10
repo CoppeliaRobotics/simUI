@@ -87,8 +87,8 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
             tablewidget->setItem(row, column, new QTableWidgetItem(QString::fromStdString(rows[row][column])));
         }
     }
-    QObject::connect(tablewidget, SIGNAL(cellActivated(int,int)), uiproxy, SLOT(onCellActivate(int,int)));
-    QObject::connect(tablewidget, SIGNAL(cellChanged(int,int)), uiproxy, SLOT(onCellActivate(int,int)));
+    QObject::connect(tablewidget, &QTableWidget::cellActivated, uiproxy, &UIProxy::onCellActivate);
+    QObject::connect(tablewidget, &QTableWidget::cellChanged, uiproxy, &UIProxy::onCellActivate);
     setQWidget(tablewidget);
     setEditable(editable);
     setProxy(proxy);

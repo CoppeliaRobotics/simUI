@@ -104,7 +104,7 @@ void UIProxy::onButtonClick()
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onValueChange(int value)
+void UIProxy::onValueChangeInt(int value)
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
@@ -115,14 +115,14 @@ void UIProxy::onValueChange(int value)
         Widget *widget = Widget::byQWidget(qwidget);
         if(widget)
         {
-            emit valueChange(widget, value);
+            emit valueChangeInt(widget, value);
         }
     }
 
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onValueChange(double value)
+void UIProxy::onValueChangeDouble(double value)
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
@@ -133,14 +133,14 @@ void UIProxy::onValueChange(double value)
         Widget *widget = Widget::byQWidget(qwidget);
         if(widget)
         {
-            emit valueChange(widget, value);
+            emit valueChangeDouble(widget, value);
         }
     }
 
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onValueChange(QString value)
+void UIProxy::onValueChangeString(QString value)
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
@@ -151,7 +151,7 @@ void UIProxy::onValueChange(QString value)
         Widget *widget = Widget::byQWidget(qwidget);
         if(widget)
         {
-            emit valueChange(widget, value);
+            emit valueChangeString(widget, value);
         }
     }
 

@@ -27,7 +27,7 @@ void Combobox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
         if(tag1 != "item") continue;
         std::string itemName(e1->GetText());
         items.push_back(itemName);
-    }    
+    }
 
     onchange = xmlutils::getAttrStr(e, "onchange", "");
 }
@@ -42,7 +42,7 @@ QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
     {
         combobox->addItem(QString::fromStdString(*it));
     }
-    QObject::connect(combobox, SIGNAL(currentIndexChanged(int)), uiproxy, SLOT(onValueChange(int)));
+    QObject::connect(combobox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), uiproxy, &UIProxy::onValueChangeInt);
     setQWidget(combobox);
     setProxy(proxy);
     return combobox;
