@@ -47,9 +47,7 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
 
 signals:
-    void mouseDown(Image *image, QMouseEvent *event);
-    void mouseUp(Image *image, QMouseEvent *event);
-    void mouseMove(Image *image, QMouseEvent *event);
+    void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
 };
 
 #endif // IMAGE_H_INCLUDED

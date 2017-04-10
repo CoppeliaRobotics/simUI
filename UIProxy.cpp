@@ -254,32 +254,12 @@ void UIProxy::onCellActivate(int row, int col)
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onMouseDown(Image *image, QMouseEvent *event)
+void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    emit mouseDown(image, event);
-
-    DBG << "[leave]" << std::endl;
-}
-
-void UIProxy::onMouseUp(Image *image, QMouseEvent *event)
-{
-    ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
-
-    emit mouseUp(image, event);
-
-    DBG << "[leave]" << std::endl;
-}
-
-void UIProxy::onMouseMove(Image *image, QMouseEvent *event)
-{
-    ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
-
-    emit mouseMove(image, event);
+    emit mouseEvent(image, type, shift, control, x, y);
 
     DBG << "[leave]" << std::endl;
 }

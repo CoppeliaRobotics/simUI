@@ -38,9 +38,7 @@ private slots:
     void onPlottableClick(Plot *plot, std::string name, int index, double x, double y);
     void onLegendClick(Plot *plot, std::string name);
     void onCellActivate(Table *table, int row, int col, std::string text);
-    void onMouseDown(Image *image, QMouseEvent *event);
-    void onMouseUp(Image *image, QMouseEvent *event);
-    void onMouseMove(Image *image, QMouseEvent *event);
+    void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
 
 signals:
     void create(Proxy *proxy);

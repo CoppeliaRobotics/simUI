@@ -44,18 +44,7 @@ QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     {
         UIProxy::getInstance()->loadImageFromFile(this, file.c_str(), width, height);
     }
-    if(onMouseDown != "")
-    {
-        QObject::connect(label, SIGNAL(mouseDown(Image*,QMouseEvent*)), uiproxy, SLOT(onMouseDown(Image*,QMouseEvent*)));
-    }
-    if(onMouseUp != "")
-    {
-        QObject::connect(label, SIGNAL(mouseUp(Image*,QMouseEvent*)), uiproxy, SLOT(onMouseUp(Image*,QMouseEvent*)));
-    }
-    if(onMouseMove != "")
-    {
-        QObject::connect(label, SIGNAL(mouseMove(Image*,QMouseEvent*)), uiproxy, SLOT(onMouseMove(Image*,QMouseEvent*)));
-    }
+    QObject::connect(label, &QImageWidget::mouseEvent, uiproxy, &UIProxy::onMouseEvent);
     setQWidget(label);
     setProxy(proxy);
     return label;
@@ -72,7 +61,12 @@ void QImageWidget::mouseMoveEvent(QMouseEvent *event)
     if(image->onMouseMove != "")
     {
         event->accept();
-        emit mouseMove(image, event);
+        int type = sim_customui_mouse_move;
+        bool shift = event->modifiers() & Qt::ShiftModifier;
+        bool control = event->modifiers() & Qt::ControlModifier;
+        int x = event->x();
+        int y = event->y();
+        emit mouseEvent(image, type, shift, control, x, y);
     }
     else
     {
@@ -82,10 +76,15 @@ void QImageWidget::mouseMoveEvent(QMouseEvent *event)
 
 void QImageWidget::mousePressEvent(QMouseEvent *event)
 {
-    if(image->onMouseDown != "")
+    if(image->onMouseDown != "" && event->button() == Qt::LeftButton)
     {
         event->accept();
-        emit mouseDown(image, event);
+        int type = sim_customui_mouse_left_button_down;
+        bool shift = event->modifiers() & Qt::ShiftModifier;
+        bool control = event->modifiers() & Qt::ControlModifier;
+        int x = event->x();
+        int y = event->y();
+        emit mouseEvent(image, type, shift, control, x, y);
     }
     else
     {
@@ -95,10 +94,15 @@ void QImageWidget::mousePressEvent(QMouseEvent *event)
 
 void QImageWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    if(image->onMouseUp != "")
+    if(image->onMouseUp != "" && event->button() == Qt::LeftButton)
     {
         event->accept();
-        emit mouseUp(image, event);
+        int type = sim_customui_mouse_left_button_up;
+        bool shift = event->modifiers() & Qt::ShiftModifier;
+        bool control = event->modifiers() & Qt::ControlModifier;
+        int x = event->x();
+        int y = event->y();
+        emit mouseEvent(image, type, shift, control, x, y);
     }
     else
     {

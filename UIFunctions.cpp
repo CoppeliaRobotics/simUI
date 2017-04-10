@@ -105,9 +105,7 @@ void UIFunctions::connectSignals()
     connect(uiproxy, SIGNAL(plottableClick(Plot*,std::string,int,double,double)), this, SLOT(onPlottableClick(Plot*,std::string,int,double,double)));
     connect(uiproxy, SIGNAL(legendClick(Plot*,std::string)), this, SLOT(onLegendClick(Plot*,std::string)));
     connect(uiproxy, SIGNAL(cellActivate(Table*,int,int,std::string)), this, SLOT(onCellActivate(Table*,int,int,std::string)));
-    connect(uiproxy, SIGNAL(mouseDown(Image*,QMouseEvent*)), this, SLOT(onMouseDown(Image*,QMouseEvent*)));
-    connect(uiproxy, SIGNAL(mouseUp(Image*,QMouseEvent*)), this, SLOT(onMouseUp(Image*,QMouseEvent*)));
-    connect(uiproxy, SIGNAL(mouseMove(Image*,QMouseEvent*)), this, SLOT(onMouseMove(Image*,QMouseEvent*)));
+    connect(uiproxy, SIGNAL(mouseEvent(Image*,int,bool,bool,int,int)), this, SLOT(onMouseEvent(Image*,int,bool,bool,int,int)));
 }
 
 /**
@@ -299,86 +297,36 @@ void UIFunctions::onCellActivate(Table *table, int row, int col, std::string tex
     onCellActivateCallback(table->proxy->getScriptID(), table->onCellActivate.c_str(), &in, &out);
 }
 
-void UIFunctions::onMouseDown(Image *image, QMouseEvent *event)
+void UIFunctions::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, image);
 
-    if(image->onMouseDown == "" || image->proxy->scriptID == -1) return;
+    if(image->proxy->scriptID == -1) return;
 
     onMouseEventCallback_in in;
     in.handle = image->proxy->getHandle();
     in.id = image->id;
-    switch(event->button())
+    in.type = type;
+    in.mods.shift = shift;
+    in.mods.control = control;
+    in.x = x;
+    in.y = y;
+    onMouseEventCallback_out out;
+    std::string cb = "";
+    switch(type)
     {
-    case Qt::LeftButton:
-        in.type = sim_customui_mouse_left_button_down;
+    case sim_customui_mouse_left_button_down:
+        cb = image->onMouseDown;
         break;
-    case Qt::RightButton:
-        in.type = -1; // TODO: maybe in a future release
+    case sim_customui_mouse_left_button_up:
+        cb = image->onMouseUp;
         break;
-    case Qt::MidButton:
-        in.type = -1; // TODO: maybe in a future release
-        break;
-    default:
+    case sim_customui_mouse_move:
+        cb = image->onMouseMove;
         break;
     }
-    if(event->modifiers() & Qt::ShiftModifier) in.mods.shift = true;
-    if(event->modifiers() & Qt::ControlModifier) in.mods.control = true;
-    in.x = event->x();
-    in.y = event->y();
-    onMouseEventCallback_out out;
-    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseDown.c_str(), &in, &out);
-}
-
-void UIFunctions::onMouseUp(Image *image, QMouseEvent *event)
-{
-    ASSERT_THREAD(!UI);
-    CHECK_POINTER(Widget, image);
-
-    if(image->onMouseUp == "" || image->proxy->scriptID == -1) return;
-
-    onMouseEventCallback_in in;
-    in.handle = image->proxy->getHandle();
-    in.id = image->id;
-    switch(event->button())
-    {
-    case Qt::LeftButton:
-        in.type = sim_customui_mouse_left_button_up;
-        break;
-    case Qt::RightButton:
-        in.type = -1; // TODO: maybe in a future release
-        break;
-    case Qt::MidButton:
-        in.type = -1; // TODO: maybe in a future release
-        break;
-    default:
-        break;
-    }
-    if(event->modifiers() & Qt::ShiftModifier) in.mods.shift = true;
-    if(event->modifiers() & Qt::ControlModifier) in.mods.control = true;
-    in.x = event->x();
-    in.y = event->y();
-    onMouseEventCallback_out out;
-    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseUp.c_str(), &in, &out);
-}
-
-void UIFunctions::onMouseMove(Image *image, QMouseEvent *event)
-{
-    ASSERT_THREAD(!UI);
-    CHECK_POINTER(Widget, image);
-
-    if(image->onMouseMove == "" || image->proxy->scriptID == -1) return;
-
-    onMouseEventCallback_in in;
-    in.handle = image->proxy->getHandle();
-    in.id = image->id;
-    in.type = sim_customui_mouse_move;
-    if(event->modifiers() & Qt::ShiftModifier) in.mods.shift = true;
-    if(event->modifiers() & Qt::ControlModifier) in.mods.control = true;
-    in.x = event->x();
-    in.y = event->y();
-    onMouseEventCallback_out out;
-    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseMove.c_str(), &in, &out);
+    if(cb == "") return;
+    onMouseEventCallback(image->proxy->getScriptID(), cb.c_str(), &in, &out);
 }
 
