@@ -328,7 +328,7 @@ void UIFunctions::onMouseDown(Image *image, QMouseEvent *event)
     in.x = event->x();
     in.y = event->y();
     onMouseEventCallback_out out;
-    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseMove.c_str(), &in, &out);
+    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseDown.c_str(), &in, &out);
 }
 
 void UIFunctions::onMouseUp(Image *image, QMouseEvent *event)
@@ -360,7 +360,7 @@ void UIFunctions::onMouseUp(Image *image, QMouseEvent *event)
     in.x = event->x();
     in.y = event->y();
     onMouseEventCallback_out out;
-    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseMove.c_str(), &in, &out);
+    onMouseEventCallback(image->proxy->getScriptID(), image->onMouseUp.c_str(), &in, &out);
 }
 
 void UIFunctions::onMouseMove(Image *image, QMouseEvent *event)
