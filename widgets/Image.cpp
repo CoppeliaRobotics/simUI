@@ -44,9 +44,7 @@ QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     {
         QImage img(width, height, QImage::Format_ARGB32);
         img.fill(QColor(0,0,0,0).rgba());
-        QPixmap pixmap;
-        pixmap.convertFromImage(img);
-        label->setPixmap(pixmap);
+        label->setPixmap(QPixmap::fromImage(img));
     }
     if(file != "")
     {
