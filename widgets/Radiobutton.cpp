@@ -23,6 +23,10 @@ void Radiobutton::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
 
     checked = xmlutils::getAttrBool(e, "checked", false);
 
+    checkable = xmlutils::getAttrBool(e, "checkable", true);
+
+    auto_exclusive = xmlutils::getAttrBool(e, "auto-exclusive", true);
+
     onclick = xmlutils::getAttrStr(e, "onclick", "");
 }
 
@@ -33,6 +37,8 @@ QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *p
     button->setVisible(visible);
     button->setStyleSheet(QString::fromStdString(style));
     button->setChecked(checked);
+    button->setCheckable(checkable);
+    button->setAutoExclusive(auto_exclusive);
     QObject::connect(button, &QRadioButton::released, uiproxy, &UIProxy::onButtonClick);
     setQWidget(button);
     setProxy(proxy);

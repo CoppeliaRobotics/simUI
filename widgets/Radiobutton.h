@@ -19,6 +19,8 @@ class Radiobutton : public Widget, public EventOnClick
 protected:
     std::string text;
     bool checked;
+    bool checkable;
+    bool auto_exclusive;
 
 public:
     Radiobutton();

@@ -22,6 +22,8 @@ protected:
     bool autoRepeat;
     int autoRepeatDelay;
     int autoRepeatInterval;
+    bool checkable;
+    bool auto_exclusive;
 
 public:
     Button();
