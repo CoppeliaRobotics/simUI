@@ -40,6 +40,14 @@ QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     label->setEnabled(enabled);
     label->setVisible(visible);
     label->setStyleSheet(QString::fromStdString(style));
+    if(width > 0 && height > 0)
+    {
+        QImage img(width, height, QImage::Format_ARGB32);
+        img.fill(QColor(0,0,0,0).rgba());
+        QPixmap pixmap;
+        pixmap.convertFromImage(img);
+        label->setPixmap(pixmap);
+    }
     if(file != "")
     {
         UIProxy::getInstance()->loadImageFromFile(this, file.c_str(), width, height);
