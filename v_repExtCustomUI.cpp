@@ -749,6 +749,12 @@ void setColumnHeaderText(SScriptCallBack *p, const char *cmd, setColumnHeaderTex
     UIFunctions::getInstance()->setColumnHeaderText(table, in->column, in->text);
 }
 
+void setItemEditable(SScriptCallBack *p, const char *cmd, setItemEditable_in *in, setItemEditable_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setItemEditable(table, in->row, in->column, in->editable);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

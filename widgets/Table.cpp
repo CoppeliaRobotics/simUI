@@ -42,8 +42,10 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
             {
                 std::string tag2(e2->Value() ? e2->Value() : "");
                 if(tag2 != "item") continue;
-                std::string itemName(e2->GetText());
-                rows[rows.size()-1].push_back(itemName);
+                TableItem item;
+                item.text = std::string(e2->GetText());
+                item.editable = xmlutils::getAttrBool(e2, "editable", true);
+                rows[rows.size()-1].push_back(item);
             }
         }
         else continue;
@@ -93,7 +95,13 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     {
         for(size_t column = 0; column < rows[row].size(); column++)
         {
-            tablewidget->setItem(row, column, new QTableWidgetItem(QString::fromStdString(rows[row][column])));
+            TableItem &item = rows[row][column];
+            QTableWidgetItem *qtwitem = new QTableWidgetItem(QString::fromStdString(item.text));
+            if(item.editable)
+                qtwitem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+            else
+                qtwitem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+            tablewidget->setItem(row, column, qtwitem);
         }
     }
     tablewidget->setSelectionBehavior(selectionBehavior);
@@ -166,5 +174,14 @@ void Table::setColumnHeaderText(int column, std::string text)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
     return tablewidget->setHorizontalHeaderItem(column, new QTableWidgetItem(QString::fromStdString(text)));
+}
+
+void Table::setItemEditable(int row, int column, bool editable)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    if(editable)
+        tablewidget->item(row, column)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    else
+        tablewidget->item(row, column)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 }
 

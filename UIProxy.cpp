@@ -757,3 +757,8 @@ void UIProxy::onSetColumnHeaderText(Table *table, int column, std::string text)
     table->setColumnHeaderText(column, text);
 }
 
+void UIProxy::onSetItemEditable(Table *table, int row, int column, bool editable)
+{
+    table->setItemEditable(row, column, editable);
+}
+

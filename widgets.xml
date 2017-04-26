@@ -704,7 +704,7 @@
     </element>
     <element>
         <name>table</name>
-        <description>A table widget. Can optionally contain a &lt;header&gt; elements and &lt;row&gt; elements. Each &lt;header&gt;/&lt;row&gt; element contains only &lt;item&gt; elements.</description>
+        <description>A table widget. Can optionally contain a &lt;header&gt; elements and &lt;row&gt; elements. Each &lt;header&gt;/&lt;row&gt; element contains only &lt;item&gt; elements. &lt;item&gt; elements may have an optional "editable" attribute of type bool.</description>
         <attributes>
             <attribute>
                 <name>show-header</name>

@@ -1616,6 +1616,32 @@
             </param>
         </return>
     </command>
+    <command name="setItemEditable">
+        <description>Change item editable flag in the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="row" type="int">
+                <description>row index</description>
+            </param>
+            <param name="column" type="int">
+                <description>column index</description>
+            </param>
+            <param name="editable" type="bool">
+                <description>editable flag</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

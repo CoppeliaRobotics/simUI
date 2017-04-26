@@ -15,6 +15,12 @@ class UIProxy;
 #include "Widget.h"
 #include "Event.h"
 
+struct TableItem
+{
+    std::string text;
+    bool editable;
+};
+
 class Table : public Widget
 {
 protected:
@@ -25,7 +31,7 @@ protected:
     QAbstractItemView::SelectionBehavior selectionBehavior;
     QAbstractItemView::SelectionMode selectionMode;
     std::vector<std::string> header;
-    std::vector<std::vector<std::string> > rows;
+    std::vector<std::vector<TableItem> > rows;
     std::string onCellActivate;
     std::string onSelectionChange;
 
@@ -44,6 +50,7 @@ public:
     int getColumnCount();
     std::string getItem(int row, int column);
     void setColumnHeaderText(int column, std::string text);
+    void setItemEditable(int row, int column, bool editable);
 
     friend class UIFunctions;
 };
