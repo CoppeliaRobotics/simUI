@@ -1501,6 +1501,29 @@
         <return>
         </return>
     </command>
+    <command name="setRowHeaderText">
+        <description>Set the row header text of the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="row" type="int">
+                <description>row index</description>
+            </param>
+            <param name="text" type="string">
+                <description>row header text</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="setColumnHeaderText">
         <description>Set the column header text of the specified table widget.</description>
         <categories>

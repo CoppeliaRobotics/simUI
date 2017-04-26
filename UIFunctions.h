@@ -87,6 +87,7 @@ signals:
     void setRowCount(Table *table, int count);
     void setColumnCount(Table *table, int count);
     void setItem(Table *table, int row, int col, std::string text);
+    void setRowHeaderText(Table *table, int row, std::string text);
     void setColumnHeaderText(Table *table, int col, std::string text);
     void setItemEditable(Table *table, int row, int col, bool editable);
 };

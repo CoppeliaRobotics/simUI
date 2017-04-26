@@ -32,12 +32,14 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
                 std::string tag2(e2->Value() ? e2->Value() : "");
                 if(tag2 != "item") continue;
                 std::string itemName(e2->GetText());
-                header.push_back(itemName);
+                horizontalHeader.push_back(itemName);
             }
         }
         else if(tag1 == "row")
         {
             rows.resize(rows.size()+1);
+            std::string rowHeader = xmlutils::getAttrStr(e1, "label", boost::lexical_cast<std::string>(rows.size()));
+            verticalHeader.push_back(rowHeader);
             for(tinyxml2::XMLElement *e2 = e1->FirstChildElement(); e2; e2 = e2->NextSiblingElement())
             {
                 std::string tag2(e2->Value() ? e2->Value() : "");
@@ -51,9 +53,9 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
         else continue;
     }
 
-    show_header = xmlutils::getAttrBool(e, "show-header", true);
+    show_horizontal_header = xmlutils::getAttrBool(e, "show-horizontal-header", true);
 
-    show_line_counter = xmlutils::getAttrBool(e, "show-line-counter", false);
+    show_vertical_header = xmlutils::getAttrBool(e, "show-vertical-header", false);
 
     show_grid = xmlutils::getAttrBool(e, "show-grid", true);
 
@@ -82,15 +84,17 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         columncount = std::max(columncount, rows[i].size());
     tablewidget->setRowCount(rowcount);
     tablewidget->setColumnCount(columncount);
-    tablewidget->horizontalHeader()->setVisible(show_header);
-    tablewidget->verticalHeader()->setVisible(show_line_counter);
+    tablewidget->horizontalHeader()->setVisible(show_horizontal_header);
+    tablewidget->verticalHeader()->setVisible(show_vertical_header);
     tablewidget->setShowGrid(show_grid);
-    QStringList qtheader;
-    for(size_t i = 0; i < header.size(); i++)
-    {
-        qtheader << QString::fromStdString(header[i]);
-    }
-    tablewidget->setHorizontalHeaderLabels(qtheader);
+    QStringList qtHorizontalHeader;
+    for(size_t i = 0; i < horizontalHeader.size(); i++)
+        qtHorizontalHeader << QString::fromStdString(horizontalHeader[i]);
+    tablewidget->setHorizontalHeaderLabels(qtHorizontalHeader);
+    QStringList qtVerticalHeader;
+    for(size_t i = 0; i < verticalHeader.size(); i++)
+        qtVerticalHeader << QString::fromStdString(verticalHeader[i]);
+    tablewidget->setVerticalHeaderLabels(qtVerticalHeader);
     for(size_t row = 0; row < rowcount; row++)
     {
         for(size_t column = 0; column < rows[row].size(); column++)
@@ -168,6 +172,12 @@ std::string Table::getItem(int row, int column)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
     return tablewidget->item(row, column)->text().toStdString();
+}
+
+void Table::setRowHeaderText(int row, std::string text)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    return tablewidget->setVerticalHeaderItem(row, new QTableWidgetItem(QString::fromStdString(text)));
 }
 
 void Table::setColumnHeaderText(int column, std::string text)

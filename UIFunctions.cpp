@@ -111,6 +111,7 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setRowCount, uiproxy, &UIProxy::onSetRowCount, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnCount, uiproxy, &UIProxy::onSetColumnCount, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setItem, uiproxy, &UIProxy::onSetItem, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setRowHeaderText, uiproxy, &UIProxy::onSetRowHeaderText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnHeaderText, uiproxy, &UIProxy::onSetColumnHeaderText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setItemEditable, uiproxy, &UIProxy::onSetItemEditable, Qt::BlockingQueuedConnection);
 }

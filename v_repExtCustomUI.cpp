@@ -743,6 +743,12 @@ void getItem(SScriptCallBack *p, const char *cmd, getItem_in *in, getItem_out *o
     out->text = table->getItem(in->row, in->column);
 }
 
+void setRowHeaderText(SScriptCallBack *p, const char *cmd, setRowHeaderText_in *in, setRowHeaderText_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setRowHeaderText(table, in->row, in->text);
+}
+
 void setColumnHeaderText(SScriptCallBack *p, const char *cmd, setColumnHeaderText_in *in, setColumnHeaderText_out *out)
 {
     Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");

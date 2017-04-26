@@ -24,13 +24,14 @@ struct TableItem
 class Table : public Widget
 {
 protected:
-    bool show_header;
-    bool show_line_counter;
+    bool show_horizontal_header;
+    bool show_vertical_header;
     bool show_grid;
     bool editable;
     QAbstractItemView::SelectionBehavior selectionBehavior;
     QAbstractItemView::SelectionMode selectionMode;
-    std::vector<std::string> header;
+    std::vector<std::string> horizontalHeader;
+    std::vector<std::string> verticalHeader;
     std::vector<std::vector<TableItem> > rows;
     std::string onCellActivate;
     std::string onSelectionChange;
@@ -49,6 +50,7 @@ public:
     int getRowCount();
     int getColumnCount();
     std::string getItem(int row, int column);
+    void setRowHeaderText(int row, std::string text);
     void setColumnHeaderText(int column, std::string text);
     void setItemEditable(int row, int column, bool editable);
 

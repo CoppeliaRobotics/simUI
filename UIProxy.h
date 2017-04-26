@@ -87,6 +87,7 @@ public slots:
     void onSetRowCount(Table *table, int count);
     void onSetColumnCount(Table *table, int count);
     void onSetItem(Table *table, int row, int column, std::string text);
+    void onSetRowHeaderText(Table *table, int row, std::string text);
     void onSetColumnHeaderText(Table *table, int column, std::string text);
     void onSetItemEditable(Table *table, int row, int column, bool editable);
 

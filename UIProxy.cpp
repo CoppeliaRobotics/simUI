@@ -752,6 +752,11 @@ void UIProxy::onSetItem(Table *table, int row, int column, std::string text)
     table->setItem(row, column, text);
 }
 
+void UIProxy::onSetRowHeaderText(Table *table, int row, std::string text)
+{
+    table->setRowHeaderText(row, text);
+}
+
 void UIProxy::onSetColumnHeaderText(Table *table, int column, std::string text)
 {
     table->setColumnHeaderText(column, text);
