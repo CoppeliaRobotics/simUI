@@ -1665,6 +1665,46 @@
         <return>
         </return>
     </command>
+    <command name="saveState">
+        <description>Save header state of the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="state" type="string">
+                <description>a string representing the state</description>
+            </param>
+        </return>
+    </command>
+    <command name="restoreState">
+        <description>Restore a previously saved header state of the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="state" type="string">
+                <description>a previously saved string representing the state</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

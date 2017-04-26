@@ -761,6 +761,18 @@ void setItemEditable(SScriptCallBack *p, const char *cmd, setItemEditable_in *in
     UIFunctions::getInstance()->setItemEditable(table, in->row, in->column, in->editable);
 }
 
+void saveState(SScriptCallBack *p, const char *cmd, saveState_in *in, saveState_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    out->state = table->saveState();
+}
+
+void restoreState(SScriptCallBack *p, const char *cmd, restoreState_in *in, restoreState_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->restoreState(table, in->state);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

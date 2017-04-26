@@ -90,6 +90,7 @@ public slots:
     void onSetRowHeaderText(Table *table, int row, std::string text);
     void onSetColumnHeaderText(Table *table, int column, std::string text);
     void onSetItemEditable(Table *table, int row, int column, bool editable);
+    void onRestoreState(Table *table, std::string state);
 
 signals:
     void buttonClick(Widget *widget);

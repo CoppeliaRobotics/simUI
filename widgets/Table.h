@@ -26,6 +26,8 @@ class Table : public Widget
 protected:
     bool show_horizontal_header;
     bool show_vertical_header;
+    bool autosize_horizontal_header;
+    bool autosize_vertical_header;
     bool show_grid;
     bool editable;
     QAbstractItemView::SelectionBehavior selectionBehavior;
@@ -53,6 +55,8 @@ public:
     void setRowHeaderText(int row, std::string text);
     void setColumnHeaderText(int column, std::string text);
     void setItemEditable(int row, int column, bool editable);
+    std::string saveState();
+    bool restoreState(std::string state);
 
     friend class UIFunctions;
 };

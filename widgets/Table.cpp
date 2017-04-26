@@ -9,6 +9,15 @@
 
 #include <QTableWidget>
 
+#if __cplusplus <= 199711L
+#include <cstdlib>
+namespace std {
+    size_t stol(const std::string &s) {
+        return atol(s.c_str());
+    }
+}
+#endif
+
 Table::Table()
     : Widget("table")
 {
@@ -57,6 +66,10 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     show_vertical_header = xmlutils::getAttrBool(e, "show-vertical-header", false);
 
+    autosize_horizontal_header = xmlutils::getAttrBool(e, "autosize-horizontal-header", false);
+
+    autosize_vertical_header = xmlutils::getAttrBool(e, "autosize-vertical-header", true);
+
     show_grid = xmlutils::getAttrBool(e, "show-grid", true);
 
     editable = xmlutils::getAttrBool(e, "editable", true);
@@ -95,8 +108,10 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     for(size_t i = 0; i < verticalHeader.size(); i++)
         qtVerticalHeader << QString::fromStdString(verticalHeader[i]);
     tablewidget->setVerticalHeaderLabels(qtVerticalHeader);
-    tablewidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    tablewidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    if(autosize_horizontal_header)
+        tablewidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    if(autosize_vertical_header)
+        tablewidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     for(size_t row = 0; row < rowcount; row++)
     {
         for(size_t column = 0; column < rows[row].size(); column++)
@@ -195,5 +210,30 @@ void Table::setItemEditable(int row, int column, bool editable)
         tablewidget->item(row, column)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     else
         tablewidget->item(row, column)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+}
+
+std::string Table::saveState()
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    QByteArray hhState = tablewidget->horizontalHeader()->saveState();
+    QByteArray vhState = tablewidget->verticalHeader()->saveState();
+    size_t len1 = hhState.length(), len2 = vhState.length();
+    std::string hh(hhState.constData(), hhState.length()), vh(vhState.constData(), vhState.length());
+    std::string state = boost::lexical_cast<std::string>(len1) + ":" + boost::lexical_cast<std::string>(len2) + ":" + hh + vh;
+    return state;
+}
+
+bool Table::restoreState(std::string state)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    size_t d1 = state.find(":"), d2 = state.find(":", d1 + 1);
+    std::string slen1 = state.substr(0, d1), slen2 = state.substr(d1 + 1, d2 - d1);
+    size_t len1 = std::stol(slen1), len2 = std::stol(slen2);
+    const char *s = state.c_str() + d2 + 1;
+    QByteArray hhState(s, len1), vhState(s + len1, len2);
+    bool ret = true;
+    ret = ret && tablewidget->horizontalHeader()->restoreState(hhState);
+    ret = ret && tablewidget->verticalHeader()->restoreState(vhState);
+    return ret;
 }
 

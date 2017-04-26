@@ -719,6 +719,18 @@
                 <description>If true, row headers will be visible. The 'label' attribute of the &lt;row&gt; can be used to change the displayed text of the row header. The default row header is the line number.</description>
             </attribute>
             <attribute>
+                <name>autosize-horizontal-header</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, column headers will resize to fit contents.</description>
+            </attribute>
+            <attribute>
+                <name>autosize-vertical-header</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>If true, row headers will resize to fit contents.</description>
+            </attribute>
+            <attribute>
                 <name>show-grid</name>
                 <type>bool</type>
                 <default>true</default>

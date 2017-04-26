@@ -767,3 +767,8 @@ void UIProxy::onSetItemEditable(Table *table, int row, int column, bool editable
     table->setItemEditable(row, column, editable);
 }
 
+void UIProxy::onRestoreState(Table *table, std::string state)
+{
+    table->restoreState(state);
+}
+

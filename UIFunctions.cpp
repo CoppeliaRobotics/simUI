@@ -114,6 +114,7 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setRowHeaderText, uiproxy, &UIProxy::onSetRowHeaderText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnHeaderText, uiproxy, &UIProxy::onSetColumnHeaderText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setItemEditable, uiproxy, &UIProxy::onSetItemEditable, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::restoreState, uiproxy, &UIProxy::onRestoreState, Qt::BlockingQueuedConnection);
 }
 
 /**
