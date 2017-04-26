@@ -254,6 +254,37 @@ void UIProxy::onCellActivate(int row, int col)
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onSelectionChange()
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QTableWidget *qwidget = dynamic_cast<QTableWidget*>(sender());
+
+    if(qwidget)
+    {
+        QList<QModelIndex> indexes = qwidget->selectionModel()->selectedIndexes();
+        int row = -1, column = -1;
+        if(indexes.size() >= 1)
+        {
+            row = indexes[0].row();
+            column = indexes[0].column();
+        }
+        if(indexes.size() > 1)
+        {
+            if(indexes[1].row() == row) column = -1;
+            if(indexes[1].column() == column) row = -1;
+        }
+        Table *table = dynamic_cast<Table*>(Widget::byQWidget(qwidget));
+        if(table)
+        {
+            emit selectionChange(table, row, column);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
 void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(UI);
@@ -700,3 +731,29 @@ void UIProxy::onSetLegendVisibility(Plot *plot, bool visible)
 {
     plot->setLegendVisibility(visible);
 }
+
+void UIProxy::onClearTable(Table *table)
+{
+    table->clear();
+}
+
+void UIProxy::onSetRowCount(Table *table, int count)
+{
+    table->setRowCount(count);
+}
+
+void UIProxy::onSetColumnCount(Table *table, int count)
+{
+    table->setColumnCount(count);
+}
+
+void UIProxy::onSetItem(Table *table, int row, int column, std::string text)
+{
+    table->setItem(row, column, text);
+}
+
+void UIProxy::onSetColumnHeaderText(Table *table, int column, std::string text)
+{
+    table->setColumnHeaderText(column, text);
+}
+

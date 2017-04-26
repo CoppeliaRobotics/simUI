@@ -38,6 +38,7 @@ private slots:
     void onPlottableClick(Plot *plot, std::string name, int index, double x, double y);
     void onLegendClick(Plot *plot, std::string name);
     void onCellActivate(Table *table, int row, int col, std::string text);
+    void onSelectionChange(Table *table, int row, int col);
     void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
 
 signals:
@@ -82,6 +83,11 @@ signals:
     void rescaleAxesAll(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY);
     void setMouseOptions(Plot *plot, bool panX, bool panY, bool zoomX, bool zoomY);
     void setLegendVisibility(Plot *plot, bool visible);
+    void clearTable(Table *table);
+    void setRowCount(Table *table, int count);
+    void setColumnCount(Table *table, int count);
+    void setItem(Table *table, int row, int col, std::string text);
+    void setColumnHeaderText(Table *table, int col, std::string text);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

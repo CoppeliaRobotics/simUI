@@ -105,7 +105,13 @@ void UIFunctions::connectSignals()
     connect(uiproxy, &UIProxy::plottableClick, this, &UIFunctions::onPlottableClick);
     connect(uiproxy, &UIProxy::legendClick, this, &UIFunctions::onLegendClick);
     connect(uiproxy, &UIProxy::cellActivate, this, &UIFunctions::onCellActivate);
+    connect(uiproxy, &UIProxy::selectionChange, this, &UIFunctions::onSelectionChange);
     connect(uiproxy, &UIProxy::mouseEvent, this, &UIFunctions::onMouseEvent);
+    connect(this, &UIFunctions::clearTable, uiproxy, &UIProxy::onClearTable, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setRowCount, uiproxy, &UIProxy::onSetRowCount, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setColumnCount, uiproxy, &UIProxy::onSetColumnCount, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setItem, uiproxy, &UIProxy::onSetItem, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setColumnHeaderText, uiproxy, &UIProxy::onSetColumnHeaderText, Qt::BlockingQueuedConnection);
 }
 
 /**
@@ -295,6 +301,22 @@ void UIFunctions::onCellActivate(Table *table, int row, int col, std::string tex
     in.cellValue = text;
     onCellActivateCallback_out out;
     onCellActivateCallback(table->proxy->getScriptID(), table->onCellActivate.c_str(), &in, &out);
+}
+
+void UIFunctions::onSelectionChange(Table *table, int row, int col)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, table);
+
+    if(table->onSelectionChange == "" || table->proxy->scriptID == -1) return;
+
+    onSelectionChangeCallback_in in;
+    in.handle = table->proxy->getHandle();
+    in.id = table->id;
+    in.row = row;
+    in.column = col;
+    onSelectionChangeCallback_out out;
+    onSelectionChangeCallback(table->proxy->getScriptID(), table->onSelectionChange.c_str(), &in, &out);
 }
 
 void UIFunctions::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)

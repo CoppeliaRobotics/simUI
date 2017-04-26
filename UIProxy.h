@@ -41,6 +41,7 @@ public slots:
     void onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event);
     void onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event);
     void onCellActivate(int row, int col);
+    void onSelectionChange();
     void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
     // ---
     void onShowWindow(Window *window);
@@ -82,6 +83,11 @@ public slots:
     void onRescaleAxesAll(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY);
     void onSetMouseOptions(Plot *plot, bool panX, bool panY, bool zoomX, bool zoomY);
     void onSetLegendVisibility(Plot *plot, bool visible);
+    void onClearTable(Table *table);
+    void onSetRowCount(Table *table, int count);
+    void onSetColumnCount(Table *table, int count);
+    void onSetItem(Table *table, int row, int column, std::string text);
+    void onSetColumnHeaderText(Table *table, int column, std::string text);
 
 signals:
     void buttonClick(Widget *widget);
@@ -94,6 +100,7 @@ signals:
     void plottableClick(Plot *plot, std::string name, int index, double x, double y);
     void legendClick(Plot *plot, std::string name);
     void cellActivate(Table *table, int row, int col, std::string value);
+    void selectionChange(Table *table, int row, int col);
     void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
 };
 

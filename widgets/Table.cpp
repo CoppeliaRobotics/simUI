@@ -58,6 +58,15 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
     editable = xmlutils::getAttrBool(e, "editable", true);
 
     onCellActivate = xmlutils::getAttrStr(e, "oncellactivate", "");
+
+    onSelectionChange = xmlutils::getAttrStr(e, "onselectionchange", "");
+
+    std::string select_mode_str = xmlutils::getAttrStr(e, "selection-mode", "item");
+    selectionMode = QAbstractItemView::SingleSelection;
+    if(select_mode_str == "item") selectionBehavior = QAbstractItemView::SelectItems;
+    else if(select_mode_str == "row") selectionBehavior = QAbstractItemView::SelectRows;
+    else if(select_mode_str == "column") selectionBehavior = QAbstractItemView::SelectColumns;
+    else throw std::range_error("selection-mode must be one of: 'item', 'row', 'column'");
 }
 
 QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -87,8 +96,11 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
             tablewidget->setItem(row, column, new QTableWidgetItem(QString::fromStdString(rows[row][column])));
         }
     }
+    tablewidget->setSelectionBehavior(selectionBehavior);
+    tablewidget->setSelectionMode(selectionMode);
     QObject::connect(tablewidget, &QTableWidget::cellActivated, uiproxy, &UIProxy::onCellActivate);
     QObject::connect(tablewidget, &QTableWidget::cellChanged, uiproxy, &UIProxy::onCellActivate);
+    QObject::connect(tablewidget, &QTableWidget::itemSelectionChanged, uiproxy, &UIProxy::onSelectionChange);
     setQWidget(tablewidget);
     setEditable(editable);
     setProxy(proxy);
@@ -106,5 +118,53 @@ void Table::setEditable(bool editable)
     {
         tablewidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     }
+}
+
+void Table::clear()
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    tablewidget->clear(); // or clearContents() ?
+}
+
+void Table::setRowCount(int count)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    tablewidget->setRowCount(count);
+}
+
+void Table::setColumnCount(int count)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    tablewidget->setColumnCount(count);
+}
+
+void Table::setItem(int row, int column, std::string text)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    tablewidget->setItem(row, column, new QTableWidgetItem(QString::fromStdString(text)));
+}
+
+int Table::getRowCount()
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    return tablewidget->rowCount();
+}
+
+int Table::getColumnCount()
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    return tablewidget->columnCount();
+}
+
+std::string Table::getItem(int row, int column)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    return tablewidget->item(row, column)->text().toStdString();
+}
+
+void Table::setColumnHeaderText(int column, std::string text)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    return tablewidget->setHorizontalHeaderItem(column, new QTableWidgetItem(QString::fromStdString(text)));
 }
 

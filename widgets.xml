@@ -725,6 +725,12 @@
                 <description>If true, grid will be visible.</description>
             </attribute>
             <attribute>
+                <name>selection-mode</name>
+                <type><one-of><value>items</value><value>rows</value><value>columns</value></one-of></type>
+                <default>items</default>
+                <description>Controls the selection behavior, i.e. if the user can select individual items, entire rows, or entire columns.</description>
+            </attribute>
+            <attribute>
                 <name>editable</name>
                 <type>bool</type>
                 <default>true</default>
@@ -735,6 +741,12 @@
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the cell activate event. Arguments of the function are: (uiHandle, id, row, column, cellValue).</description>
+            </attribute>
+            <attribute>
+                <name>onselectionchange</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the selection change event. Arguments of the function are: (uiHandle, id, row, column). If selection mode is 'rows', column will be -1 and vice versa.</description>
             </attribute>
         </attributes>
     </element>

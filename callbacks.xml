@@ -1444,6 +1444,178 @@
             </param>
         </return>
     </command>
+    <command name="clearTable">
+        <description>Clear the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setRowCount">
+        <description>Resize the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="count" type="int">
+                <description>row count</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setColumnCount">
+        <description>Resize the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="count" type="int">
+                <description>column count</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setColumnHeaderText">
+        <description>Set the column header text of the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="column" type="int">
+                <description>column index</description>
+            </param>
+            <param name="text" type="string">
+                <description>column header text</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setItem">
+        <description>Change item value in the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="row" type="int">
+                <description>row index</description>
+            </param>
+            <param name="column" type="int">
+                <description>column index</description>
+            </param>
+            <param name="text" type="string">
+                <description>item value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="getRowCount">
+        <description>Get the table widget number of rows.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="count" type="int">
+                <description>row count</description>
+            </param>
+        </return>
+    </command>
+    <command name="getColumnCount">
+        <description>Get the table widget number of columns.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="count" type="int">
+                <description>column count</description>
+            </param>
+        </return>
+    </command>
+    <command name="getItem">
+        <description>Get the table widget item text.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="row" type="int">
+                <description>row index</description>
+            </param>
+            <param name="column" type="int">
+                <description>column index</description>
+            </param>
+        </params>
+        <return>
+            <param name="text" type="string">
+                <description>item value</description>
+            </param>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
@@ -1589,6 +1761,25 @@
             </param>
             <param name="cellValue" type="string">
                 <description>the value of the cell</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+    <script-function name="onSelectionChangeCallback">
+        <description>Callback for table widget selectionChanged event.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the plot widget</description>
+            </param>
+            <param name="row" type="int">
+                <description>the row index (zero based) of the activated cell</description>
+            </param>
+            <param name="column" type="int">
+                <description>the column index (zero based) of the activated cell</description>
             </param>
         </params>
         <return>

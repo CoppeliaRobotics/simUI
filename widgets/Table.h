@@ -5,6 +5,7 @@
 #include <string>
 
 #include <QWidget>
+#include <QAbstractItemView>
 
 #include "tinyxml2.h"
 
@@ -21,10 +22,12 @@ protected:
     bool show_line_counter;
     bool show_grid;
     bool editable;
-    int select_mode;
+    QAbstractItemView::SelectionBehavior selectionBehavior;
+    QAbstractItemView::SelectionMode selectionMode;
     std::vector<std::string> header;
     std::vector<std::vector<std::string> > rows;
     std::string onCellActivate;
+    std::string onSelectionChange;
 
 public:
     Table();
@@ -33,6 +36,14 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
     void setEditable(bool editable);
+    void clear();
+    void setRowCount(int count);
+    void setColumnCount(int count);
+    void setItem(int row, int column, std::string text);
+    int getRowCount();
+    int getColumnCount();
+    std::string getItem(int row, int column);
+    void setColumnHeaderText(int column, std::string text);
 
     friend class UIFunctions;
 };

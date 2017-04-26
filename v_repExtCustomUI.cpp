@@ -701,6 +701,54 @@ void getCurveData(SScriptCallBack *p, const char *cmd, getCurveData_in *in, getC
     plot->getCurveData(in->name, out->x, out->x, out->y);
 }
 
+void clearTable(SScriptCallBack *p, const char *cmd, clearTable_in *in, clearTable_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->clearTable(table);
+}
+
+void setRowCount(SScriptCallBack *p, const char *cmd, setRowCount_in *in, setRowCount_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setRowCount(table, in->count);
+}
+
+void setColumnCount(SScriptCallBack *p, const char *cmd, setColumnCount_in *in, setColumnCount_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setColumnCount(table, in->count);
+}
+
+void setItem(SScriptCallBack *p, const char *cmd, setItem_in *in, setItem_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setItem(table, in->row, in->column, in->text);
+}
+
+void getRowCount(SScriptCallBack *p, const char *cmd, getRowCount_in *in, getRowCount_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    out->count = table->getRowCount();
+}
+
+void getColumnCount(SScriptCallBack *p, const char *cmd, getColumnCount_in *in, getColumnCount_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    out->count = table->getColumnCount();
+}
+
+void getItem(SScriptCallBack *p, const char *cmd, getItem_in *in, getItem_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    out->text = table->getItem(in->row, in->column);
+}
+
+void setColumnHeaderText(SScriptCallBack *p, const char *cmd, setColumnHeaderText_in *in, setColumnHeaderText_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setColumnHeaderText(table, in->column, in->text);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];
