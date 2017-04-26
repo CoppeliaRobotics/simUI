@@ -74,6 +74,8 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     editable = xmlutils::getAttrBool(e, "editable", true);
 
+    sortable = xmlutils::getAttrBool(e, "sortable", false);
+
     onCellActivate = xmlutils::getAttrStr(e, "oncellactivate", "");
 
     onSelectionChange = xmlutils::getAttrStr(e, "onselectionchange", "");
@@ -112,6 +114,8 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         tablewidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     if(autosize_vertical_header)
         tablewidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    if(sortable)
+        tablewidget->setSortingEnabled(true);
     for(size_t row = 0; row < rowcount; row++)
     {
         for(size_t column = 0; column < rows[row].size(); column++)

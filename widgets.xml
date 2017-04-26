@@ -749,6 +749,12 @@
                 <description>If true, cells will be editable.</description>
             </attribute>
             <attribute>
+                <name>sortable</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, it will be possible to sort data by columns by clicking on column headers.</description>
+            </attribute>
+            <attribute>
                 <name>oncellactivate</name>
                 <type>string</type>
                 <default />

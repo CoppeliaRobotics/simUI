@@ -30,6 +30,7 @@ protected:
     bool autosize_vertical_header;
     bool show_grid;
     bool editable;
+    bool sortable;
     QAbstractItemView::SelectionBehavior selectionBehavior;
     QAbstractItemView::SelectionMode selectionMode;
     std::vector<std::string> horizontalHeader;
