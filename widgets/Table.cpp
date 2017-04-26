@@ -95,6 +95,8 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     for(size_t i = 0; i < verticalHeader.size(); i++)
         qtVerticalHeader << QString::fromStdString(verticalHeader[i]);
     tablewidget->setVerticalHeaderLabels(qtVerticalHeader);
+    tablewidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    tablewidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     for(size_t row = 0; row < rowcount; row++)
     {
         for(size_t column = 0; column < rows[row].size(); column++)
