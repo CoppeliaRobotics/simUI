@@ -94,6 +94,7 @@ HEADERS += \
     widgets/Label.h \
     widgets/LayoutWidget.h \
     widgets/Plot.h \
+    widgets/Progressbar.h \
     widgets/Radiobutton.h \
     widgets/Slider.h \
     widgets/Spinbox.h \
@@ -128,6 +129,7 @@ SOURCES += \
     widgets/Label.cpp \
     widgets/LayoutWidget.cpp \
     widgets/Plot.cpp \
+    widgets/Progressbar.cpp \
     widgets/Radiobutton.cpp \
     widgets/Slider.cpp \
     widgets/Spinbox.cpp \

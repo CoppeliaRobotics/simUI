@@ -1757,6 +1757,26 @@
         <return>
         </return>
     </command>
+    <command name="setProgress">
+        <description>Chnge the value of a progressbar widget.</description>
+        <categories>
+            <category name="progressbar" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="value" type="int">
+                <description>value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

@@ -93,6 +93,7 @@ signals:
     void restoreState(Table *table, std::string state);
     void setRowHeight(Table *table, int row, int min_size, int max_size);
     void setColumnWidth(Table *table, int column, int min_size, int max_size);
+    void setProgress(Progressbar *progressbar, int value);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

@@ -782,3 +782,8 @@ void UIProxy::onSetColumnWidth(Table *table, int column, int min_size, int max_s
     table->setColumnWidth(column, min_size, max_size);
 }
 
+void UIProxy::onSetProgress(Progressbar *progressbar, int value)
+{
+    progressbar->setValue(value);
+}
+

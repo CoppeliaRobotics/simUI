@@ -93,6 +93,7 @@ public slots:
     void onRestoreState(Table *table, std::string state);
     void onSetRowHeight(Table *table, int row, int min_size, int max_size);
     void onSetColumnWidth(Table *table, int column, int min_size, int max_size);
+    void onSetProgress(Progressbar *progressbar, int value);
 
 signals:
     void buttonClick(Widget *widget);

@@ -117,6 +117,7 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::restoreState, uiproxy, &UIProxy::onRestoreState, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setRowHeight, uiproxy, &UIProxy::onSetRowHeight, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnWidth, uiproxy, &UIProxy::onSetColumnWidth, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setProgress, uiproxy, &UIProxy::onSetProgress, Qt::BlockingQueuedConnection);
 }
 
 /**

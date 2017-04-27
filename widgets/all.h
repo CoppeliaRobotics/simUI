@@ -13,6 +13,7 @@
 #include "Label.h"
 #include "LayoutWidget.h"
 #include "Plot.h"
+#include "Progressbar.h"
 #include "Radiobutton.h"
 #include "Slider.h"
 #include "Spinbox.h"

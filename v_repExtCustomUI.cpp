@@ -785,6 +785,12 @@ void setColumnWidth(SScriptCallBack *p, const char *cmd, setColumnWidth_in *in, 
     UIFunctions::getInstance()->setColumnWidth(table, in->column, in->min_size, in->max_size);
 }
 
+void setProgress(SScriptCallBack *p, const char *cmd, setProgress_in *in, setProgress_out *out)
+{
+    Progressbar *progressbar = getWidget<Progressbar>(in->handle, in->id, cmd, "progressbar");
+    UIFunctions::getInstance()->setProgress(progressbar, in->value);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

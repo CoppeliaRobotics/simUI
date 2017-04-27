@@ -607,6 +607,60 @@
         </attributes>
     </element>
     <element>
+        <name>progressbar</name>
+        <description>A progress indicator widget.</description>
+        <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
+                <name>minimum</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Minimum value of the progress.</description>
+            </attribute>
+            <attribute>
+                <name>maximum</name>
+                <type>int</type>
+                <default>100</default>
+                <description>Maximum value of the progress.</description>
+            </attribute>
+            <attribute>
+                <name>orientation</name>
+                <type><one-of><value>horizontal</value><value>vertical</value></one-of></type>
+                <default>horizontal</default>
+                <description>Orientation.</description>
+            </attribute>
+            <attribute>
+                <name>inverted</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>If true, the progress ends will be inverted.</description>
+            </attribute>
+            <attribute>
+                <name>value</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Initial value.</description>
+            </attribute>
+            <attribute>
+                <name>text-visible</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Visibility of progress text.</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
         <name>radiobutton</name>
         <description>A radio button widget.</description>
         <attributes>
