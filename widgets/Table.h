@@ -58,6 +58,8 @@ public:
     void setItemEditable(int row, int column, bool editable);
     std::string saveState();
     bool restoreState(std::string state);
+    void setRowHeight(int row, int min_size, int max_size);
+    void setColumnWidth(int column, int min_size, int max_size);
 
     friend class UIFunctions;
 };

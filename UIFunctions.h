@@ -91,6 +91,8 @@ signals:
     void setColumnHeaderText(Table *table, int col, std::string text);
     void setItemEditable(Table *table, int row, int col, bool editable);
     void restoreState(Table *table, std::string state);
+    void setRowHeight(Table *table, int row, int min_size, int max_size);
+    void setColumnWidth(Table *table, int column, int min_size, int max_size);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

@@ -773,6 +773,18 @@ void restoreState(SScriptCallBack *p, const char *cmd, restoreState_in *in, rest
     UIFunctions::getInstance()->restoreState(table, in->state);
 }
 
+void setRowHeight(SScriptCallBack *p, const char *cmd, setRowHeight_in *in, setRowHeight_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setRowHeight(table, in->row, in->min_size, in->max_size);
+}
+
+void setColumnWidth(SScriptCallBack *p, const char *cmd, setColumnWidth_in *in, setColumnWidth_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setColumnWidth(table, in->column, in->min_size, in->max_size);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

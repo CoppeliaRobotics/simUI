@@ -772,3 +772,13 @@ void UIProxy::onRestoreState(Table *table, std::string state)
     table->restoreState(state);
 }
 
+void UIProxy::onSetRowHeight(Table *table, int row, int min_size, int max_size)
+{
+    table->setRowHeight(row, min_size, max_size);
+}
+
+void UIProxy::onSetColumnWidth(Table *table, int column, int min_size, int max_size)
+{
+    table->setColumnWidth(column, min_size, max_size);
+}
+

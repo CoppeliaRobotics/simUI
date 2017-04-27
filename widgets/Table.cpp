@@ -241,3 +241,17 @@ bool Table::restoreState(std::string state)
     return ret;
 }
 
+void Table::setRowHeight(int row, int min_size, int max_size)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    tablewidget->verticalHeader()->setMinimumSectionSize(min_size);
+    tablewidget->verticalHeader()->setMaximumSectionSize(max_size);
+}
+
+void Table::setColumnWidth(int column, int min_size, int max_size)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    tablewidget->horizontalHeader()->setMinimumSectionSize(min_size);
+    tablewidget->horizontalHeader()->setMaximumSectionSize(max_size);
+}
+
