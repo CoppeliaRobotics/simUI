@@ -1,18 +1,3 @@
-#include "Widget.h"
-#include "Button.h"
-#include "Edit.h"
-#include "HSlider.h"
-#include "VSlider.h"
-#include "Label.h"
-#include "Checkbox.h"
-#include "Radiobutton.h"
-#include "Spinbox.h"
-#include "Combobox.h"
-#include "Group.h"
-#include "Tabs.h"
-#include "LayoutWidget.h"
-#include "Image.h"
-
 #include "debug.h"
 
 #include "XMLUtils.h"
