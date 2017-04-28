@@ -170,7 +170,6 @@ void Tree::setColumnCount(int count)
 
 void Tree::addItem(int id, int parent_id, std::vector<std::string> text)
 {
-    DBG << "adding item " << id << " child of " << parent_id << "..." << std::endl;
     if(id <= 0) return;
     QTreeWidgetItem *parent = getWidgetItemById(parent_id);
     if(!parent) return;
@@ -180,7 +179,6 @@ void Tree::addItem(int id, int parent_id, std::vector<std::string> text)
     item.text = text;
     QTreeWidgetItem *qtwitem = makeItem(item);
     parent->addChild(qtwitem);
-    DBG << "added item " << id << " child of " << parent_id << std::endl;
 }
 
 int Tree::getColumnCount()
