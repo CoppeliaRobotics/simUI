@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <?xml-stylesheet type="text/xsl" href="callbacks.xsl"?>
 
-<plugin name="CustomUI" author="federico.ferri.it@gmail.com">
+<plugin name="CustomUI" short-name="UI" author="federico.ferri.it@gmail.com">
     <description>API functions for creating custom user interfaces.</description>
     <command name="create">
         <description>Create a window.</description>
@@ -862,7 +862,7 @@
         <return>
         </return>
     </command>
-    <enum name="curve_type" item-prefix="sim_customui_curve_type_" base="20400">
+    <enum name="curve_type" item-prefix="curve_type_" base="20400">
         <item name="time">
             <description>a curve with an X-simple domain, i.e. <em>y = f(x)</em></description>
         </item>
@@ -870,7 +870,7 @@
             <description>a parametric curve, i.e. <em>x = f<sub>x</sub>(t), y = f<sub>y</sub>(t)</em></description>
         </item>
     </enum>
-    <enum name="curve_style" item-prefix="sim_customui_curve_style_" base="22400">
+    <enum name="curve_style" item-prefix="curve_style_" base="22400">
         <item name="scatter" />
         <item name="line" />
         <item name="line_and_scatter" />
@@ -888,7 +888,7 @@
             <description>only available for 'time' curves</description>
         </item>
     </enum>
-    <enum name="curve_scatter_shape" item-prefix="sim_customui_curve_scatter_shape_" base="28400">
+    <enum name="curve_scatter_shape" item-prefix="curve_scatter_shape_" base="28400">
         <item name="none" />
         <item name="dot" />
         <item name="cross" />
@@ -906,7 +906,7 @@
         <item name="plus_circle" />
         <item name="peace" />
     </enum>
-    <enum name="line_style" item-prefix="sim_customui_line_style_" base="32000">
+    <enum name="line_style" item-prefix="line_style_" base="32000">
         <item name="solid" />
         <item name="dotted" />
         <item name="dashed" />
@@ -920,7 +920,7 @@
         <see-also>
             <enum-ref name="curve_scatter_shape" />
         </see-also>
-        <param name="scatter_shape" type="int" default="sim_customui_curve_scatter_shape_disc">
+        <param name="scatter_shape" type="int" default="curve_scatter_shape_disc">
             <description>scatter shape. see <enum-ref name="curve_scatter_shape"/>.</description>
         </param>
         <param name="scatter_size" type="int" default="10">
@@ -929,7 +929,7 @@
         <param name="line_size" type="int" default="2">
             <description>size of the line</description>
         </param>
-        <param name="line_style" type="int" default="sim_customui_line_style_solid">
+        <param name="line_style" type="int" default="line_style_solid">
             <description>style of the pen used to draw the line. see <enum-ref name="line_style"/>.</description>
         </param>
         <param name="add_to_legend" type="bool" default="true">
@@ -2031,7 +2031,7 @@
         <return>
         </return>
     </script-function>
-    <enum name="mouse_event_type" item-prefix="sim_customui_mouse_" base="20400">
+    <enum name="mouse_event_type" item-prefix="mouse_" base="20400">
         <item name="left_button_down">
             <description>left mouse button pressed</description>
         </item>
