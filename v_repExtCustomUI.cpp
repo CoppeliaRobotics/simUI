@@ -151,8 +151,7 @@ void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *o
     DBG << "[leave]" << std::endl;
 }
 
-template<typename T>
-T* getWidget(int handle, int id, const char *cmd, const char *widget_type_name)
+Widget* getWidget(int handle, int id)
 {
     Widget *widget = Widget::byId(handle, id);
     if(!widget)
@@ -161,15 +160,19 @@ T* getWidget(int handle, int id, const char *cmd, const char *widget_type_name)
         ss << "invalid widget id: " << id;
         throw std::runtime_error(ss.str());
     }
+    return widget;
+}
 
-    T *twidget = dynamic_cast<T*>(widget);
+template<typename T>
+T* getWidget(int handle, int id, const char *cmd, const char *widget_type_name)
+{
+    T *twidget = dynamic_cast<T*>(getWidget(handle, id));
     if(!twidget)
     {
         std::stringstream ss;
         ss << "invalid widget type. expected " << widget_type_name << " (in function getWidget())";
         throw std::runtime_error(ss.str());
     }
-
     return twidget;
 }
 
@@ -715,8 +718,13 @@ void setRowCount(SScriptCallBack *p, const char *cmd, setRowCount_in *in, setRow
 
 void setColumnCount(SScriptCallBack *p, const char *cmd, setColumnCount_in *in, setColumnCount_out *out)
 {
-    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    UIFunctions::getInstance()->setColumnCount(table, in->count);
+    Widget *widget = getWidget(in->handle, in->id);
+    if(Table *table = dynamic_cast<Table*>(widget))
+        UIFunctions::getInstance()->setColumnCountTable(table, in->count);
+    else if(Tree *tree = dynamic_cast<Tree*>(widget))
+        UIFunctions::getInstance()->setColumnCountTree(tree, in->count);
+    else
+        throw std::runtime_error("invalid widget type. expected table or tree.");
 }
 
 void setItem(SScriptCallBack *p, const char *cmd, setItem_in *in, setItem_out *out)
@@ -733,8 +741,13 @@ void getRowCount(SScriptCallBack *p, const char *cmd, getRowCount_in *in, getRow
 
 void getColumnCount(SScriptCallBack *p, const char *cmd, getColumnCount_in *in, getColumnCount_out *out)
 {
-    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    out->count = table->getColumnCount();
+    Widget *widget = getWidget(in->handle, in->id);
+    if(Table *table = dynamic_cast<Table*>(widget))
+        out->count = table->getColumnCount();
+    else if(Tree *tree = dynamic_cast<Tree*>(widget))
+        out->count = tree->getColumnCount();
+    else
+        throw std::runtime_error("invalid widget type. expected table or tree.");
 }
 
 void getItem(SScriptCallBack *p, const char *cmd, getItem_in *in, getItem_out *out)
@@ -751,8 +764,13 @@ void setRowHeaderText(SScriptCallBack *p, const char *cmd, setRowHeaderText_in *
 
 void setColumnHeaderText(SScriptCallBack *p, const char *cmd, setColumnHeaderText_in *in, setColumnHeaderText_out *out)
 {
-    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    UIFunctions::getInstance()->setColumnHeaderText(table, in->column, in->text);
+    Widget *widget = getWidget(in->handle, in->id);
+    if(Table *table = dynamic_cast<Table*>(widget))
+        UIFunctions::getInstance()->setColumnHeaderTextTable(table, in->column, in->text);
+    else if(Tree *tree = dynamic_cast<Tree*>(widget))
+        UIFunctions::getInstance()->setColumnHeaderTextTree(tree, in->column, in->text);
+    else
+        throw std::runtime_error("invalid widget type. expected table or tree.");
 }
 
 void setItemEditable(SScriptCallBack *p, const char *cmd, setItemEditable_in *in, setItemEditable_out *out)
@@ -763,14 +781,24 @@ void setItemEditable(SScriptCallBack *p, const char *cmd, setItemEditable_in *in
 
 void saveState(SScriptCallBack *p, const char *cmd, saveState_in *in, saveState_out *out)
 {
-    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    out->state = table->saveState();
+    Widget *widget = getWidget(in->handle, in->id);
+    if(Table *table = dynamic_cast<Table*>(widget))
+        out->state = table->saveState();
+    else if(Tree *tree = dynamic_cast<Tree*>(widget))
+        out->state = tree->saveState();
+    else
+        throw std::runtime_error("invalid widget type. expected table or tree.");
 }
 
 void restoreState(SScriptCallBack *p, const char *cmd, restoreState_in *in, restoreState_out *out)
 {
-    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    UIFunctions::getInstance()->restoreState(table, in->state);
+    Widget *widget = getWidget(in->handle, in->id);
+    if(Table *table = dynamic_cast<Table*>(widget))
+        UIFunctions::getInstance()->restoreStateTable(table, in->state);
+    else if(Tree *tree = dynamic_cast<Tree*>(widget))
+        UIFunctions::getInstance()->restoreStateTree(tree, in->state);
+    else
+        throw std::runtime_error("invalid widget type. expected table or tree.");
 }
 
 void setRowHeight(SScriptCallBack *p, const char *cmd, setRowHeight_in *in, setRowHeight_out *out)
@@ -781,14 +809,37 @@ void setRowHeight(SScriptCallBack *p, const char *cmd, setRowHeight_in *in, setR
 
 void setColumnWidth(SScriptCallBack *p, const char *cmd, setColumnWidth_in *in, setColumnWidth_out *out)
 {
-    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    UIFunctions::getInstance()->setColumnWidth(table, in->column, in->min_size, in->max_size);
+    Widget *widget = getWidget(in->handle, in->id);
+    if(Table *table = dynamic_cast<Table*>(widget))
+        UIFunctions::getInstance()->setColumnWidthTable(table, in->column, in->min_size, in->max_size);
+    else if(Tree *tree = dynamic_cast<Tree*>(widget))
+        UIFunctions::getInstance()->setColumnWidthTree(tree, in->column, in->min_size, in->max_size);
+    else
+        throw std::runtime_error("invalid widget type. expected table or tree.");
 }
 
 void setProgress(SScriptCallBack *p, const char *cmd, setProgress_in *in, setProgress_out *out)
 {
     Progressbar *progressbar = getWidget<Progressbar>(in->handle, in->id, cmd, "progressbar");
     UIFunctions::getInstance()->setProgress(progressbar, in->value);
+}
+
+void clearTree(SScriptCallBack *p, const char *cmd, clearTree_in *in, clearTree_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->clearTree(tree);
+}
+
+void addTreeItem(SScriptCallBack *p, const char *cmd, addTreeItem_in *in, addTreeItem_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->addTreeItem(tree, in->item_id, in->parent_id, in->text);
+}
+
+void removeTreeItem(SScriptCallBack *p, const char *cmd, removeTreeItem_in *in, removeTreeItem_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->removeTreeItem(tree, in->item_id);
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)

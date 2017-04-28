@@ -38,7 +38,8 @@ private slots:
     void onPlottableClick(Plot *plot, std::string name, int index, double x, double y);
     void onLegendClick(Plot *plot, std::string name);
     void onCellActivate(Table *table, int row, int col, std::string text);
-    void onSelectionChange(Table *table, int row, int col);
+    void onSelectionChangeTable(Table *table, int row, int col);
+    void onSelectionChangeTree(Tree *tree, int id);
     void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
 
 signals:
@@ -85,15 +86,22 @@ signals:
     void setLegendVisibility(Plot *plot, bool visible);
     void clearTable(Table *table);
     void setRowCount(Table *table, int count);
-    void setColumnCount(Table *table, int count);
+    void setColumnCountTable(Table *table, int count);
     void setItem(Table *table, int row, int col, std::string text);
     void setRowHeaderText(Table *table, int row, std::string text);
-    void setColumnHeaderText(Table *table, int col, std::string text);
+    void setColumnHeaderTextTable(Table *table, int col, std::string text);
     void setItemEditable(Table *table, int row, int col, bool editable);
-    void restoreState(Table *table, std::string state);
+    void restoreStateTable(Table *table, std::string state);
     void setRowHeight(Table *table, int row, int min_size, int max_size);
-    void setColumnWidth(Table *table, int column, int min_size, int max_size);
+    void setColumnWidthTable(Table *table, int column, int min_size, int max_size);
     void setProgress(Progressbar *progressbar, int value);
+    void setColumnCountTree(Tree *tree, int count);
+    void setColumnHeaderTextTree(Tree *tree, int col, std::string text);
+    void restoreStateTree(Tree *tree, std::string state);
+    void setColumnWidthTree(Tree *tree, int column, int min_size, int max_size);
+    void clearTree(Tree *tree);
+    void addTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text);
+    void removeTreeItem(Tree *tree, int item_id);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

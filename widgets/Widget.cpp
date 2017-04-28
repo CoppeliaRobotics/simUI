@@ -93,6 +93,7 @@ Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyx
     if(tag == "image") return parse1<Image>(parent, widgets, e);
     if(tag == "plot") return parse1<Plot>(parent, widgets, e);
     if(tag == "table") return parse1<Table>(parent, widgets, e);
+    if(tag == "tree") return parse1<Tree>(parent, widgets, e);
     if(tag == "progressbar") return parse1<Progressbar>(parent, widgets, e);
 
     std::stringstream ss;

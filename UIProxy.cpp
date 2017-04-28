@@ -254,7 +254,7 @@ void UIProxy::onCellActivate(int row, int col)
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onSelectionChange()
+void UIProxy::onTableSelectionChange()
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
@@ -278,7 +278,35 @@ void UIProxy::onSelectionChange()
         Table *table = dynamic_cast<Table*>(Widget::byQWidget(qwidget));
         if(table)
         {
-            emit selectionChange(table, row, column);
+            emit tableSelectionChange(table, row, column);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onTreeSelectionChange()
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QTreeWidget *qwidget = dynamic_cast<QTreeWidget*>(sender());
+
+    if(qwidget)
+    {
+        QList<QTreeWidgetItem*> s = qwidget->selectedItems();
+        int id = 0;
+        Tree *tree = dynamic_cast<Tree*>(Widget::byQWidget(qwidget));
+        if(s.size() > 0 && tree)
+        {
+            // FIXME: implement inverted index for this operation
+            for(std::map<int, QTreeWidgetItem*>::iterator it = tree->widgetItemById.begin(); it != tree->widgetItemById.end(); ++it)
+                if(it->second == s[0])
+                    id = it->first;
+        }
+        if(tree)
+        {
+            emit treeSelectionChange(tree, id);
         }
     }
 
@@ -742,7 +770,7 @@ void UIProxy::onSetRowCount(Table *table, int count)
     table->setRowCount(count);
 }
 
-void UIProxy::onSetColumnCount(Table *table, int count)
+void UIProxy::onSetColumnCountTable(Table *table, int count)
 {
     table->setColumnCount(count);
 }
@@ -757,7 +785,7 @@ void UIProxy::onSetRowHeaderText(Table *table, int row, std::string text)
     table->setRowHeaderText(row, text);
 }
 
-void UIProxy::onSetColumnHeaderText(Table *table, int column, std::string text)
+void UIProxy::onSetColumnHeaderTextTable(Table *table, int column, std::string text)
 {
     table->setColumnHeaderText(column, text);
 }
@@ -767,7 +795,7 @@ void UIProxy::onSetItemEditable(Table *table, int row, int column, bool editable
     table->setItemEditable(row, column, editable);
 }
 
-void UIProxy::onRestoreState(Table *table, std::string state)
+void UIProxy::onRestoreStateTable(Table *table, std::string state)
 {
     table->restoreState(state);
 }
@@ -777,7 +805,7 @@ void UIProxy::onSetRowHeight(Table *table, int row, int min_size, int max_size)
     table->setRowHeight(row, min_size, max_size);
 }
 
-void UIProxy::onSetColumnWidth(Table *table, int column, int min_size, int max_size)
+void UIProxy::onSetColumnWidthTable(Table *table, int column, int min_size, int max_size)
 {
     table->setColumnWidth(column, min_size, max_size);
 }
@@ -785,5 +813,40 @@ void UIProxy::onSetColumnWidth(Table *table, int column, int min_size, int max_s
 void UIProxy::onSetProgress(Progressbar *progressbar, int value)
 {
     progressbar->setValue(value);
+}
+
+void UIProxy::onSetColumnCountTree(Tree *tree, int count)
+{
+    tree->setColumnCount(count);
+}
+
+void UIProxy::onSetColumnHeaderTextTree(Tree *tree, int column, std::string text)
+{
+    tree->setColumnHeaderText(column, text);
+}
+
+void UIProxy::onRestoreStateTree(Tree *tree, std::string state)
+{
+    tree->restoreState(state);
+}
+
+void UIProxy::onSetColumnWidthTree(Tree *tree, int column, int min_size, int max_size)
+{
+    tree->setColumnWidth(column, min_size, max_size);
+}
+
+void UIProxy::onClearTree(Tree *tree)
+{
+    tree->clear();
+}
+
+void UIProxy::onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text)
+{
+    tree->addItem(item_id, parent_id, text);
+}
+
+void UIProxy::onRemoveTreeItem(Tree *tree, int item_id)
+{
+    tree->removeItem(item_id);
 }
 

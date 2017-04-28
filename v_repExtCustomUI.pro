@@ -100,6 +100,7 @@ HEADERS += \
     widgets/Spinbox.h \
     widgets/Table.h \
     widgets/Tabs.h \
+    widgets/Tree.h \
     widgets/VSlider.h \
     widgets/Widget.h \
     widgets/Window.h \
@@ -135,6 +136,7 @@ SOURCES += \
     widgets/Spinbox.cpp \
     widgets/Table.cpp \
     widgets/Tabs.cpp \
+    widgets/Tree.cpp \
     widgets/VSlider.cpp \
     widgets/Widget.cpp \
     widgets/Window.cpp \

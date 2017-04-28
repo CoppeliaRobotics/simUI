@@ -12,7 +12,7 @@
 #if __cplusplus <= 199711L
 #include <cstdlib>
 namespace std {
-    size_t stol(const std::string &s) {
+    static size_t stol(const std::string &s) {
         return atol(s.c_str());
     }
 }
@@ -133,7 +133,7 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     tablewidget->setSelectionMode(selectionMode);
     QObject::connect(tablewidget, &QTableWidget::cellActivated, uiproxy, &UIProxy::onCellActivate);
     QObject::connect(tablewidget, &QTableWidget::cellChanged, uiproxy, &UIProxy::onCellActivate);
-    QObject::connect(tablewidget, &QTableWidget::itemSelectionChanged, uiproxy, &UIProxy::onSelectionChange);
+    QObject::connect(tablewidget, &QTableWidget::itemSelectionChanged, uiproxy, &UIProxy::onTableSelectionChange);
     setQWidget(tablewidget);
     setEditable(editable);
     setProxy(proxy);

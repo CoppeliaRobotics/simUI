@@ -1482,9 +1482,10 @@
         </return>
     </command>
     <command name="setColumnCount">
-        <description>Resize the specified table widget.</description>
+        <description>Resize the specified table/tree widget.</description>
         <categories>
             <category name="table" />
+            <category name="tree" />
             <category name="widgets" indirect="true" />
         </categories>
         <params>
@@ -1525,9 +1526,10 @@
         </return>
     </command>
     <command name="setColumnHeaderText">
-        <description>Set the column header text of the specified table widget.</description>
+        <description>Set the column header text of the specified table/tree widget.</description>
         <categories>
             <category name="table" />
+            <category name="tree" />
             <category name="widgets" indirect="true" />
         </categories>
         <params>
@@ -1594,9 +1596,10 @@
         </return>
     </command>
     <command name="getColumnCount">
-        <description>Get the table widget number of columns.</description>
+        <description>Get the number of columns in the specified table/tree widget.</description>
         <categories>
             <category name="table" />
+            <category name="tree" />
             <category name="widgets" indirect="true" />
         </categories>
         <params>
@@ -1666,9 +1669,10 @@
         </return>
     </command>
     <command name="saveState">
-        <description>Save header state of the specified table widget.</description>
+        <description>Save header state of the specified table/tree widget.</description>
         <categories>
             <category name="table" />
+            <category name="tree" />
             <category name="widgets" indirect="true" />
         </categories>
         <params>
@@ -1686,9 +1690,10 @@
         </return>
     </command>
     <command name="restoreState">
-        <description>Restore a previously saved header state of the specified table widget.</description>
+        <description>Restore a previously saved header state of the specified table/tree widget.</description>
         <categories>
             <category name="table" />
+            <category name="tree" />
             <category name="widgets" indirect="true" />
         </categories>
         <params>
@@ -1706,9 +1711,10 @@
         </return>
     </command>
     <command name="setColumnWidth">
-        <description>Resize a column in the specified table widget.</description>
+        <description>Resize a column in the specified table/tree widget.</description>
         <categories>
             <category name="table" />
+            <category name="tree" />
             <category name="widgets" indirect="true" />
         </categories>
         <params>
@@ -1772,6 +1778,69 @@
             </param>
             <param name="value" type="int">
                 <description>value</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="clearTree">
+        <description>Clear the specified tree widget.</description>
+        <categories>
+            <category name="tree" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="addTreeItem">
+        <description>Add an item to the specified tree widget.</description>
+        <categories>
+            <category name="tree" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="item_id" type="int">
+                <description>item id</description>
+            </param>
+            <param name="text" type="table" item-type="string">
+                <description>item text fields</description>
+            </param>
+            <param name="parent_id" type="int" default="0">
+                <description>parent item id (0 means a toplevel item)</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="removeTreeItem">
+        <description>Remove an item from the specified tree widget.</description>
+        <categories>
+            <category name="tree" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="item_id" type="int">
+                <description>item id</description>
             </param>
         </params>
         <return>
@@ -1927,7 +1996,7 @@
         <return>
         </return>
     </script-function>
-    <script-function name="onSelectionChangeCallback">
+    <script-function name="onTableSelectionChangeCallback">
         <description>Callback for table widget selectionChanged event.</description>
         <params>
             <param name="handle" type="int">
@@ -1941,6 +2010,22 @@
             </param>
             <param name="column" type="int">
                 <description>the column index (zero based) of the activated cell</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+    <script-function name="onTreeSelectionChangeCallback">
+        <description>Callback for tree widget selectionChanged event.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the plot widget</description>
+            </param>
+            <param name="item_id" type="int">
+                <description>the item id</description>
             </param>
         </params>
         <return>

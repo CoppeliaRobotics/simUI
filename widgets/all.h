@@ -19,5 +19,6 @@
 #include "Spinbox.h"
 #include "Table.h"
 #include "Tabs.h"
+#include "Tree.h"
 #include "VSlider.h"
 

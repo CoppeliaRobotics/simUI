@@ -41,7 +41,8 @@ public slots:
     void onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event);
     void onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event);
     void onCellActivate(int row, int col);
-    void onSelectionChange();
+    void onTableSelectionChange();
+    void onTreeSelectionChange();
     void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
     // ---
     void onShowWindow(Window *window);
@@ -85,15 +86,22 @@ public slots:
     void onSetLegendVisibility(Plot *plot, bool visible);
     void onClearTable(Table *table);
     void onSetRowCount(Table *table, int count);
-    void onSetColumnCount(Table *table, int count);
+    void onSetColumnCountTable(Table *table, int count);
     void onSetItem(Table *table, int row, int column, std::string text);
     void onSetRowHeaderText(Table *table, int row, std::string text);
-    void onSetColumnHeaderText(Table *table, int column, std::string text);
+    void onSetColumnHeaderTextTable(Table *table, int column, std::string text);
     void onSetItemEditable(Table *table, int row, int column, bool editable);
-    void onRestoreState(Table *table, std::string state);
+    void onRestoreStateTable(Table *table, std::string state);
     void onSetRowHeight(Table *table, int row, int min_size, int max_size);
-    void onSetColumnWidth(Table *table, int column, int min_size, int max_size);
+    void onSetColumnWidthTable(Table *table, int column, int min_size, int max_size);
     void onSetProgress(Progressbar *progressbar, int value);
+    void onSetColumnCountTree(Tree *tree, int count);
+    void onSetColumnHeaderTextTree(Tree *tree, int column, std::string text);
+    void onRestoreStateTree(Tree *tree, std::string state);
+    void onSetColumnWidthTree(Tree *tree, int column, int min_size, int max_size);
+    void onClearTree(Tree *tree);
+    void onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text);
+    void onRemoveTreeItem(Tree *tree, int item_id);
 
 signals:
     void buttonClick(Widget *widget);
@@ -106,7 +114,8 @@ signals:
     void plottableClick(Plot *plot, std::string name, int index, double x, double y);
     void legendClick(Plot *plot, std::string name);
     void cellActivate(Table *table, int row, int col, std::string value);
-    void selectionChange(Table *table, int row, int col);
+    void tableSelectionChange(Table *table, int row, int col);
+    void treeSelectionChange(Tree *tree, int id);
     void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
 };
 

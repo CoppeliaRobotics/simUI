@@ -105,19 +105,27 @@ void UIFunctions::connectSignals()
     connect(uiproxy, &UIProxy::plottableClick, this, &UIFunctions::onPlottableClick);
     connect(uiproxy, &UIProxy::legendClick, this, &UIFunctions::onLegendClick);
     connect(uiproxy, &UIProxy::cellActivate, this, &UIFunctions::onCellActivate);
-    connect(uiproxy, &UIProxy::selectionChange, this, &UIFunctions::onSelectionChange);
+    connect(uiproxy, &UIProxy::tableSelectionChange, this, &UIFunctions::onSelectionChangeTable);
+    connect(uiproxy, &UIProxy::treeSelectionChange, this, &UIFunctions::onSelectionChangeTree);
     connect(uiproxy, &UIProxy::mouseEvent, this, &UIFunctions::onMouseEvent);
     connect(this, &UIFunctions::clearTable, uiproxy, &UIProxy::onClearTable, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setRowCount, uiproxy, &UIProxy::onSetRowCount, Qt::BlockingQueuedConnection);
-    connect(this, &UIFunctions::setColumnCount, uiproxy, &UIProxy::onSetColumnCount, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setColumnCountTable, uiproxy, &UIProxy::onSetColumnCountTable, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setColumnCountTree, uiproxy, &UIProxy::onSetColumnCountTree, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setItem, uiproxy, &UIProxy::onSetItem, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setRowHeaderText, uiproxy, &UIProxy::onSetRowHeaderText, Qt::BlockingQueuedConnection);
-    connect(this, &UIFunctions::setColumnHeaderText, uiproxy, &UIProxy::onSetColumnHeaderText, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setColumnHeaderTextTable, uiproxy, &UIProxy::onSetColumnHeaderTextTable, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setColumnHeaderTextTree, uiproxy, &UIProxy::onSetColumnHeaderTextTree, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setItemEditable, uiproxy, &UIProxy::onSetItemEditable, Qt::BlockingQueuedConnection);
-    connect(this, &UIFunctions::restoreState, uiproxy, &UIProxy::onRestoreState, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::restoreStateTable, uiproxy, &UIProxy::onRestoreStateTable, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::restoreStateTree, uiproxy, &UIProxy::onRestoreStateTree, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setRowHeight, uiproxy, &UIProxy::onSetRowHeight, Qt::BlockingQueuedConnection);
-    connect(this, &UIFunctions::setColumnWidth, uiproxy, &UIProxy::onSetColumnWidth, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setColumnWidthTable, uiproxy, &UIProxy::onSetColumnWidthTable, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setColumnWidthTree, uiproxy, &UIProxy::onSetColumnWidthTree, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setProgress, uiproxy, &UIProxy::onSetProgress, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::clearTree, uiproxy, &UIProxy::onClearTree, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::addTreeItem, uiproxy, &UIProxy::onAddTreeItem, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::removeTreeItem, uiproxy, &UIProxy::onRemoveTreeItem, Qt::BlockingQueuedConnection);
 }
 
 /**
@@ -309,20 +317,35 @@ void UIFunctions::onCellActivate(Table *table, int row, int col, std::string tex
     onCellActivateCallback(table->proxy->getScriptID(), table->onCellActivate.c_str(), &in, &out);
 }
 
-void UIFunctions::onSelectionChange(Table *table, int row, int col)
+void UIFunctions::onSelectionChangeTable(Table *table, int row, int col)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, table);
 
     if(table->onSelectionChange == "" || table->proxy->scriptID == -1) return;
 
-    onSelectionChangeCallback_in in;
+    onTableSelectionChangeCallback_in in;
     in.handle = table->proxy->getHandle();
     in.id = table->id;
     in.row = row;
     in.column = col;
-    onSelectionChangeCallback_out out;
-    onSelectionChangeCallback(table->proxy->getScriptID(), table->onSelectionChange.c_str(), &in, &out);
+    onTableSelectionChangeCallback_out out;
+    onTableSelectionChangeCallback(table->proxy->getScriptID(), table->onSelectionChange.c_str(), &in, &out);
+}
+
+void UIFunctions::onSelectionChangeTree(Tree *tree, int id)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, tree);
+
+    if(tree->onSelectionChange == "" || tree->proxy->scriptID == -1) return;
+
+    onTreeSelectionChangeCallback_in in;
+    in.handle = tree->proxy->getHandle();
+    in.id = tree->id;
+    in.item_id = id;
+    onTreeSelectionChangeCallback_out out;
+    onTreeSelectionChangeCallback(tree->proxy->getScriptID(), tree->onSelectionChange.c_str(), &in, &out);
 }
 
 void UIFunctions::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
