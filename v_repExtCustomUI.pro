@@ -74,6 +74,13 @@ widgets_html.commands = xsltproc --path \"$$PWD/\" -o widgets.html widgets.xsl w
 QMAKE_EXTRA_TARGETS += widgets_html
 PRE_TARGETDEPS += widgets.html
 
+UI_lua.target = UI.lua
+UI_lua.output = UI.lua
+UI_lua.input = callbacks.xml
+UI_lua.commands = python \"$$PWD/generate_aliases.py\" UI.lua
+QMAKE_EXTRA_TARGETS += UI_lua
+PRE_TARGETDEPS += UI.lua
+
 HEADERS += \
     debug.h \
     signal_spy.h \

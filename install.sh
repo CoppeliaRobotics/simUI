@@ -19,6 +19,7 @@ fi
 
 cd "`dirname "$0"`"
 make $BUILD_TARGET && \
-cp -v "libv_repExtCustomUI.$DLEXT" "$INSTALL_TARGET"
+cp -v "libv_repExtCustomUI.$DLEXT" "$INSTALL_TARGET" && \
+cp -v UI.lua "$VREP_ROOT/lua/"
 exit $?
 

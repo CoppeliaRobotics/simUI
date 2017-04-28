@@ -899,6 +899,10 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
         unloadVrepLibrary(vrepLib);
         return 0;
     }
+    if(-1 == simRegisterScriptVariable("UI", "require('UI')", 0))
+    {
+        std::cout << PLUGIN_NAME << ": failed to register aliases" << std::endl;
+    }
 
 #ifdef DEBUG
     SignalSpy::start();
