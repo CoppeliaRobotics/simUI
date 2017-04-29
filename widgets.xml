@@ -879,6 +879,36 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
         </attributes>
     </element>
     <element>
+        <name>tree</name>
+        <description>A tree widget. Must contain one &lt;header&gt; element and many &lt;row&gt; elements. Each &lt;header&gt;/&lt;row&gt; element contains only &lt;item&gt; elements. &lt;row&gt; elements can have 'id' and 'parent-id' attributes (positive integers) to set relationships between items.</description>
+        <attributes>
+            <attribute>
+                <name>show-header</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>If true, column headers will be visible.</description>
+            </attribute>
+            <attribute>
+                <name>autosize-header</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, column headers will resize to fit contents.</description>
+            </attribute>
+            <attribute>
+                <name>sortable</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, it will be possible to sort data by columns by clicking on column headers.</description>
+            </attribute>
+            <attribute>
+                <name>onselectionchange</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the selection change event. Arguments of the function are: (uiHandle, id, item_id).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
         <name>vslider</name>
         <description>A vertical slider widget.</description>
         <see-also>
