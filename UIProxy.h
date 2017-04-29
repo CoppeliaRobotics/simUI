@@ -106,6 +106,8 @@ public slots:
     void onUpdateTreeItemParent(Tree *tree, int item_id, int parent_id);
     void onRemoveTreeItem(Tree *tree, int item_id);
     void onSetTreeSelection(Tree *tree, int item_id);
+    void onExpandAll(Tree *tree);
+    void onCollapseAll(Tree *tree);
 
 signals:
     void buttonClick(Widget *widget);

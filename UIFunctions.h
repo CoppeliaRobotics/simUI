@@ -106,6 +106,8 @@ signals:
     void updateTreeItemParent(Tree *tree, int item_id, int parent_id);
     void removeTreeItem(Tree *tree, int item_id);
     void setTreeSelection(Tree *tree, int item_id);
+    void expandAll(Tree *tree);
+    void collapseAll(Tree *tree);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

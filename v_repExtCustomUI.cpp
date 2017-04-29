@@ -866,6 +866,18 @@ void setTreeSelection(SScriptCallBack *p, const char *cmd, setTreeSelection_in *
     UIFunctions::getInstance()->setTreeSelection(tree, in->item_id);
 }
 
+void expandAll(SScriptCallBack *p, const char *cmd, expandAll_in *in, expandAll_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->expandAll(tree);
+}
+
+void collapseAll(SScriptCallBack *p, const char *cmd, collapseAll_in *in, collapseAll_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->collapseAll(tree);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

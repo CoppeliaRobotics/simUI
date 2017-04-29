@@ -59,6 +59,8 @@ public:
     bool restoreState(std::string state);
     void setColumnWidth(int column, int min_size, int max_size);
     void setSelection(int id);
+    void expandAll();
+    void collapseAll();
 
     friend class UIFunctions;
     friend class UIProxy;

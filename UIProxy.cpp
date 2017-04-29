@@ -870,3 +870,13 @@ void UIProxy::onSetTreeSelection(Tree *tree, int item_id)
     tree->setSelection(item_id);
 }
 
+void UIProxy::onExpandAll(Tree *tree)
+{
+    tree->expandAll();
+}
+
+void UIProxy::onCollapseAll(Tree *tree)
+{
+    tree->collapseAll();
+}
+

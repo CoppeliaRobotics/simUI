@@ -268,3 +268,15 @@ void Tree::setSelection(int id)
     treewidget->setCurrentItem(item);
 }
 
+void Tree::expandAll()
+{
+    QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    treewidget->expandAll();
+}
+
+void Tree::collapseAll()
+{
+    QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    treewidget->collapseAll();
+}
+
