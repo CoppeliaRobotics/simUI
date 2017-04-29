@@ -60,6 +60,7 @@ public:
     bool restoreState(std::string state);
     void setRowHeight(int row, int min_size, int max_size);
     void setColumnWidth(int column, int min_size, int max_size);
+    void setSelection(int row, int column);
 
     friend class UIFunctions;
 };

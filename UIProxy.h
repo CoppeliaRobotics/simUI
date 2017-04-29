@@ -94,6 +94,7 @@ public slots:
     void onRestoreStateTable(Table *table, std::string state);
     void onSetRowHeight(Table *table, int row, int min_size, int max_size);
     void onSetColumnWidthTable(Table *table, int column, int min_size, int max_size);
+    void onSetTableSelection(Table *table, int row, int column);
     void onSetProgress(Progressbar *progressbar, int value);
     void onSetColumnCountTree(Tree *tree, int count);
     void onSetColumnHeaderTextTree(Tree *tree, int column, std::string text);
@@ -104,6 +105,7 @@ public slots:
     void onUpdateTreeItemText(Tree *tree, int item_id, std::vector<std::string> text);
     void onUpdateTreeItemParent(Tree *tree, int item_id, int parent_id);
     void onRemoveTreeItem(Tree *tree, int item_id);
+    void onSetTreeSelection(Tree *tree, int item_id);
 
 signals:
     void buttonClick(Widget *widget);

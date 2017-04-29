@@ -255,3 +255,9 @@ void Table::setColumnWidth(int column, int min_size, int max_size)
     tablewidget->horizontalHeader()->setMaximumSectionSize(max_size);
 }
 
+void Table::setSelection(int row, int column)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    tablewidget->setCurrentCell(row, column);
+}
+

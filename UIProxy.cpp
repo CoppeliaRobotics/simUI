@@ -810,6 +810,11 @@ void UIProxy::onSetColumnWidthTable(Table *table, int column, int min_size, int 
     table->setColumnWidth(column, min_size, max_size);
 }
 
+void UIProxy::onSetTableSelection(Table *table, int row, int column)
+{
+    table->setSelection(row, column);
+}
+
 void UIProxy::onSetProgress(Progressbar *progressbar, int value)
 {
     progressbar->setValue(value);
@@ -858,5 +863,10 @@ void UIProxy::onUpdateTreeItemParent(Tree *tree, int item_id, int parent_id)
 void UIProxy::onRemoveTreeItem(Tree *tree, int item_id)
 {
     tree->removeItem(item_id);
+}
+
+void UIProxy::onSetTreeSelection(Tree *tree, int item_id)
+{
+    tree->setSelection(item_id);
 }
 

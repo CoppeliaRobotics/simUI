@@ -818,6 +818,12 @@ void setColumnWidth(SScriptCallBack *p, const char *cmd, setColumnWidth_in *in, 
         throw std::runtime_error("invalid widget type. expected table or tree.");
 }
 
+void setTableSelection(SScriptCallBack *p, const char *cmd, setTableSelection_in *in, setTableSelection_out *out)
+{
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setTableSelection(table, in->row, in->column);
+}
+
 void setProgress(SScriptCallBack *p, const char *cmd, setProgress_in *in, setProgress_out *out)
 {
     Progressbar *progressbar = getWidget<Progressbar>(in->handle, in->id, cmd, "progressbar");
@@ -852,6 +858,12 @@ void removeTreeItem(SScriptCallBack *p, const char *cmd, removeTreeItem_in *in, 
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
     UIFunctions::getInstance()->removeTreeItem(tree, in->item_id);
+}
+
+void setTreeSelection(SScriptCallBack *p, const char *cmd, setTreeSelection_in *in, setTreeSelection_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->setTreeSelection(tree, in->item_id);
 }
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)

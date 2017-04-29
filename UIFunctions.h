@@ -94,6 +94,7 @@ signals:
     void restoreStateTable(Table *table, std::string state);
     void setRowHeight(Table *table, int row, int min_size, int max_size);
     void setColumnWidthTable(Table *table, int column, int min_size, int max_size);
+    void setTableSelection(Table *table, int row, int col);
     void setProgress(Progressbar *progressbar, int value);
     void setColumnCountTree(Tree *tree, int count);
     void setColumnHeaderTextTree(Tree *tree, int col, std::string text);
@@ -104,6 +105,7 @@ signals:
     void updateTreeItemText(Tree *tree, int item_id, std::vector<std::string> text);
     void updateTreeItemParent(Tree *tree, int item_id, int parent_id);
     void removeTreeItem(Tree *tree, int item_id);
+    void setTreeSelection(Tree *tree, int item_id);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

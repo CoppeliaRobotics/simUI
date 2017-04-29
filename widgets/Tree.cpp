@@ -259,3 +259,12 @@ void Tree::setColumnWidth(int column, int min_size, int max_size)
     treewidget->header()->setMaximumSectionSize(max_size);
 }
 
+void Tree::setSelection(int id)
+{
+    if(id == 0) return;
+    QTreeWidgetItem *item = getWidgetItemById(id);
+    if(!item) return;
+    QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    treewidget->setCurrentItem(item);
+}
+

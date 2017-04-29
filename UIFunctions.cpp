@@ -122,12 +122,14 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setRowHeight, uiproxy, &UIProxy::onSetRowHeight, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnWidthTable, uiproxy, &UIProxy::onSetColumnWidthTable, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnWidthTree, uiproxy, &UIProxy::onSetColumnWidthTree, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setTableSelection, uiproxy, &UIProxy::onSetTableSelection, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setProgress, uiproxy, &UIProxy::onSetProgress, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::clearTree, uiproxy, &UIProxy::onClearTree, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::addTreeItem, uiproxy, &UIProxy::onAddTreeItem, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::updateTreeItemText, uiproxy, &UIProxy::onUpdateTreeItemText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::updateTreeItemParent, uiproxy, &UIProxy::onUpdateTreeItemParent, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::removeTreeItem, uiproxy, &UIProxy::onRemoveTreeItem, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setTreeSelection, uiproxy, &UIProxy::onSetTreeSelection, Qt::BlockingQueuedConnection);
 }
 
 /**

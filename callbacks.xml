@@ -1763,6 +1763,29 @@
         <return>
         </return>
     </command>
+    <command name="setTableSelection">
+        <description>Set selection in a table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="row" type="int">
+                <description>row index</description>
+            </param>
+            <param name="column" type="int">
+                <description>column index</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="setProgress">
         <description>Chnge the value of a progressbar widget.</description>
         <categories>
@@ -1874,6 +1897,26 @@
     </command>
     <command name="removeTreeItem">
         <description>Remove an item from the specified tree widget.</description>
+        <categories>
+            <category name="tree" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="item_id" type="int">
+                <description>item id</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setTreeSelection">
+        <description>Set selection in a tree widget.</description>
         <categories>
             <category name="tree" />
             <category name="widgets" indirect="true" />
