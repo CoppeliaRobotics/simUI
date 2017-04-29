@@ -70,6 +70,8 @@ void Tree::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
                 item.text.push_back(std::string(e2->GetText()));
             }
 
+            item.expanded = xmlutils::getAttrBool(e1, "expanded", false);
+
             items[item.id] = item;
         }
         else continue;
@@ -99,7 +101,7 @@ QTreeWidgetItem* Tree::getWidgetItemById(int id)
     }
 }
 
-QTreeWidgetItem* Tree::makeItem(const TreeItem &item)
+QTreeWidgetItem* Tree::makeItem(QTreeWidget *treewidget, const TreeItem &item)
 {
     QStringList textList;
     for(size_t i = 0; i < item.text.size(); i++)
@@ -109,7 +111,7 @@ QTreeWidgetItem* Tree::makeItem(const TreeItem &item)
     return qtwitem;
 }
 
-void Tree::populateItems(const std::map<int, std::vector<int> > &by_parent, int parent_id, QTreeWidgetItem *parent)
+void Tree::populateItems(QTreeWidget *treewidget, const std::map<int, std::vector<int> > &by_parent, int parent_id, QTreeWidgetItem *parent)
 {
     std::map<int, std::vector<int> >::const_iterator iv = by_parent.find(parent_id);
     if(iv == by_parent.end()) return;
@@ -117,9 +119,10 @@ void Tree::populateItems(const std::map<int, std::vector<int> > &by_parent, int 
     for(std::vector<int>::const_iterator it = v.begin(); it != v.end(); ++it)
     {
         TreeItem &item = items[*it];
-        QTreeWidgetItem *qtwitem = makeItem(item);
+        QTreeWidgetItem *qtwitem = makeItem(treewidget, item);
         parent->addChild(qtwitem);
-        populateItems(by_parent, item.id, qtwitem);
+        qtwitem->setExpanded(item.expanded);
+        populateItems(treewidget, by_parent, item.id, qtwitem);
     }
 }
 
@@ -145,7 +148,7 @@ QWidget * Tree::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         columncount = std::max(columncount, it->second.text.size());
         by_parent[it->second.parent_id].push_back(it->first);
     }
-    populateItems(by_parent, 0, treewidget->invisibleRootItem());
+    populateItems(treewidget, by_parent, 0, treewidget->invisibleRootItem());
     treewidget->setColumnCount(columncount);
     QObject::connect(treewidget, &QTreeWidget::itemSelectionChanged, uiproxy, &UIProxy::onTreeSelectionChange);
     setQWidget(treewidget);
@@ -168,17 +171,19 @@ void Tree::setColumnCount(int count)
     treewidget->setColumnCount(count);
 }
 
-void Tree::addItem(int id, int parent_id, std::vector<std::string> text)
+void Tree::addItem(int id, int parent_id, std::vector<std::string> text, bool expanded)
 {
     if(id <= 0) return;
     QTreeWidgetItem *parent = getWidgetItemById(parent_id);
     if(!parent) return;
+    QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
     TreeItem item;
     item.id = id;
     item.parent_id = parent_id;
     item.text = text;
-    QTreeWidgetItem *qtwitem = makeItem(item);
+    QTreeWidgetItem *qtwitem = makeItem(treewidget, item);
     parent->addChild(qtwitem);
+    qtwitem->setExpanded(expanded);
 }
 
 void Tree::updateItemText(int id, std::vector<std::string> text)

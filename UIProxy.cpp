@@ -845,9 +845,9 @@ void UIProxy::onClearTree(Tree *tree)
     tree->clear();
 }
 
-void UIProxy::onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text)
+void UIProxy::onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text, bool expanded)
 {
-    tree->addItem(item_id, parent_id, text);
+    tree->addItem(item_id, parent_id, text, expanded);
 }
 
 void UIProxy::onUpdateTreeItemText(Tree *tree, int item_id, std::vector<std::string> text)

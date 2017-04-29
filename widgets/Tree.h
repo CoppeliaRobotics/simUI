@@ -16,6 +16,7 @@ class UIProxy;
 #include "Widget.h"
 #include "Event.h"
 
+class QTreeWidget;
 class QTreeWidgetItem;
 
 struct TreeItem
@@ -23,6 +24,7 @@ struct TreeItem
     int id;
     int parent_id;
     std::vector<std::string> text;
+    bool expanded;
 };
 
 class Tree : public Widget
@@ -36,8 +38,8 @@ protected:
     std::string onSelectionChange;
 
 private:
-    void populateItems(const std::map<int, std::vector<int> > &by_parent, int parent_id, QTreeWidgetItem *parent);
-    QTreeWidgetItem* makeItem(const TreeItem &item);
+    void populateItems(QTreeWidget *treewidget, const std::map<int, std::vector<int> > &by_parent, int parent_id, QTreeWidgetItem *parent);
+    QTreeWidgetItem* makeItem(QTreeWidget *treewidget, const TreeItem &item);
     std::map<int, QTreeWidgetItem*> widgetItemById;
     QTreeWidgetItem * getWidgetItemById(int id);
 
@@ -49,7 +51,7 @@ public:
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
     void clear();
     void setColumnCount(int count);
-    void addItem(int id, int parent, std::vector<std::string> text);
+    void addItem(int id, int parent, std::vector<std::string> text, bool expanded);
     void updateItemText(int id, std::vector<std::string> text);
     void updateItemParent(int id, int parent_id);
     int getColumnCount();

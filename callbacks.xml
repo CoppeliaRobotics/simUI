@@ -1845,6 +1845,9 @@
             <param name="parent_id" type="int" default="0">
                 <description>parent item id (0 means a toplevel item)</description>
             </param>
+            <param name="expanded" type="bool" default="false">
+                <description>if true, the item will be in expanded state</description>
+            </param>
         </params>
         <return>
         </return>

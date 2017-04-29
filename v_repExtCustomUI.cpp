@@ -839,7 +839,7 @@ void clearTree(SScriptCallBack *p, const char *cmd, clearTree_in *in, clearTree_
 void addTreeItem(SScriptCallBack *p, const char *cmd, addTreeItem_in *in, addTreeItem_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->addTreeItem(tree, in->item_id, in->parent_id, in->text);
+    UIFunctions::getInstance()->addTreeItem(tree, in->item_id, in->parent_id, in->text, in->expanded);
 }
 
 void updateTreeItemText(SScriptCallBack *p, const char *cmd, updateTreeItemText_in *in, updateTreeItemText_out *out)
