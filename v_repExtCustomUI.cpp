@@ -836,6 +836,18 @@ void addTreeItem(SScriptCallBack *p, const char *cmd, addTreeItem_in *in, addTre
     UIFunctions::getInstance()->addTreeItem(tree, in->item_id, in->parent_id, in->text);
 }
 
+void updateTreeItemText(SScriptCallBack *p, const char *cmd, updateTreeItemText_in *in, updateTreeItemText_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->updateTreeItemText(tree, in->item_id, in->text);
+}
+
+void updateTreeItemParent(SScriptCallBack *p, const char *cmd, updateTreeItemParent_in *in, updateTreeItemParent_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->updateTreeItemParent(tree, in->item_id, in->parent_id);
+}
+
 void removeTreeItem(SScriptCallBack *p, const char *cmd, removeTreeItem_in *in, removeTreeItem_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");

@@ -125,6 +125,8 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setProgress, uiproxy, &UIProxy::onSetProgress, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::clearTree, uiproxy, &UIProxy::onClearTree, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::addTreeItem, uiproxy, &UIProxy::onAddTreeItem, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::updateTreeItemText, uiproxy, &UIProxy::onUpdateTreeItemText, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::updateTreeItemParent, uiproxy, &UIProxy::onUpdateTreeItemParent, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::removeTreeItem, uiproxy, &UIProxy::onRemoveTreeItem, Qt::BlockingQueuedConnection);
 }
 

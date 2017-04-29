@@ -1826,6 +1826,52 @@
         <return>
         </return>
     </command>
+    <command name="updateTreeItemText">
+        <description>Modify the text of an existing item in the specified tree widget.</description>
+        <categories>
+            <category name="tree" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="item_id" type="int">
+                <description>item id</description>
+            </param>
+            <param name="text" type="table" item-type="string">
+                <description>item text fields</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="updateTreeItemParent">
+        <description>Modify the parent of an existing item in the specified tree widget.</description>
+        <categories>
+            <category name="tree" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="item_id" type="int">
+                <description>item id</description>
+            </param>
+            <param name="parent_id" type="int">
+                <description>parent id</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="removeTreeItem">
         <description>Remove an item from the specified tree widget.</description>
         <categories>

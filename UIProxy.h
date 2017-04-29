@@ -101,6 +101,8 @@ public slots:
     void onSetColumnWidthTree(Tree *tree, int column, int min_size, int max_size);
     void onClearTree(Tree *tree);
     void onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text);
+    void onUpdateTreeItemText(Tree *tree, int item_id, std::vector<std::string> text);
+    void onUpdateTreeItemParent(Tree *tree, int item_id, int parent_id);
     void onRemoveTreeItem(Tree *tree, int item_id);
 
 signals:

@@ -101,6 +101,8 @@ signals:
     void setColumnWidthTree(Tree *tree, int column, int min_size, int max_size);
     void clearTree(Tree *tree);
     void addTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text);
+    void updateTreeItemText(Tree *tree, int item_id, std::vector<std::string> text);
+    void updateTreeItemParent(Tree *tree, int item_id, int parent_id);
     void removeTreeItem(Tree *tree, int item_id);
 };
 

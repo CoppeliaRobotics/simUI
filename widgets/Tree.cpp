@@ -181,6 +181,29 @@ void Tree::addItem(int id, int parent_id, std::vector<std::string> text)
     parent->addChild(qtwitem);
 }
 
+void Tree::updateItemText(int id, std::vector<std::string> text)
+{
+    if(id == 0) return;
+    QTreeWidgetItem *item = getWidgetItemById(id);
+    if(!item) return;
+    for(int col = 0; col < item->columnCount(); col++)
+    {
+        QString s = "";
+        if(col < text.size())
+            s = QString::fromStdString(text[col]);
+        item->setText(col, s);
+    }
+}
+
+void Tree::updateItemParent(int id, int parent_id)
+{
+    if(id == 0) return;
+    QTreeWidgetItem *item = getWidgetItemById(id), *parent = getWidgetItemById(parent_id), *old_parent = item->parent();
+    if(!item || !parent || !old_parent) return;
+    old_parent->removeChild(item);
+    parent->addChild(item);
+}
+
 int Tree::getColumnCount()
 {
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());

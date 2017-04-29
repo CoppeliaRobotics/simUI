@@ -50,6 +50,8 @@ public:
     void clear();
     void setColumnCount(int count);
     void addItem(int id, int parent, std::vector<std::string> text);
+    void updateItemText(int id, std::vector<std::string> text);
+    void updateItemParent(int id, int parent_id);
     int getColumnCount();
     void removeItem(int id);
     void setColumnHeaderText(int column, std::string text);
