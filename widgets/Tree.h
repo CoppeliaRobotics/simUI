@@ -63,6 +63,7 @@ public:
     void setSelection(int id);
     void expandAll();
     void collapseAll();
+    void expandToDepth(int depth);
 
     friend class UIFunctions;
     friend class UIProxy;

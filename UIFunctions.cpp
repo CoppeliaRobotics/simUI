@@ -132,6 +132,7 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setTreeSelection, uiproxy, &UIProxy::onSetTreeSelection, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::expandAll, uiproxy, &UIProxy::onExpandAll, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::collapseAll, uiproxy, &UIProxy::onCollapseAll, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::expandToDepth, uiproxy, &UIProxy::onExpandToDepth, Qt::BlockingQueuedConnection);
 }
 
 /**

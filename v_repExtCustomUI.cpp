@@ -878,6 +878,12 @@ void collapseAll(SScriptCallBack *p, const char *cmd, collapseAll_in *in, collap
     UIFunctions::getInstance()->collapseAll(tree);
 }
 
+void expandToDepth(SScriptCallBack *p, const char *cmd, expandToDepth_in *in, expandToDepth_out *out)
+{
+    Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
+    UIFunctions::getInstance()->expandToDepth(tree, in->depth);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

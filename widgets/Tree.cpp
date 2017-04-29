@@ -285,3 +285,9 @@ void Tree::collapseAll()
     treewidget->collapseAll();
 }
 
+void Tree::expandToDepth(int depth)
+{
+    QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    treewidget->expandToDepth(depth);
+}
+

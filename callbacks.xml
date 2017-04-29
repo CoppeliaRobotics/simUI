@@ -1972,6 +1972,26 @@
         <return>
         </return>
     </command>
+    <command name="expandToDepth">
+        <description>Expand nodes up to a certain depth in the specified tree widget.</description>
+        <categories>
+            <category name="tree" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="depth" type="int">
+                <description>depth</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

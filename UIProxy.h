@@ -108,6 +108,7 @@ public slots:
     void onSetTreeSelection(Tree *tree, int item_id);
     void onExpandAll(Tree *tree);
     void onCollapseAll(Tree *tree);
+    void onExpandToDepth(Tree *tree, int depth);
 
 signals:
     void buttonClick(Widget *widget);

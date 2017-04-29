@@ -108,6 +108,7 @@ signals:
     void setTreeSelection(Tree *tree, int item_id);
     void expandAll(Tree *tree);
     void collapseAll(Tree *tree);
+    void expandToDepth(Tree *tree, int depth);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

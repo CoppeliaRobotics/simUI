@@ -880,3 +880,8 @@ void UIProxy::onCollapseAll(Tree *tree)
     tree->collapseAll();
 }
 
+void UIProxy::onExpandToDepth(Tree *tree, int depth)
+{
+    tree->expandToDepth(depth);
+}
+
