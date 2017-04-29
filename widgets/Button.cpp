@@ -23,11 +23,11 @@ void Button::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 
     defaulT = xmlutils::getAttrBool(e, "default", false);
 
-    autoRepeat = xmlutils::getAttrBool(e, "autoRepeat", false);
+    auto_repeat = xmlutils::getAttrBool(e, "auto-repeat", false);
 
-    autoRepeatDelay = xmlutils::getAttrInt(e, "autoRepeatDelay", 0);
+    auto_repeat_delay = xmlutils::getAttrInt(e, "auto-repeat-delay", 0);
 
-    autoRepeatInterval = xmlutils::getAttrInt(e, "autoRepeatInterval", 200);
+    auto_repeat_interval = xmlutils::getAttrInt(e, "auto-repeat-interval", 200);
 
     checkable = xmlutils::getAttrBool(e, "checkable", false);
 
@@ -44,9 +44,9 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     button->setStyleSheet(QString::fromStdString(style));
     button->setAutoDefault(false);
     button->setDefault(defaulT);
-    button->setAutoRepeat(autoRepeat);
-    button->setAutoRepeatDelay(autoRepeatDelay);
-    button->setAutoRepeatInterval(autoRepeatInterval);
+    button->setAutoRepeat(auto_repeat);
+    button->setAutoRepeatDelay(auto_repeat_delay);
+    button->setAutoRepeatInterval(auto_repeat_interval);
     button->setCheckable(checkable);
     button->setAutoExclusive(auto_exclusive);
     QObject::connect(button, &QPushButton::released, uiproxy, &UIProxy::onButtonClick);
