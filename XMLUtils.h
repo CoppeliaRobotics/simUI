@@ -8,6 +8,10 @@
 
 namespace xmlutils
 {
+    bool containsHyphens(const std::string &name);
+
+    std::string stripHyphens(const std::string &name);
+
     bool hasAttr(tinyxml2::XMLElement *e, std::string name);
 
     bool getAttrBool(tinyxml2::XMLElement *e, std::string name, bool defaultValue);

@@ -6,9 +6,46 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 
+#include "v_repLib.h"
+
+#define REPORT_DEPRECATED_ATTRIB_NAME(dname, name)      \
+    {                                                   \
+        std::stringstream ss;                           \
+        ss << "WARNING: attribute name '" << dname      \
+           << "' is deprecated. please use '" << name   \
+           << "' instead.";                             \
+        simAddStatusbarMessage(ss.str().c_str());       \
+    }
+
+#define CHECK_FOR_DEPRECATED_ATTRIB_NAME(name, value)   \
+    if(!value && containsHyphens(name))                 \
+    {                                                   \
+        std::string dname = stripHyphens(name);         \
+        value = e->Attribute(dname.c_str());            \
+        if(value)                                       \
+            REPORT_DEPRECATED_ATTRIB_NAME(dname, name); \
+    }
+
+bool xmlutils::containsHyphens(const std::string &name)
+{
+    return name.find('-') != std::string::npos;
+}
+
+std::string xmlutils::stripHyphens(const std::string &name)
+{
+    std::string ret = "";
+    for(size_t i = 0; i < name.length(); i++)
+        if(name[i] != '-')
+            ret += name[i];
+    return ret;
+}
+
 bool xmlutils::hasAttr(tinyxml2::XMLElement *e, std::string name)
 {
     const char *value = e->Attribute(name.c_str());
+
+    CHECK_FOR_DEPRECATED_ATTRIB_NAME(name, value);
+
     if(value) return true;
     else return false;
 }
@@ -59,6 +96,8 @@ double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, std::string name, double
 std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, std::string name)
 {
     const char *value = e->Attribute(name.c_str());
+
+    CHECK_FOR_DEPRECATED_ATTRIB_NAME(name, value);
 
     if(!value)
     {
