@@ -28,6 +28,10 @@ protected:
     static std::set<Widget *> widgets;
 
     int id;
+    struct {
+        int x, y, width, height;
+        bool isSet;
+    } geometry;
     std::string style;
     bool enabled;
     bool visible;
@@ -58,6 +62,7 @@ public:
     friend class UIFunctions;
     friend class UIProxy;
     friend class Window;
+    friend class LayoutWidget;
 };
 
 template<typename T>

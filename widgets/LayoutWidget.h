@@ -20,7 +20,8 @@ enum Layout
     VBOX = 1,
     HBOX,
     GRID,
-    FORM
+    FORM,
+    NONE
 };
 
 class Stretch : public Widget
@@ -31,7 +32,7 @@ protected:
 public:
     Stretch();
 
-    void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);    
+    void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class LayoutWidget;
@@ -46,7 +47,7 @@ protected:
 public:
     virtual ~LayoutWidget();
 
-    void parse(Widget *self, Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);    
+    void parse(Widget *self, Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     void createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     friend class Stretch;

@@ -59,6 +59,7 @@ void LayoutWidget::parse(Widget *self, Widget *parent, std::map<int, Widget*>& w
     else if(layoutStr == "hbox") layout = HBOX;
     else if(layoutStr == "grid") layout = GRID;
     else if(layoutStr == "form") layout = FORM;
+    else if(layoutStr == "none") layout = NONE;
     else
     {
         throw std::range_error("invalid value '" + layoutStr + "' for attribute 'layout'");
@@ -81,6 +82,8 @@ void LayoutWidget::parse(Widget *self, Widget *parent, std::map<int, Widget*>& w
         try
         {
             Widget *w = Widget::parseAny(self, widgets, e1);
+            if(w->geometry.isSet && layout != NONE)
+                throw std::range_error("cannot set geometry with current layout");
             row.push_back(w);
         }
         catch(std::exception& ex)
@@ -91,7 +94,8 @@ void LayoutWidget::parse(Widget *self, Widget *parent, std::map<int, Widget*>& w
 
         if((layout == FORM && row.size() == 2) ||
                 layout == VBOX ||
-                layout == HBOX)
+                layout == HBOX ||
+                layout == NONE)
         {
             children.push_back(row);
             row.clear();
@@ -115,23 +119,29 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
     {
     case VBOX:
     case HBOX:
+    case NONE:
         {
-            QBoxLayout *qlayout;
+            QBoxLayout *qlayout = 0;
             if(layout == VBOX) qlayout = new QVBoxLayout(parent);
             if(layout == HBOX) qlayout = new QHBoxLayout(parent);
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
                 Widget *w = (*it)[0];
-                if(dynamic_cast<Stretch*>(w))
+                if(qlayout && dynamic_cast<Stretch*>(w))
                 {
                     Stretch *stretch = static_cast<Stretch*>(w);
                     qlayout->addStretch(stretch->factor);
                     continue;
                 }
                 QWidget *qw = w->createQtWidget(proxy, uiproxy, parent);
-                qlayout->addWidget(qw);
+                if(qlayout) qlayout->addWidget(qw);
+                if(layout == NONE && w->geometry.isSet)
+                {
+                    qw->move(w->geometry.x, w->geometry.y);
+                    qw->resize(w->geometry.width, w->geometry.height);
+                }
             }
-            parent->setLayout(qlayout);
+            if(qlayout) parent->setLayout(qlayout);
         }
         break;
     case GRID:

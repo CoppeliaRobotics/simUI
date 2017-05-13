@@ -121,6 +121,17 @@ void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
         id = nextId--;
     }
 
+    geometry.isSet = false;
+    if(xmlutils::hasAttr(e, "geometry"))
+    {
+        std::vector<int> geom = xmlutils::getAttrIntV(e, "geometry", "-1,-1,-1,-1", 4, 4, ",");
+        geometry.isSet = true;
+        geometry.x = geom[0];
+        geometry.y = geom[1];
+        geometry.width = geom[2];
+        geometry.height = geom[3];
+    }
+
     style = xmlutils::getAttrStr(e, "style", "");
 
     enabled = xmlutils::getAttrBool(e, "enabled", true);
