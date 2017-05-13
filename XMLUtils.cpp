@@ -15,14 +15,13 @@ bool xmlutils::hasAttr(tinyxml2::XMLElement *e, std::string name)
 
 bool xmlutils::getAttrBool(tinyxml2::XMLElement *e, std::string name, bool defaultValue)
 {
-    const char *value = e->Attribute(name.c_str());
+    if(!hasAttr(e, name)) return defaultValue;
 
-    if(!value)
-        return defaultValue;
+    std::string value = getAttrStr(e, name);
 
-    if(strcasecmp(value, "true") == 0)
+    if(value == "true")
         return true;
-    if(strcasecmp(value, "false") == 0)
+    if(value == "false")
         return false;
 
     std::stringstream ss;
@@ -32,56 +31,29 @@ bool xmlutils::getAttrBool(tinyxml2::XMLElement *e, std::string name, bool defau
 
 int xmlutils::getAttrInt(tinyxml2::XMLElement *e, std::string name, int defaultValue)
 {
-    const char *value = e->Attribute(name.c_str());
-    int ret;
+    if(!hasAttr(e, name)) return defaultValue;
 
-    if(!value)
-        return defaultValue;
+    std::string value = getAttrStr(e, name);
 
-    if(e->QueryIntAttribute(name.c_str(), &ret) != tinyxml2::XML_NO_ERROR)
-    {
-        std::stringstream ss;
-        ss << "invalid value '" << value << "' for attribute '" << name << "': must be integer";
-        throw std::range_error(ss.str());
-    }
-
-    return ret;
+    return boost::lexical_cast<int>(value);
 }
 
 float xmlutils::getAttrFloat(tinyxml2::XMLElement *e, std::string name, float defaultValue)
 {
-    const char *value = e->Attribute(name.c_str());
-    float ret;
+    if(!hasAttr(e, name)) return defaultValue;
 
-    if(!value)
-        return defaultValue;
+    std::string value = getAttrStr(e, name);
 
-    if(e->QueryFloatAttribute(name.c_str(), &ret) != tinyxml2::XML_NO_ERROR)
-    {
-        std::stringstream ss;
-        ss << "invalid value '" << value << "' for attribute '" << name << "': must be float";
-        throw std::range_error(ss.str());
-    }
-
-    return ret;
+    return boost::lexical_cast<float>(value);
 }
 
 double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, std::string name, double defaultValue)
 {
-    const char *value = e->Attribute(name.c_str());
-    double ret;
+    if(!hasAttr(e, name)) return defaultValue;
 
-    if(!value)
-        return defaultValue;
+    std::string value = getAttrStr(e, name);
 
-    if(e->QueryDoubleAttribute(name.c_str(), &ret) != tinyxml2::XML_NO_ERROR)
-    {
-        std::stringstream ss;
-        ss << "invalid value '" << value << "' for attribute '" << name << "': must be double";
-        throw std::range_error(ss.str());
-    }
-
-    return ret;
+    return boost::lexical_cast<double>(value);
 }
 
 std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, std::string name)
@@ -100,12 +72,11 @@ std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, std::string name)
 
 std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, std::string name, std::string defaultValue)
 {
-    const char *value = e->Attribute(name.c_str());
+    if(!hasAttr(e, name)) return defaultValue;
 
-    if(!value)
-        return defaultValue;
+    std::string value = getAttrStr(e, name);
 
-    return std::string(value);
+    return value;
 }
 
 void xmlutils::string2vector(std::string s, std::vector<std::string>& v, int minLength, int maxLength, const char *sep)
