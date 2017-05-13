@@ -884,6 +884,107 @@ void expandToDepth(SScriptCallBack *p, const char *cmd, expandToDepth_in *in, ex
     UIFunctions::getInstance()->expandToDepth(tree, in->depth);
 }
 
+void addNode(SScriptCallBack *p, const char *cmd, addNode_in *in, addNode_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    out->nodeId = dataflow->nextId();
+    UIFunctions::getInstance()->addNode(dataflow, out->nodeId, QPoint(in->x, in->y), QString::fromStdString(in->text), in->inlets, in->outlets);
+}
+
+void removeNode(SScriptCallBack *p, const char *cmd, removeNode_in *in, removeNode_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    UIFunctions::getInstance()->removeNode(dataflow, in->nodeId);
+}
+
+void setNodeValid(SScriptCallBack *p, const char *cmd, setNodeValid_in *in, setNodeValid_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    UIFunctions::getInstance()->setNodeValid(dataflow, in->nodeId, in->valid);
+}
+
+void isNodeValid(SScriptCallBack *p, const char *cmd, isNodeValid_in *in, isNodeValid_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    out->valid = dataflow->isNodeValid(in->nodeId);
+}
+
+void setNodePos(SScriptCallBack *p, const char *cmd, setNodePos_in *in, setNodePos_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    UIFunctions::getInstance()->setNodePos(dataflow, in->nodeId, QPoint(in->x, in->y));
+}
+
+void getNodePos(SScriptCallBack *p, const char *cmd, getNodePos_in *in, getNodePos_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    QPoint pos = dataflow->getNodePos(in->nodeId);
+    out->x = pos.x();
+    out->y = pos.y();
+}
+
+void setNodeText(SScriptCallBack *p, const char *cmd, setNodeText_in *in, setNodeText_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    UIFunctions::getInstance()->setNodeText(dataflow, in->nodeId, QString::fromStdString(in->text));
+}
+
+void getNodeText(SScriptCallBack *p, const char *cmd, getNodeText_in *in, getNodeText_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    out->text = dataflow->getNodeText(in->nodeId);
+}
+
+void setNodeInletCount(SScriptCallBack *p, const char *cmd, setNodeInletCount_in *in, setNodeInletCount_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    UIFunctions::getInstance()->setNodeInletCount(dataflow, in->nodeId, in->count);
+}
+
+void getNodeInletCount(SScriptCallBack *p, const char *cmd, getNodeInletCount_in *in, getNodeInletCount_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    out->count = dataflow->getNodeInletCount(in->nodeId);
+}
+
+void setNodeOutletCount(SScriptCallBack *p, const char *cmd, setNodeOutletCount_in *in, setNodeOutletCount_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    UIFunctions::getInstance()->setNodeOutletCount(dataflow, in->nodeId, in->count);
+}
+
+void getNodeOutletCount(SScriptCallBack *p, const char *cmd, getNodeOutletCount_in *in, getNodeOutletCount_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->nodeId);
+    out->count = dataflow->getNodeOutletCount(in->nodeId);
+}
+
+void addConnection(SScriptCallBack *p, const char *cmd, addConnection_in *in, addConnection_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->srcNodeId);
+    dataflow->getNode(in->dstNodeId);
+    UIFunctions::getInstance()->addConnection(dataflow, in->srcNodeId, in->srcOutlet, in->dstNodeId, in->dstInlet);
+}
+
+void removeConnection(SScriptCallBack *p, const char *cmd, removeConnection_in *in, removeConnection_out *out)
+{
+    Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, cmd, "dataflow");
+    dataflow->getNode(in->srcNodeId);
+    dataflow->getNode(in->dstNodeId);
+    UIFunctions::getInstance()->removeConnection(dataflow, in->srcNodeId, in->srcOutlet, in->dstNodeId, in->dstInlet);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];

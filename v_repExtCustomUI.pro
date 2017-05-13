@@ -8,6 +8,7 @@ DEFINES += QT_COMPIL
 CONFIG += shared debug_and_release
 INCLUDEPATH += "../include"
 INCLUDEPATH += "external/QCustomPlot-2.0.0-beta"
+INCLUDEPATH += "external/QDataflowCanvas"
 
 *-msvc* {
 	QMAKE_CXXFLAGS += -O2
@@ -93,6 +94,7 @@ HEADERS += \
     widgets/Button.h \
     widgets/Checkbox.h \
     widgets/Combobox.h \
+    widgets/Dataflow.h \
     widgets/Edit.h \
     widgets/Event.h \
     widgets/Group.h \
@@ -116,7 +118,9 @@ HEADERS += \
     Proxy.h \
     XMLUtils.h \
     tinyxml2.h \
-    external/QCustomPlot-2.0.0-beta/qcustomplot.h
+    external/QCustomPlot-2.0.0-beta/qcustomplot.h \
+    external/QDataflowCanvas/qdataflowmodel.h \
+    external/QDataflowCanvas/qdataflowcanvas.h
 
 SOURCES += \
     debug.cpp \
@@ -129,6 +133,7 @@ SOURCES += \
     widgets/Button.cpp \
     widgets/Checkbox.cpp \
     widgets/Combobox.cpp \
+    widgets/Dataflow.cpp \
     widgets/Edit.cpp \
     widgets/Event.cpp \
     widgets/Group.cpp \
@@ -151,6 +156,8 @@ SOURCES += \
     Proxy.cpp \
     XMLUtils.cpp \
     tinyxml2.cpp \
-    external/QCustomPlot-2.0.0-beta/qcustomplot.cpp
+    external/QCustomPlot-2.0.0-beta/qcustomplot.cpp \
+    external/QDataflowCanvas/qdataflowmodel.cpp \
+    external/QDataflowCanvas/qdataflowcanvas.cpp
 
 

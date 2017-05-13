@@ -6,6 +6,7 @@
 #include "Button.h"
 #include "Checkbox.h"
 #include "Combobox.h"
+#include "Dataflow.h"
 #include "Edit.h"
 #include "Group.h"
 #include "HSlider.h"

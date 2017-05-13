@@ -133,6 +133,24 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::expandAll, uiproxy, &UIProxy::onExpandAll, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::collapseAll, uiproxy, &UIProxy::onCollapseAll, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::expandToDepth, uiproxy, &UIProxy::onExpandToDepth, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::addNode, uiproxy, &UIProxy::onAddNode, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::removeNode, uiproxy, &UIProxy::onRemoveNode, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setNodeValid, uiproxy, &UIProxy::onSetNodeValid, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setNodePos, uiproxy, &UIProxy::onSetNodePos, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setNodeText, uiproxy, &UIProxy::onSetNodeText, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setNodeInletCount, uiproxy, &UIProxy::onSetNodeInletCount, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setNodeOutletCount, uiproxy, &UIProxy::onSetNodeOutletCount, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::addConnection, uiproxy, &UIProxy::onAddConnection, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::removeConnection, uiproxy, &UIProxy::onRemoveConnection, Qt::BlockingQueuedConnection);
+    connect(uiproxy, &UIProxy::nodeAdded, this, &UIFunctions::onNodeAdded);
+    connect(uiproxy, &UIProxy::nodeRemoved, this, &UIFunctions::onNodeRemoved);
+    connect(uiproxy, &UIProxy::nodeValidChanged, this, &UIFunctions::onNodeValidChanged);
+    connect(uiproxy, &UIProxy::nodePosChanged, this, &UIFunctions::onNodePosChanged);
+    connect(uiproxy, &UIProxy::nodeTextChanged, this, &UIFunctions::onNodeTextChanged);
+    connect(uiproxy, &UIProxy::nodeInletCountChanged, this, &UIFunctions::onNodeInletCountChanged);
+    connect(uiproxy, &UIProxy::nodeOutletCountChanged, this, &UIFunctions::onNodeOutletCountChanged);
+    connect(uiproxy, &UIProxy::connectionAdded, this, &UIFunctions::onConnectionAdded);
+    connect(uiproxy, &UIProxy::connectionRemoved, this, &UIFunctions::onConnectionRemoved);
 }
 
 /**
@@ -386,5 +404,166 @@ void UIFunctions::onMouseEvent(Image *image, int type, bool shift, bool control,
     }
     if(cb == "") return;
     onMouseEventCallback(image->proxy->getScriptID(), cb.c_str(), &in, &out);
+}
+
+void UIFunctions::onNodeAdded(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onNodeAdded == "") return;
+
+    onNodeAddedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.nodeId = id;
+    in.x = pos.x();
+    in.y = pos.y();
+    in.text = text.toStdString();
+    in.inlets = inlets;
+    in.outlets = outlets;
+    onNodeAddedCallback_out out;
+    onNodeAddedCallback(dataflow->proxy->getScriptID(), dataflow->onNodeAdded.c_str(), &in, &out);
+}
+
+void UIFunctions::onNodeRemoved(Dataflow *dataflow, int id)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onNodeRemoved == "") return;
+
+    onNodeRemovedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.nodeId = id;
+    onNodeRemovedCallback_out out;
+    onNodeRemovedCallback(dataflow->proxy->getScriptID(), dataflow->onNodeRemoved.c_str(), &in, &out);
+}
+
+void UIFunctions::onNodeValidChanged(Dataflow *dataflow, int id, bool valid)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onNodeValidChanged == "") return;
+
+    onNodeValidChangedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.nodeId = id;
+    in.valid = valid;
+    onNodeValidChangedCallback_out out;
+    onNodeValidChangedCallback(dataflow->proxy->getScriptID(), dataflow->onNodeValidChanged.c_str(), &in, &out);
+}
+
+void UIFunctions::onNodePosChanged(Dataflow *dataflow, int id, QPoint pos)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onNodePosChanged == "") return;
+
+    onNodePosChangedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.nodeId = id;
+    in.x = pos.x();
+    in.y = pos.x();
+    onNodePosChangedCallback_out out;
+    onNodePosChangedCallback(dataflow->proxy->getScriptID(), dataflow->onNodePosChanged.c_str(), &in, &out);
+}
+
+void UIFunctions::onNodeTextChanged(Dataflow *dataflow, int id, QString text)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onNodeTextChanged == "") return;
+
+    onNodeTextChangedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.nodeId = id;
+    in.text = text.toStdString();
+    onNodeTextChangedCallback_out out;
+    onNodeTextChangedCallback(dataflow->proxy->getScriptID(), dataflow->onNodeTextChanged.c_str(), &in, &out);
+}
+
+void UIFunctions::onNodeInletCountChanged(Dataflow *dataflow, int id, int inlets)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onNodeInletCountChanged == "") return;
+
+    onNodeInletCountChangedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.nodeId = id;
+    in.count = inlets;
+    onNodeInletCountChangedCallback_out out;
+    onNodeInletCountChangedCallback(dataflow->proxy->getScriptID(), dataflow->onNodeInletCountChanged.c_str(), &in, &out);
+}
+
+void UIFunctions::onNodeOutletCountChanged(Dataflow *dataflow, int id, int outlets)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onNodeOutletCountChanged == "") return;
+
+    onNodeOutletCountChangedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.nodeId = id;
+    in.count = outlets;
+    onNodeOutletCountChangedCallback_out out;
+    onNodeOutletCountChangedCallback(dataflow->proxy->getScriptID(), dataflow->onNodeOutletCountChanged.c_str(), &in, &out);
+}
+
+void UIFunctions::onConnectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onConnectionAdded == "") return;
+
+    onConnectionAddedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.srcNodeId = srcNodeId;
+    in.srcOutlet = srcOutlet;
+    in.dstNodeId = dstNodeId;
+    in.dstInlet = dstInlet;
+    onConnectionAddedCallback_out out;
+    onConnectionAddedCallback(dataflow->proxy->getScriptID(), dataflow->onConnectionAdded.c_str(), &in, &out);
+}
+
+void UIFunctions::onConnectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, dataflow);
+
+    if(dataflow->proxy->scriptID == -1) return;
+    if(dataflow->onConnectionRemoved == "") return;
+
+    onConnectionRemovedCallback_in in;
+    in.handle = dataflow->proxy->getHandle();
+    in.id = dataflow->id;
+    in.srcNodeId = srcNodeId;
+    in.srcOutlet = srcOutlet;
+    in.dstNodeId = dstNodeId;
+    in.dstInlet = dstInlet;
+    onConnectionRemovedCallback_out out;
+    onConnectionRemovedCallback(dataflow->proxy->getScriptID(), dataflow->onConnectionRemoved.c_str(), &in, &out);
 }
 

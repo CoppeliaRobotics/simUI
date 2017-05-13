@@ -44,6 +44,15 @@ public slots:
     void onTableSelectionChange();
     void onTreeSelectionChange();
     void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+    void onNodeAdded(QDataflowModelNode *node);
+    void onNodeRemoved(QDataflowModelNode *node);
+    void onNodeValidChanged(QDataflowModelNode *node, bool valid);
+    void onNodePosChanged(QDataflowModelNode *node, QPoint pos);
+    void onNodeTextChanged(QDataflowModelNode *node, QString text);
+    void onNodeInletCountChanged(QDataflowModelNode *node, int count);
+    void onNodeOutletCountChanged(QDataflowModelNode *node, int count);
+    void onConnectionAdded(QDataflowModelConnection *conn);
+    void onConnectionRemoved(QDataflowModelConnection *conn);
     // ---
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
@@ -109,6 +118,15 @@ public slots:
     void onExpandAll(Tree *tree);
     void onCollapseAll(Tree *tree);
     void onExpandToDepth(Tree *tree, int depth);
+    void onAddNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets);
+    void onRemoveNode(Dataflow *dataflow, int id);
+    void onSetNodeValid(Dataflow *dataflow, int id, bool valid);
+    void onSetNodePos(Dataflow *dataflow, int id, QPoint pos);
+    void onSetNodeText(Dataflow *dataflow, int id, QString text);
+    void onSetNodeInletCount(Dataflow *dataflow, int id, int count);
+    void onSetNodeOutletCount(Dataflow *dataflow, int id, int count);
+    void onAddConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
+    void onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
 
 signals:
     void buttonClick(Widget *widget);
@@ -124,6 +142,15 @@ signals:
     void tableSelectionChange(Table *table, int row, int col);
     void treeSelectionChange(Tree *tree, int id);
     void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+    void nodeAdded(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets);
+    void nodeRemoved(Dataflow *dataflow, int id);
+    void nodeValidChanged(Dataflow *dataflow, int id, bool valid);
+    void nodePosChanged(Dataflow *dataflow, int id, QPoint pos);
+    void nodeTextChanged(Dataflow *dataflow, int id, QString text);
+    void nodeInletCountChanged(Dataflow *dataflow, int id, int inlets);
+    void nodeOutletCountChanged(Dataflow *dataflow, int id, int outlets);
+    void connectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
+    void connectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
 };
 
 #endif // UIPROXY_H_INCLUDED

@@ -323,6 +323,190 @@ void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onNodeAdded(QDataflowModelNode *node)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int id = dataflow->nextId();
+            dataflow->mapNode(node, id);
+            emit nodeAdded(dataflow, id, node->pos(), node->text(), node->inletCount(), node->outletCount());
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onNodeRemoved(QDataflowModelNode *node)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int id = dataflow->getNodeId(node);
+            dataflow->unmapNode(node);
+            emit nodeRemoved(dataflow, id);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onNodeValidChanged(QDataflowModelNode *node, bool valid)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int id = dataflow->getNodeId(node);
+            emit nodeValidChanged(dataflow, id, valid);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onNodePosChanged(QDataflowModelNode *node, QPoint pos)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int id = dataflow->getNodeId(node);
+            emit nodePosChanged(dataflow, id, pos);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onNodeTextChanged(QDataflowModelNode *node, QString text)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int id = dataflow->getNodeId(node);
+            emit nodeTextChanged(dataflow, id, text);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onNodeInletCountChanged(QDataflowModelNode *node, int count)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int id = dataflow->getNodeId(node);
+            emit nodeInletCountChanged(dataflow, id, count);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onNodeOutletCountChanged(QDataflowModelNode *node, int count)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int id = dataflow->getNodeId(node);
+            emit nodeOutletCountChanged(dataflow, id, count);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onConnectionAdded(QDataflowModelConnection *conn)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int srcid = dataflow->getNodeId(conn->source()->node());
+            int dstid = dataflow->getNodeId(conn->source()->node());
+            emit connectionAdded(dataflow, srcid, conn->source()->index(), dstid, conn->dest()->index());
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
+
+    if(model)
+    {
+        Dataflow *dataflow = Dataflow::byModel(model);
+        if(dataflow)
+        {
+            int srcid = dataflow->getNodeId(conn->source()->node());
+            int dstid = dataflow->getNodeId(conn->source()->node());
+            emit connectionRemoved(dataflow, srcid, conn->source()->index(), dstid, conn->dest()->index());
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
 // The following slots are wrappers for functions called from SIM thread
 // which should instead execute in the UI thread.
 
@@ -883,5 +1067,50 @@ void UIProxy::onCollapseAll(Tree *tree)
 void UIProxy::onExpandToDepth(Tree *tree, int depth)
 {
     tree->expandToDepth(depth);
+}
+
+void UIProxy::onAddNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets)
+{
+    dataflow->addNode(id, pos, text, inlets, outlets);
+}
+
+void UIProxy::onRemoveNode(Dataflow *dataflow, int id)
+{
+    dataflow->removeNode(id);
+}
+
+void UIProxy::onSetNodeValid(Dataflow *dataflow, int id, bool valid)
+{
+    dataflow->setNodeValid(id, valid);
+}
+
+void UIProxy::onSetNodePos(Dataflow *dataflow, int id, QPoint pos)
+{
+    dataflow->setNodePos(id, pos);
+}
+
+void UIProxy::onSetNodeText(Dataflow *dataflow, int id, QString text)
+{
+    dataflow->setNodeText(id, text);
+}
+
+void UIProxy::onSetNodeInletCount(Dataflow *dataflow, int id, int count)
+{
+    dataflow->setNodeInletCount(id, count);
+}
+
+void UIProxy::onSetNodeOutletCount(Dataflow *dataflow, int id, int count)
+{
+    dataflow->setNodeOutletCount(id, count);
+}
+
+void UIProxy::onAddConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet)
+{
+    dataflow->addConnection(srcId, srcOutlet, dstId, dstInlet);
+}
+
+void UIProxy::onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet)
+{
+    dataflow->removeConnection(srcId, srcOutlet, dstId, dstInlet);
 }
 

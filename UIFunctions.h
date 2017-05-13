@@ -41,6 +41,15 @@ private slots:
     void onSelectionChangeTable(Table *table, int row, int col);
     void onSelectionChangeTree(Tree *tree, int id);
     void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+    void onNodeAdded(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets);
+    void onNodeRemoved(Dataflow *dataflow, int id);
+    void onNodeValidChanged(Dataflow *dataflow, int id, bool valid);
+    void onNodePosChanged(Dataflow *dataflow, int id, QPoint pos);
+    void onNodeTextChanged(Dataflow *dataflow, int id, QString text);
+    void onNodeInletCountChanged(Dataflow *dataflow, int id, int inlets);
+    void onNodeOutletCountChanged(Dataflow *dataflow, int id, int outlets);
+    void onConnectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
+    void onConnectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
 
 signals:
     void create(Proxy *proxy);
@@ -109,6 +118,15 @@ signals:
     void expandAll(Tree *tree);
     void collapseAll(Tree *tree);
     void expandToDepth(Tree *tree, int depth);
+    void addNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets);
+    void removeNode(Dataflow *dataflow, int id);
+    void setNodeValid(Dataflow *dataflow, int id, bool valid);
+    void setNodePos(Dataflow *dataflow, int id, QPoint pos);
+    void setNodeText(Dataflow *dataflow, int id, QString text);
+    void setNodeInletCount(Dataflow *dataflow, int id, int count);
+    void setNodeOutletCount(Dataflow *dataflow, int id, int count);
+    void addConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
+    void removeConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED
