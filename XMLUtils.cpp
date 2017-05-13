@@ -6,16 +6,16 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 
-bool xmlutils::hasAttr(tinyxml2::XMLElement *e, const char *name)
+bool xmlutils::hasAttr(tinyxml2::XMLElement *e, std::string name)
 {
-    const char *value = e->Attribute(name);
+    const char *value = e->Attribute(name.c_str());
     if(value) return true;
     else return false;
 }
 
-bool xmlutils::getAttrBool(tinyxml2::XMLElement *e, const char *name, bool defaultValue)
+bool xmlutils::getAttrBool(tinyxml2::XMLElement *e, std::string name, bool defaultValue)
 {
-    const char *value = e->Attribute(name);
+    const char *value = e->Attribute(name.c_str());
 
     if(!value)
         return defaultValue;
@@ -30,15 +30,15 @@ bool xmlutils::getAttrBool(tinyxml2::XMLElement *e, const char *name, bool defau
     throw std::range_error(ss.str());
 }
 
-int xmlutils::getAttrInt(tinyxml2::XMLElement *e, const char *name, int defaultValue)
+int xmlutils::getAttrInt(tinyxml2::XMLElement *e, std::string name, int defaultValue)
 {
-    const char *value = e->Attribute(name);
+    const char *value = e->Attribute(name.c_str());
     int ret;
 
     if(!value)
         return defaultValue;
 
-    if(e->QueryIntAttribute(name, &ret) != tinyxml2::XML_NO_ERROR)
+    if(e->QueryIntAttribute(name.c_str(), &ret) != tinyxml2::XML_NO_ERROR)
     {
         std::stringstream ss;
         ss << "invalid value '" << value << "' for attribute '" << name << "': must be integer";
@@ -48,15 +48,15 @@ int xmlutils::getAttrInt(tinyxml2::XMLElement *e, const char *name, int defaultV
     return ret;
 }
 
-float xmlutils::getAttrFloat(tinyxml2::XMLElement *e, const char *name, float defaultValue)
+float xmlutils::getAttrFloat(tinyxml2::XMLElement *e, std::string name, float defaultValue)
 {
-    const char *value = e->Attribute(name);
+    const char *value = e->Attribute(name.c_str());
     float ret;
 
     if(!value)
         return defaultValue;
 
-    if(e->QueryFloatAttribute(name, &ret) != tinyxml2::XML_NO_ERROR)
+    if(e->QueryFloatAttribute(name.c_str(), &ret) != tinyxml2::XML_NO_ERROR)
     {
         std::stringstream ss;
         ss << "invalid value '" << value << "' for attribute '" << name << "': must be float";
@@ -66,15 +66,15 @@ float xmlutils::getAttrFloat(tinyxml2::XMLElement *e, const char *name, float de
     return ret;
 }
 
-double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, const char *name, double defaultValue)
+double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, std::string name, double defaultValue)
 {
-    const char *value = e->Attribute(name);
+    const char *value = e->Attribute(name.c_str());
     double ret;
 
     if(!value)
         return defaultValue;
 
-    if(e->QueryDoubleAttribute(name, &ret) != tinyxml2::XML_NO_ERROR)
+    if(e->QueryDoubleAttribute(name.c_str(), &ret) != tinyxml2::XML_NO_ERROR)
     {
         std::stringstream ss;
         ss << "invalid value '" << value << "' for attribute '" << name << "': must be double";
@@ -84,9 +84,9 @@ double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, const char *name, double
     return ret;
 }
 
-std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, const char *name)
+std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, std::string name)
 {
-    const char *value = e->Attribute(name);
+    const char *value = e->Attribute(name.c_str());
 
     if(!value)
     {
@@ -98,9 +98,9 @@ std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, const char *name)
     return std::string(value);
 }
 
-std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, const char *name, std::string defaultValue)
+std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, std::string name, std::string defaultValue)
 {
-    const char *value = e->Attribute(name);
+    const char *value = e->Attribute(name.c_str());
 
     if(!value)
         return defaultValue;
@@ -177,7 +177,7 @@ void xmlutils::string2vector(std::string s, std::vector<int>& v, int minLength, 
         v.push_back(boost::lexical_cast<int>(*it));
 }
 
-std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, std::string name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
     std::vector<std::string> defaultValueV;
     try
@@ -194,7 +194,7 @@ std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const ch
     return getAttrStrV(e, name, defaultValueV, minLength, maxLength, sep);
 }
 
-std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const char *name, std::vector<std::string> defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, std::string name, std::vector<std::string> defaultValue, int minLength, int maxLength, const char *sep)
 {
     if(hasAttr(e, name))
     {
@@ -217,7 +217,7 @@ std::vector<std::string> xmlutils::getAttrStrV(tinyxml2::XMLElement *e, const ch
     }
 }
 
-std::vector<bool> xmlutils::getAttrBoolV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<bool> xmlutils::getAttrBoolV(tinyxml2::XMLElement *e, std::string name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
     std::vector<bool> defaultValueV;
     try
@@ -234,7 +234,7 @@ std::vector<bool> xmlutils::getAttrBoolV(tinyxml2::XMLElement *e, const char *na
     return getAttrBoolV(e, name, defaultValueV, minLength, maxLength, sep);
 }
 
-std::vector<bool> xmlutils::getAttrBoolV(tinyxml2::XMLElement *e, const char *name, std::vector<bool> defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<bool> xmlutils::getAttrBoolV(tinyxml2::XMLElement *e, std::string name, std::vector<bool> defaultValue, int minLength, int maxLength, const char *sep)
 {
     if(hasAttr(e, name))
     {
@@ -257,7 +257,7 @@ std::vector<bool> xmlutils::getAttrBoolV(tinyxml2::XMLElement *e, const char *na
     }
 }
 
-std::vector<float> xmlutils::getAttrFloatV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<float> xmlutils::getAttrFloatV(tinyxml2::XMLElement *e, std::string name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
     std::vector<float> defaultValueV;
     try
@@ -274,7 +274,7 @@ std::vector<float> xmlutils::getAttrFloatV(tinyxml2::XMLElement *e, const char *
     return getAttrFloatV(e, name, defaultValueV, minLength, maxLength, sep);
 }
 
-std::vector<float> xmlutils::getAttrFloatV(tinyxml2::XMLElement *e, const char *name, std::vector<float> defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<float> xmlutils::getAttrFloatV(tinyxml2::XMLElement *e, std::string name, std::vector<float> defaultValue, int minLength, int maxLength, const char *sep)
 {
     if(hasAttr(e, name))
     {
@@ -297,7 +297,7 @@ std::vector<float> xmlutils::getAttrFloatV(tinyxml2::XMLElement *e, const char *
     }
 }
 
-std::vector<double> xmlutils::getAttrDoubleV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<double> xmlutils::getAttrDoubleV(tinyxml2::XMLElement *e, std::string name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
     std::vector<double> defaultValueV;
     try
@@ -314,7 +314,7 @@ std::vector<double> xmlutils::getAttrDoubleV(tinyxml2::XMLElement *e, const char
     return getAttrDoubleV(e, name, defaultValueV, minLength, maxLength, sep);
 }
 
-std::vector<double> xmlutils::getAttrDoubleV(tinyxml2::XMLElement *e, const char *name, std::vector<double> defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<double> xmlutils::getAttrDoubleV(tinyxml2::XMLElement *e, std::string name, std::vector<double> defaultValue, int minLength, int maxLength, const char *sep)
 {
     if(hasAttr(e, name))
     {
@@ -337,7 +337,7 @@ std::vector<double> xmlutils::getAttrDoubleV(tinyxml2::XMLElement *e, const char
     }
 }
 
-std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, const char *name, std::string defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, std::string name, std::string defaultValue, int minLength, int maxLength, const char *sep)
 {
     std::vector<int> defaultValueV;
     try
@@ -354,7 +354,7 @@ std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, const char *name
     return getAttrIntV(e, name, defaultValueV, minLength, maxLength, sep);
 }
 
-std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, const char *name, std::vector<int> defaultValue, int minLength, int maxLength, const char *sep)
+std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, std::string name, std::vector<int> defaultValue, int minLength, int maxLength, const char *sep)
 {
     if(hasAttr(e, name))
     {
