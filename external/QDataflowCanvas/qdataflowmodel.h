@@ -19,7 +19,7 @@
 
 #if __cplusplus < 201100L
 #define nullptr NULL
-//#define override
+#define override
 #endif
 
 #include <QObject>
