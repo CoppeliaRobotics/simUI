@@ -34,6 +34,7 @@ public slots:
     void onDestroy(Proxy *proxy);
     void onCreate(Proxy *proxy);
     void onButtonClick();
+    void onLinkActivated(const QString &link);
     void onValueChangeInt(int value);
     void onValueChangeDouble(double value);
     void onValueChangeString(QString value);
@@ -130,6 +131,7 @@ public slots:
 
 signals:
     void buttonClick(Widget *widget);
+    void linkActivated(Widget *widget, QString link);
     void valueChangeInt(Widget *widget, int value);
     void valueChangeDouble(Widget *widget, double value);
     void valueChangeString(Widget *widget, QString value);

@@ -104,6 +104,24 @@ void UIProxy::onButtonClick()
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onLinkActivated(const QString &link)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    QWidget *qwidget = dynamic_cast<QWidget*>(sender());
+    if(qwidget)
+    {
+        Widget *widget = Widget::byQWidget(qwidget);
+        if(widget)
+        {
+            emit linkActivated(widget, link);
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
 void UIProxy::onValueChangeInt(int value)
 {
     ASSERT_THREAD(UI);

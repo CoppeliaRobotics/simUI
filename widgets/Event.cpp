@@ -59,3 +59,12 @@ EventOnEditingFinished::~EventOnEditingFinished()
 {
 }
 
+EventOnLinkActivated::EventOnLinkActivated()
+    : onLinkActivated("")
+{
+}
+
+EventOnLinkActivated::~EventOnLinkActivated()
+{
+}
+

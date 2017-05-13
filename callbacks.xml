@@ -2354,6 +2354,22 @@
         <return>
         </return>
     </script-function>
+    <script-function name="onLinkActivatedCallback">
+        <description>Callback for when a link is clicked.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the clicked button</description>
+            </param>
+            <param name="link" type="string">
+                <description>the href attribute of the activated link</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
     <script-function name="onchangeIntCallback">
         <description>Callback for widget change event.</description>
         <params>

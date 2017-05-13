@@ -77,5 +77,17 @@ public:
     friend class UIFunctions;
 };
 
+class EventOnLinkActivated : public Event
+{
+protected:
+    std::string onLinkActivated;
+
+public:
+    EventOnLinkActivated();
+    virtual ~EventOnLinkActivated();
+
+    friend class UIFunctions;
+};
+
 #endif // EVENT_H_INCLUDED
 

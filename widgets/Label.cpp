@@ -22,6 +22,8 @@ void Label::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
     text = xmlutils::getAttrStr(e, "text", "");
 
     wordWrap = xmlutils::getAttrBool(e, "wordwrap", false);
+
+    onLinkActivated = xmlutils::getAttrStr(e, "on-link-activated", "");
 }
 
 QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -31,6 +33,8 @@ QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     label->setVisible(visible);
     label->setStyleSheet(QString::fromStdString(style));
     label->setWordWrap(wordWrap);
+    label->setOpenExternalLinks(false);
+    QObject::connect(label, &QLabel::linkActivated, uiproxy, &UIProxy::onLinkActivated);
     setQWidget(label);
     setProxy(proxy);
     return label;

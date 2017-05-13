@@ -12,8 +12,9 @@ class Proxy;
 class UIProxy;
 
 #include "Widget.h"
+#include "Event.h"
 
-class Label : public Widget
+class Label : public Widget, public EventOnLinkActivated
 {
 protected:
     std::string text;
@@ -22,7 +23,7 @@ protected:
 public:
     Label();
     virtual ~Label();
-    
+
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 

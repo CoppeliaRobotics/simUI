@@ -29,6 +29,7 @@ public slots:
 
 private slots:
     void onButtonClick(Widget *widget);
+    void onLinkActivated(Widget *widget, QString link);
     void onValueChangeInt(Widget *widget, int value);
     void onValueChangeDouble(Widget *widget, double value);
     void onValueChangeString(Widget *widget, QString value);

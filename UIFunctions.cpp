@@ -56,6 +56,7 @@ void UIFunctions::connectSignals()
     // connect signals/slots from UIProxy to UIFunctions and vice-versa
     connect(this, &UIFunctions::create, uiproxy, &UIProxy::onCreate, Qt::BlockingQueuedConnection);
     connect(uiproxy, &UIProxy::buttonClick, this, &UIFunctions::onButtonClick);
+    connect(uiproxy, &UIProxy::linkActivated, this, &UIFunctions::onLinkActivated);
     connect(uiproxy, &UIProxy::valueChangeInt, this, &UIFunctions::onValueChangeInt);
     connect(uiproxy, &UIProxy::valueChangeDouble, this, &UIFunctions::onValueChangeDouble);
     connect(uiproxy, &UIProxy::valueChangeString, this, &UIFunctions::onValueChangeString);
@@ -179,6 +180,24 @@ void UIFunctions::onButtonClick(Widget *widget)
     in.id = widget->id;
     onclickCallback_out out;
     onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in, &out);
+}
+
+void UIFunctions::onLinkActivated(Widget *widget, QString link)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, widget);
+
+    EventOnLinkActivated *e = dynamic_cast<EventOnLinkActivated*>(widget);
+
+    if(!e) return;
+    if(e->onLinkActivated == "" || widget->proxy->scriptID == -1) return;
+
+    onLinkActivatedCallback_in in;
+    in.handle = widget->proxy->handle;
+    in.id = widget->id;
+    in.link = link.toStdString();
+    onLinkActivatedCallback_out out;
+    onLinkActivatedCallback(widget->proxy->scriptID, e->onLinkActivated.c_str(), &in, &out);
 }
 
 void UIFunctions::onValueChangeInt(Widget *widget, int value)
