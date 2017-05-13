@@ -27,7 +27,7 @@ void Radiobutton::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
 
     auto_exclusive = xmlutils::getAttrBool(e, "auto-exclusive", true);
 
-    onclick = xmlutils::getAttrStr(e, "onclick", "");
+    onclick = xmlutils::getAttrStr(e, "on-click", "");
 }
 
 QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

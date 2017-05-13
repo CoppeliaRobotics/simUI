@@ -60,7 +60,7 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     modal = xmlutils::getAttrBool(e, "modal", false);
 
-    onclose = xmlutils::getAttrStr(e, "onclose", "");
+    onclose = xmlutils::getAttrStr(e, "on-close", "");
 
     style = xmlutils::getAttrStr(e, "style", "");
 

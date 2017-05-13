@@ -21,9 +21,9 @@ void Edit::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
     value = xmlutils::getAttrStr(e, "value", "");
 
-    onchange = xmlutils::getAttrStr(e, "onchange", "");
+    onchange = xmlutils::getAttrStr(e, "on-change", "");
 
-    oneditingfinished = xmlutils::getAttrStr(e, "oneditingfinished", "");
+    oneditingfinished = xmlutils::getAttrStr(e, "on-editing-finished", "");
 }
 
 QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

@@ -44,7 +44,7 @@ void Slider::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 
     inverted = xmlutils::getAttrBool(e, "inverted", false);
 
-    onchange = xmlutils::getAttrStr(e, "onchange", "");
+    onchange = xmlutils::getAttrStr(e, "on-change", "");
 }
 
 QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

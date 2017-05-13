@@ -36,7 +36,7 @@ void Spinbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
 
     step = xmlutils::getAttrDouble(e, "step", 1);
 
-    onchange = xmlutils::getAttrStr(e, "onchange", "");
+    onchange = xmlutils::getAttrStr(e, "on-change", "");
 
     bool detectedFloat = isFloat(minimum) || isFloat(maximum) || isFloat(step);
     float_ = xmlutils::getAttrBool(e, "float", detectedFloat);

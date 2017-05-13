@@ -83,7 +83,7 @@ void Tree::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
     sortable = xmlutils::getAttrBool(e, "sortable", false);
 
-    onSelectionChange = xmlutils::getAttrStr(e, "onselectionchange", "");
+    onSelectionChange = xmlutils::getAttrStr(e, "on-selection-change", "");
 }
 
 QTreeWidgetItem* Tree::getWidgetItemById(int id)

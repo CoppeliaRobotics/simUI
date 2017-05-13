@@ -29,7 +29,7 @@ void Combobox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
         items.push_back(itemName);
     }
 
-    onchange = xmlutils::getAttrStr(e, "onchange", "");
+    onchange = xmlutils::getAttrStr(e, "on-change", "");
 }
 
 QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

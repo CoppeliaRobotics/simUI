@@ -27,7 +27,7 @@ void Checkbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
 
     auto_exclusive = xmlutils::getAttrBool(e, "auto-exclusive", false);
 
-    onchange = xmlutils::getAttrStr(e, "onchange", "");
+    onchange = xmlutils::getAttrStr(e, "on-change", "");
 }
 
 QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)

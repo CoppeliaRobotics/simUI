@@ -68,9 +68,9 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
     cyclic_buffer = xmlutils::getAttrBool(e, "cyclic-buffer", false);
 
-    onCurveClick = xmlutils::getAttrStr(e, "onclick", "");
+    onCurveClick = xmlutils::getAttrStr(e, "on-click", "");
 
-    onLegendClick = xmlutils::getAttrStr(e, "onlegendclick", "");
+    onLegendClick = xmlutils::getAttrStr(e, "on-legend-click", "");
 
     bool ticks = xmlutils::getAttrBool(e, "ticks", true);
     x_ticks = xmlutils::getAttrBool(e, "x-ticks", ticks);

@@ -76,7 +76,7 @@
                 <description>If false, the window is shown without activating it (Qt flag WA_ShowWithoutActivating).</description>
             </attribute>
             <attribute>
-                <name>onclose</name>
+                <name>on-close</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the close event. Arguments of the function are: (uiHandle). When a callback is specified, the window will not close upon pressing the close button. It may be hidden or destroyed explicitly in the callback.</description>
@@ -142,7 +142,7 @@
                 <description>If true, checkable buttons that belong to the same parent widget behave as if they were part of the same exclusive button group. In an exclusive button group, only one button can be checked at any time; checking another button automatically unchecks the previously checked one.</description>
             </attribute>
             <attribute>
-                <name>onclick</name>
+                <name>on-click</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the click event. Arguments of the function are: (uiHandle, id).</description>
@@ -190,7 +190,7 @@
                 <description>If true, checkable buttons that belong to the same parent widget behave as if they were part of the same exclusive button group. In an exclusive button group, only one button can be checked at any time; checking another button automatically unchecks the previously checked one.</description>
             </attribute>
             <attribute>
-                <name>onchange</name>
+                <name>on-change</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
@@ -226,7 +226,7 @@
                 <description>If true, checkable buttons that belong to the same parent widget behave as if they were part of the same exclusive button group. In an exclusive button group, only one button can be checked at any time; checking another button automatically unchecks the previously checked one.</description>
             </attribute>
             <attribute>
-                <name>onchange</name>
+                <name>on-change</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
@@ -256,13 +256,13 @@
                 <description>Initial text.</description>
             </attribute>
             <attribute>
-                <name>onchange</name>
+                <name>on-change</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
             <attribute>
-                <name>oneditingfinished</name>
+                <name>on-editing-finished</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the editing finished event.  Arguments of the function are: (uiHandle, id, newValue).</description>
@@ -353,7 +353,7 @@
                 <description>If true, minimum and maximum will be swapped.</description>
             </attribute>
             <attribute>
-                <name>onchange</name>
+                <name>on-change</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
@@ -398,19 +398,19 @@
                 <description>Desired height for the initial image.</description>
             </attribute>
             <attribute>
-                <name>onmousedown</name>
+                <name>on-mouse-down</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the mouseDown event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
             <attribute>
-                <name>onmouseup</name>
+                <name>on-mouse-up</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the mouseUp event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
             <attribute>
-                <name>onmousemove</name>
+                <name>on-mouse-move</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the mouseMove event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
@@ -447,6 +447,12 @@
                 <type>bool</type>
                 <default>false</default>
                 <description>If true, long text will wrap in multiple lines, otherwise will be cut.</description>
+            </attribute>
+            <attribute>
+                <name>on-link-activated</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the linkActivated event. Arguments of the function are: (uiHandle, id, linkHref).</description>
             </attribute>
         </attributes>
     </element>
@@ -593,13 +599,13 @@
                 <description>If true, y tick labels will be visible.</description>
             </attribute>
             <attribute>
-                <name>onclick</name>
+                <name>on-click</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the click event on a curve data point.  Arguments of the function are: (uiHandle, id, curveName, dataIndex, xValue, yValue).</description>
             </attribute>
             <attribute>
-                <name>onlegendclick</name>
+                <name>on-legend-click</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the click event on a legend item.  Arguments of the function are: (uiHandle, id, curveName).</description>
@@ -689,7 +695,7 @@
                 <description>If true, this button will be initially checked.</description>
             </attribute>
             <attribute>
-                <name>onclick</name>
+                <name>on-click</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the click event.  Arguments of the function are: (uiHandle, id).</description>
@@ -749,7 +755,7 @@
                 <description>If true, the spinbox will display a floating point value. If false, the spinbox will display integer values. If omitted, this property will be automatically determined by minimum/maximum/step values: if any of those is not a round integer, the spinbox will be float.</description>
             </attribute>
             <attribute>
-                <name>onchange</name>
+                <name>on-change</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
@@ -809,13 +815,13 @@
                 <description>If true, it will be possible to sort data by columns by clicking on column headers.</description>
             </attribute>
             <attribute>
-                <name>oncellactivate</name>
+                <name>on-cell-activate</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the cell activate event. Arguments of the function are: (uiHandle, id, row, column, cellValue).</description>
             </attribute>
             <attribute>
-                <name>onselectionchange</name>
+                <name>on-selection-change</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the selection change event. Arguments of the function are: (uiHandle, id, row, column). If selection mode is 'rows', column will be -1 and vice versa.</description>
@@ -901,7 +907,7 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <description>If true, it will be possible to sort data by columns by clicking on column headers.</description>
             </attribute>
             <attribute>
-                <name>onselectionchange</name>
+                <name>on-selection-change</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the selection change event. Arguments of the function are: (uiHandle, id, item_id).</description>
@@ -958,7 +964,7 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <description>If true, minimum and maximum will be swapped.</description>
             </attribute>
             <attribute>
-                <name>onchange</name>
+                <name>on-change</name>
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>

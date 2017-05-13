@@ -25,11 +25,11 @@ void Image::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     height = xmlutils::getAttrInt(e, "height", -1);
 
-    onMouseDown = xmlutils::getAttrStr(e, "onmousedown", "");
+    onMouseDown = xmlutils::getAttrStr(e, "on-mouse-down", "");
 
-    onMouseUp = xmlutils::getAttrStr(e, "onmouseup", "");
+    onMouseUp = xmlutils::getAttrStr(e, "on-mouse-up", "");
 
-    onMouseMove = xmlutils::getAttrStr(e, "onmousemove", "");
+    onMouseMove = xmlutils::getAttrStr(e, "on-mouse-move", "");
 
     file = xmlutils::getAttrStr(e, "file", "");
 }

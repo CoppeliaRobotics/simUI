@@ -76,9 +76,9 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     sortable = xmlutils::getAttrBool(e, "sortable", false);
 
-    onCellActivate = xmlutils::getAttrStr(e, "oncellactivate", "");
+    onCellActivate = xmlutils::getAttrStr(e, "on-cell-activate", "");
 
-    onSelectionChange = xmlutils::getAttrStr(e, "onselectionchange", "");
+    onSelectionChange = xmlutils::getAttrStr(e, "on-selection-change", "");
 
     std::string select_mode_str = xmlutils::getAttrStr(e, "selection-mode", "item");
     selectionMode = QAbstractItemView::SingleSelection;

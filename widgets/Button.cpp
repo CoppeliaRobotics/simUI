@@ -33,7 +33,7 @@ void Button::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 
     auto_exclusive = xmlutils::getAttrBool(e, "auto-exclusive", false);
 
-    onclick = xmlutils::getAttrStr(e, "onclick", "");
+    onclick = xmlutils::getAttrStr(e, "on-click", "");
 }
 
 QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
