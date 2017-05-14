@@ -5,16 +5,21 @@
 #include <stdexcept>
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
+#include <set>
 
 #include "v_repLib.h"
 
+static std::set<std::string> repDepNames;
+
 #define REPORT_DEPRECATED_ATTRIB_NAME(dname, name)      \
+    if(repDepNames.find(dname) == repDepNames.end())    \
     {                                                   \
         std::stringstream ss;                           \
         ss << "WARNING: attribute name '" << dname      \
            << "' is deprecated. please use '" << name   \
            << "' instead.";                             \
         simAddStatusbarMessage(ss.str().c_str());       \
+        repDepNames.insert(dname);                      \
     }
 
 #define CHECK_FOR_DEPRECATED_ATTRIB_NAME(name, value)   \
