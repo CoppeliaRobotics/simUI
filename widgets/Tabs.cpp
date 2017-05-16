@@ -83,3 +83,17 @@ QWidget * Tabs::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     return tabwidget;
 }
 
+void Tabs::setCurrentTab(int index, bool suppressSignals)
+{
+    QTabWidget *qtabwidget = static_cast<QTabWidget*>(getQWidget());
+    bool oldSignalsState = qtabwidget->blockSignals(suppressSignals);
+    qtabwidget->setCurrentIndex(index);
+    qtabwidget->blockSignals(oldSignalsState);
+}
+
+int Tabs::getCurrentTab()
+{
+    QTabWidget *qtabwidget = static_cast<QTabWidget*>(getQWidget());
+    return qtabwidget->currentIndex();
+}
+

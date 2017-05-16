@@ -41,6 +41,9 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
+    void setCurrentTab(int index, bool suppressSignals);
+    int getCurrentTab();
+
     friend class UIFunctions;
 };
 

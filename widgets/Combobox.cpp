@@ -5,6 +5,7 @@
 #include "UIProxy.h"
 
 #include <iostream>
+#include <boost/foreach.hpp>
 
 #include <QComboBox>
 
@@ -46,5 +47,69 @@ QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
     setQWidget(combobox);
     setProxy(proxy);
     return combobox;
+}
+
+void Combobox::insertItem(int index, std::string text, bool suppressSignals)
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(getQWidget());
+    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
+    qcombobox->insertItem(index, QString::fromStdString(text));
+    qcombobox->blockSignals(oldSignalsState);
+}
+
+void Combobox::removeItem(int index, bool suppressSignals)
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(getQWidget());
+    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
+    qcombobox->removeItem(index);
+    qcombobox->blockSignals(oldSignalsState);
+}
+
+void Combobox::setItems(std::vector<std::string> items, int index, bool suppressSignals)
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(getQWidget());
+    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
+    qcombobox->clear();
+    QStringList qitems;
+    BOOST_FOREACH(std::string &item, items)
+        qitems.push_back(QString::fromStdString(item));
+    qcombobox->addItems(qitems);
+    qcombobox->setCurrentIndex(index);
+    qcombobox->blockSignals(oldSignalsState);
+}
+
+std::vector<std::string> Combobox::getItems()
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(getQWidget());
+    std::vector<std::string> ret;
+    for(int i = 0; i < qcombobox->count(); i++)
+        ret.push_back(qcombobox->itemText(i).toStdString());
+    return ret;
+}
+
+void Combobox::setSelectedIndex(int index, bool suppressSignals)
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(getQWidget());
+    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
+    qcombobox->setCurrentIndex(index);
+    qcombobox->blockSignals(oldSignalsState);
+}
+
+int Combobox::getSelectedIndex()
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(getQWidget());
+    return qcombobox->currentIndex();
+}
+
+int Combobox::count()
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(getQWidget());
+    return qcombobox->count();
+}
+
+std::string Combobox::itemText(int index)
+{
+    QComboBox *qcombobox = static_cast<QComboBox*>(getQWidget());
+    return qcombobox->itemText(index).toStdString();
 }
 

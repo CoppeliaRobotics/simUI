@@ -40,3 +40,17 @@ QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     return label;
 }
 
+void Label::setText(std::string text, bool suppressSignals)
+{
+    QLabel *qlabel = static_cast<QLabel*>(getQWidget());
+    bool oldSignalsState = qlabel->blockSignals(suppressSignals);
+    qlabel->setText(QString::fromStdString(text));
+    qlabel->blockSignals(oldSignalsState);
+}
+
+std::string Label::getText()
+{
+    QLabel *qlabel = static_cast<QLabel*>(getQWidget());
+    return qlabel->text().toStdString();
+}
+

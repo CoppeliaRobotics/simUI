@@ -592,7 +592,7 @@ void UIProxy::onSetPosition(Window *window, int x, int y)
 
     if(!window) return;
 
-    window->getQWidget()->move(x, y);
+    window->move(x, y);
 
     DBG << "[leave]" << std::endl;
 }
@@ -604,7 +604,7 @@ void UIProxy::onSetSize(Window *window, int w, int h)
 
     if(!window) return;
 
-    window->getQWidget()->resize(w, h);
+    window->resize(w, h);
 
     DBG << "[leave]" << std::endl;
 }
@@ -616,7 +616,7 @@ void UIProxy::onSetTitle(Window *window, std::string title)
 
     if(!window) return;
 
-    static_cast<QDialog*>(window->getQWidget())->setWindowTitle(QString::fromStdString(title));
+    window->setTitle(title);
 
     DBG << "[leave]" << std::endl;
 }
@@ -628,16 +628,7 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 
     DBG << "image=" << (void*)image << ", data=" << (void*)data << ", w=" << w << ", h=" << h << std::endl;
 
-    if(!image) return;
-    if(!data) return;
-
-    QImage::Format format = QImage::Format_RGB888;
-    int bpp = 3; // bytes per pixel
-    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, bpp * w, format));
-    simReleaseBufferE((char *)data); // XXX: simReleaseBuffer should accept a const pointer
-    QLabel *label = static_cast<QLabel*>(image->qwidget);
-    label->setPixmap(pixmap);
-    label->resize(pixmap.size());
+    image->setImage(data, w, h);
 
     DBG << "[leave]" << std::endl;
 }
@@ -675,34 +666,17 @@ void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QLineEdit *qedit = static_cast<QLineEdit*>(edit->getQWidget());
-    bool oldSignalsState = qedit->blockSignals(suppressSignals);
-    qedit->setText(QString::fromStdString(value));
-    qedit->blockSignals(oldSignalsState);
+    edit->setValue(value, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onSetSpinboxValue(Spinbox *spinbox_, double value, bool suppressSignals)
+void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QSpinBox *spinbox = dynamic_cast<QSpinBox*>(spinbox_->getQWidget());
-    QDoubleSpinBox *doubleSpinbox = dynamic_cast<QDoubleSpinBox*>(spinbox_->getQWidget());
-    if(spinbox)
-    {
-        bool oldSignalsState = spinbox->blockSignals(suppressSignals);
-        spinbox->setValue(int(value));
-        spinbox->blockSignals(oldSignalsState);
-    }
-    else if(doubleSpinbox)
-    {
-        bool oldSignalsState = doubleSpinbox->blockSignals(suppressSignals);
-        doubleSpinbox->setValue(value);
-        doubleSpinbox->blockSignals(oldSignalsState);
-    }
-    else static_cast<QSpinBox*>(spinbox_->getQWidget());
+    spinbox->setValue(value, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
@@ -712,10 +686,7 @@ void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignal
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QLabel *qlabel = static_cast<QLabel*>(label->getQWidget());
-    bool oldSignalsState = qlabel->blockSignals(suppressSignals);
-    qlabel->setText(QString::fromStdString(text));
-    qlabel->blockSignals(oldSignalsState);
+    label->setText(text, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
@@ -725,47 +696,27 @@ void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QSlider *qslider = static_cast<QSlider*>(slider->getQWidget());
-    bool oldSignalsState = qslider->blockSignals(suppressSignals);
-    qslider->setValue(value);
-    qslider->blockSignals(oldSignalsState);
+    slider->setValue(value, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onSetCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals)
+void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QCheckBox *qcheckbox = static_cast<QCheckBox*>(checkbox->getQWidget());
-    bool oldSignalsState = qcheckbox->blockSignals(suppressSignals);
-    switch(value)
-    {
-    case 0: qcheckbox->setCheckState(Qt::Unchecked); break;
-    case 1: qcheckbox->setCheckState(Qt::PartiallyChecked); break;
-    case 2: qcheckbox->setCheckState(Qt::Checked); break;
-    default: throw std::string("invalid checkbox value");
-    }
-    qcheckbox->blockSignals(oldSignalsState);
+    checkbox->setValue(value, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals)
+void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QRadioButton *qradiobutton = static_cast<QRadioButton*>(radiobutton->getQWidget());
-    bool oldSignalsState = qradiobutton->blockSignals(suppressSignals);
-    switch(value)
-    {
-    case 0: qradiobutton->setChecked(false); break;
-    case 1: qradiobutton->setChecked(true); break;
-    default: throw std::string("invalid radiobutton value");
-    }
-    qradiobutton->blockSignals(oldSignalsState);
+    radiobutton->setValue(value, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
@@ -775,10 +726,7 @@ void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string te
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
-    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
-    qcombobox->insertItem(index, QString::fromStdString(text));
-    qcombobox->blockSignals(oldSignalsState);
+    combobox->insertItem(index, text, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
@@ -788,25 +736,17 @@ void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressS
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
-    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
-    qcombobox->removeItem(index);
-    qcombobox->blockSignals(oldSignalsState);
+    combobox->removeItem(index, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
 
-void UIProxy::onSetComboboxItems(Combobox *combobox, QStringList &items, int index, bool suppressSignals)
+void UIProxy::onSetComboboxItems(Combobox *combobox, std::vector<std::string> items, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
-    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
-    qcombobox->clear();
-    qcombobox->addItems(items);
-    qcombobox->setCurrentIndex(index);
-    qcombobox->blockSignals(oldSignalsState);
+    combobox->setItems(items, index, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
@@ -816,10 +756,7 @@ void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool sup
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QComboBox *qcombobox = static_cast<QComboBox*>(combobox->getQWidget());
-    bool oldSignalsState = qcombobox->blockSignals(suppressSignals);
-    qcombobox->setCurrentIndex(index);
-    qcombobox->blockSignals(oldSignalsState);
+    combobox->setSelectedIndex(index, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }
@@ -829,10 +766,7 @@ void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
     ASSERT_THREAD(UI);
     DBG << "[enter]" << std::endl;
 
-    QTabWidget *qtabwidget = static_cast<QTabWidget*>(tabs->getQWidget());
-    bool oldSignalsState = qtabwidget->blockSignals(suppressSignals);
-    qtabwidget->setCurrentIndex(index);
-    qtabwidget->blockSignals(oldSignalsState);
+    tabs->setCurrentTab(index, suppressSignals);
 
     DBG << "[leave]" << std::endl;
 }

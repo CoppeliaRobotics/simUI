@@ -194,8 +194,8 @@ T* getQWidget(int handle, int id, const char *cmd, const char *widget_type_name)
 
 void getSliderValue(SScriptCallBack *p, const char *cmd, getSliderValue_in *in, getSliderValue_out *out)
 {
-    QSlider *slider = getQWidget<QSlider>(in->handle, in->id, cmd, "slider");
-    out->value = slider->value();
+    Slider *slider = getWidget<Slider>(in->handle, in->id, cmd, "slider");
+    out->value = slider->getValue();
 }
 
 void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, setSliderValue_out *out)
@@ -207,8 +207,8 @@ void setSliderValue(SScriptCallBack *p, const char *cmd, setSliderValue_in *in, 
 
 void getEditValue(SScriptCallBack *p, const char *cmd, getEditValue_in *in, getEditValue_out *out)
 {
-    QLineEdit *edit = getQWidget<QLineEdit>(in->handle, in->id, cmd, "edit");
-    out->value = edit->text().toStdString();
+    Edit *edit = getWidget<Edit>(in->handle, in->id, cmd, "edit");
+    out->value = edit->getValue();
 }
 
 void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setEditValue_out *out)
@@ -220,10 +220,8 @@ void setEditValue(SScriptCallBack *p, const char *cmd, setEditValue_in *in, setE
 
 void getSpinboxValue(SScriptCallBack *p, const char *cmd, getSpinboxValue_in *in, getSpinboxValue_out *out)
 {
-    QAbstractSpinBox *aspinbox = getQWidget<QAbstractSpinBox>(in->handle, in->id, cmd, "spinbox");
-    QSpinBox *spinbox = dynamic_cast<QSpinBox*>(aspinbox);
-    QDoubleSpinBox *doubleSpinbox = dynamic_cast<QDoubleSpinBox*>(aspinbox);
-    out->value = spinbox ? spinbox->value() : doubleSpinbox ? doubleSpinbox->value() : 0;
+    Spinbox *spinbox = getWidget<Spinbox>(in->handle, in->id, cmd, "spinbox");
+    out->value = spinbox->getValue();
 }
 
 void setSpinboxValue(SScriptCallBack *p, const char *cmd, setSpinboxValue_in *in, setSpinboxValue_out *out)
@@ -235,59 +233,36 @@ void setSpinboxValue(SScriptCallBack *p, const char *cmd, setSpinboxValue_in *in
 
 void getCheckboxValue(SScriptCallBack *p, const char *cmd, getCheckboxValue_in *in, getCheckboxValue_out *out)
 {
-    QCheckBox *checkbox = getQWidget<QCheckBox>(in->handle, in->id, cmd, "checkbox");
-    switch(checkbox->checkState())
-    {
-    case Qt::Unchecked: out->value = 0; break;
-    case Qt::PartiallyChecked: out->value = 1; break;
-    case Qt::Checked: out->value = 2; break;
-    default: simSetLastError(cmd, "invalid checkbox value"); break;
-    }
+    Checkbox *checkbox = getWidget<Checkbox>(in->handle, in->id, cmd, "checkbox");
+    out->value = checkbox->convertValueToInt(checkbox->getValue());
 }
 
 void setCheckboxValue(SScriptCallBack *p, const char *cmd, setCheckboxValue_in *in, setCheckboxValue_out *out)
 {
     ASSERT_THREAD(!UI);
     Checkbox *checkbox = getWidget<Checkbox>(in->handle, in->id, cmd, "checkbox");
-    switch(in->value)
-    {
-    case 0:
-    case 1:
-    case 2:
-        break;
-    default:
-        simSetLastError(cmd, "invalid checkbox value. must me 0, 1 or 2");
-        return;
-    }
-    UIFunctions::getInstance()->setCheckboxValue(checkbox, in->value, in->suppressEvents);
+    Qt::CheckState value = checkbox->convertValueFromInt(in->value);
+    UIFunctions::getInstance()->setCheckboxValue(checkbox, value, in->suppressEvents);
 }
 
 void getRadiobuttonValue(SScriptCallBack *p, const char *cmd, getRadiobuttonValue_in *in, getRadiobuttonValue_out *out)
 {
-    QRadioButton *radiobutton = getQWidget<QRadioButton>(in->handle, in->id, cmd, "radiobutton");
-    out->value = radiobutton->isChecked() ? 1 : 0;
+    Radiobutton *radiobutton = getWidget<Radiobutton>(in->handle, in->id, cmd, "radiobutton");
+    out->value = radiobutton->convertValueToInt(radiobutton->getValue());
 }
 
 void setRadiobuttonValue(SScriptCallBack *p, const char *cmd, setRadiobuttonValue_in *in, setRadiobuttonValue_out *out)
 {
     ASSERT_THREAD(!UI);
     Radiobutton *radiobutton = getWidget<Radiobutton>(in->handle, in->id, cmd, "radiobutton");
-    switch(in->value)
-    {
-    case 0:
-    case 1:
-        break;
-    default:
-        simSetLastError(cmd, "invalid radiobutton value. must me 0 or 1");
-        return;
-    }
-    UIFunctions::getInstance()->setRadiobuttonValue(radiobutton, in->value, in->suppressEvents);
+    bool value = radiobutton->convertValueFromInt(in->value);
+    UIFunctions::getInstance()->setRadiobuttonValue(radiobutton, value, in->suppressEvents);
 }
 
 void getLabelText(SScriptCallBack *p, const char *cmd, getLabelText_in *in, getLabelText_out *out)
 {
-    QLabel *label = getQWidget<QLabel>(in->handle, in->id, cmd, "label");
-    out->text = label->text().toStdString();
+    Label *label = getWidget<Label>(in->handle, in->id, cmd, "label");
+    out->text = label->getText();
 }
 
 void setLabelText(SScriptCallBack *p, const char *cmd, setLabelText_in *in, setLabelText_out *out)
@@ -313,31 +288,27 @@ void removeComboboxItem(SScriptCallBack *p, const char *cmd, removeComboboxItem_
 
 void getComboboxItemCount(SScriptCallBack *p, const char *cmd, getComboboxItemCount_in *in, getComboboxItemCount_out *out)
 {
-    QComboBox *combobox = getQWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
+    Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
     out->count = combobox->count();
 }
 
 void getComboboxItemText(SScriptCallBack *p, const char *cmd, getComboboxItemText_in *in, getComboboxItemText_out *out)
 {
-    QComboBox *combobox = getQWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
-    out->text = combobox->itemText(in->index).toStdString();
+    Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
+    out->text = combobox->itemText(in->index);
 }
 
 void getComboboxItems(SScriptCallBack *p, const char *cmd, getComboboxItems_in *in, getComboboxItems_out *out)
 {
-    QComboBox *combobox = getQWidget<QComboBox>(in->handle, in->id, cmd, "combobox");
-    for(int i = 0; i < combobox->count(); ++i)
-        out->items.push_back(combobox->itemText(i).toStdString());
+    Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
+    out->items = combobox->getItems();
 }
 
 void setComboboxItems(SScriptCallBack *p, const char *cmd, setComboboxItems_in *in, setComboboxItems_out *out)
 {
     ASSERT_THREAD(!UI);
     Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
-    QStringList items;
-    BOOST_FOREACH(std::string &s, in->items)
-        items.push_back(QString::fromStdString(s));
-    UIFunctions::getInstance()->setComboboxItems(combobox, items, in->index, in->suppressEvents);
+    UIFunctions::getInstance()->setComboboxItems(combobox, in->items, in->index, in->suppressEvents);
 }
 
 void setComboboxSelectedIndex(SScriptCallBack *p, const char *cmd, setComboboxSelectedIndex_in *in, setComboboxSelectedIndex_out *out)

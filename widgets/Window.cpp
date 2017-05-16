@@ -212,6 +212,28 @@ void Window::show()
     qwidget->show();
 }
 
+void Window::move(int x, int y)
+{
+    getQWidget()->move(x, y);
+}
+
+void Window::resize(int w, int h)
+{
+    getQWidget()->resize(w, h);
+}
+
+void Window::setTitle(std::string title)
+{
+    QDialog *dialog = static_cast<QDialog*>(getQWidget());
+    dialog->setWindowTitle(QString::fromStdString(title));
+}
+
+std::string Window::getTitle()
+{
+    QDialog *dialog = static_cast<QDialog*>(getQWidget());
+    return dialog->windowTitle().toStdString();
+}
+
 void Window::onSceneChange(int oldSceneID, int newSceneID)
 {
     int mySceneID = proxy->getSceneID();

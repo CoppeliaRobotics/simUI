@@ -22,9 +22,18 @@ protected:
 public:
     Combobox();
     virtual ~Combobox();
-    
+
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+
+    void insertItem(int index, std::string text, bool suppressSignals);
+    void removeItem(int index, bool suppressSignals);
+    void setItems(std::vector<std::string> items, int index, bool suppressSignals);
+    std::vector<std::string> getItems();
+    void setSelectedIndex(int index, bool suppressSignals);
+    int getSelectedIndex();
+    int count();
+    std::string itemText(int index);
 
     friend class UIFunctions;
 };

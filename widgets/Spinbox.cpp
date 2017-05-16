@@ -78,3 +78,34 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
     }
 }
 
+void Spinbox::setValue(double value, bool suppressSignals)
+{
+    QWidget *qwidget = getQWidget();
+    bool oldSignalsState = qwidget->blockSignals(suppressSignals);
+    if(QSpinBox *spinbox = dynamic_cast<QSpinBox*>(qwidget))
+    {
+        spinbox->setValue(int(value));
+    }
+    else if(QDoubleSpinBox *doubleSpinbox = dynamic_cast<QDoubleSpinBox*>(qwidget))
+    {
+        doubleSpinbox->setValue(value);
+    }
+    qwidget->blockSignals(oldSignalsState);
+}
+
+double Spinbox::getValue()
+{
+    if(QSpinBox *spinbox = dynamic_cast<QSpinBox*>(getQWidget()))
+    {
+        return spinbox->value();
+    }
+    else if(QDoubleSpinBox *doubleSpinbox = dynamic_cast<QDoubleSpinBox*>(getQWidget()))
+    {
+        return doubleSpinbox->value();
+    }
+    else
+    {
+        return NAN;
+    }
+}
+

@@ -56,6 +56,18 @@ QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     return label;
 }
 
+void Image::setImage(const char *data, int w, int h)
+{
+    if(!data) return;
+    QImage::Format format = QImage::Format_RGB888;
+    int bpp = 3; // bytes per pixel
+    QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, bpp * w, format));
+    simReleaseBufferE((char *)data); // XXX: simReleaseBuffer should accept a const pointer?
+    QLabel *qimage = static_cast<QLabel*>(getQWidget());
+    qimage->setPixmap(pixmap);
+    qimage->resize(pixmap.size());
+}
+
 QImageWidget::QImageWidget(QWidget *parent, Image *image_)
     : QLabel(parent), image(image_)
 {

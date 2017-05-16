@@ -67,11 +67,11 @@ signals:
     void setSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals);
     void setLabelText(Label *label, std::string text, bool suppressSignals);
     void setSliderValue(Slider *slider, int value, bool suppressSignals);
-    void setCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals);
-    void setRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals);
+    void setCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals);
+    void setRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals);
     void insertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals);
     void removeComboboxItem(Combobox *combobox, int index, bool suppressSignals);
-    void setComboboxItems(Combobox *combobox, QStringList &items, int index, bool suppressEvents);
+    void setComboboxItems(Combobox *combobox, std::vector<std::string> items, int index, bool suppressEvents);
     void setComboboxSelectedIndex(Combobox *combobox, int index, bool suppressEvents);
     void setCurrentTab(Tabs *tabs, int index, bool suppressSignals);
     void setWidgetVisibility(Widget *widget, bool visible);

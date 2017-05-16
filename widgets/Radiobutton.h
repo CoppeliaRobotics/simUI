@@ -29,6 +29,11 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
+    bool convertValueFromInt(int value);
+    int convertValueToInt(bool value);
+    void setValue(bool value, bool suppressSignals);
+    bool getValue();
+
     friend class UIFunctions;
 };
 

@@ -31,6 +31,9 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
+    void setValue(double value, bool suppressSignals);
+    double getValue();
+
     friend class UIFunctions;
 };
 

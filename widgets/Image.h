@@ -30,6 +30,8 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
+    void setImage(const char *data, int w, int h);
+
     friend class UIFunctions;
     friend class QImageWidget;
 };

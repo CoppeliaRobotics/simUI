@@ -60,6 +60,10 @@ public:
 
     void hide();
     void show();
+    void move(int x, int y);
+    void resize(int w, int h);
+    void setTitle(std::string title);
+    std::string getTitle();
 
     void onSceneChange(int oldSceneID, int newSceneID);
 

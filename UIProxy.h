@@ -67,11 +67,11 @@ public slots:
     void onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals);
     void onSetLabelText(Label *label, std::string text, bool suppressSignals);
     void onSetSliderValue(Slider *slider, int value, bool suppressSignals);
-    void onSetCheckboxValue(Checkbox *checkbox, int value, bool suppressSignals);
-    void onSetRadiobuttonValue(Radiobutton *radiobutton, int value, bool suppressSignals);
+    void onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals);
+    void onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals);
     void onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals);
     void onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals);
-    void onSetComboboxItems(Combobox *combobox, QStringList &items, int index, bool suppressSignals);
+    void onSetComboboxItems(Combobox *combobox, std::vector<std::string> items, int index, bool suppressSignals);
     void onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals);
     void onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals);
     void onSetWidgetVisibility(Widget *widget, bool visible);

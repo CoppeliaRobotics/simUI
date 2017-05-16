@@ -64,4 +64,17 @@ QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     return slider;
 }
 
+void Slider::setValue(int value, bool suppressSignals)
+{
+    QSlider *qslider = static_cast<QSlider*>(getQWidget());
+    bool oldSignalsState = qslider->blockSignals(suppressSignals);
+    qslider->setValue(value);
+    qslider->blockSignals(oldSignalsState);
+}
+
+int Slider::getValue()
+{
+    QSlider *qslider = static_cast<QSlider*>(getQWidget());
+    return qslider->value();
+}
 

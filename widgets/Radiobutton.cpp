@@ -45,3 +45,32 @@ QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *p
     return button;
 }
 
+bool Radiobutton::convertValueFromInt(int value)
+{
+    switch(value)
+    {
+    case 0: return false;
+    case 1: return true;
+    default: throw std::range_error("invalid radiobutton value: must be 0 or 1");
+    }
+}
+
+int Radiobutton::convertValueToInt(bool value)
+{
+    return value ? 1 : 0;
+}
+
+void Radiobutton::setValue(bool value, bool suppressSignals)
+{
+    QRadioButton *qradiobutton = static_cast<QRadioButton*>(getQWidget());
+    bool oldSignalsState = qradiobutton->blockSignals(suppressSignals);
+    qradiobutton->setChecked(value);
+    qradiobutton->blockSignals(oldSignalsState);
+}
+
+bool Radiobutton::getValue()
+{
+    QRadioButton *qradiobutton = static_cast<QRadioButton*>(getQWidget());
+    return qradiobutton->isChecked();
+}
+

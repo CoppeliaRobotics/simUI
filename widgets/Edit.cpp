@@ -40,3 +40,17 @@ QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     return edit;
 }
 
+void Edit::setValue(std::string value, bool suppressSignals)
+{
+    QLineEdit *qedit = static_cast<QLineEdit*>(getQWidget());
+    bool oldSignalsState = qedit->blockSignals(suppressSignals);
+    qedit->setText(QString::fromStdString(value));
+    qedit->blockSignals(oldSignalsState);
+}
+
+std::string Edit::getValue()
+{
+    QLineEdit *qedit = static_cast<QLineEdit*>(getQWidget());
+    return qedit->text().toStdString();
+}
+
