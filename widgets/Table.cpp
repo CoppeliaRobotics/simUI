@@ -192,7 +192,8 @@ int Table::getColumnCount()
 std::string Table::getItem(int row, int column)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
-    return tablewidget->item(row, column)->text().toStdString();
+    QTableWidgetItem *item = tablewidget->item(row, column);
+    return item ? item->text().toStdString() : "";
 }
 
 void Table::setRowHeaderText(int row, std::string text)
