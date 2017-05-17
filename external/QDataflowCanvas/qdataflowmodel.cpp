@@ -214,7 +214,7 @@ QDataflowModelInlet * QDataflowModelNode::inlet(int index) const
     if(index >= 0 && index < inlets_.length())
         return inlets_[index];
     else
-        return nullptr;
+        return 0L;
 }
 
 int QDataflowModelNode::inletCount() const
@@ -232,7 +232,7 @@ QDataflowModelOutlet * QDataflowModelNode::outlet(int index) const
     if(index >= 0 && index < outlets_.length())
         return outlets_[index];
     else
-        return nullptr;
+        return 0L;
 }
 
 int QDataflowModelNode::outletCount() const

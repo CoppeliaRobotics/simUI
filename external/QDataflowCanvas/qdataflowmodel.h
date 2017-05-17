@@ -17,11 +17,6 @@
 #ifndef QDATAFLOWMODEL_H
 #define QDATAFLOWMODEL_H
 
-#if __cplusplus < 201100L
-#define nullptr NULL
-#define override
-#endif
-
 #include <QObject>
 #include <QSet>
 #include <QList>

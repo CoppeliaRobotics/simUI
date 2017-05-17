@@ -68,8 +68,8 @@ protected:
     T * itemAtT(const QPointF &point);
 
 protected slots:
-    void mouseDoubleClickEvent(QMouseEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
     void itemTextEditorTextChange();
     void onNodeAdded(QDataflowModelNode *mdlnode);
     void onNodeRemoved(QDataflowModelNode *mdlnode);
@@ -111,7 +111,7 @@ public:
     int outletCount() const {return outlets_.size();}
     void setOutletCount(int count, bool skipAdjust = false);
 
-    int type() const override {return QDataflowItemTypeNode;}
+    int type() const {return QDataflowItemTypeNode;}
 
     void setText(QString text);
     QString text() const;
@@ -121,7 +121,7 @@ public:
 
     void adjustConnections() const;
 
-    QRectF boundingRect() const override;
+    QRectF boundingRect() const;
 
     void adjust();
 
@@ -136,16 +136,16 @@ public:
     QBrush objectBrush() const;
     QBrush headerBrush() const;
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     void enterEditMode();
     void exitEditMode(bool revertText);
     bool isInEditMode() const;
 
 protected:
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     QDataflowCanvas *canvas_;
@@ -168,7 +168,7 @@ protected:
     QDataflowIOlet(QDataflowNode *node, int index);
 
 public:
-    virtual int type() const override = 0;
+    virtual int type() const = 0;
 
     QDataflowNode * node() const {return node_;}
     int index() const {return index_;}
@@ -181,8 +181,8 @@ public:
     QDataflowCanvas * canvas() const {return canvas_;}
 
 protected:
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
     QDataflowCanvas *canvas_;
@@ -200,7 +200,7 @@ protected:
     QDataflowInlet(QDataflowNode *node, int index);
 
 public:
-    int type() const override {return QDataflowItemTypeInlet;}
+    int type() const {return QDataflowItemTypeInlet;}
 
     void onDataRecevied(void *data);
 
@@ -214,12 +214,12 @@ protected:
     QDataflowOutlet(QDataflowNode *node, int index);
 
 public:
-    int type() const override {return QDataflowItemTypeOutlet;}
+    int type() const {return QDataflowItemTypeOutlet;}
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     QGraphicsLineItem *tmpConn_;
@@ -243,13 +243,13 @@ public:
 
     QDataflowCanvas * canvas() const {return canvas_;}
 
-    int type() const override {return QDataflowItemTypeConnection;}
+    int type() const {return QDataflowItemTypeConnection;}
 
 protected:
-    QRectF boundingRect() const override;
-    QPainterPath shape() const override;
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
     QDataflowCanvas *canvas_;

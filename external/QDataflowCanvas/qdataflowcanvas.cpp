@@ -16,6 +16,7 @@
  */
 #include "qdataflowcanvas.h"
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #include <QDebug>
@@ -29,7 +30,7 @@
 #include <QTextDocument>
 
 QDataflowCanvas::QDataflowCanvas(QWidget *parent)
-    : QGraphicsView(parent), model_(nullptr)
+    : QGraphicsView(parent), model_(0L)
 {
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -140,7 +141,7 @@ QDataflowNode * QDataflowCanvas::node(QDataflowModelNode *node)
     if(it == nodes_.end())
     {
         qDebug() << "WARNING:" << this << "does not know about" << node;
-        return nullptr;
+        return 0L;
     }
     return *it;
 }
@@ -151,7 +152,7 @@ QDataflowConnection * QDataflowCanvas::connection(QDataflowModelConnection *conn
     if(it == connections_.end())
     {
         qDebug() << "WARNING:" << this << "does not know about" << conn;
-        return nullptr;
+        return 0L;
     }
     return *it;
 }
@@ -634,7 +635,7 @@ QDataflowInlet::QDataflowInlet(QDataflowNode *node, int index)
 }
 
 QDataflowOutlet::QDataflowOutlet(QDataflowNode *node, int index)
-    : QDataflowIOlet(node, index), tmpConn_(nullptr)
+    : QDataflowIOlet(node, index), tmpConn_(0L)
 
 {
     setCursor(Qt::CrossCursor);
