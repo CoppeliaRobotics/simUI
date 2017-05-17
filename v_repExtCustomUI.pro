@@ -15,8 +15,13 @@ INCLUDEPATH += "external/QDataflowCanvas"
 	QMAKE_CXXFLAGS += -W3
 }
 *-g++*|*clang* {
-	QMAKE_CXXFLAGS += -O3
-	QMAKE_CFLAGS += -O3
+        CONFIG(debug, debug|release){
+            QMAKE_CXXFLAGS += -g
+            QMAKE_CFLAGS += -g
+        } else {
+            QMAKE_CXXFLAGS += -O3
+            QMAKE_CFLAGS += -O3
+        }
         QMAKE_CXXFLAGS_WARN_ON = -Wall -Wno-unused-parameter
         QMAKE_CXXFLAGS_WARN_OFF = -Wall -Wno-unused-parameter
 }
@@ -75,12 +80,12 @@ widgets_html.commands = xsltproc --path \"$$PWD/\" -o widgets.html widgets.xsl w
 QMAKE_EXTRA_TARGETS += widgets_html
 PRE_TARGETDEPS += widgets.html
 
-UI_lua.target = UI.lua
-UI_lua.output = UI.lua
-UI_lua.input = callbacks.xml
-UI_lua.commands = python \"$$PWD/generate_aliases.py\" UI.lua
+UI_lua.target = simExtCustomUI.lua
+UI_lua.output = simExtCustomUI.lua
+UI_lua.input = callbacks.xml utils.lua
+UI_lua.commands = python \"$$PWD/generate_aliases.py\" simExtCustomUI.lua
 QMAKE_EXTRA_TARGETS += UI_lua
-PRE_TARGETDEPS += UI.lua
+PRE_TARGETDEPS += simExtCustomUI.lua
 
 HEADERS += \
     debug.h \
