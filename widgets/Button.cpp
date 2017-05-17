@@ -49,7 +49,7 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     button->setAutoRepeatInterval(auto_repeat_interval);
     button->setCheckable(checkable);
     button->setAutoExclusive(auto_exclusive);
-    QObject::connect(button, &QPushButton::released, uiproxy, &UIProxy::onButtonClick);
+    QObject::connect(button, &QPushButton::clicked, uiproxy, &UIProxy::onButtonClick);
     setQWidget(button);
     setProxy(proxy);
     return button;
