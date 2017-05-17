@@ -9,7 +9,7 @@
 
 #include <QTableWidget>
 
-#if __cplusplus <= 199711L
+#if __cplusplus <= 199711L && !_MSC_VER
 #include <cstdlib>
 namespace std {
     static size_t stol(const std::string &s) {
