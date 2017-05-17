@@ -49,21 +49,21 @@ public:
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
-    void clear();
-    void setColumnCount(int count);
-    void addItem(int id, int parent, std::vector<std::string> text, bool expanded);
+    void clear(bool suppressSignals);
+    void setColumnCount(int count, bool suppressSignals);
+    void addItem(int id, int parent, std::vector<std::string> text, bool expanded, bool suppressSignals);
     void updateItemText(int id, std::vector<std::string> text);
-    void updateItemParent(int id, int parent_id);
+    void updateItemParent(int id, int parent_id, bool suppressSignals);
     int getColumnCount();
-    void removeItem(int id);
+    void removeItem(int id, bool suppressSignals);
     void setColumnHeaderText(int column, std::string text);
     std::string saveState();
     bool restoreState(std::string state);
     void setColumnWidth(int column, int min_size, int max_size);
-    void setSelection(int id);
-    void expandAll();
-    void collapseAll();
-    void expandToDepth(int depth);
+    void setSelection(int id, bool suppressSignals);
+    void expandAll(bool suppressSignals);
+    void collapseAll(bool suppressSignals);
+    void expandToDepth(int depth, bool suppressSignals);
 
     friend class UIFunctions;
     friend class UIProxy;

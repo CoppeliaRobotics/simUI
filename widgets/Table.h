@@ -47,10 +47,10 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
     void setEditable(bool editable);
-    void clear();
-    void setRowCount(int count);
-    void setColumnCount(int count);
-    void setItem(int row, int column, std::string text);
+    void clear(bool suppressSignals);
+    void setRowCount(int count, bool suppressSignals);
+    void setColumnCount(int count, bool suppressSignals);
+    void setItem(int row, int column, std::string text, bool suppressSignals);
     int getRowCount();
     int getColumnCount();
     std::string getItem(int row, int column);
@@ -61,7 +61,7 @@ public:
     bool restoreState(std::string state);
     void setRowHeight(int row, int min_size, int max_size);
     void setColumnWidth(int column, int min_size, int max_size);
-    void setSelection(int row, int column);
+    void setSelection(int row, int column, bool suppressSignals);
 
     friend class UIFunctions;
 };

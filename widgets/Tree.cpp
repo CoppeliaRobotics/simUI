@@ -156,27 +156,32 @@ QWidget * Tree::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     return treewidget;
 }
 
-void Tree::clear()
+void Tree::clear(bool suppressSignals)
 {
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     treewidget->clear(); // or clearContents() ?
     widgetItemById.clear();
+    treewidget->blockSignals(oldSignalsState);
 }
 
-void Tree::setColumnCount(int count)
+void Tree::setColumnCount(int count, bool suppressSignals)
 {
     if(count < 1) return;
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     header.resize(count);
     treewidget->setColumnCount(count);
+    treewidget->blockSignals(oldSignalsState);
 }
 
-void Tree::addItem(int id, int parent_id, std::vector<std::string> text, bool expanded)
+void Tree::addItem(int id, int parent_id, std::vector<std::string> text, bool expanded, bool suppressSignals)
 {
     if(id <= 0) return;
     QTreeWidgetItem *parent = getWidgetItemById(parent_id);
     if(!parent) return;
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     TreeItem item;
     item.id = id;
     item.parent_id = parent_id;
@@ -184,6 +189,7 @@ void Tree::addItem(int id, int parent_id, std::vector<std::string> text, bool ex
     QTreeWidgetItem *qtwitem = makeItem(treewidget, item);
     parent->addChild(qtwitem);
     qtwitem->setExpanded(expanded);
+    treewidget->blockSignals(oldSignalsState);
 }
 
 void Tree::updateItemText(int id, std::vector<std::string> text)
@@ -200,13 +206,16 @@ void Tree::updateItemText(int id, std::vector<std::string> text)
     }
 }
 
-void Tree::updateItemParent(int id, int parent_id)
+void Tree::updateItemParent(int id, int parent_id, bool suppressSignals)
 {
     if(id == 0) return;
     QTreeWidgetItem *item = getWidgetItemById(id), *parent = getWidgetItemById(parent_id), *old_parent = item->parent();
     if(!item || !parent || !old_parent) return;
+    QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     old_parent->removeChild(item);
     parent->addChild(item);
+    treewidget->blockSignals(oldSignalsState);
 }
 
 int Tree::getColumnCount()
@@ -215,12 +224,15 @@ int Tree::getColumnCount()
     return treewidget->columnCount();
 }
 
-void Tree::removeItem(int id)
+void Tree::removeItem(int id, bool suppressSignals)
 {
     if(id == 0) return;
+    QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     QTreeWidgetItem *item = getWidgetItemById(id), *parent = item->parent();
     parent->removeChild(item);
     widgetItemById.erase(id);
+    treewidget->blockSignals(oldSignalsState);
 }
 
 void Tree::setColumnHeaderText(int column, std::string text)
@@ -264,30 +276,38 @@ void Tree::setColumnWidth(int column, int min_size, int max_size)
     treewidget->header()->setMaximumSectionSize(max_size);
 }
 
-void Tree::setSelection(int id)
+void Tree::setSelection(int id, bool suppressSignals)
 {
     if(id == 0) return;
     QTreeWidgetItem *item = getWidgetItemById(id);
     if(!item) return;
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     treewidget->setCurrentItem(item);
+    treewidget->blockSignals(oldSignalsState);
 }
 
-void Tree::expandAll()
+void Tree::expandAll(bool suppressSignals)
 {
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     treewidget->expandAll();
+    treewidget->blockSignals(oldSignalsState);
 }
 
-void Tree::collapseAll()
+void Tree::collapseAll(bool suppressSignals)
 {
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     treewidget->collapseAll();
+    treewidget->blockSignals(oldSignalsState);
 }
 
-void Tree::expandToDepth(int depth)
+void Tree::expandToDepth(int depth, bool suppressSignals)
 {
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
+    bool oldSignalsState = treewidget->blockSignals(suppressSignals);
     treewidget->expandToDepth(depth);
+    treewidget->blockSignals(oldSignalsState);
 }
 

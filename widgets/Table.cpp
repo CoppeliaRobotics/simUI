@@ -155,28 +155,36 @@ void Table::setEditable(bool editable)
     }
 }
 
-void Table::clear()
+void Table::clear(bool suppressSignals)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
     tablewidget->clear(); // or clearContents() ?
+    tablewidget->blockSignals(oldSignalsState);
 }
 
-void Table::setRowCount(int count)
+void Table::setRowCount(int count, bool suppressSignals)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
     tablewidget->setRowCount(count);
+    tablewidget->blockSignals(oldSignalsState);
 }
 
-void Table::setColumnCount(int count)
+void Table::setColumnCount(int count, bool suppressSignals)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
     tablewidget->setColumnCount(count);
+    tablewidget->blockSignals(oldSignalsState);
 }
 
-void Table::setItem(int row, int column, std::string text)
+void Table::setItem(int row, int column, std::string text, bool suppressSignals)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
     tablewidget->setItem(row, column, new QTableWidgetItem(QString::fromStdString(text)));
+    tablewidget->blockSignals(oldSignalsState);
 }
 
 int Table::getRowCount()
@@ -258,10 +266,12 @@ void Table::setColumnWidth(int column, int min_size, int max_size)
     tablewidget->horizontalHeader()->setMaximumSectionSize(max_size);
 }
 
-void Table::setSelection(int row, int column)
+void Table::setSelection(int row, int column, bool suppressSignals)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
     tablewidget->setCurrentCell(row, column);
+    tablewidget->blockSignals(oldSignalsState);
 }
 
 TableWidget::TableWidget(Table *table_, QWidget *parent)

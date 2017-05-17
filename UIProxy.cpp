@@ -929,24 +929,24 @@ void UIProxy::onSetLegendVisibility(Plot *plot, bool visible)
     plot->setLegendVisibility(visible);
 }
 
-void UIProxy::onClearTable(Table *table)
+void UIProxy::onClearTable(Table *table, bool suppressSignals)
 {
-    table->clear();
+    table->clear(suppressSignals);
 }
 
-void UIProxy::onSetRowCount(Table *table, int count)
+void UIProxy::onSetRowCount(Table *table, int count, bool suppressSignals)
 {
-    table->setRowCount(count);
+    table->setRowCount(count, suppressSignals);
 }
 
-void UIProxy::onSetColumnCountTable(Table *table, int count)
+void UIProxy::onSetColumnCountTable(Table *table, int count, bool suppressSignals)
 {
-    table->setColumnCount(count);
+    table->setColumnCount(count, suppressSignals);
 }
 
-void UIProxy::onSetItem(Table *table, int row, int column, std::string text)
+void UIProxy::onSetItem(Table *table, int row, int column, std::string text, bool suppressSignals)
 {
-    table->setItem(row, column, text);
+    table->setItem(row, column, text, suppressSignals);
 }
 
 void UIProxy::onSetRowHeaderText(Table *table, int row, std::string text)
@@ -979,9 +979,9 @@ void UIProxy::onSetColumnWidthTable(Table *table, int column, int min_size, int 
     table->setColumnWidth(column, min_size, max_size);
 }
 
-void UIProxy::onSetTableSelection(Table *table, int row, int column)
+void UIProxy::onSetTableSelection(Table *table, int row, int column, bool suppressSignals)
 {
-    table->setSelection(row, column);
+    table->setSelection(row, column, suppressSignals);
 }
 
 void UIProxy::onSetProgress(Progressbar *progressbar, int value)
@@ -989,9 +989,9 @@ void UIProxy::onSetProgress(Progressbar *progressbar, int value)
     progressbar->setValue(value);
 }
 
-void UIProxy::onSetColumnCountTree(Tree *tree, int count)
+void UIProxy::onSetColumnCountTree(Tree *tree, int count, bool suppressSignals)
 {
-    tree->setColumnCount(count);
+    tree->setColumnCount(count, suppressSignals);
 }
 
 void UIProxy::onSetColumnHeaderTextTree(Tree *tree, int column, std::string text)
@@ -1009,14 +1009,14 @@ void UIProxy::onSetColumnWidthTree(Tree *tree, int column, int min_size, int max
     tree->setColumnWidth(column, min_size, max_size);
 }
 
-void UIProxy::onClearTree(Tree *tree)
+void UIProxy::onClearTree(Tree *tree, bool suppressSignals)
 {
-    tree->clear();
+    tree->clear(suppressSignals);
 }
 
-void UIProxy::onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text, bool expanded)
+void UIProxy::onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text, bool expanded, bool suppressSignals)
 {
-    tree->addItem(item_id, parent_id, text, expanded);
+    tree->addItem(item_id, parent_id, text, expanded, suppressSignals);
 }
 
 void UIProxy::onUpdateTreeItemText(Tree *tree, int item_id, std::vector<std::string> text)
@@ -1024,34 +1024,34 @@ void UIProxy::onUpdateTreeItemText(Tree *tree, int item_id, std::vector<std::str
     tree->updateItemText(item_id, text);
 }
 
-void UIProxy::onUpdateTreeItemParent(Tree *tree, int item_id, int parent_id)
+void UIProxy::onUpdateTreeItemParent(Tree *tree, int item_id, int parent_id, bool suppressSignals)
 {
-    tree->updateItemParent(item_id, parent_id);
+    tree->updateItemParent(item_id, parent_id, suppressSignals);
 }
 
-void UIProxy::onRemoveTreeItem(Tree *tree, int item_id)
+void UIProxy::onRemoveTreeItem(Tree *tree, int item_id, bool suppressSignals)
 {
-    tree->removeItem(item_id);
+    tree->removeItem(item_id, suppressSignals);
 }
 
-void UIProxy::onSetTreeSelection(Tree *tree, int item_id)
+void UIProxy::onSetTreeSelection(Tree *tree, int item_id, bool suppressSignals)
 {
-    tree->setSelection(item_id);
+    tree->setSelection(item_id, suppressSignals);
 }
 
-void UIProxy::onExpandAll(Tree *tree)
+void UIProxy::onExpandAll(Tree *tree, bool suppressSignals)
 {
-    tree->expandAll();
+    tree->expandAll(suppressSignals);
 }
 
-void UIProxy::onCollapseAll(Tree *tree)
+void UIProxy::onCollapseAll(Tree *tree, bool suppressSignals)
 {
-    tree->collapseAll();
+    tree->collapseAll(suppressSignals);
 }
 
-void UIProxy::onExpandToDepth(Tree *tree, int depth)
+void UIProxy::onExpandToDepth(Tree *tree, int depth, bool suppressSignals)
 {
-    tree->expandToDepth(depth);
+    tree->expandToDepth(depth, suppressSignals);
 }
 
 void UIProxy::onAddNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets)

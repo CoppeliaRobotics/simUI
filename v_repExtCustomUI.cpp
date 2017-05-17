@@ -678,22 +678,22 @@ void getCurveData(SScriptCallBack *p, const char *cmd, getCurveData_in *in, getC
 void clearTable(SScriptCallBack *p, const char *cmd, clearTable_in *in, clearTable_out *out)
 {
     Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    UIFunctions::getInstance()->clearTable(table);
+    UIFunctions::getInstance()->clearTable(table, in->suppressEvents);
 }
 
 void setRowCount(SScriptCallBack *p, const char *cmd, setRowCount_in *in, setRowCount_out *out)
 {
     Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    UIFunctions::getInstance()->setRowCount(table, in->count);
+    UIFunctions::getInstance()->setRowCount(table, in->count, in->suppressEvents);
 }
 
 void setColumnCount(SScriptCallBack *p, const char *cmd, setColumnCount_in *in, setColumnCount_out *out)
 {
     Widget *widget = getWidget(in->handle, in->id);
     if(Table *table = dynamic_cast<Table*>(widget))
-        UIFunctions::getInstance()->setColumnCountTable(table, in->count);
+        UIFunctions::getInstance()->setColumnCountTable(table, in->count, in->suppressEvents);
     else if(Tree *tree = dynamic_cast<Tree*>(widget))
-        UIFunctions::getInstance()->setColumnCountTree(tree, in->count);
+        UIFunctions::getInstance()->setColumnCountTree(tree, in->count, in->suppressEvents);
     else
         throw std::runtime_error("invalid widget type. expected table or tree.");
 }
@@ -701,7 +701,7 @@ void setColumnCount(SScriptCallBack *p, const char *cmd, setColumnCount_in *in, 
 void setItem(SScriptCallBack *p, const char *cmd, setItem_in *in, setItem_out *out)
 {
     Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    UIFunctions::getInstance()->setItem(table, in->row, in->column, in->text);
+    UIFunctions::getInstance()->setItem(table, in->row, in->column, in->text, in->suppressEvents);
 }
 
 void getRowCount(SScriptCallBack *p, const char *cmd, getRowCount_in *in, getRowCount_out *out)
@@ -792,7 +792,7 @@ void setColumnWidth(SScriptCallBack *p, const char *cmd, setColumnWidth_in *in, 
 void setTableSelection(SScriptCallBack *p, const char *cmd, setTableSelection_in *in, setTableSelection_out *out)
 {
     Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
-    UIFunctions::getInstance()->setTableSelection(table, in->row, in->column);
+    UIFunctions::getInstance()->setTableSelection(table, in->row, in->column, in->suppressEvents);
 }
 
 void setProgress(SScriptCallBack *p, const char *cmd, setProgress_in *in, setProgress_out *out)
@@ -804,13 +804,13 @@ void setProgress(SScriptCallBack *p, const char *cmd, setProgress_in *in, setPro
 void clearTree(SScriptCallBack *p, const char *cmd, clearTree_in *in, clearTree_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->clearTree(tree);
+    UIFunctions::getInstance()->clearTree(tree, in->suppressEvents);
 }
 
 void addTreeItem(SScriptCallBack *p, const char *cmd, addTreeItem_in *in, addTreeItem_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->addTreeItem(tree, in->item_id, in->parent_id, in->text, in->expanded);
+    UIFunctions::getInstance()->addTreeItem(tree, in->item_id, in->parent_id, in->text, in->expanded, in->suppressEvents);
 }
 
 void updateTreeItemText(SScriptCallBack *p, const char *cmd, updateTreeItemText_in *in, updateTreeItemText_out *out)
@@ -822,37 +822,37 @@ void updateTreeItemText(SScriptCallBack *p, const char *cmd, updateTreeItemText_
 void updateTreeItemParent(SScriptCallBack *p, const char *cmd, updateTreeItemParent_in *in, updateTreeItemParent_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->updateTreeItemParent(tree, in->item_id, in->parent_id);
+    UIFunctions::getInstance()->updateTreeItemParent(tree, in->item_id, in->parent_id, in->suppressEvents);
 }
 
 void removeTreeItem(SScriptCallBack *p, const char *cmd, removeTreeItem_in *in, removeTreeItem_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->removeTreeItem(tree, in->item_id);
+    UIFunctions::getInstance()->removeTreeItem(tree, in->item_id, in->suppressEvents);
 }
 
 void setTreeSelection(SScriptCallBack *p, const char *cmd, setTreeSelection_in *in, setTreeSelection_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->setTreeSelection(tree, in->item_id);
+    UIFunctions::getInstance()->setTreeSelection(tree, in->item_id, in->suppressEvents);
 }
 
 void expandAll(SScriptCallBack *p, const char *cmd, expandAll_in *in, expandAll_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->expandAll(tree);
+    UIFunctions::getInstance()->expandAll(tree, in->suppressEvents);
 }
 
 void collapseAll(SScriptCallBack *p, const char *cmd, collapseAll_in *in, collapseAll_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->collapseAll(tree);
+    UIFunctions::getInstance()->collapseAll(tree, in->suppressEvents);
 }
 
 void expandToDepth(SScriptCallBack *p, const char *cmd, expandToDepth_in *in, expandToDepth_out *out)
 {
     Tree *tree = getWidget<Tree>(in->handle, in->id, cmd, "tree");
-    UIFunctions::getInstance()->expandToDepth(tree, in->depth);
+    UIFunctions::getInstance()->expandToDepth(tree, in->depth, in->suppressEvents);
 }
 
 void addNode(SScriptCallBack *p, const char *cmd, addNode_in *in, addNode_out *out)

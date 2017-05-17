@@ -1457,6 +1457,9 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -1476,6 +1479,9 @@
             </param>
             <param name="count" type="int">
                 <description>row count</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -1497,6 +1503,9 @@
             </param>
             <param name="count" type="int">
                 <description>column count</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -1570,6 +1579,9 @@
             </param>
             <param name="text" type="string">
                 <description>item value</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -1782,6 +1794,9 @@
             <param name="column" type="int">
                 <description>column index</description>
             </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -1819,6 +1834,9 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -1847,6 +1865,9 @@
             </param>
             <param name="expanded" type="bool" default="false">
                 <description>if true, the item will be in expanded state</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -1894,6 +1915,9 @@
             <param name="parent_id" type="int">
                 <description>parent id</description>
             </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -1913,6 +1937,9 @@
             </param>
             <param name="item_id" type="int">
                 <description>item id</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -1934,6 +1961,9 @@
             <param name="item_id" type="int">
                 <description>item id</description>
             </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -1951,6 +1981,9 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
         </params>
         <return>
         </return>
@@ -1967,6 +2000,9 @@
             </param>
             <param name="id" type="int">
                 <description>widget id</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
@@ -1987,6 +2023,9 @@
             </param>
             <param name="depth" type="int">
                 <description>depth</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
             </param>
         </params>
         <return>
