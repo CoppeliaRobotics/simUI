@@ -68,3 +68,12 @@ EventOnLinkActivated::~EventOnLinkActivated()
 {
 }
 
+EventOnKeyPress::EventOnKeyPress()
+    : onKeyPress("")
+{
+}
+
+EventOnKeyPress::~EventOnKeyPress()
+{
+}
+

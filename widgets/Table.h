@@ -6,6 +6,7 @@
 
 #include <QWidget>
 #include <QAbstractItemView>
+#include <QTableWidget>
 
 #include "tinyxml2.h"
 
@@ -21,7 +22,7 @@ struct TableItem
     bool editable;
 };
 
-class Table : public Widget
+class Table : public Widget, public EventOnKeyPress
 {
 protected:
     bool show_horizontal_header;
@@ -63,6 +64,16 @@ public:
     void setSelection(int row, int column);
 
     friend class UIFunctions;
+};
+
+class TableWidget : public QTableWidget
+{
+private:
+    Table *table;
+
+public:
+    TableWidget(Table *table_, QWidget *parent);
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // TABLE_H_INCLUDED

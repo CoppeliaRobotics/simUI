@@ -826,6 +826,12 @@
                 <default />
                 <description>Name of a Lua function to handle the selection change event. Arguments of the function are: (uiHandle, id, row, column). If selection mode is 'rows', column will be -1 and vice versa.</description>
             </attribute>
+            <attribute>
+                <name>on-key-press</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the key press event. Arguments of the function are: (uiHandle, id, key, text).</description>
+            </attribute>
         </attributes>
     </element>
     <element>

@@ -154,6 +154,7 @@ void UIFunctions::connectSignals()
     connect(uiproxy, &UIProxy::connectionRemoved, this, &UIFunctions::onConnectionRemoved);
     connect(this, &UIFunctions::setText, uiproxy, &UIProxy::onSetText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setUrl, uiproxy, &UIProxy::onSetUrl, Qt::BlockingQueuedConnection);
+    connect(uiproxy, &UIProxy::keyPressed, this, &UIFunctions::onKeyPress);
 }
 
 /**
@@ -586,5 +587,25 @@ void UIFunctions::onConnectionRemoved(Dataflow *dataflow, int srcNodeId, int src
     in.dstInlet = dstInlet;
     onConnectionRemovedCallback_out out;
     onConnectionRemovedCallback(dataflow->proxy->getScriptID(), dataflow->onConnectionRemoved.c_str(), &in, &out);
+}
+
+void UIFunctions::onKeyPress(Widget *widget, int key, std::string text)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, widget);
+
+    if(widget->proxy->scriptID == -1) return;
+
+    EventOnKeyPress *e = dynamic_cast<EventOnKeyPress*>(widget);
+    if(!e) return;
+    if(e->onKeyPress == "") return;
+
+    onKeyPressCallback_in in;
+    in.handle = widget->proxy->getHandle();
+    in.id = widget->id;
+    in.key = key;
+    in.text = text;
+    onKeyPressCallback_out out;
+    onKeyPressCallback(widget->proxy->getScriptID(), e->onKeyPress.c_str(), &in, &out);
 }
 

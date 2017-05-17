@@ -157,6 +157,7 @@ signals:
     void nodeOutletCountChanged(Dataflow *dataflow, int id, int outlets);
     void connectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
     void connectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
+    void keyPressed(Widget *widget, int key, std::string text);
 };
 
 #endif // UIPROXY_H_INCLUDED

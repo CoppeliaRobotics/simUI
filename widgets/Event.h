@@ -89,5 +89,17 @@ public:
     friend class UIFunctions;
 };
 
+class EventOnKeyPress : public Event
+{
+protected:
+    std::string onKeyPress;
+
+public:
+    EventOnKeyPress();
+    virtual ~EventOnKeyPress();
+
+    friend class UIFunctions;
+};
+
 #endif // EVENT_H_INCLUDED
 

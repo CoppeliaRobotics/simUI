@@ -86,11 +86,13 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
     else if(select_mode_str == "row") selectionBehavior = QAbstractItemView::SelectRows;
     else if(select_mode_str == "column") selectionBehavior = QAbstractItemView::SelectColumns;
     else throw std::range_error("selection-mode must be one of: 'item', 'row', 'column'");
+
+    onKeyPress = xmlutils::getAttrStr(e, "on-key-press", "");
 }
 
 QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
-    QTableWidget *tablewidget = new QTableWidget(parent);
+    QTableWidget *tablewidget = new TableWidget(this, parent);
     tablewidget->setEnabled(enabled);
     tablewidget->setVisible(visible);
     tablewidget->setStyleSheet(QString::fromStdString(style));
@@ -260,5 +262,16 @@ void Table::setSelection(int row, int column)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
     tablewidget->setCurrentCell(row, column);
+}
+
+TableWidget::TableWidget(Table *table_, QWidget *parent)
+    : QTableWidget(parent), table(table_)
+{
+}
+
+void TableWidget::keyPressEvent(QKeyEvent *event)
+{
+    UIProxy::getInstance()->keyPressed(table, event->key(), event->text().toStdString());
+    QTableWidget::keyPressEvent(event);
 }
 

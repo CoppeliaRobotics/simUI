@@ -2820,4 +2820,23 @@
         <return>
         </return>
     </script-function>
+    <script-function name="onKeyPressCallback">
+        <description>Callback called when a key is pressed in a widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the widget</description>
+            </param>
+            <param name="key" type="int">
+                <description>the integer value of the key</description>
+            </param>
+            <param name="text" type="string">
+                <description>a textual representation of the key</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
 </plugin>
