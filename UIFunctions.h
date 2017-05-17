@@ -128,6 +128,8 @@ signals:
     void setNodeOutletCount(Dataflow *dataflow, int id, int count);
     void addConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
     void removeConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
+    void setText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
+    void setUrl(TextBrowser *textbrowser, std::string url);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

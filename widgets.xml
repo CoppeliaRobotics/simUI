@@ -885,6 +885,57 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
         </attributes>
     </element>
     <element>
+        <name>text-browser</name>
+        <description>A text browser widget.</description>
+        <see-also>
+            <element>edit</element>
+        </see-also>
+        <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
+                <name>text</name>
+                <type>string</type>
+                <default></default>
+                <description>Initial text content.</description>
+            </attribute>
+            <attribute>
+                <name>html</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>if true, text will be treated as HTML</description>
+            </attribute>
+            <attribute>
+                <name>read-only</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>if true, text will be read-only</description>
+            </attribute>
+            <attribute>
+                <name>on-change</name>
+                <type>string</type>
+                <default></default>
+                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newText).</description>
+            </attribute>
+            <attribute>
+                <name>on-link-activated</name>
+                <type>string</type>
+                <default></default>
+                <description>Name of a Lua function to handle the linkActivated event. Arguments of the function are: (uiHandle, id, linkHref).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
         <name>tree</name>
         <description>A tree widget. Must contain one &lt;header&gt; element and many &lt;row&gt; elements. Each &lt;header&gt;/&lt;row&gt; element contains only &lt;item&gt; elements. &lt;row&gt; elements can have 'id' and 'parent-id' attributes (positive integers) to set relationships between items, and a 'expanded' attribute (bool) to initially expand the item.</description>
         <attributes>

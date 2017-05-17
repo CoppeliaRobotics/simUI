@@ -152,6 +152,8 @@ void UIFunctions::connectSignals()
     connect(uiproxy, &UIProxy::nodeOutletCountChanged, this, &UIFunctions::onNodeOutletCountChanged);
     connect(uiproxy, &UIProxy::connectionAdded, this, &UIFunctions::onConnectionAdded);
     connect(uiproxy, &UIProxy::connectionRemoved, this, &UIFunctions::onConnectionRemoved);
+    connect(this, &UIFunctions::setText, uiproxy, &UIProxy::onSetText, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setUrl, uiproxy, &UIProxy::onSetUrl, Qt::BlockingQueuedConnection);
 }
 
 /**

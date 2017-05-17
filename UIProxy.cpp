@@ -525,6 +525,39 @@ void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onTextChanged()
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    if(QTextBrowser *qtextbrowser = dynamic_cast<QTextBrowser*>(sender()))
+    {
+        if(TextBrowser *textbrowser = dynamic_cast<TextBrowser*>(Widget::byQWidget(qtextbrowser)))
+        {
+            std::string text = textbrowser->getText();
+            emit valueChangeString(textbrowser, QString::fromStdString(text));
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onAnchorClicked(const QUrl &link)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    if(QTextBrowser *qtextbrowser = dynamic_cast<QTextBrowser*>(sender()))
+    {
+        if(TextBrowser *textbrowser = dynamic_cast<TextBrowser*>(Widget::byQWidget(qtextbrowser)))
+        {
+            emit linkActivated(textbrowser, link.url());
+        }
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
 // The following slots are wrappers for functions called from SIM thread
 // which should instead execute in the UI thread.
 
@@ -1064,5 +1097,15 @@ void UIProxy::onAddConnection(Dataflow *dataflow, int srcId, int srcOutlet, int 
 void UIProxy::onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet)
 {
     dataflow->removeConnection(srcId, srcOutlet, dstId, dstInlet);
+}
+
+void UIProxy::onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals)
+{
+    textbrowser->setText(text, suppressSignals);
+}
+
+void UIProxy::onSetUrl(TextBrowser *textbrowser, std::string url)
+{
+    textbrowser->setUrl(url);
 }
 

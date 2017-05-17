@@ -54,6 +54,8 @@ public slots:
     void onNodeOutletCountChanged(QDataflowModelNode *node, int count);
     void onConnectionAdded(QDataflowModelConnection *conn);
     void onConnectionRemoved(QDataflowModelConnection *conn);
+    void onTextChanged();
+    void onAnchorClicked(const QUrl &link);
     // ---
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
@@ -128,6 +130,8 @@ public slots:
     void onSetNodeOutletCount(Dataflow *dataflow, int id, int count);
     void onAddConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
     void onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
+    void onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
+    void onSetUrl(TextBrowser *textbrowser, std::string url);
 
 signals:
     void buttonClick(Widget *widget);

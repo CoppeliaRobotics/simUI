@@ -20,6 +20,7 @@
 #include "Spinbox.h"
 #include "Table.h"
 #include "Tabs.h"
+#include "TextBrowser.h"
 #include "Tree.h"
 #include "VSlider.h"
 

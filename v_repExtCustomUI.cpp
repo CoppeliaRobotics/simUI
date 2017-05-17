@@ -956,6 +956,18 @@ void removeConnection(SScriptCallBack *p, const char *cmd, removeConnection_in *
     UIFunctions::getInstance()->removeConnection(dataflow, in->srcNodeId, in->srcOutlet, in->dstNodeId, in->dstInlet);
 }
 
+void setText(SScriptCallBack *p, const char *cmd, setText_in *in, setText_out *out)
+{
+    TextBrowser *textbrowser = getWidget<TextBrowser>(in->handle, in->id, cmd, "text-browser");
+    UIFunctions::getInstance()->setText(textbrowser, in->text, in->suppressEvents);
+}
+
+void setUrl(SScriptCallBack *p, const char *cmd, setUrl_in *in, setUrl_out *out)
+{
+    TextBrowser *textbrowser = getWidget<TextBrowser>(in->handle, in->id, cmd, "text-browser");
+    UIFunctions::getInstance()->setUrl(textbrowser, in->url);
+}
+
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
 {
     char curDirAndFile[1024];
