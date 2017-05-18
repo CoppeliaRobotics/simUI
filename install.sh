@@ -22,6 +22,6 @@ fi
 cd "`dirname "$0"`"
 make $BUILD_TARGET && \
 cp -v "lib$PLUGIN_NAME.$DLEXT" "$INSTALL_TARGET" && \
-if [ -d lua-gen ]; then cp -v lua-gen/*.lua "$VREP_ROOT/lua/"; fi
+if [ -f *.lua ]; then cp -v *.lua "$VREP_ROOT/lua/"; fi
 exit $?
 
