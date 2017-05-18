@@ -1,12 +1,18 @@
 from lxml import etree
 from sys import argv, exit
 from time import strftime
+from os import makedirs, path
 
 if len(argv) != 2:
     print('usage: {} <outfile.lua>'.format(argv[0]))
     exit(1)
 
-with open(argv[1],'w') as outfile:
+outfilename = argv[1]
+try:
+    makedirs(path.dirname(outfilename))
+except OSError:
+    pass
+with open(outfilename, 'w') as outfile:
     tree = etree.parse('callbacks.xml')
     root = tree.getroot()
     pluginName = root.attrib['name']
