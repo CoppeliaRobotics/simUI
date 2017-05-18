@@ -1,5 +1,9 @@
 local simUI={}
 
+--@fun insertTableRow
+--@arg ui the ui handle
+--@arg widget the widget identifier
+--@arg index the index (0-based) where the new row will appear
 function simUI.insertTableRow(ui,widget,index)
     local rows=simExtUI_getRowCount(ui,widget)
     local cols=simExtUI_getColumnCount(ui,widget)
@@ -11,6 +15,10 @@ function simUI.insertTableRow(ui,widget,index)
     end
 end
 
+--@fun removeTableRow
+--@arg ui the ui handle
+--@arg widget the widget identifier
+--@arg index the row index (0-based) to remove
 function simUI.removeTableRow(ui,widget,index)
     local rows=simExtUI_getRowCount(ui,widget)
     local cols=simExtUI_getColumnCount(ui,widget)
@@ -22,6 +30,10 @@ function simUI.removeTableRow(ui,widget,index)
     simExtUI_setRowCount(ui,widget,rows-1)
 end
 
+--@fun insertTableColumn
+--@arg ui the ui handle
+--@arg widget the widget identifier
+--@arg index the index (0-based) where the new column will appear
 function simUI.insertTableColumn(ui,widget,index)
     local rows=simExtUI_getRowCount(ui,widget)
     local cols=simExtUI_getColumnCount(ui,widget)
@@ -33,6 +45,10 @@ function simUI.insertTableColumn(ui,widget,index)
     end
 end
 
+--@fun removeTableColumn
+--@arg ui the ui handle
+--@arg widget the widget identifier
+--@arg index the column index (0-based) to remove
 function simUI.removeTableColumn(ui,widget,index)
     local rows=simExtUI_getRowCount(ui,widget)
     local cols=simExtUI_getColumnCount(ui,widget)
