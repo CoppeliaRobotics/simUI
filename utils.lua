@@ -1,4 +1,6 @@
-function UI.insertTableRow(ui,widget,index)
+local simUI={}
+
+function simUI.insertTableRow(ui,widget,index)
     local rows=simExtUI_getRowCount(ui,widget)
     local cols=simExtUI_getColumnCount(ui,widget)
     simExtUI_setRowCount(ui,widget,rows+1)
@@ -9,7 +11,7 @@ function UI.insertTableRow(ui,widget,index)
     end
 end
 
-function UI.removeTableRow(ui,widget,index)
+function simUI.removeTableRow(ui,widget,index)
     local rows=simExtUI_getRowCount(ui,widget)
     local cols=simExtUI_getColumnCount(ui,widget)
     for row=index,rows-2 do
@@ -20,7 +22,7 @@ function UI.removeTableRow(ui,widget,index)
     simExtUI_setRowCount(ui,widget,rows-1)
 end
 
-function UI.insertTableColumn(ui,widget,index)
+function simUI.insertTableColumn(ui,widget,index)
     local rows=simExtUI_getRowCount(ui,widget)
     local cols=simExtUI_getColumnCount(ui,widget)
     simExtUI_setColumnCount(ui,widget,cols+1)
@@ -31,7 +33,7 @@ function UI.insertTableColumn(ui,widget,index)
     end
 end
 
-function UI.removeTableColumn(ui,widget,index)
+function simUI.removeTableColumn(ui,widget,index)
     local rows=simExtUI_getRowCount(ui,widget)
     local cols=simExtUI_getColumnCount(ui,widget)
     for col=index,cols-2 do
@@ -42,3 +44,4 @@ function UI.removeTableColumn(ui,widget,index)
     simExtUI_setColumnCount(ui,widget,cols-1)
 end
 
+return simUI
