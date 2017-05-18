@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PLUGIN_NAME="$(basename "$(cd $(dirname $0); pwd)")"
+
 if [ "x$VREP_ROOT" = "x" ]; then
     echo "error: \$VREP_ROOT is not set" 1>&2
     exit 1
@@ -19,7 +21,7 @@ fi
 
 cd "`dirname "$0"`"
 make $BUILD_TARGET && \
-cp -v "libv_repExtCustomUI.$DLEXT" "$INSTALL_TARGET" && \
-cp -v simExtCustomUI.lua "$VREP_ROOT/lua/"
+cp -v "lib$PLUGIN_NAME.$DLEXT" "$INSTALL_TARGET" && \
+if [ -d lua-gen ]; then cp -v lua-gen/*.lua "$VREP_ROOT/lua/"; fi
 exit $?
 
