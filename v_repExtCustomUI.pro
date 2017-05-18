@@ -80,12 +80,12 @@ widgets_html.commands = xsltproc --path \"$$PWD/\" -o widgets.html widgets.xsl w
 QMAKE_EXTRA_TARGETS += widgets_html
 PRE_TARGETDEPS += widgets.html
 
-UI_lua.target = simExtCustomUI.lua
-UI_lua.output = simExtCustomUI.lua
+UI_lua.target = lua-gen/simExtCustomUI.lua
+UI_lua.output = lua-gen/simExtCustomUI.lua
 UI_lua.input = callbacks.xml utils.lua
-UI_lua.commands = python \"$$PWD/generate_aliases.py\" simExtCustomUI.lua
+UI_lua.commands = python \"$$PWD/generate_aliases.py\" lua-gen/simExtCustomUI.lua
 QMAKE_EXTRA_TARGETS += UI_lua
-PRE_TARGETDEPS += simExtCustomUI.lua
+PRE_TARGETDEPS += lua-gen/simExtCustomUI.lua
 
 HEADERS += \
     debug.h \
