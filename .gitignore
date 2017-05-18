@@ -17,4 +17,3 @@ moc_*.cpp
 Makefile
 Makefile.Debug
 Makefile.Release
-simExtCustomUI.lua
