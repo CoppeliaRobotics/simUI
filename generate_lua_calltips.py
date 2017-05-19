@@ -16,8 +16,24 @@ args, rets = [], []
 with open(outfile, 'w') as fout:
     def output():
         if fun:
-            f = fun[0]
+            f, fdesc = fun
             calltip = (','.join(x[0] for x in rets)+('=' if rets else '')+'sim'+shortPlugName+'.'+f+'('+','.join(x[0] for x in args)+')')
+            if fdesc:
+                calltip += '\\n\\n' + fdesc
+            if len(args):
+                calltip += '\\n\\nParameters:\\n'
+                for (n, d) in args:
+                    calltip += '    ' + n
+                    if d:
+                        calltip += ': ' + d
+                    calltip += '\\n'
+            if len(rets):
+                calltip += '\\n\\nReturn values:\\n'
+                for (n, d) in rets:
+                    calltip += '    ' + n
+                    if d:
+                        calltip += ': ' + d
+                    calltip += '\\n'
             fout.write('simRegisterScriptCallbackFunctionE("sim{}.{}@{}", "{}", NULL);\n'.format(shortPlugName, f, longPlugName, calltip))
 
     with open(luafile, 'r') as f:
