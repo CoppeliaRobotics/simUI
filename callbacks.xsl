@@ -31,9 +31,9 @@
     <xsl:template match="strong">
         <strong><xsl:apply-templates select="node()"/></strong>
     </xsl:template>
-    <xsl:template name="functionPrefix">
+    <xsl:template name="functionPrefixOldStyle">
         <!-- if plugin node defined a prefix attribute, we use it for
-             functions prefix, otherwise we use the name attribute -->
+             functions prefix, otherwise we use the plugin's name attribute -->
         <xsl:text>simExt</xsl:text>
         <xsl:choose>
             <xsl:when test="/plugin/@prefix">
@@ -45,13 +45,41 @@
         </xsl:choose>
         <xsl:text>_</xsl:text>
     </xsl:template>
+    <xsl:template name="functionPrefixNewStyle">
+        <xsl:text>sim</xsl:text>
+        <xsl:value-of select="/plugin/@short-name"/>
+        <xsl:text>.</xsl:text>
+    </xsl:template>
+    <xsl:template name="renderCmdName">
+        <xsl:param name="name"/>
+        <xsl:choose>
+            <xsl:when test="/plugin/@short-name">
+                <xsl:call-template name="functionPrefixNewStyle"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="functionPrefixOldStyle"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:value-of select="$name"/>
+    </xsl:template>
     <xsl:template name="renderCmdRef">
         <xsl:param name="name"/>
-        <a href="#cmd:{$name}"><xsl:call-template name="functionPrefix"/><xsl:value-of select="$name"/></a>
+        <a href="#cmd:{$name}"><xsl:call-template name="renderCmdName"><xsl:with-param name="name" select="$name"/></xsl:call-template></a>
+    </xsl:template>
+    <xsl:template name="renderEnumName">
+        <xsl:param name="name"/>
+        <xsl:choose>
+            <xsl:when test="/plugin/@short-name">
+                <xsl:call-template name="functionPrefixNewStyle"/>
+            </xsl:when>
+            <xsl:otherwise>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:value-of select="$name"/>
     </xsl:template>
     <xsl:template name="renderEnumRef">
         <xsl:param name="name"/>
-        <a href="#enum:{$name}"><xsl:value-of select="$name"/></a>
+        <a href="#enum:{$name}"><xsl:call-template name="renderEnumName"><xsl:with-param name="name" select="$name"/></xsl:call-template></a>
     </xsl:template>
     <xsl:template name="renderStructRef">
         <xsl:param name="name"/>
@@ -132,7 +160,7 @@
                                 <xsl:for-each select="plugin/command">
                                     <xsl:sort select="@name"/>
                                     <xsl:if test="description != ''">
-                                        <h3 class="subsectionBar"><a name="cmd:{@name}" id="cmd:{@name}"></a><xsl:call-template name="functionPrefix"/><xsl:value-of select="@name"/></h3>
+                                        <h3 class="subsectionBar"><a name="cmd:{@name}" id="cmd:{@name}"></a><xsl:call-template name="renderCmdName"><xsl:with-param name="name" select="@name"/></xsl:call-template></h3>
                                         <table class="apiTable">
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftDescr">
@@ -166,8 +194,9 @@
                                                         <xsl:if test="not(position() = last())">, </xsl:if>
                                                     </xsl:for-each>
                                                     <xsl:if test="return/param">=</xsl:if>
-                                                    <xsl:call-template name="functionPrefix"/>
-                                                    <xsl:value-of select="@name"/>
+                                                    <xsl:call-template name="renderCmdName">
+                                                        <xsl:with-param name="name" select="@name"/>
+                                                    </xsl:call-template>
                                                     <xsl:text>(</xsl:text>
                                                     <xsl:for-each select="params/param">
                                                         <xsl:value-of select="@type"/>
@@ -217,7 +246,7 @@
                                     <br/>
                                     <h1>Constants</h1>
                                     <xsl:for-each select="plugin/enum">
-                                    <h3 class="subsectionBar"><a name="enum:{@name}" id="enum:{@name}"></a><xsl:value-of select="@name"/></h3>
+                                        <h3 class="subsectionBar"><a name="enum:{@name}" id="enum:{@name}"></a><xsl:call-template name="renderEnumName"><xsl:with-param name="name" select="@name"/></xsl:call-template></h3>
                                     <table class="apiConstantsTable">
                                         <tbody>
                                             <tr>
@@ -225,7 +254,9 @@
                                                     <xsl:for-each select="item">
                                                         <div>
                                                             <strong>
+                                                                <xsl:if test="not /plugin/@short-name">
                                                                 <xsl:value-of select="../@item-prefix"/>
+                                                                </xsl:if>
                                                                 <xsl:value-of select="@name"/>
                                                             </strong>
                                                             <xsl:if test="description">
