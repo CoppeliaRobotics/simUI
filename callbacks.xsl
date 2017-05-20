@@ -89,6 +89,10 @@
         <xsl:param name="name"/>
         <a href="#struct:{$name}"><xsl:call-template name="renderStructName"><xsl:with-param name="name" select="$name"/></xsl:call-template></a>
     </xsl:template>
+    <xsl:template name="renderScriptFunctionName">
+        <xsl:param name="name"/>
+        <xsl:value-of select="$name"/>
+    </xsl:template>
     <xsl:template name="renderParams">
         <xsl:param name="showDefault"/>
         <xsl:choose>
@@ -309,6 +313,77 @@
                                             </td>
                                         </tr>
                                     </table>
+                                    <br/>
+                                    </xsl:for-each>
+                                </xsl:if>
+                                <xsl:if test="plugin/script-function/*">
+                                    <br/>
+                                    <br/>
+                                    <h1>Script functions</h1>
+                                    <p>Script functions are used to call some lua code from the plugin side (tipically used for event handlers).</p>
+                                    <xsl:for-each select="plugin/script-function">
+                                    <h3 class="subsectionBar"><a name="scriptfun:{@name}" id="scriptfun:{@name}"></a><xsl:call-template name="renderScriptFunctionName"><xsl:with-param name="name" select="@name"/></xsl:call-template></h3>
+                                        <table class="apiTable">
+                                            <tr class="apiTableTr">
+                                                <td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+                                                <td class="apiTableRightDescr">
+                                                    <xsl:apply-templates select="description/node()"/>
+                                                </td>
+                                            </tr>
+                                            <tr class="apiTableTr">
+                                                <td class="apiTableLeftLSyn">Lua synopsis</td>
+                                                <td class="apiTableRightLSyn">
+                                                    <xsl:for-each select="return/param">
+                                                        <xsl:value-of select="@type"/>
+                                                        <xsl:text> </xsl:text>
+                                                        <xsl:value-of select="@name"/>
+                                                        <xsl:if test="not(position() = last())">, </xsl:if>
+                                                    </xsl:for-each>
+                                                    <xsl:if test="return/param">=</xsl:if>
+                                                    <xsl:value-of select="@name" />
+                                                    <xsl:text>(</xsl:text>
+                                                    <xsl:for-each select="params/param">
+                                                        <xsl:value-of select="@type"/>
+                                                        <xsl:text> </xsl:text>
+                                                        <xsl:value-of select="@name"/>
+                                                        <xsl:if test="@default">=<xsl:value-of select="@default"/></xsl:if>
+                                                        <xsl:if test="not(position() = last())">, </xsl:if>
+                                                    </xsl:for-each>
+                                                    <xsl:text>)</xsl:text>
+                                                    <br/>
+                                                </td>
+                                            </tr>
+                                            <tr class="apiTableTr">
+                                                <td class="apiTableLeftLParam">Lua parameters</td>
+                                                <td class="apiTableRightLParam">
+                                                    <xsl:for-each select="params">
+                                                        <xsl:call-template name="renderParams">
+                                                            <xsl:with-param name="showDefault" select="'true'"/>
+                                                        </xsl:call-template>
+                                                    </xsl:for-each>
+                                                </td>
+                                            </tr>
+                                            <tr class="apiTableTr">
+                                                <td class="apiTableLeftLRet">Lua return values</td>
+                                                <td class="apiTableRightLRet">
+                                                    <xsl:for-each select="return">
+                                                        <xsl:call-template name="renderParams">
+                                                            <xsl:with-param name="showDefault" select="'false'"/>
+                                                        </xsl:call-template>
+                                                    </xsl:for-each>
+                                                </td>
+                                            </tr>
+                                            <tr class="apiTableTr">
+                                                <td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+                                                <td class="apiTableRightDescr">
+                                                    <xsl:call-template name="renderRelated"/>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     <br/>
                                     </xsl:for-each>
                                 </xsl:if>
