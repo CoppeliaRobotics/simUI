@@ -912,7 +912,7 @@
         <item name="dashed" />
     </enum>
     <struct name="curve_options">
-        <description>Extra options for the curve creation function <command-ref name="addCurve"/>. Create this data structure in the form of a hash table, e.g.: <code>{line_size=3, add_to_legend=false, selectable=true}</code></description>
+        <description>Extra options for the curve creation function <command-ref name="addCurve"/>.</description>
         <categories>
             <category name="plot" />
             <category name="widgets" indirect="true" />

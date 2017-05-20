@@ -275,6 +275,7 @@
                                     <br/>
                                     <br/>
                                     <h1>Data structures</h1>
+                                    <p>Data structures are used to pass complex data around. Create data structures in Lua in the form of a hash table, e.g.: <code>{line_size=3, add_to_legend=false, selectable=true}</code></p>
                                     <xsl:for-each select="plugin/struct">
                                     <h3 class="subsectionBar"><a name="struct:{@name}" id="struct:{@name}"></a><xsl:value-of select="@name"/></h3>
                                     <table class="apiTable">
