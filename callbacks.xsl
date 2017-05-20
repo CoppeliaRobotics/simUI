@@ -1,36 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="html" encoding="utf-8" indent="yes"/>
+
+    <!-- special tags that can be used in the xml: -->
+
     <xsl:template match="command-ref">
         <xsl:call-template name="renderCmdRef">
             <xsl:with-param name="name" select="@name"/>
         </xsl:call-template>
     </xsl:template>
+
     <xsl:template match="enum-ref">
         <xsl:call-template name="renderEnumRef">
             <xsl:with-param name="name" select="@name"/>
         </xsl:call-template>
     </xsl:template>
+
     <xsl:template match="struct-ref">
         <xsl:call-template name="renderStructRef">
             <xsl:with-param name="name" select="@name"/>
         </xsl:call-template>
     </xsl:template>
+
     <xsl:template match="code">
         <pre><xsl:value-of select="."/></pre>
     </xsl:template>
+
+    <!-- allow basic formatting HTML tags too: -->
+
     <xsl:template match="sub">
         <sub><xsl:apply-templates select="node()"/></sub>
     </xsl:template>
+
     <xsl:template match="sup">
         <sup><xsl:apply-templates select="node()"/></sup>
     </xsl:template>
+
     <xsl:template match="em">
         <em><xsl:apply-templates select="node()"/></em>
     </xsl:template>
+
     <xsl:template match="strong">
         <strong><xsl:apply-templates select="node()"/></strong>
     </xsl:template>
+
+    <!-- template routines: -->
+
     <xsl:template name="functionPrefixOldStyle">
         <!-- if plugin node defined a prefix attribute, we use it for
              functions prefix, otherwise we use the plugin's name attribute -->
@@ -45,11 +60,13 @@
         </xsl:choose>
         <xsl:text>_</xsl:text>
     </xsl:template>
+
     <xsl:template name="functionPrefixNewStyle">
         <xsl:text>sim</xsl:text>
         <xsl:value-of select="/plugin/@short-name"/>
         <xsl:text>.</xsl:text>
     </xsl:template>
+
     <xsl:template name="renderCmdName">
         <xsl:param name="name"/>
         <xsl:choose>
@@ -62,21 +79,12 @@
         </xsl:choose>
         <xsl:value-of select="$name"/>
     </xsl:template>
+
     <xsl:template name="renderCmdRef">
         <xsl:param name="name"/>
         <a href="#cmd:{$name}"><xsl:call-template name="renderCmdName"><xsl:with-param name="name" select="$name"/></xsl:call-template></a>
     </xsl:template>
-    <xsl:template name="renderEnumName">
-        <xsl:param name="name"/>
-        <xsl:choose>
-            <xsl:when test="/plugin/@short-name">
-                <xsl:call-template name="functionPrefixNewStyle"/>
-            </xsl:when>
-            <xsl:otherwise>
-            </xsl:otherwise>
-        </xsl:choose>
-        <xsl:value-of select="$name"/>
-    </xsl:template>
+
     <xsl:template name="renderParamsSynopsis">
         <xsl:param name="cmd"/>
         <xsl:text>(</xsl:text>
@@ -89,6 +97,7 @@
         </xsl:for-each>
         <xsl:text>)</xsl:text>
     </xsl:template>
+
     <xsl:template name="renderReturnsSynopsis">
         <xsl:param name="cmd"/>
         <xsl:for-each select="$cmd/return/param">
@@ -99,6 +108,7 @@
         </xsl:for-each>
         <xsl:if test="$cmd/return/param">=</xsl:if>
     </xsl:template>
+
     <xsl:template name="renderCmdSynopsis">
         <xsl:param name="cmd"/>
         <xsl:param name="nameTemplate"/>
@@ -112,23 +122,40 @@
             <xsl:with-param name="cmd" select="$cmd"/>
         </xsl:call-template>
     </xsl:template>
+
+    <xsl:template name="renderEnumName">
+        <xsl:param name="name"/>
+        <xsl:choose>
+            <xsl:when test="/plugin/@short-name">
+                <xsl:call-template name="functionPrefixNewStyle"/>
+            </xsl:when>
+            <xsl:otherwise>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:value-of select="$name"/>
+    </xsl:template>
+
     <xsl:template name="renderEnumRef">
         <xsl:param name="name"/>
         <a href="#enum:{$name}"><xsl:call-template name="renderEnumName"><xsl:with-param name="name" select="$name"/></xsl:call-template></a>
     </xsl:template>
+
     <xsl:template name="renderStructName">
         <xsl:param name="name"/>
         <xsl:value-of select="$name"/>
     </xsl:template>
+
     <xsl:template name="renderStructRef">
         <xsl:param name="name"/>
         <a href="#struct:{$name}"><xsl:call-template name="renderStructName"><xsl:with-param name="name" select="$name"/></xsl:call-template></a>
     </xsl:template>
+
     <xsl:template name="renderScriptFunctionName">
         <xsl:param name="name"/>
         <xsl:value-of select="$name"/>
     </xsl:template>
-    <xsl:template name="renderParams">
+
+    <xsl:template name="renderParamsBlock">
         <xsl:param name="showDefault"/>
         <xsl:choose>
             <xsl:when test="param">
@@ -153,6 +180,7 @@
             <xsl:otherwise>-</xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
     <xsl:template name="renderRelated">
         <xsl:variable name="sname" select="@name"/>
         <!-- manual cross references (within tag <see-also>): -->
@@ -181,6 +209,9 @@
             </xsl:for-each>
         </xsl:for-each>
     </xsl:template>
+
+    <!-- root template: -->
+
     <xsl:template match="/">
         <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"&gt;</xsl:text>
         <html>
@@ -213,20 +244,6 @@
                                                     <xsl:apply-templates select="description/node()"/>
                                                 </td>
                                             </tr>
-                                            <!--
-                                            <tr class="apiTableTr">
-                                                <td class="apiTableLeftCSyn">C synopsis</td>
-                                                <td class="apiTableRightCSyn">-</td>
-                                            </tr>
-                                            <tr class="apiTableTr">
-                                                <td class="apiTableLeftCParam">C parameters</td>
-                                                <td class="apiTableRightCParam">-</td>
-                                            </tr>
-                                            <tr class="apiTableTr">
-                                                <td class="apiTableLeftCRet">C return value</td>
-                                                <td class="apiTableRightCRet">-</td>
-                                            </tr>
-                                            -->
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftLSyn">Lua synopsis</td>
                                                 <td class="apiTableRightLSyn">
@@ -241,7 +258,7 @@
                                                 <td class="apiTableLeftLParam">Lua parameters</td>
                                                 <td class="apiTableRightLParam">
                                                     <xsl:for-each select="params">
-                                                        <xsl:call-template name="renderParams">
+                                                        <xsl:call-template name="renderParamsBlock">
                                                             <xsl:with-param name="showDefault" select="'true'"/>
                                                         </xsl:call-template>
                                                     </xsl:for-each>
@@ -251,7 +268,7 @@
                                                 <td class="apiTableLeftLRet">Lua return values</td>
                                                 <td class="apiTableRightLRet">
                                                     <xsl:for-each select="return">
-                                                        <xsl:call-template name="renderParams">
+                                                        <xsl:call-template name="renderParamsBlock">
                                                             <xsl:with-param name="showDefault" select="'false'"/>
                                                         </xsl:call-template>
                                                     </xsl:for-each>
@@ -320,7 +337,7 @@
                                         <tr class="apiTableTr">
                                             <td class="apiTableLeftLParam">Fields</td>
                                             <td class="apiTableRightLParam">
-                                                <xsl:call-template name="renderParams">
+                                                <xsl:call-template name="renderParamsBlock">
                                                     <xsl:with-param name="showDefault" select="'true'"/>
                                                 </xsl:call-template>
                                             </td>
@@ -367,7 +384,7 @@
                                                 <td class="apiTableLeftLParam">Lua parameters</td>
                                                 <td class="apiTableRightLParam">
                                                     <xsl:for-each select="params">
-                                                        <xsl:call-template name="renderParams">
+                                                        <xsl:call-template name="renderParamsBlock">
                                                             <xsl:with-param name="showDefault" select="'true'"/>
                                                         </xsl:call-template>
                                                     </xsl:for-each>
@@ -377,7 +394,7 @@
                                                 <td class="apiTableLeftLRet">Lua return values</td>
                                                 <td class="apiTableRightLRet">
                                                     <xsl:for-each select="return">
-                                                        <xsl:call-template name="renderParams">
+                                                        <xsl:call-template name="renderParamsBlock">
                                                             <xsl:with-param name="showDefault" select="'false'"/>
                                                         </xsl:call-template>
                                                     </xsl:for-each>
