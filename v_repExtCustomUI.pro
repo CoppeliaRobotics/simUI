@@ -55,21 +55,21 @@ unix:!symbian {
 stubs_h.target = stubs.h
 stubs_h.output = stubs.h
 stubs_h.input = callbacks.xml
-stubs_h.commands = python -m v_repStubsGen -H stubs.h callbacks.xml
+stubs_h.commands = python \"$$PWD/external/v_repStubsGen/main.py\" -H stubs.h callbacks.xml
 QMAKE_EXTRA_TARGETS += stubs_h
 PRE_TARGETDEPS += stubs.h
 
 stubs_cpp.target = stubs.cpp
 stubs_cpp.output = stubs.cpp
 stubs_cpp.input = callbacks.xml
-stubs_cpp.commands = python -m v_repStubsGen -C stubs.cpp callbacks.xml
+stubs_cpp.commands = python \"$$PWD/external/v_repStubsGen/main.py\" -C stubs.cpp callbacks.xml
 QMAKE_EXTRA_TARGETS += stubs_cpp
 PRE_TARGETDEPS += stubs.cpp
 
 reference_html.target = reference.html
 reference_html.output = reference.html
 reference_html.input = callbacks.xml
-reference_html.commands = xsltproc --path \"$$PWD/\" -o reference.html callbacks.xsl callbacks.xml
+reference_html.commands = xsltproc --path \"$$PWD/\" -o reference.html \"$$PWD/external/v_repStubsGen/xsl/reference.xsl\" callbacks.xml
 QMAKE_EXTRA_TARGETS += reference_html
 PRE_TARGETDEPS += reference.html
 

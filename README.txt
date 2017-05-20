@@ -1,13 +1,6 @@
 Compiling:
 
-1) Get v_repStubsGen, e.g.:
-
-	> mkdir ~/python-packages
-	> cd ~/python-packages
-	> git clone https://github.com/fferri/v_repStubsGen.git
-	> export PYTHONPATH=$PYTHONPATH:~/python-packages
-
-2) Get required python packages for v_repStubsGen
+1) Install required python packages for v_repStubsGen
 
    On Linux:
 
@@ -17,9 +10,9 @@ Compiling:
 
 	> pip install tempita
 
-3) Download and install Qt (same version as V-REP) i.e. 5.5.0
+2) Download and install Qt (same version as V-REP) i.e. 5.5.0
 
-4) Download and install the XSLT processor
+3) Download and install the XSLT processor
 
    On Linux:
 
@@ -28,7 +21,7 @@ Compiling:
    On OS X xsltproc is already available.
 
 
-5) Generate makefiles
+4) Generate makefiles
 
    On Linux:
 
@@ -38,7 +31,7 @@ Compiling:
 
 	> ~/Qt5.5.0/5.5/clang_64/bin/qmake v_repExtCustomUI.pro
 
-6) Compile
+5) Compile
 
 	> make
 

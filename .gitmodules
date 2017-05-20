@@ -1,3 +1,6 @@
 [submodule "external/QDataflowCanvas"]
 	path = external/QDataflowCanvas
 	url = https://github.com/fferri/QDataflowCanvas
+[submodule "external/v_repStubsGen"]
+	path = external/v_repStubsGen
+	url = https://github.com/fferri/v_repStubsGen
