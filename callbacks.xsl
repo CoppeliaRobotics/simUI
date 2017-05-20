@@ -77,6 +77,41 @@
         </xsl:choose>
         <xsl:value-of select="$name"/>
     </xsl:template>
+    <xsl:template name="renderParamsSynopsis">
+        <xsl:param name="cmd"/>
+        <xsl:text>(</xsl:text>
+        <xsl:for-each select="$cmd/params/param">
+            <xsl:value-of select="@type"/>
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="@name"/>
+            <xsl:if test="@default">=<xsl:value-of select="@default"/></xsl:if>
+            <xsl:if test="not(position() = last())">, </xsl:if>
+        </xsl:for-each>
+        <xsl:text>)</xsl:text>
+    </xsl:template>
+    <xsl:template name="renderReturnsSynopsis">
+        <xsl:param name="cmd"/>
+        <xsl:for-each select="$cmd/return/param">
+            <xsl:value-of select="@type"/>
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="@name"/>
+            <xsl:if test="not(position() = last())">, </xsl:if>
+        </xsl:for-each>
+        <xsl:if test="$cmd/return/param">=</xsl:if>
+    </xsl:template>
+    <xsl:template name="renderCmdSynopsis">
+        <xsl:param name="cmd"/>
+        <xsl:param name="nameTemplate"/>
+        <xsl:call-template name="renderReturnsSynopsis">
+            <xsl:with-param name="cmd" select="$cmd"/>
+        </xsl:call-template>
+        <xsl:call-template name="renderCmdName">
+            <xsl:with-param name="name" select="$cmd/@name"/>
+        </xsl:call-template>
+        <xsl:call-template name="renderParamsSynopsis">
+            <xsl:with-param name="cmd" select="$cmd"/>
+        </xsl:call-template>
+    </xsl:template>
     <xsl:template name="renderEnumRef">
         <xsl:param name="name"/>
         <a href="#enum:{$name}"><xsl:call-template name="renderEnumName"><xsl:with-param name="name" select="$name"/></xsl:call-template></a>
@@ -195,25 +230,10 @@
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftLSyn">Lua synopsis</td>
                                                 <td class="apiTableRightLSyn">
-                                                    <xsl:for-each select="return/param">
-                                                        <xsl:value-of select="@type"/>
-                                                        <xsl:text> </xsl:text>
-                                                        <xsl:value-of select="@name"/>
-                                                        <xsl:if test="not(position() = last())">, </xsl:if>
-                                                    </xsl:for-each>
-                                                    <xsl:if test="return/param">=</xsl:if>
-                                                    <xsl:call-template name="renderCmdName">
-                                                        <xsl:with-param name="name" select="@name"/>
+                                                    <xsl:call-template name="renderCmdSynopsis">
+                                                        <xsl:with-param name="cmd" select="."/>
+                                                        <xsl:with-param name="nameTemplate" select="renderCmdName"/>
                                                     </xsl:call-template>
-                                                    <xsl:text>(</xsl:text>
-                                                    <xsl:for-each select="params/param">
-                                                        <xsl:value-of select="@type"/>
-                                                        <xsl:text> </xsl:text>
-                                                        <xsl:value-of select="@name"/>
-                                                        <xsl:if test="@default">=<xsl:value-of select="@default"/></xsl:if>
-                                                        <xsl:if test="not(position() = last())">, </xsl:if>
-                                                    </xsl:for-each>
-                                                    <xsl:text>)</xsl:text>
                                                     <br/>
                                                 </td>
                                             </tr>
@@ -335,23 +355,10 @@
                                             <tr class="apiTableTr">
                                                 <td class="apiTableLeftLSyn">Lua synopsis</td>
                                                 <td class="apiTableRightLSyn">
-                                                    <xsl:for-each select="return/param">
-                                                        <xsl:value-of select="@type"/>
-                                                        <xsl:text> </xsl:text>
-                                                        <xsl:value-of select="@name"/>
-                                                        <xsl:if test="not(position() = last())">, </xsl:if>
-                                                    </xsl:for-each>
-                                                    <xsl:if test="return/param">=</xsl:if>
-                                                    <xsl:value-of select="@name" />
-                                                    <xsl:text>(</xsl:text>
-                                                    <xsl:for-each select="params/param">
-                                                        <xsl:value-of select="@type"/>
-                                                        <xsl:text> </xsl:text>
-                                                        <xsl:value-of select="@name"/>
-                                                        <xsl:if test="@default">=<xsl:value-of select="@default"/></xsl:if>
-                                                        <xsl:if test="not(position() = last())">, </xsl:if>
-                                                    </xsl:for-each>
-                                                    <xsl:text>)</xsl:text>
+                                                    <xsl:call-template name="renderCmdSynopsis">
+                                                        <xsl:with-param name="cmd" select="."/>
+                                                        <xsl:with-param name="nameTemplate" select="renderScriptFunctionName"/>
+                                                    </xsl:call-template>
                                                     <br/>
                                                 </td>
                                             </tr>
