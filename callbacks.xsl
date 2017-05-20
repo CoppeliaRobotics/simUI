@@ -273,6 +273,7 @@
                                     <br/>
                                     <br/>
                                     <h1>Constants</h1>
+                                    <p>Constants used in the various functions.<xsl:if test="plugin/@short-name"> Refer to each constant using <i>enumName.constantName</i>, i.e. <b>simUI.curve_type.xy</b> for <b>xy</b> constant in <b>simUI.curve_type</b> enum.</xsl:if></p>
                                     <xsl:for-each select="plugin/enum">
                                         <h3 class="subsectionBar"><a name="enum:{@name}" id="enum:{@name}"></a><xsl:call-template name="renderEnumName"><xsl:with-param name="name" select="@name"/></xsl:call-template></h3>
                                     <table class="apiConstantsTable">
