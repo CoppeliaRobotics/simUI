@@ -2624,7 +2624,7 @@
         <return>
         </return>
     </script-function>
-    <enum name="mouse_event_type" item-prefix="mouse_" base="20400">
+    <enum name="mouse" item-prefix="mouse_" base="20400">
         <item name="left_button_down">
             <description>left mouse button pressed</description>
         </item>
@@ -2649,7 +2649,7 @@
                 <description>the ID of the widget</description>
             </param>
             <param name="type" type="int">
-                <description>the mouse event type, one of the values from <enum-ref name="mouse_event_type"/></description>
+                <description>the mouse event type, one of the values from <enum-ref name="mouse"/></description>
             </param>
             <param name="mods" type="keyboard_modifiers">
                 <description>modifiers. see <struct-ref name="keyboard_modifiers"/></description>
