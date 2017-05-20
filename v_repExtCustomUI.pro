@@ -82,8 +82,8 @@ PRE_TARGETDEPS += widgets.html
 
 lua_calltips_cpp.target = lua_calltips.cpp
 lua_calltips_cpp.output = lua_calltips.cpp
-lua_calltips_cpp.input = simExtCustomUI.lua generate_lua_calltips.py
-lua_calltips_cpp.commands = python \"$$PWD/generate_lua_calltips.py\" CustomUI UI \"$$PWD/simExtCustomUI.lua\" \"$$PWD/lua_calltips.cpp\"
+lua_calltips_cpp.input = simExtCustomUI.lua \"$$PWD/external/v_repStubsGen/generate_lua_calltips.py\"
+lua_calltips_cpp.commands = python \"$$PWD/external/v_repStubsGen/generate_lua_calltips.py\" CustomUI UI \"$$PWD/simExtCustomUI.lua\" \"$$PWD/lua_calltips.cpp\"
 QMAKE_EXTRA_TARGETS += lua_calltips_cpp
 PRE_TARGETDEPS += lua_calltips.cpp
 
