@@ -95,19 +95,33 @@ reference_html.commands = xsltproc --path \"$$PWD/\" -o generated/reference.html
 QMAKE_EXTRA_TARGETS += reference_html
 PRE_TARGETDEPS += generated/reference.html
 
-widgets_html.target = generated/widgets.html
-widgets_html.output = generated/widgets.html
-widgets_html.input = widgets.xml
-widgets_html.commands = xsltproc --path \"$$PWD/\" -o generated/widgets.html widgets.xsl widgets.xml
-QMAKE_EXTRA_TARGETS += widgets_html
-PRE_TARGETDEPS += generated/widgets.html
-
 lua_calltips_cpp.target = generated/lua_calltips.cpp
 lua_calltips_cpp.output = generated/lua_calltips.cpp
 lua_calltips_cpp.input = simExtCustomUI.lua \"$$PWD/external/v_repStubsGen/generate_lua_calltips.py\"
 lua_calltips_cpp.commands = python \"$$PWD/external/v_repStubsGen/generate_lua_calltips.py\" CustomUI UI \"$$PWD/simExtCustomUI.lua\" \"$$PWD/generated/lua_calltips.cpp\"
 QMAKE_EXTRA_TARGETS += lua_calltips_cpp
 PRE_TARGETDEPS += generated/lua_calltips.cpp
+
+notepadplusplus_xml.target = generated/np++.xml
+notepadplusplus_xml.output = generated/np++.xml
+notepadplusplus_xml.input = generated/reference.xml
+notepadplusplus_xml.commands = python \"$$PWD/external/v_repStubsGen/generate_notepadplusplus_xml.py\" \"$$PWD/generated/reference.xml\" \"$$PWD/generated/np++.xml\"
+QMAKE_EXTRA_TARGETS += notepadplusplus_xml
+PRE_TARGETDEPS += generated/np++.xml
+
+notepadplusplus_txt.target = generated/np++.txt
+notepadplusplus_txt.output = generated/np++.txt
+notepadplusplus_txt.input = generated/reference.xml
+notepadplusplus_txt.commands = python \"$$PWD/external/v_repStubsGen/generate_notepadplusplus_txt.py\" \"$$PWD/generated/reference.xml\" \"$$PWD/generated/np++.txt\"
+QMAKE_EXTRA_TARGETS += notepadplusplus_txt
+PRE_TARGETDEPS += generated/np++.txt
+
+widgets_html.target = generated/widgets.html
+widgets_html.output = generated/widgets.html
+widgets_html.input = widgets.xml
+widgets_html.commands = xsltproc --path \"$$PWD/\" -o generated/widgets.html widgets.xsl widgets.xml
+QMAKE_EXTRA_TARGETS += widgets_html
+PRE_TARGETDEPS += generated/widgets.html
 
 HEADERS += \
     debug.h \
