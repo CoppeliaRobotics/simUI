@@ -20,3 +20,4 @@ Makefile.Release
 lua_calltips.cpp
 debug
 release
+generated

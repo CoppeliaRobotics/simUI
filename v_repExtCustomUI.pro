@@ -74,10 +74,24 @@ stubs_cpp.commands = python \"$$PWD/external/v_repStubsGen/main.py\" -C generate
 QMAKE_EXTRA_TARGETS += stubs_cpp
 PRE_TARGETDEPS += generated/stubs.cpp
 
+lua_xml.target = generated/lua.xml
+lua_xml.output = generated/lua.xml
+lua_xml.input = simExtCustomUI.lua
+lua_xml.commands = python \"$$PWD/external/v_repStubsGen/lua_to_xml.py\" simExtCustomUI.lua generated/lua.xml
+QMAKE_EXTRA_TARGETS += lua_xml
+PRE_TARGETDEPS += generated/lua.xml
+
+reference_xml.target = generated/reference.xml
+reference_xml.output = generated/reference.xml
+reference_xml.input = callbacks.xml generated/lua.xml
+reference_xml.commands = python \"$$PWD/external/v_repStubsGen/merge_xml.py\" callbacks.xml generated/lua.xml generated/reference.xml
+QMAKE_EXTRA_TARGETS += reference_xml
+PRE_TARGETDEPS += generated/reference.xml
+
 reference_html.target = generated/reference.html
 reference_html.output = generated/reference.html
-reference_html.input = callbacks.xml
-reference_html.commands = xsltproc --path \"$$PWD/\" -o generated/reference.html \"$$PWD/external/v_repStubsGen/xsl/reference.xsl\" callbacks.xml
+reference_html.input = generated/reference.xml
+reference_html.commands = xsltproc --path \"$$PWD/\" -o generated/reference.html \"$$PWD/external/v_repStubsGen/xsl/reference.xsl\" generated/reference.xml
 QMAKE_EXTRA_TARGETS += reference_html
 PRE_TARGETDEPS += generated/reference.html
 
