@@ -9,6 +9,8 @@ CONFIG += shared debug_and_release
 INCLUDEPATH += "../include"
 INCLUDEPATH += "external/QCustomPlot-2.0.0-beta"
 INCLUDEPATH += "external/QDataflowCanvas"
+INCLUDEPATH += "external"
+INCLUDEPATH += "generated"
 
 *-msvc* {
 	QMAKE_CXXFLAGS += -O2
@@ -52,40 +54,46 @@ unix:!symbian {
     INSTALLS += target
 }
 
-stubs_h.target = stubs.h
-stubs_h.output = stubs.h
+generated.target = $$PWD/generated
+generated.output = $$PWD/generated
+generated.commands = $(MKDIR) $$PWD/generated
+QMAKE_EXTRA_TARGETS += generated
+PRE_TARGETDEPS += $$PWD/generated
+
+stubs_h.target = generated/stubs.h
+stubs_h.output = generated/stubs.h
 stubs_h.input = callbacks.xml
-stubs_h.commands = python \"$$PWD/external/v_repStubsGen/main.py\" -H stubs.h callbacks.xml
+stubs_h.commands = python \"$$PWD/external/v_repStubsGen/main.py\" -H generated/stubs.h callbacks.xml
 QMAKE_EXTRA_TARGETS += stubs_h
-PRE_TARGETDEPS += stubs.h
+PRE_TARGETDEPS += generated/stubs.h
 
-stubs_cpp.target = stubs.cpp
-stubs_cpp.output = stubs.cpp
+stubs_cpp.target = generated/stubs.cpp
+stubs_cpp.output = generated/stubs.cpp
 stubs_cpp.input = callbacks.xml
-stubs_cpp.commands = python \"$$PWD/external/v_repStubsGen/main.py\" -C stubs.cpp callbacks.xml
+stubs_cpp.commands = python \"$$PWD/external/v_repStubsGen/main.py\" -C generated/stubs.cpp callbacks.xml
 QMAKE_EXTRA_TARGETS += stubs_cpp
-PRE_TARGETDEPS += stubs.cpp
+PRE_TARGETDEPS += generated/stubs.cpp
 
-reference_html.target = reference.html
-reference_html.output = reference.html
+reference_html.target = generated/reference.html
+reference_html.output = generated/reference.html
 reference_html.input = callbacks.xml
-reference_html.commands = xsltproc --path \"$$PWD/\" -o reference.html \"$$PWD/external/v_repStubsGen/xsl/reference.xsl\" callbacks.xml
+reference_html.commands = xsltproc --path \"$$PWD/\" -o generated/reference.html \"$$PWD/external/v_repStubsGen/xsl/reference.xsl\" callbacks.xml
 QMAKE_EXTRA_TARGETS += reference_html
-PRE_TARGETDEPS += reference.html
+PRE_TARGETDEPS += generated/reference.html
 
-widgets_html.target = widgets.html
-widgets_html.output = widgets.html
+widgets_html.target = generated/widgets.html
+widgets_html.output = generated/widgets.html
 widgets_html.input = widgets.xml
-widgets_html.commands = xsltproc --path \"$$PWD/\" -o widgets.html widgets.xsl widgets.xml
+widgets_html.commands = xsltproc --path \"$$PWD/\" -o generated/widgets.html widgets.xsl widgets.xml
 QMAKE_EXTRA_TARGETS += widgets_html
-PRE_TARGETDEPS += widgets.html
+PRE_TARGETDEPS += generated/widgets.html
 
-lua_calltips_cpp.target = lua_calltips.cpp
-lua_calltips_cpp.output = lua_calltips.cpp
+lua_calltips_cpp.target = generated/lua_calltips.cpp
+lua_calltips_cpp.output = generated/lua_calltips.cpp
 lua_calltips_cpp.input = simExtCustomUI.lua \"$$PWD/external/v_repStubsGen/generate_lua_calltips.py\"
-lua_calltips_cpp.commands = python \"$$PWD/external/v_repStubsGen/generate_lua_calltips.py\" CustomUI UI \"$$PWD/simExtCustomUI.lua\" \"$$PWD/lua_calltips.cpp\"
+lua_calltips_cpp.commands = python \"$$PWD/external/v_repStubsGen/generate_lua_calltips.py\" CustomUI UI \"$$PWD/simExtCustomUI.lua\" \"$$PWD/generated/lua_calltips.cpp\"
 QMAKE_EXTRA_TARGETS += lua_calltips_cpp
-PRE_TARGETDEPS += lua_calltips.cpp
+PRE_TARGETDEPS += generated/lua_calltips.cpp
 
 HEADERS += \
     debug.h \
@@ -93,7 +101,7 @@ HEADERS += \
     plugin.h \
     v_repExtCustomUI.h \
     ../include/v_repLib.h \
-    stubs.h \
+    generated/stubs.h \
     UIFunctions.h \
     UIProxy.h \
     widgets/Button.h \
@@ -133,7 +141,8 @@ SOURCES += \
     signal_spy.cpp \
     v_repExtCustomUI.cpp \
     ../common/v_repLib.cpp \
-    stubs.cpp \
+    generated/stubs.cpp \
+    generated/lua_calltips.cpp \
     UIFunctions.cpp \
     UIProxy.cpp \
     widgets/Button.cpp \
