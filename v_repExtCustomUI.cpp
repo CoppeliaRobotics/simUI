@@ -975,8 +975,8 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
     #ifdef QT_COMPIL
         _getcwd(curDirAndFile, sizeof(curDirAndFile));
     #else
-        GetModuleFileName(NULL, curDirAndFile, 1023);
-        PathRemoveFileSpec(curDirAndFile);
+        GetModuleFileNameA(NULL, curDirAndFile, 1023);
+        PathRemoveFileSpecA(curDirAndFile);
     #endif
 #elif defined (__linux) || defined (__APPLE__)
     getcwd(curDirAndFile, sizeof(curDirAndFile));
