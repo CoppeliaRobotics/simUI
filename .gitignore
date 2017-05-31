@@ -22,3 +22,4 @@ debug
 release
 generated
 *.xcodeproj
+build
