@@ -31,7 +31,42 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/generated/widgets.html
 	COMMAND xsltproc -o ${CMAKE_BINARY_DIR}/generated/widgets.html ${CMAKE_SOURCE_DIR}/widgets.xsl ${CMAKE_SOURCE_DIR}/widgets.xml
 	DEPENDS ${CMAKE_SOURCE_DIR}/widgets.xml ${CMAKE_SOURCE_DIR}/widgets.xsl)
 
-file(GLOB SOURCES *.cpp widgets/*.cpp external/QCustomPlot-2.0.0-beta/*.cpp external/QDataflowCanvas/qdataflowcanvas.cpp external/QDataflowCanvas/qdataflowmodel.cpp)
+set(SOURCES
+    Proxy.cpp
+    UIFunctions.cpp
+    UIProxy.cpp
+    XMLUtils.cpp
+    debug.cpp
+    signal_spy.cpp
+    tinyxml2.cpp
+    v_repExtCustomUI.cpp
+    widgets/Button.cpp
+    widgets/Checkbox.cpp
+    widgets/Combobox.cpp
+    widgets/Dataflow.cpp
+    widgets/Edit.cpp
+    widgets/Event.cpp
+    widgets/Group.cpp
+    widgets/HSlider.cpp
+    widgets/Image.cpp
+    widgets/Label.cpp
+    widgets/LayoutWidget.cpp
+    widgets/Plot.cpp
+    widgets/Progressbar.cpp
+    widgets/Radiobutton.cpp
+    widgets/Slider.cpp
+    widgets/Spinbox.cpp
+    widgets/Table.cpp
+    widgets/Tabs.cpp
+    widgets/TextBrowser.cpp
+    widgets/Tree.cpp
+    widgets/VSlider.cpp
+    widgets/Widget.cpp
+    widgets/Window.cpp
+    external/QCustomPlot-2.0.0-beta/qcustomplot.cpp
+    external/QDataflowCanvas/qdataflowcanvas.cpp
+    external/QDataflowCanvas/qdataflowmodel.cpp
+)
 add_library(v_repExtCustomUI SHARED ${SOURCES} ${CMAKE_BINARY_DIR}/generated/stubs.cpp "${VREP_ROOT}/programming/common/v_repLib.cpp")
 
 if(WIN32)
