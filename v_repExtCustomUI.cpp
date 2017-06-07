@@ -77,7 +77,6 @@ LIBRARY vrepLib; // the V-REP library that we will dynamically load and bind
 #include "tinyxml2.h"
 
 #include "stubs.h"
-#include "LuaCallbackFunction.h"
 #include "Proxy.h"
 #include "UIFunctions.h"
 #include "UIProxy.h"
