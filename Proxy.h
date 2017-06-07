@@ -7,7 +7,6 @@
 #include <QWidget>
 
 #include "widgets/Window.h"
-#include "LuaCallbackFunction.h"
 
 class UIProxy;
 
