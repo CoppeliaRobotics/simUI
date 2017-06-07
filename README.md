@@ -7,6 +7,6 @@
 3. Checkout and compile
 ```
 $ git clone --recursive https://github.com/fferri/v_repExtCustomUI.git
-$ /path/to/Qt5.5.0/5.5/.../bin/qmake v_repExtCustomUI.pro
-$ make
+$ cmake .
+$ cmake --build .
 ```
