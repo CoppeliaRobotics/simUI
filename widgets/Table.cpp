@@ -6,17 +6,9 @@
 #include "debug.h"
 
 #include <iostream>
+#include <boost/lexical_cast.hpp>
 
 #include <QTableWidget>
-
-#if __cplusplus <= 199711L && !_MSC_VER
-#include <cstdlib>
-namespace std {
-    static size_t stol(const std::string &s) {
-        return atol(s.c_str());
-    }
-}
-#endif
 
 Table::Table()
     : Widget("table")
@@ -243,7 +235,7 @@ bool Table::restoreState(std::string state)
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
     size_t d1 = state.find(":"), d2 = state.find(":", d1 + 1);
     std::string slen1 = state.substr(0, d1), slen2 = state.substr(d1 + 1, d2 - d1);
-    size_t len1 = std::stol(slen1), len2 = std::stol(slen2);
+    size_t len1 = boost::lexical_cast<size_t>(slen1), len2 = boost::lexical_cast<size_t>(slen2);
     const char *s = state.c_str() + d2 + 1;
     QByteArray hhState(s, len1), vhState(s + len1, len2);
     bool ret = true;

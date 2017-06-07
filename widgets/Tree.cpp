@@ -6,17 +6,9 @@
 #include "debug.h"
 
 #include <iostream>
+#include <boost/lexical_cast.hpp>
 
 #include <QTreeWidget>
-
-#if __cplusplus <= 199711L && !_MSC_VER
-#include <cstdlib>
-namespace std {
-    static size_t stol(const std::string &s) {
-        return atol(s.c_str());
-    }
-}
-#endif
 
 Tree::Tree()
     : Widget("tree")
@@ -261,7 +253,7 @@ bool Tree::restoreState(std::string state)
     QTreeWidget *treewidget = static_cast<QTreeWidget*>(getQWidget());
     size_t d1 = state.find(":");
     std::string slen1 = state.substr(0, d1);
-    size_t len1 = std::stol(slen1);
+    size_t len1 = boost::lexical_cast<size_t>(slen1);
     const char *s = state.c_str() + d1 + 1;
     QByteArray hState(s, len1);
     bool ret = true;
