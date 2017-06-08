@@ -66,11 +66,4 @@ set(SOURCES
     external/QDataflowCanvas/qdataflowmodel.cpp
 )
 add_library(v_repExtCustomUI SHARED ${SOURCES} ${CMAKE_BINARY_DIR}/generated/stubs.cpp "${VREP_COMMON}/v_repLib.cpp")
-
-if(WIN32)
-    set(SHLWAPI shlwapi)
-else()
-    set(SHLWAPI)
-endif()
-
-target_link_libraries(v_repExtCustomUI ${Boost_LIBRARIES} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::PrintSupport ${SHLWAPI})
+target_link_libraries(v_repExtCustomUI ${Boost_LIBRARIES} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::PrintSupport ${VREP_LIBRARIES})
