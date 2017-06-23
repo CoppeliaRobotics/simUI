@@ -30,13 +30,17 @@
 #include "v_repExtCustomUI.h"
 #include "plugin.h"
 #include "debug.h"
-#include "signal_spy.h"
+#include "config.h"
 #include "v_repLib.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
 #include <map>
+
+#ifdef ENABLE_SIGNAL_SPY
+#include "signal_spy.h"
+#endif
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/foreach.hpp>
@@ -1047,7 +1051,7 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer, int reservedInt)
     }
 #include "lua_calltips.cpp"
 
-#ifdef DEBUG
+#if defined(ENABLE_SIGNAL_SPY) && defined(DEBUG)
     SignalSpy::start();
 #endif
 

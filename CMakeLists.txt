@@ -31,13 +31,16 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/generated/widgets.html
     COMMAND xsltproc -o ${CMAKE_BINARY_DIR}/generated/widgets.html ${CMAKE_SOURCE_DIR}/widgets.xsl ${CMAKE_SOURCE_DIR}/widgets.xml
     DEPENDS ${CMAKE_SOURCE_DIR}/widgets.xml ${CMAKE_SOURCE_DIR}/widgets.xsl)
 
+set(ENABLE_SIGNAL_SPY false CACHE BOOL "if Qt private headers are installed, enable this to debug Qt signals")
+
+configure_file(${CMAKE_SOURCE_DIR}/config.h.in ${CMAKE_BINARY_DIR}/config.h)
+
 set(SOURCES
     Proxy.cpp
     UIFunctions.cpp
     UIProxy.cpp
     XMLUtils.cpp
     debug.cpp
-    signal_spy.cpp
     tinyxml2.cpp
     v_repExtCustomUI.cpp
     widgets/Button.cpp
@@ -67,5 +70,8 @@ set(SOURCES
     external/QDataflowCanvas/qdataflowcanvas.cpp
     external/QDataflowCanvas/qdataflowmodel.cpp
 )
+if(ENABLE_SIGNAL_SPY)
+    set(SOURCES ${SOURCES} signal_spy.cpp)
+endif()
 add_library(v_repExtCustomUI SHARED ${SOURCES} ${CMAKE_BINARY_DIR}/generated/stubs.cpp "${VREP_COMMON}/v_repLib.cpp")
 target_link_libraries(v_repExtCustomUI ${Boost_LIBRARIES} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::PrintSupport ${VREP_LIBRARIES})
