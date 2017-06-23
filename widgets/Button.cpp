@@ -55,3 +55,15 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     return button;
 }
 
+void Button::setText(std::string text)
+{
+    QPushButton *button = static_cast<QPushButton*>(getQWidget());
+    button->setText(QString::fromStdString(text));
+}
+
+void Button::setPressed(bool pressed)
+{
+    QPushButton *button = static_cast<QPushButton*>(getQWidget());
+    button->setChecked(pressed);
+}
+

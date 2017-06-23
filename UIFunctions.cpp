@@ -63,6 +63,9 @@ void UIFunctions::connectSignals()
     connect(uiproxy, &UIProxy::editingFinished, this, &UIFunctions::onEditingFinished);
     connect(uiproxy, &UIProxy::windowClose, this, &UIFunctions::onWindowClose);
     connect(this, &UIFunctions::destroy, uiproxy, &UIProxy::onDestroy, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setStyleSheet, uiproxy, &UIProxy::onSetStyleSheet, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setButtonText, uiproxy, &UIProxy::onSetButtonText, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setButtonPressed, uiproxy, &UIProxy::onSetButtonPressed, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::showWindow, uiproxy, &UIProxy::onShowWindow, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::hideWindow, uiproxy, &UIProxy::onHideWindow, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setPosition, uiproxy, &UIProxy::onSetPosition, Qt::BlockingQueuedConnection);

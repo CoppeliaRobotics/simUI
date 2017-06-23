@@ -36,6 +36,50 @@
         <return>
         </return>
     </command>
+    <command name="setButtonText">
+        <description>Set the text of a button.</description>
+        <categories>
+            <category name="button" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <see-also>
+        </see-also>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="text" type="string">
+                <description>button text</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setButtonPressed">
+        <description>Set the state of a button.</description>
+        <categories>
+            <category name="button" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <see-also>
+        </see-also>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="pressed" type="bool">
+                <description>button state</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="getSliderValue">
         <description>Get the value of a slider widget.</description>
         <categories>
@@ -760,6 +804,27 @@
             </param>
             <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setStyleSheet">
+        <description>Set the stylesheet of a widget.</description>
+        <categories>
+            <category name="widgets" />
+        </categories>
+        <see-also>
+        </see-also>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="styleSheet" type="string">
+                <description>stylesheet data</description>
             </param>
         </params>
         <return>

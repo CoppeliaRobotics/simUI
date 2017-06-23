@@ -56,6 +56,7 @@ private slots:
 signals:
     void create(Proxy *proxy);
     void destroy(Proxy *proxy);
+    void setStyleSheet(Widget *widget, std::string styleSheet);
     void showWindow(Window *window);
     void hideWindow(Window *window);
     void setPosition(Window *window, int x, int y);
@@ -64,6 +65,8 @@ signals:
     void setImage(Image *image, const char *data, int w, int h);
     void sceneChange(Window *window, int oldSceneID, int newSceneID);
     void setEnabled(Widget *widget, bool enabled);
+    void setButtonText(Button *button, std::string text);
+    void setButtonPressed(Button *button, bool pressed);
     void setEditValue(Edit *edit, std::string value, bool suppressSignals);
     void setSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals);
     void setLabelText(Label *label, std::string text, bool suppressSignals);

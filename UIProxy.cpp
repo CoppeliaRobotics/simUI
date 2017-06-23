@@ -590,6 +590,36 @@ void UIProxy::onDestroy(Proxy *proxy)
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onSetStyleSheet(Widget *widget, std::string styleSheet)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    widget->getQWidget()->setStyleSheet(QString::fromStdString(styleSheet));
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onSetButtonText(Button *button, std::string text)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    button->setText(text);
+
+    DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onSetButtonPressed(Button *button, bool pressed)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    button->setPressed(pressed);
+
+    DBG << "[leave]" << std::endl;
+}
+
 void UIProxy::onShowWindow(Window *window)
 {
     ASSERT_THREAD(UI);

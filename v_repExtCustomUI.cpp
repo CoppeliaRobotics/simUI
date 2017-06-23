@@ -191,6 +191,27 @@ T* getQWidget(int handle, int id, const char *cmd, const char *widget_type_name)
     return qwidget;
 }
 
+void setStyleSheet(SScriptCallBack *p, const char *cmd, setStyleSheet_in *in, setStyleSheet_out *out)
+{
+    ASSERT_THREAD(!UI);
+    Widget *widget = getWidget(in->handle, in->id);
+    UIFunctions::getInstance()->setStyleSheet(widget, in->styleSheet);
+}
+
+void setButtonText(SScriptCallBack *p, const char *cmd, setButtonText_in *in, setButtonText_out *out)
+{
+    ASSERT_THREAD(!UI);
+    Button *button = getWidget<Button>(in->handle, in->id, cmd, "button");
+    UIFunctions::getInstance()->setButtonText(button, in->text);
+}
+
+void setButtonPressed(SScriptCallBack *p, const char *cmd, setButtonPressed_in *in, setButtonPressed_out *out)
+{
+    ASSERT_THREAD(!UI);
+    Button *button = getWidget<Button>(in->handle, in->id, cmd, "button");
+    UIFunctions::getInstance()->setButtonPressed(button, in->pressed);
+}
+
 void getSliderValue(SScriptCallBack *p, const char *cmd, getSliderValue_in *in, getSliderValue_out *out)
 {
     Slider *slider = getWidget<Slider>(in->handle, in->id, cmd, "slider");

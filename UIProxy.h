@@ -57,6 +57,9 @@ public slots:
     void onTextChanged();
     void onAnchorClicked(const QUrl &link);
     // ---
+    void onSetStyleSheet(Widget *widget, std::string styleSheet);
+    void onSetButtonText(Button *button, std::string text);
+    void onSetButtonPressed(Button *button, bool pressed);
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
     void onSetPosition(Window *window, int x, int y);
