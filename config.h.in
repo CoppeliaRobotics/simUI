@@ -1,0 +1,1 @@
+#cmakedefine ENABLE_SIGNAL_SPY 1
