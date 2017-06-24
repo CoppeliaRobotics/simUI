@@ -23,9 +23,7 @@ include_directories(${CMAKE_SOURCE_DIR}/external/QDataflowCanvas)
 include_directories(${CMAKE_SOURCE_DIR}/external/QCustomPlot-2.0.0-beta)
 include_directories(${Boost_INCLUDE_DIRS})
 
-add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/generated/stubs.cpp ${CMAKE_BINARY_DIR}/generated/stubs.h ${CMAKE_BINARY_DIR}/generated/lua_calltips.cpp
-    COMMAND python ${CMAKE_SOURCE_DIR}/external/v_repStubsGen/generate.py --xml-file ${CMAKE_SOURCE_DIR}/callbacks.xml --lua-file ${CMAKE_SOURCE_DIR}/simExtCustomUI.lua --gen-all ${CMAKE_BINARY_DIR}/generated
-    DEPENDS ${CMAKE_SOURCE_DIR}/callbacks.xml)
+vrep_generate_stubs(${CMAKE_BINARY_DIR}/generated XML_FILE ${CMAKE_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_SOURCE_DIR}/simExtCustomUI.lua)
 
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/generated/widgets.html
     COMMAND xsltproc -o ${CMAKE_BINARY_DIR}/generated/widgets.html ${CMAKE_SOURCE_DIR}/widgets.xsl ${CMAKE_SOURCE_DIR}/widgets.xml
@@ -73,5 +71,5 @@ set(SOURCES
 if(ENABLE_SIGNAL_SPY)
     set(SOURCES ${SOURCES} signal_spy.cpp)
 endif()
-add_library(v_repExtCustomUI SHARED ${SOURCES} ${CMAKE_BINARY_DIR}/generated/stubs.cpp "${VREP_COMMON}/v_repLib.cpp")
+add_library(v_repExtCustomUI SHARED ${SOURCES} ${CMAKE_BINARY_DIR}/generated/stubs.cpp ${VREP_EXPORTED_SOURCES})
 target_link_libraries(v_repExtCustomUI ${Boost_LIBRARIES} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::PrintSupport ${VREP_LIBRARIES})
