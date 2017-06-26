@@ -9,6 +9,8 @@
 #include <sstream>
 #include <iostream>
 
+#include <boost/format.hpp>
+
 #include <QWidget>
 
 #include "tinyxml2.h"
@@ -77,9 +79,7 @@ T * Widget::parse1(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
         // now check if ID is duplicate:
         if(widgets.find(obj->id) != widgets.end())
         {
-            std::stringstream ss;
-            ss << "id must be unique (within ui scope). duplicate id: " << obj->id;
-            throw std::range_error(ss.str());
+            throw std::range_error((boost::format("id must be unique (within ui scope). duplicate id: %d") % obj->id).str());
         }
         else
         {
@@ -90,14 +90,7 @@ T * Widget::parse1(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     catch(std::exception& ex)
     {
         delete obj;
-        std::stringstream ss;
-        ss << e->Value();
-        if(obj->id > 0)
-        {
-            ss << "[id=" << obj->id << "]";
-        }
-        ss << ": " << ex.what();
-        throw std::range_error(ss.str());
+        throw std::range_error((boost::format("%s%s: %s") % e->Value() % (obj->id > 0 ? (boost::format("[id=%d]") % obj->id).str() : std::string("")) % ex.what()).str());
     }
 }
 
