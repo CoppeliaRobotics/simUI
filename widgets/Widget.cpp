@@ -105,7 +105,7 @@ Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyx
 
 void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    if(e->Attribute("id"))
+    if(xmlutils::hasAttr(e, "id"))
     {
         id = xmlutils::getAttrInt(e, "id", 0);
         // user defined IDs must be positive (see below)
