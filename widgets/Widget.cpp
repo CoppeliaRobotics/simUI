@@ -4,6 +4,8 @@
 
 #include "UIProxy.h"
 
+#include <boost/format.hpp>
+
 std::map<QWidget *, Widget *> Widget::widgetByQWidget;
 std::set<Widget *> Widget::widgets;
 
@@ -98,9 +100,7 @@ Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyx
     if(tag == "dataflow") return parse1<Dataflow>(parent, widgets, e);
     if(tag == "text-browser") return parse1<TextBrowser>(parent, widgets, e);
 
-    std::stringstream ss;
-    ss << "invalid element <" << tag << ">";
-    throw std::range_error(ss.str());
+    throw std::range_error((boost::format("invalid element <%s>") % tag).str());
 }
 
 void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
@@ -142,9 +142,7 @@ void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     std::string tag(e->Value());
     if(tag != widgetClass)
     {
-        std::stringstream ss;
-        ss << "element must be <" << widgetClass << ">";
-        throw std::range_error(ss.str());
+        throw std::range_error((boost::format("element must be <%s>") % widgetClass).str());
     }
 
     Widget::widgets.insert(this);
