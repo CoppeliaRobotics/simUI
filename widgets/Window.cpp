@@ -145,7 +145,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     flags |= Qt::Tool;
 #else
 #ifdef LIN_VREP
-    flags |= Qt::Window;
+    flags |= Qt::Dialog; // Qt::Window doesn't stay above V-REP main window since Qt 5.9
 #else
     flags |= Qt::Dialog;
 #endif
