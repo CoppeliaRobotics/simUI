@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 
 #include "tinyxml2.h"
 
@@ -55,6 +56,14 @@ namespace xmlutils
     std::vector<int> getAttrIntV(tinyxml2::XMLElement *e, std::string name, std::string defaultValue, int minLength, int maxLength, const char *sep);
 
     std::vector<int> getAttrIntV(tinyxml2::XMLElement *e, std::string name, std::vector<int> defaultValue, int minLength, int maxLength, const char *sep);
+
+    void resetKnownAttributes();
+
+    void markKnownAttribute(std::string a);
+
+    std::set<std::string> getUnknownAttributes(tinyxml2::XMLElement *e);
+
+    void reportUnknownAttributes(tinyxml2::XMLElement *e);
 };
 
 #endif // XMLUTILS_H_INCLUDED

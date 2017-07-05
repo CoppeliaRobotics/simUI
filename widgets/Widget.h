@@ -13,7 +13,7 @@
 
 #include <QWidget>
 
-#include "tinyxml2.h"
+#include "XMLUtils.h"
 
 class Proxy;
 class UIProxy;
@@ -73,7 +73,9 @@ T * Widget::parse1(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     T *obj = new T;
     try
     {
+        xmlutils::resetKnownAttributes();
         obj->parse(parent, widgets, e);
+        xmlutils::reportUnknownAttributes(e);
 
         // object parsed successfully
         // now check if ID is duplicate:

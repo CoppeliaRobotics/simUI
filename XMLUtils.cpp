@@ -3,6 +3,8 @@
 #include <sstream>
 #include <cstring>
 #include <stdexcept>
+#include <boost/foreach.hpp>
+#include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 #include <set>
@@ -28,7 +30,10 @@ static std::set<std::string> repDepNames;
         std::string dname = stripHyphens(name);         \
         value = e->Attribute(dname.c_str());            \
         if(value)                                       \
+        {                                               \
             REPORT_DEPRECATED_ATTRIB_NAME(dname, name); \
+            markKnownAttribute(dname);                  \
+        }                                               \
     }
 
 bool xmlutils::containsHyphens(const std::string &name)
@@ -47,6 +52,8 @@ std::string xmlutils::stripHyphens(const std::string &name)
 
 bool xmlutils::hasAttr(tinyxml2::XMLElement *e, std::string name)
 {
+    markKnownAttribute(name);
+
     const char *value = e->Attribute(name.c_str());
 
     CHECK_FOR_DEPRECATED_ATTRIB_NAME(name, value);
@@ -100,6 +107,8 @@ double xmlutils::getAttrDouble(tinyxml2::XMLElement *e, std::string name, double
 
 std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, std::string name)
 {
+    markKnownAttribute(name);
+
     const char *value = e->Attribute(name.c_str());
 
     CHECK_FOR_DEPRECATED_ATTRIB_NAME(name, value);
@@ -389,6 +398,40 @@ std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, std::string name
     else
     {
         return defaultValue;
+    }
+}
+
+namespace xmlutils { static std::set<std::string> knownAttributes; };
+
+void xmlutils::resetKnownAttributes()
+{
+    knownAttributes.clear();
+}
+
+void xmlutils::markKnownAttribute(std::string a)
+{
+    knownAttributes.insert(a);
+}
+
+#include <iostream>
+
+std::set<std::string> xmlutils::getUnknownAttributes(tinyxml2::XMLElement *e)
+{
+    std::set<std::string> ret;
+    for(const tinyxml2::XMLAttribute *a = e->FirstAttribute(); a; a = a->Next())
+    {
+        std::string attr(a->Name());
+        if(knownAttributes.find(attr) == knownAttributes.end())
+            ret.insert(attr);
+    }
+    return ret;
+}
+
+void xmlutils::reportUnknownAttributes(tinyxml2::XMLElement *e)
+{
+    BOOST_FOREACH(const std::string &a, getUnknownAttributes(e))
+    {
+        simAddStatusbarMessage((boost::format("WARNING: unknown UI XML attribute: %s") % a).str().c_str());
     }
 }
 
