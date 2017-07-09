@@ -558,6 +558,16 @@ void UIProxy::onAnchorClicked(const QUrl &link)
     DBG << "[leave]" << std::endl;
 }
 
+void UIProxy::onViewCenterChanged(const QVector3D &viewCenter)
+{
+    std::cout << "View center changed: " << viewCenter.x() << ", " << viewCenter.y() << ", " << viewCenter.z() << std::endl;
+}
+
+void UIProxy::onPositionChanged(const QVector3D &position)
+{
+    std::cout << "Position changed: " << position.x() << ", " << position.y() << ", " << position.z() << std::endl;
+}
+
 // The following slots are wrappers for functions called from SIM thread
 // which should instead execute in the UI thread.
 
@@ -1137,5 +1147,45 @@ void UIProxy::onSetText(TextBrowser *textbrowser, std::string text, bool suppres
 void UIProxy::onSetUrl(TextBrowser *textbrowser, std::string url)
 {
     textbrowser->setUrl(url);
+}
+
+void UIProxy::onAddScene3DNode(Scene3D *scene3d, int id, int parentId, int type)
+{
+    scene3d->addNode(id, parentId, type);
+}
+
+void UIProxy::onRemoveScene3DNode(Scene3D *scene3d, int id)
+{
+    scene3d->removeNode(id);
+}
+
+void UIProxy::onSetScene3DNodeEnabled(Scene3D *scene3d, int id, bool enabled)
+{
+    scene3d->enableNode(id, enabled);
+}
+
+void UIProxy::onSetScene3DIntParam(Scene3D *scene3d, int id, std::string param, int value)
+{
+    scene3d->setIntParameter(id, param, value);
+}
+
+void UIProxy::onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, float value)
+{
+    scene3d->setFloatParameter(id, param, value);
+}
+
+void UIProxy::onSetScene3DStringParam(Scene3D *scene3d, int id, std::string param, std::string value)
+{
+    scene3d->setStringParameter(id, param, value);
+}
+
+void UIProxy::onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z)
+{
+    scene3d->setVector3Parameter(id, param, x, y, z);
+}
+
+void UIProxy::onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w)
+{
+    scene3d->setVector4Parameter(id, param, x, y, z, w);
 }
 

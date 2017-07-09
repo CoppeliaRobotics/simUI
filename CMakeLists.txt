@@ -12,6 +12,10 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
+find_package(Qt53DCore REQUIRED)
+find_package(Qt53DRender REQUIRED)
+find_package(Qt53DInput REQUIRED)
+find_package(Qt53DExtras REQUIRED)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 find_package(VREP REQUIRED)
@@ -55,6 +59,7 @@ set(SOURCES
     widgets/Plot.cpp
     widgets/Progressbar.cpp
     widgets/Radiobutton.cpp
+    widgets/Scene3D.cpp
     widgets/Slider.cpp
     widgets/Spinbox.cpp
     widgets/Table.cpp
@@ -72,4 +77,4 @@ if(ENABLE_SIGNAL_SPY)
     set(SOURCES ${SOURCES} signal_spy.cpp)
 endif()
 add_library(v_repExtCustomUI SHARED ${SOURCES} ${CMAKE_BINARY_DIR}/generated/stubs.cpp ${VREP_EXPORTED_SOURCES})
-target_link_libraries(v_repExtCustomUI ${Boost_LIBRARIES} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::PrintSupport ${VREP_LIBRARIES})
+target_link_libraries(v_repExtCustomUI ${Boost_LIBRARIES} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::PrintSupport Qt5::3DCore Qt5::3DRender Qt5::3DInput Qt5::3DExtras ${VREP_LIBRARIES})

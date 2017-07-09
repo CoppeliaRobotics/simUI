@@ -17,6 +17,7 @@
 #include "Progressbar.h"
 #include "Radiobutton.h"
 #include "Slider.h"
+#include "Scene3D.h"
 #include "Spinbox.h"
 #include "Table.h"
 #include "Tabs.h"

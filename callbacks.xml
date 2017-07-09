@@ -2488,6 +2488,229 @@
         <return>
         </return>
     </command>
+    <enum name="scene3d_node_type" item-prefix="scene3d_node_type_" base="44100">
+        <item name="entity" />
+        <item name="transform" />
+        <item name="camera" />
+        <item name="first_person_camera_controller" />
+        <item name="point_light" />
+        <item name="mesh_cuboid" />
+        <item name="phong_material" />
+    </enum>
+    <command name="addScene3DNode">
+        <description>Add a node in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+            <param name="parentNodeId" type="int">
+                <description>parent node id</description>
+            </param>
+            <param name="type" type="int">
+                <description>type of the node. see <enum-ref name="scene3d_node_type" /></description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="removeScene3DNode">
+        <description>Remove a node in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setScene3DNodeEnabled">
+        <description>Enable or disable a node in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+            <param name="enabled" type="bool">
+                <description>enabled flag</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setScene3DNodeIntParam">
+        <description>Set node int parameter in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+            <param name="paramName" type="string">
+                <description>name of parameter</description>
+            </param>
+            <param name="value" type="int">
+                <description>value of parameter</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setScene3DNodeFloatParam">
+        <description>Set node float parameter in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+            <param name="paramName" type="string">
+                <description>name of parameter</description>
+            </param>
+            <param name="value" type="float">
+                <description>value of parameter</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setScene3DNodeStringParam">
+        <description>Set node string parameter in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+            <param name="paramName" type="string">
+                <description>name of parameter</description>
+            </param>
+            <param name="value" type="string">
+                <description>value of parameter</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setScene3DNodeVector3Param">
+        <description>Set node vector3 parameter in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+            <param name="paramName" type="string">
+                <description>name of parameter</description>
+            </param>
+            <param name="x" type="float">
+                <description>value of first component</description>
+            </param>
+            <param name="y" type="float">
+                <description>value of second component</description>
+            </param>
+            <param name="z" type="float">
+                <description>value of third component</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setScene3DNodeVector4Param">
+        <description>Set node vector4 parameter in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+            <param name="paramName" type="string">
+                <description>name of parameter</description>
+            </param>
+            <param name="x" type="float">
+                <description>value of first component</description>
+            </param>
+            <param name="y" type="float">
+                <description>value of second component</description>
+            </param>
+            <param name="z" type="float">
+                <description>value of third component</description>
+            </param>
+            <param name="w" type="float">
+                <description>value of fourth component</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

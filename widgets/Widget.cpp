@@ -99,6 +99,7 @@ Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyx
     if(tag == "progressbar") return parse1<Progressbar>(parent, widgets, e);
     if(tag == "dataflow") return parse1<Dataflow>(parent, widgets, e);
     if(tag == "text-browser") return parse1<TextBrowser>(parent, widgets, e);
+    if(tag == "scene3d") return parse1<Scene3D>(parent, widgets, e);
 
     throw std::range_error((boost::format("invalid element <%s>") % tag).str());
 }

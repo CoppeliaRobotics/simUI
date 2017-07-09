@@ -56,6 +56,8 @@ public slots:
     void onConnectionRemoved(QDataflowModelConnection *conn);
     void onTextChanged();
     void onAnchorClicked(const QUrl &link);
+    void onViewCenterChanged(const QVector3D &viewCenter);
+    void onPositionChanged(const QVector3D &position);
     // ---
     void onSetStyleSheet(Widget *widget, std::string styleSheet);
     void onSetButtonText(Button *button, std::string text);
@@ -135,6 +137,14 @@ public slots:
     void onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
     void onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
     void onSetUrl(TextBrowser *textbrowser, std::string url);
+    void onAddScene3DNode(Scene3D *scene3d, int id, int parentId, int type);
+    void onRemoveScene3DNode(Scene3D *scene3d, int id);
+    void onSetScene3DNodeEnabled(Scene3D *scene3d, int id, bool enabled);
+    void onSetScene3DIntParam(Scene3D *scene3d, int id, std::string param, int value);
+    void onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, float value);
+    void onSetScene3DStringParam(Scene3D *scene3d, int id, std::string param, std::string value);
+    void onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z);
+    void onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w);
 
 signals:
     void buttonClick(Widget *widget);

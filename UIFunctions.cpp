@@ -158,6 +158,14 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setText, uiproxy, &UIProxy::onSetText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setUrl, uiproxy, &UIProxy::onSetUrl, Qt::BlockingQueuedConnection);
     connect(uiproxy, &UIProxy::keyPressed, this, &UIFunctions::onKeyPress);
+    connect(this, &UIFunctions::addScene3DNode, uiproxy, &UIProxy::onAddScene3DNode, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::removeScene3DNode, uiproxy, &UIProxy::onRemoveScene3DNode, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setScene3DNodeEnabled, uiproxy, &UIProxy::onSetScene3DNodeEnabled, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setScene3DIntParam, uiproxy, &UIProxy::onSetScene3DIntParam, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setScene3DFloatParam, uiproxy, &UIProxy::onSetScene3DFloatParam, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setScene3DStringParam, uiproxy, &UIProxy::onSetScene3DStringParam, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setScene3DVector3Param, uiproxy, &UIProxy::onSetScene3DVector3Param, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setScene3DVector4Param, uiproxy, &UIProxy::onSetScene3DVector4Param, Qt::BlockingQueuedConnection);
 }
 
 /**

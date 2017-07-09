@@ -1,4 +1,4 @@
-QT += core gui widgets printsupport
+QT += core gui widgets printsupport 3dcore 3drender 3dinput 3dextras
 
 TARGET = v_repExtCustomUI
 TEMPLATE = lib
@@ -91,6 +91,7 @@ HEADERS += \
     widgets/Plot.h \
     widgets/Progressbar.h \
     widgets/Radiobutton.h \
+    widgets/Scene3D.h \
     widgets/Slider.h \
     widgets/Spinbox.h \
     widgets/Table.h \
@@ -131,6 +132,7 @@ SOURCES += \
     widgets/Plot.cpp \
     widgets/Progressbar.cpp \
     widgets/Radiobutton.cpp \
+    widgets/Scene3D.cpp \
     widgets/Slider.cpp \
     widgets/Spinbox.cpp \
     widgets/Table.cpp \
