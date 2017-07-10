@@ -117,6 +117,8 @@ struct Node {
     scene3d_node_type type;
     std::map<std::string, NodeParam> params;
     std::vector<Node> children;
+
+    Node() : id(0), enabled(true) {}
 };
 
 #endif // SCENE3D_H_INCLUDED
