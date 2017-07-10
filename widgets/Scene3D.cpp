@@ -32,111 +32,23 @@ static std::map<std::string, Node> typemap;
 
 void initTypemap()
 {
-    typemap["entity"].type = sim_ui_scene3d_node_type_entity;
-    typemap["transform"].type = sim_ui_scene3d_node_type_transform;
-    typemap["transform"].params["scale"].isFloat = true;
-    typemap["transform"].params["rotation-x"].isFloat = true;
-    typemap["transform"].params["rotation-y"].isFloat = true;
-    typemap["transform"].params["rotation-z"].isFloat = true;
-    typemap["transform"].params["translation"].isVector3 = true;
-    typemap["transform"].params["scale3d"].isVector3 = true;
-    typemap["transform"].params["rotation"].isVector4 = true;
-    typemap["camera"].type = sim_ui_scene3d_node_type_camera;
-    typemap["camera"].params["projection-type"].isInt = true;
-    typemap["camera"].params["orthographic-projection"].isInt = true;
-    typemap["camera"].params["perspective-projection"].isInt = true;
-    typemap["camera"].params["frustum-projection"].isInt = true;
-    typemap["camera"].params["aspect-ratio"].isFloat = true;
-    typemap["camera"].params["bottom"].isFloat = true;
-    typemap["camera"].params["exposure"].isFloat = true;
-    typemap["camera"].params["far-plane"].isFloat = true;
-    typemap["camera"].params["field-of-view"].isFloat = true;
-    typemap["camera"].params["left"].isFloat = true;
-    typemap["camera"].params["near-plane"].isFloat = true;
-    typemap["camera"].params["right"].isFloat = true;
-    typemap["camera"].params["top"].isFloat = true;
-    typemap["camera"].params["position"].isVector3 = true;
-    typemap["camera"].params["up-vector"].isVector3 = true;
-    typemap["camera"].params["view-center"].isVector3 = true;
-    typemap["camera-controller-first-person"].type = sim_ui_scene3d_node_type_camera_controller_first_person;
-    typemap["camera-controller-first-person"].params["camera"].isInt = true;
-    typemap["camera-controller-first-person"].params["linear-speed"].isFloat = true;
-    typemap["camera-controller-first-person"].params["look-speed"].isFloat = true;
-    typemap["camera-controller-first-person"].params["acceleration"].isFloat = true;
-    typemap["camera-controller-first-person"].params["deceleration"].isFloat = true;
-    typemap["camera-controller-orbit"].type = sim_ui_scene3d_node_type_camera_controller_orbit;
-    typemap["camera-controller-orbit"].params["camera"].isInt = true;
-    typemap["camera-controller-orbit"].params["linear-speed"].isFloat = true;
-    typemap["camera-controller-orbit"].params["look-speed"].isFloat = true;
-    typemap["camera-controller-orbit"].params["zoom-in-limit"].isFloat = true;
-    typemap["light-point"].type = sim_ui_scene3d_node_type_light_point;
-    typemap["light-point"].params["intensity"].isFloat = true;
-    typemap["light-point"].params["constant-attenuation"].isFloat = true;
-    typemap["light-point"].params["linear-attenuation"].isFloat = true;
-    typemap["light-point"].params["quadratic-attenuation"].isFloat = true;
-    typemap["light-point"].params["color"].isVector3 = true;
-    typemap["light-directional"].type = sim_ui_scene3d_node_type_light_directional;
-    typemap["light-directional"].params["intensity"].isFloat = true;
-    typemap["light-directional"].params["color"].isVector3 = true;
-    typemap["light-directional"].params["world-direction"].isVector3 = true;
-    typemap["light-spot"].type = sim_ui_scene3d_node_type_light_spot;
-    typemap["light-spot"].params["intensity"].isFloat = true;
-    typemap["light-spot"].params["constant-attenuation"].isFloat = true;
-    typemap["light-spot"].params["linear-attenuation"].isFloat = true;
-    typemap["light-spot"].params["quadratic-attenuation"].isFloat = true;
-    typemap["light-spot"].params["cutoff-angle"].isFloat = true;
-    typemap["light-spot"].params["color"].isVector3 = true;
-    typemap["light-spot"].params["local-direction"].isVector3 = true;
-    typemap["mesh-cuboid"].type = sim_ui_scene3d_node_type_mesh_cuboid;
-    typemap["mesh-cuboid"].params["x-extent"].isFloat = true;
-    typemap["mesh-cuboid"].params["y-extent"].isFloat = true;
-    typemap["mesh-cuboid"].params["z-extent"].isFloat = true;
-    typemap["mesh-torus"].type = sim_ui_scene3d_node_type_mesh_torus;
-    typemap["mesh-torus"].params["radius"].isFloat = true;
-    typemap["mesh-torus"].params["minor-radius"].isFloat = true;
-    typemap["mesh-torus"].params["rings"].isInt = true;
-    typemap["mesh-torus"].params["slices"].isInt = true;
-    typemap["mesh-cone"].type = sim_ui_scene3d_node_type_mesh_cone;
-    typemap["mesh-cone"].params["top-radius"].isFloat = true;
-    typemap["mesh-cone"].params["bottom-radius"].isFloat = true;
-    typemap["mesh-cone"].params["length"].isFloat = true;
-    typemap["mesh-cone"].params["rings"].isInt = true;
-    typemap["mesh-cone"].params["slices"].isInt = true;
-    typemap["mesh-cylinder"].type = sim_ui_scene3d_node_type_mesh_cylinder;
-    typemap["mesh-cylinder"].params["radius"].isFloat = true;
-    typemap["mesh-cylinder"].params["length"].isFloat = true;
-    typemap["mesh-cylinder"].params["rings"].isInt = true;
-    typemap["mesh-cylinder"].params["slices"].isInt = true;
-    typemap["mesh-plane"].type = sim_ui_scene3d_node_type_mesh_plane;
-    typemap["mesh-plane"].params["width"].isFloat = true;
-    typemap["mesh-plane"].params["height"].isFloat = true;
-    typemap["mesh-sphere"].type = sim_ui_scene3d_node_type_mesh_sphere;
-    typemap["mesh-sphere"].params["radius"].isFloat = true;
-    typemap["mesh-sphere"].params["rings"].isInt = true;
-    typemap["mesh-sphere"].params["slices"].isInt = true;
-    typemap["mesh"].type = sim_ui_scene3d_node_type_mesh;
-    typemap["mesh"].params["source"].isString = true;
-    typemap["material-phong"].type = sim_ui_scene3d_node_type_material_phong;
-    typemap["material-phong"].params["shininess"].isFloat = true;
-    typemap["material-phong"].params["ambient"].isVector3 = true;
-    typemap["material-phong"].params["diffuse"].isVector3 = true;
-    typemap["material-phong"].params["specular"].isVector3 = true;
-    typemap["material-gooch"].type = sim_ui_scene3d_node_type_material_gooch;
-    typemap["material-gooch"].params["alpha"].isFloat = true;
-    typemap["material-gooch"].params["beta"].isFloat = true;
-    typemap["material-gooch"].params["shininess"].isFloat = true;
-    typemap["material-gooch"].params["diffuse"].isVector3 = true;
-    typemap["material-gooch"].params["specular"].isVector3 = true;
-    typemap["material-gooch"].params["cool-color"].isVector3 = true;
-    typemap["material-gooch"].params["warm-color"].isVector3 = true;
-    typemap["material-texture"].type = sim_ui_scene3d_node_type_material_texture;
-    typemap["material-texture"].params["texture"].isInt = true;
-    typemap["material-texture"].params["texture-offset"].isVector2 = true;
-    typemap["texture2d"].type = sim_ui_scene3d_node_type_texture2d;
-    typemap["texture2d"].params["texture-image"].isInt = true;
-    typemap["texture-image"].type = sim_ui_scene3d_node_type_texture_image;
-    typemap["texture-image"].params["source"].isString = true;
-    typemap["texture-image"].params["mirrored"].isInt = true;
+#define TYPE(xmltag,enumitem,c) typemap[xmltag].type = sim_ui_scene3d_node_type_##enumitem; { std::map<std::string, NodeParam> &params_ = typemap[xmltag].params;
+#define ENDTYPE }
+#define PARAM_INT(xmlattr,m) params_[xmlattr].isInt = true;
+#define PARAM_FLOAT(xmlattr,m) params_[xmlattr].isFloat = true;
+#define PARAM_STRING(xmlattr,m) params_[xmlattr].isString = true;
+#define PARAM_VEC2(xmlattr,m) params_[xmlattr].isVector2 = true;
+#define PARAM_VEC3(xmlattr,m) params_[xmlattr].isVector3 = true;
+#define PARAM_VEC4(xmlattr,m) params_[xmlattr].isVector4 = true;
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef TYPE
+#undef ENDTYPE
+#undef PARAM_INT
+#undef PARAM_FLOAT
+#undef PARAM_STRING
+#undef PARAM_VEC2
+#undef PARAM_VEC3
+#undef PARAM_VEC4
 };
 
 void parseNodes(tinyxml2::XMLElement *e, std::vector<Node> &nodes)
@@ -380,40 +292,33 @@ bool Scene3D::nodeTypeIsValid(int type)
 
 Qt3DCore::QNode * Scene3D::nodeFactory(int type, Qt3DCore::QNode *parent, bool onlyTest)
 {
-#define MAP_NODE_TYPE(t,c) \
-    case sim_ui_scene3d_node_type_##t: \
-        if(onlyTest) return (Qt3DCore::QNode *)1; \
-        ret = new c(parent); \
-        LOG_QT3D_CALL((boost::format("new %s(%x) -> %x") % #c % (void*)parent % ret).str()); \
-        break;
-
     Qt3DCore::QNode *ret = 0L;
 
     switch(type)
     {
-    MAP_NODE_TYPE(entity, Qt3DCore::QEntity);
-    MAP_NODE_TYPE(transform, Qt3DCore::QTransform);
-    MAP_NODE_TYPE(camera, Qt3DRender::QCamera);
-    MAP_NODE_TYPE(camera_controller_first_person, Qt3DExtras::QFirstPersonCameraController);
-    MAP_NODE_TYPE(camera_controller_orbit, Qt3DExtras::QOrbitCameraController);
-    MAP_NODE_TYPE(light_point, Qt3DRender::QPointLight);
-    MAP_NODE_TYPE(light_directional, Qt3DRender::QDirectionalLight);
-    MAP_NODE_TYPE(light_spot, Qt3DRender::QSpotLight);
-    MAP_NODE_TYPE(mesh_cuboid, Qt3DExtras::QCuboidMesh);
-    MAP_NODE_TYPE(mesh_torus, Qt3DExtras::QTorusMesh);
-    MAP_NODE_TYPE(mesh_cone, Qt3DExtras::QConeMesh);
-    MAP_NODE_TYPE(mesh_cylinder, Qt3DExtras::QCylinderMesh);
-    MAP_NODE_TYPE(mesh_plane, Qt3DExtras::QPlaneMesh);
-    MAP_NODE_TYPE(mesh_sphere, Qt3DExtras::QSphereMesh);
-    MAP_NODE_TYPE(mesh, Qt3DRender::QMesh);
-    MAP_NODE_TYPE(material_phong, Qt3DExtras::QPhongMaterial);
-    MAP_NODE_TYPE(material_gooch, Qt3DExtras::QGoochMaterial);
-    MAP_NODE_TYPE(material_texture, Qt3DExtras::QTextureMaterial);
-    MAP_NODE_TYPE(texture2d, Qt3DRender::QTexture2D);
-    MAP_NODE_TYPE(texture_image, Qt3DRender::QTextureImage);
+#define TYPE(xmltag,enumitem,c) \
+    case sim_ui_scene3d_node_type_##enumitem: \
+        if(onlyTest) return (Qt3DCore::QNode *)1; \
+        ret = new c(parent); \
+        LOG_QT3D_CALL((boost::format("new %s(%x) -> %x") % #c % (void*)parent % ret).str()); \
+        break;
+#define ENDTYPE
+#define PARAM_INT(xmlattr,m)
+#define PARAM_FLOAT(xmlattr,m)
+#define PARAM_STRING(xmlattr,m)
+#define PARAM_VEC2(xmlattr,m)
+#define PARAM_VEC3(xmlattr,m)
+#define PARAM_VEC4(xmlattr,m)
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef TYPE
+#undef ENDTYPE
+#undef PARAM_INT
+#undef PARAM_FLOAT
+#undef PARAM_STRING
+#undef PARAM_VEC2
+#undef PARAM_VEC3
+#undef PARAM_VEC4
     }
-
-#undef MAP_NODE_TYPE
 
     return ret;
 }
@@ -463,6 +368,19 @@ void Scene3D::enableNode(int id, bool enabled)
 #define REPORT_INVALID_PARAMETER(p) \
     std::cout << "WARNING: unknown Scne3D Node parameter: " << p << std::endl;
 
+#define BEGIN if(0) {
+#define END } else REPORT_INVALID_PARAMETER(param);
+#define TYPE(xmltag,enumitem,c) } else if(c *o = dynamic_cast<c*>(node)) { if(0){
+#define ENDTYPE } else REPORT_INVALID_PARAMETER(param);
+#define PARAM_ON(x,m) } else if(param == x) { m
+#define PARAM_OFF
+#define PARAM_INT(xmlattr,m) PARAM_OFF
+#define PARAM_FLOAT(xmlattr,m) PARAM_OFF
+#define PARAM_STRING(xmlattr,m) PARAM_OFF
+#define PARAM_VEC2(xmlattr,m) PARAM_OFF
+#define PARAM_VEC3(xmlattr,m) PARAM_OFF
+#define PARAM_VEC4(xmlattr,m) PARAM_OFF
+
 void Scene3D::setIntParameter(int id, std::string param, int value)
 {
     Qt3DCore::QNode *node = nodeById(id);
@@ -471,103 +389,13 @@ void Scene3D::setIntParameter(int id, std::string param, int value)
 
     LOG_QT3D_CALL((boost::format("%x set %s = %d") % (void*)node % param % value).str());
 
-    if(0) {}
-    else if(Qt3DRender::QCamera *c = dynamic_cast<Qt3DRender::QCamera*>(node))
-    {
-        if(0) {}
-        else if(param == "projection-type")
-            c->setProjectionType((Qt3DRender::QCameraLens::ProjectionType)value);
-        else if(param == "orthographic-projection")
-            c->setProjectionType(Qt3DRender::QCameraLens::OrthographicProjection);
-        else if(param == "perspective-projection")
-            c->setProjectionType(Qt3DRender::QCameraLens::PerspectiveProjection);
-        else if(param == "frustum-projection")
-            c->setProjectionType(Qt3DRender::QCameraLens::FrustumProjection);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QTorusMesh *m = dynamic_cast<Qt3DExtras::QTorusMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "rings")
-            m->setRings(value);
-        else if(param == "slices")
-            m->setSlices(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QConeMesh *m = dynamic_cast<Qt3DExtras::QConeMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "rings")
-            m->setRings(value);
-        else if(param == "slices")
-            m->setSlices(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QCylinderMesh *m = dynamic_cast<Qt3DExtras::QCylinderMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "rings")
-            m->setRings(value);
-        else if(param == "slices")
-            m->setSlices(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QSphereMesh *m = dynamic_cast<Qt3DExtras::QSphereMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "rings")
-            m->setRings(value);
-        else if(param == "slices")
-            m->setSlices(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QFirstPersonCameraController *c = dynamic_cast<Qt3DExtras::QFirstPersonCameraController*>(node))
-    {
-        if(0) {}
-        else if(param == "camera")
-            c->setCamera(dynamic_cast<Qt3DRender::QCamera*>(nodeById(value)));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QOrbitCameraController *c = dynamic_cast<Qt3DExtras::QOrbitCameraController*>(node))
-    {
-        if(0) {}
-        else if(param == "camera")
-            c->setCamera(dynamic_cast<Qt3DRender::QCamera*>(nodeById(value)));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QTextureMaterial *t = dynamic_cast<Qt3DExtras::QTextureMaterial*>(node))
-    {
-        if(0) {}
-        else if(param == "texture")
-            t->setTexture(dynamic_cast<Qt3DRender::QAbstractTexture*>(nodeById(value)));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QTexture2D *t = dynamic_cast<Qt3DRender::QTexture2D*>(node))
-    {
-        if(0) {}
-        else if(param == "texture-image")
-            t->addTextureImage(dynamic_cast<Qt3DRender::QAbstractTextureImage*>(nodeById(value)));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QTextureImage *i = dynamic_cast<Qt3DRender::QTextureImage*>(node))
-    {
-        if(0) {}
-        else if(param == "mirrored")
-            i->setMirrored(value != 0);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else
-        REPORT_INVALID_PARAMETER(param);
+    BEGIN
+#undef PARAM_INT
+#define PARAM_INT(xmlattr,m) PARAM_ON(xmlattr,m)
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef PARAM_INT
+#define PARAM_INT(xmlattr,m) PARAM_OFF
+    END
 }
 
 void Scene3D::setFloatParameter(int id, std::string param, float value)
@@ -578,193 +406,13 @@ void Scene3D::setFloatParameter(int id, std::string param, float value)
 
     LOG_QT3D_CALL((boost::format("%x set %s = %f") % (void*)node % param % value).str());
 
-    if(0) {}
-    else if(Qt3DCore::QTransform *t = dynamic_cast<Qt3DCore::QTransform*>(node))
-    {
-        if(0) {}
-        else if(param == "scale")
-            t->setScale(value);
-        else if(param == "rotation-x")
-            t->setRotationX(value);
-        else if(param == "rotation-y")
-            t->setRotationY(value);
-        else if(param == "rotation-z")
-            t->setRotationZ(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QCamera *c = dynamic_cast<Qt3DRender::QCamera*>(node))
-    {
-        if(0) {}
-        else if(param == "aspect-ratio")
-            c->setAspectRatio(value);
-        else if(param == "bottom")
-            c->setBottom(value);
-        else if(param == "exposure")
-            c->setExposure(value);
-        else if(param == "far-plane")
-            c->setFarPlane(value);
-        else if(param == "field-of-view")
-            c->setFieldOfView(value);
-        else if(param == "left")
-            c->setLeft(value);
-        else if(param == "near-plane")
-            c->setNearPlane(value);
-        else if(param == "right")
-            c->setRight(value);
-        else if(param == "top")
-            c->setTop(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QFirstPersonCameraController *c = dynamic_cast<Qt3DExtras::QFirstPersonCameraController*>(node))
-    {
-        if(0) {}
-        else if(param == "linear-speed")
-            c->setLinearSpeed(value);
-        else if(param == "look-speed")
-            c->setLookSpeed(value);
-        else if(param == "acceleration")
-            c->setAcceleration(value);
-        else if(param == "deceleration")
-            c->setDeceleration(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QOrbitCameraController *c = dynamic_cast<Qt3DExtras::QOrbitCameraController*>(node))
-    {
-        if(0) {}
-        else if(param == "linear-speed")
-            c->setLinearSpeed(value);
-        else if(param == "look-speed")
-            c->setLookSpeed(value);
-        else if(param == "zoom-in-limit")
-            c->setZoomInLimit(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QCuboidMesh *m = dynamic_cast<Qt3DExtras::QCuboidMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "x-extent")
-            m->setXExtent(value);
-        else if(param == "y-extent")
-            m->setYExtent(value);
-        else if(param == "z-extent")
-            m->setZExtent(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QTorusMesh *m = dynamic_cast<Qt3DExtras::QTorusMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "radius")
-            m->setRadius(value);
-        else if(param == "minor-radius")
-            m->setMinorRadius(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QConeMesh *m = dynamic_cast<Qt3DExtras::QConeMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "length")
-            m->setLength(value);
-        else if(param == "top-radius")
-            m->setTopRadius(value);
-        else if(param == "bottom-radius")
-            m->setBottomRadius(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QCylinderMesh *m = dynamic_cast<Qt3DExtras::QCylinderMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "radius")
-            m->setRadius(value);
-        else if(param == "length")
-            m->setLength(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QPlaneMesh *m = dynamic_cast<Qt3DExtras::QPlaneMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "width")
-            m->setWidth(value);
-        else if(param == "height")
-            m->setHeight(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QSphereMesh *m = dynamic_cast<Qt3DExtras::QSphereMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "radius")
-            m->setRadius(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QPointLight *l = dynamic_cast<Qt3DRender::QPointLight*>(node))
-    {
-        if(0) {}
-        else if(param == "intensity")
-            l->setIntensity(value);
-        else if(param == "constant-attenuation")
-            l->setConstantAttenuation(value);
-        else if(param == "linear-attenuation")
-            l->setLinearAttenuation(value);
-        else if(param == "quadratic-attenuation")
-            l->setQuadraticAttenuation(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QDirectionalLight *l = dynamic_cast<Qt3DRender::QDirectionalLight*>(node))
-    {
-        if(0) {}
-        else if(param == "intensity")
-            l->setIntensity(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QSpotLight *l = dynamic_cast<Qt3DRender::QSpotLight*>(node))
-    {
-        if(0) {}
-        else if(param == "intensity")
-            l->setIntensity(value);
-        else if(param == "constant-attenuation")
-            l->setConstantAttenuation(value);
-        else if(param == "linear-attenuation")
-            l->setLinearAttenuation(value);
-        else if(param == "quadratic-attenuation")
-            l->setQuadraticAttenuation(value);
-        else if(param == "cutoff-angle")
-            l->setCutOffAngle(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QPhongMaterial *m = dynamic_cast<Qt3DExtras::QPhongMaterial*>(node))
-    {
-        if(0) {}
-        else if(param == "shininess")
-            m->setShininess(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QGoochMaterial *m = dynamic_cast<Qt3DExtras::QGoochMaterial*>(node))
-    {
-        if(0) {}
-        else if(param == "shininess")
-            m->setShininess(value);
-        else if(param == "alpha")
-            m->setAlpha(value);
-        else if(param == "alpha")
-            m->setBeta(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else
-        REPORT_INVALID_PARAMETER(param);
+    BEGIN
+#undef PARAM_FLOAT
+#define PARAM_FLOAT(xmlattr,m) PARAM_ON(xmlattr,m)
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef PARAM_FLOAT
+#define PARAM_FLOAT(xmlattr,m) PARAM_OFF
+    END
 }
 
 void Scene3D::setStringParameter(int id, std::string param, std::string value)
@@ -775,25 +423,16 @@ void Scene3D::setStringParameter(int id, std::string param, std::string value)
 
     LOG_QT3D_CALL((boost::format("%x set %s = %s") % (void*)node % param % value).str());
 
-    if(0) {}
-    else if(Qt3DRender::QMesh *m = dynamic_cast<Qt3DRender::QMesh*>(node))
-    {
-        if(0) {}
-        else if(param == "source")
-            m->setSource(QUrl(QString::fromStdString(value)));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QTextureImage *i = dynamic_cast<Qt3DRender::QTextureImage*>(node))
-    {
-        if(0) {}
-        else if(param == "source")
-            i->setSource(QUrl(QString::fromStdString(value)));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else
-        REPORT_INVALID_PARAMETER(param);
+    QString qstring(QString::fromStdString(value));
+    QUrl url(qstring);
+
+    BEGIN
+#undef PARAM_STRING
+#define PARAM_STRING(xmlattr,m) PARAM_ON(xmlattr,m)
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef PARAM_STRING
+#define PARAM_STRING(xmlattr,m) PARAM_OFF
+    END
 }
 
 void Scene3D::setVector2Parameter(int id, std::string param, float x, float y)
@@ -804,19 +443,15 @@ void Scene3D::setVector2Parameter(int id, std::string param, float x, float y)
 
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f>") % (void*)node % param % x % y % z).str());
 
-    QVector2D value(x, y);
+    QVector2D vector(x, y);
 
-    if(0) {}
-    else if(Qt3DExtras::QTextureMaterial *t = dynamic_cast<Qt3DExtras::QTextureMaterial*>(node))
-    {
-        if(0) {}
-        else if(param == "texture-offset")
-            t->setTextureOffset(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else
-        REPORT_INVALID_PARAMETER(param);
+    BEGIN
+#undef PARAM_VEC2
+#define PARAM_VEC2(xmlattr,m) PARAM_ON(xmlattr,m)
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef PARAM_VEC2
+#define PARAM_VEC2(xmlattr,m) PARAM_OFF
+    END
 }
 
 void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, float z)
@@ -827,87 +462,16 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
 
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f>") % (void*)node % param % x % y % z).str());
 
-    QVector3D value(x, y, z);
+    QVector3D vector(x, y, z);
+    QColor color(x, y, z);
 
-    if(0) {}
-    else if(Qt3DCore::QTransform *t = dynamic_cast<Qt3DCore::QTransform*>(node))
-    {
-        if(0) {}
-        else if(param == "translation")
-            t->setTranslation(value);
-        else if(param == "scale3d")
-            t->setScale3D(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QCamera *c = dynamic_cast<Qt3DRender::QCamera*>(node))
-    {
-        if(0) {}
-        else if(param == "position")
-            c->setPosition(value);
-        else if(param == "up-vector")
-            c->setUpVector(value);
-        else if(param == "view-center")
-            c->setViewCenter(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QPointLight *l = dynamic_cast<Qt3DRender::QPointLight*>(node))
-    {
-        if(0) {}
-        else if(param == "color")
-            l->setColor(QColor(x, y, z));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QDirectionalLight *l = dynamic_cast<Qt3DRender::QDirectionalLight*>(node))
-    {
-        if(0) {}
-        else if(param == "color")
-            l->setColor(QColor(x, y, z));
-        else if(param == "world-direction")
-            l->setWorldDirection(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DRender::QSpotLight *l = dynamic_cast<Qt3DRender::QSpotLight*>(node))
-    {
-        if(0) {}
-        else if(param == "color")
-            l->setColor(QColor(x, y, z));
-        else if(param == "local-direction")
-            l->setLocalDirection(value);
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QPhongMaterial *m = dynamic_cast<Qt3DExtras::QPhongMaterial*>(node))
-    {
-        if(0) {}
-        else if(param == "ambient")
-            m->setAmbient(QColor(x, y, z));
-        else if(param == "diffuse")
-            m->setDiffuse(QColor(x, y, z));
-        else if(param == "specular")
-            m->setSpecular(QColor(x, y, z));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else if(Qt3DExtras::QGoochMaterial *m = dynamic_cast<Qt3DExtras::QGoochMaterial*>(node))
-    {
-        if(0) {}
-        else if(param == "cool-color")
-            m->setCool(QColor(x, y, z));
-        else if(param == "warm-color")
-            m->setWarm(QColor(x, y, z));
-        else if(param == "diffuse")
-            m->setDiffuse(QColor(x, y, z));
-        else if(param == "specular")
-            m->setSpecular(QColor(x, y, z));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else
-        REPORT_INVALID_PARAMETER(param);
+    BEGIN
+#undef PARAM_VEC3
+#define PARAM_VEC3(xmlattr,m) PARAM_ON(xmlattr,m)
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef PARAM_VEC3
+#define PARAM_VEC3(xmlattr,m) PARAM_OFF
+    END
 }
 
 void Scene3D::setVector4Parameter(int id, std::string param, float x, float y, float z, float w)
@@ -918,16 +482,27 @@ void Scene3D::setVector4Parameter(int id, std::string param, float x, float y, f
 
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f, %f>") % (void*)node % param % x % y % z % w).str());
 
-    if(0) {}
-    else if(Qt3DCore::QTransform *t = dynamic_cast<Qt3DCore::QTransform*>(node))
-    {
-        if(0) {}
-        else if(param == "rotation")
-            t->setRotation(QQuaternion(w, x, y, z));
-        else
-            REPORT_INVALID_PARAMETER(param);
-    }
-    else
-        REPORT_INVALID_PARAMETER(param);
+    QQuaternion quaternion(w, x, y, z);
+
+    BEGIN
+#undef PARAM_VEC4
+#define PARAM_VEC4(xmlattr,m) PARAM_ON(xmlattr,m)
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef PARAM_VEC4
+#define PARAM_VEC4(xmlattr,m) PARAM_OFF
+    END
 }
+
+#undef BEGIN
+#undef END
+#undef TYPE
+#undef ENDTYPE
+#undef PARAM_INT
+#undef PARAM_FLOAT
+#undef PARAM_STRING
+#undef PARAM_VEC2
+#undef PARAM_VEC3
+#undef PARAM_VEC4
+#undef PARAM_ON
+#undef PARAM_OFF
 
