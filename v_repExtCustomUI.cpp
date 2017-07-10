@@ -995,48 +995,58 @@ void setUrl(SScriptCallBack *p, const char *cmd, setUrl_in *in, setUrl_out *out)
 void addScene3DNode(SScriptCallBack *p, const char *cmd, addScene3DNode_in *in, addScene3DNode_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(scene3d->nodeExists(in->nodeId)) throw std::runtime_error("node id already exists");
+    if(!scene3d->nodeExists(in->parentNodeId)) throw std::runtime_error("parent node id does not exist");
+    if(!scene3d->nodeTypeIsValid(in->type)) throw std::runtime_error("invalid node type");
     UIFunctions::getInstance()->addScene3DNode(scene3d, in->nodeId, in->parentNodeId, in->type);
 }
 
 void removeScene3DNode(SScriptCallBack *p, const char *cmd, removeScene3DNode_in *in, removeScene3DNode_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
     UIFunctions::getInstance()->removeScene3DNode(scene3d, in->nodeId);
 }
 
 void setScene3DNodeEnabled(SScriptCallBack *p, const char *cmd, setScene3DNodeEnabled_in *in, setScene3DNodeEnabled_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
     UIFunctions::getInstance()->setScene3DNodeEnabled(scene3d, in->nodeId, in->enabled);
 }
 
 void setScene3DNodeIntParam(SScriptCallBack *p, const char *cmd, setScene3DNodeIntParam_in *in, setScene3DNodeIntParam_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
     UIFunctions::getInstance()->setScene3DIntParam(scene3d, in->nodeId, in->paramName, in->value);
 }
 
 void setScene3DNodeFloatParam(SScriptCallBack *p, const char *cmd, setScene3DNodeFloatParam_in *in, setScene3DNodeFloatParam_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
     UIFunctions::getInstance()->setScene3DFloatParam(scene3d, in->nodeId, in->paramName, in->value);
 }
 
 void setScene3DNodeStringParam(SScriptCallBack *p, const char *cmd, setScene3DNodeStringParam_in *in, setScene3DNodeStringParam_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
     UIFunctions::getInstance()->setScene3DStringParam(scene3d, in->nodeId, in->paramName, in->value);
 }
 
 void setScene3DNodeVector3Param(SScriptCallBack *p, const char *cmd, setScene3DNodeVector3Param_in *in, setScene3DNodeVector3Param_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
     UIFunctions::getInstance()->setScene3DVector3Param(scene3d, in->nodeId, in->paramName, in->x, in->y, in->z);
 }
 
 void setScene3DNodeVector4Param(SScriptCallBack *p, const char *cmd, setScene3DNodeVector4Param_in *in, setScene3DNodeVector4Param_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
     UIFunctions::getInstance()->setScene3DVector4Param(scene3d, in->nodeId, in->paramName, in->x, in->y, in->z, in->w);
 }
 

@@ -257,22 +257,27 @@ Qt3DCore::QNode * Scene3D::nodeById(int id)
     else return it->second;
 }
 
-Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
+bool Scene3D::nodeExists(int id)
 {
-    Qt3DCore::QNode *node = 0L, *parent = 0L;
+    if(id == -1) return true;
+    std::map<int, Qt3DCore::QNode*>::iterator it = nodeById_.find(id);
+    return it != nodeById_.end();
+}
 
-    if(nodeById(id))
-        throw std::runtime_error("duplicate node id");
+bool Scene3D::nodeTypeIsValid(int type)
+{
+    Qt3DCore::QNode *node = nodeFactory(type);
+    if(node)
+    {
+        delete node;
+        return true;
+    }
+    else return false;
+}
 
-    parent = nodeById(parentId);
-    if(!parent)
-        throw std::runtime_error("invalid parent id");
-
-#define MAP_NODE_TYPE(t,c) \
-    case sim_ui_scene3d_node_type_##t: \
-        node = new c(parent); \
-        break
-
+Qt3DCore::QNode * Scene3D::nodeFactory(int type)
+{
+#define MAP_NODE_TYPE(t,c) case sim_ui_scene3d_node_type_##t: return new c(parent);
     switch(type)
     {
     MAP_NODE_TYPE(entity, Qt3DCore::QEntity);
@@ -283,7 +288,20 @@ Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
     MAP_NODE_TYPE(mesh_cuboid, Qt3DExtras::QCuboidMesh);
     MAP_NODE_TYPE(phong_material, Qt3DExtras::QPhongMaterial);
     }
+#undef MAP_NODE_TYPE
+    return 0L;
+}
 
+Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
+{
+    if(nodeById(id))
+        throw std::runtime_error("duplicate node id");
+
+    Qt3DCore::QNode *parent = nodeById(parentId);
+    if(!parent)
+        throw std::runtime_error("invalid parent id");
+
+    Qt3DCore::QNode *node = nodeFactory(type);
     if(!node)
         throw std::runtime_error((boost::format("invalid node type: %d") % type).str());
 
@@ -314,6 +332,9 @@ void Scene3D::enableNode(int id, bool enabled)
     node->setEnabled(enabled);
 }
 
+#define REPORT_INVALID_PARAMETER(p) \
+    std::cout << "WARNING: unknown Scne3D Node parameter: " << p << std::endl;
+
 void Scene3D::setIntParameter(int id, std::string param, int value)
 {
     Qt3DCore::QNode *node = nodeById(id);
@@ -333,7 +354,7 @@ void Scene3D::setIntParameter(int id, std::string param, int value)
         else if(param == "frustum-projection")
             c->setProjectionType(Qt3DRender::QCameraLens::FrustumProjection);
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else if(Qt3DExtras::QFirstPersonCameraController *c = dynamic_cast<Qt3DExtras::QFirstPersonCameraController*>(node))
     {
@@ -341,10 +362,10 @@ void Scene3D::setIntParameter(int id, std::string param, int value)
         else if(param == "camera")
             c->setCamera(dynamic_cast<Qt3DRender::QCamera*>(nodeById(value)));
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else
-        throw std::runtime_error("unsupported node type");
+        REPORT_INVALID_PARAMETER(param);
 }
 
 void Scene3D::setFloatParameter(int id, std::string param, float value)
@@ -366,7 +387,7 @@ void Scene3D::setFloatParameter(int id, std::string param, float value)
         else if(param == "rotation-z")
             t->setRotationZ(value);
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else if(Qt3DRender::QCamera *c = dynamic_cast<Qt3DRender::QCamera*>(node))
     {
@@ -390,7 +411,7 @@ void Scene3D::setFloatParameter(int id, std::string param, float value)
         else if(param == "top")
             c->setTop(value);
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else if(Qt3DRender::QPointLight *l = dynamic_cast<Qt3DRender::QPointLight*>(node))
     {
@@ -404,7 +425,7 @@ void Scene3D::setFloatParameter(int id, std::string param, float value)
         else if(param == "quadratic-attenuation")
             l->setQuadraticAttenuation(value);
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else if(Qt3DExtras::QPhongMaterial *m = dynamic_cast<Qt3DExtras::QPhongMaterial*>(node))
     {
@@ -412,10 +433,10 @@ void Scene3D::setFloatParameter(int id, std::string param, float value)
         else if(param == "shininess")
             m->setShininess(value);
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else
-        throw std::runtime_error("unsupported node type");
+        REPORT_INVALID_PARAMETER(param);
 }
 
 void Scene3D::setStringParameter(int id, std::string param, std::string value)
@@ -426,7 +447,7 @@ void Scene3D::setStringParameter(int id, std::string param, std::string value)
 
     if(0) {}
     else
-        throw std::runtime_error("unsupported node type");
+        REPORT_INVALID_PARAMETER(param);
 }
 
 void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, float z)
@@ -446,7 +467,7 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
         else if(param == "scale3d")
             t->setScale3D(value);
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else if(Qt3DRender::QCamera *c = dynamic_cast<Qt3DRender::QCamera*>(node))
     {
@@ -458,7 +479,7 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
         else if(param == "view-center")
             c->setViewCenter(value);
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else if(Qt3DRender::QPointLight *l = dynamic_cast<Qt3DRender::QPointLight*>(node))
     {
@@ -466,7 +487,7 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
         else if(param == "color")
             l->setColor(QColor(x, y, z));
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else if(Qt3DExtras::QPhongMaterial *m = dynamic_cast<Qt3DExtras::QPhongMaterial*>(node))
     {
@@ -478,10 +499,10 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
         else if(param == "specular")
             m->setSpecular(QColor(x, y, z));
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else
-        throw std::runtime_error("unsupported node type");
+        REPORT_INVALID_PARAMETER(param);
 }
 
 void Scene3D::setVector4Parameter(int id, std::string param, float x, float y, float z, float w)
@@ -497,9 +518,9 @@ void Scene3D::setVector4Parameter(int id, std::string param, float x, float y, f
         else if(param == "rotation")
             t->setRotation(QQuaternion(w, x, y, z));
         else
-            throw std::runtime_error("invalid param");
+            REPORT_INVALID_PARAMETER(param);
     }
     else
-        throw std::runtime_error("unsupported node type");
+        REPORT_INVALID_PARAMETER(param);
 }
 

@@ -71,6 +71,8 @@ protected:
     void createNodes(Qt3DCore::QNode *parentQNode, int parentId, std::vector<Node> &nodes);
     Qt3DCore::QNode * createNode(Qt3DCore::QNode *parentQNode, int parentId, Node &node);
 
+    Qt3DCore::QNode * nodeFactory(int type);
+
 public:
     Scene3D();
     virtual ~Scene3D();
@@ -79,6 +81,8 @@ public:
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
     Qt3DCore::QNode * nodeById(int id);
+    bool nodeExists(int id);
+    bool nodeTypeIsValid(int type);
 
     Qt3DCore::QNode * addNode(int id, int parentId, int type);
     void removeNode(int id);
