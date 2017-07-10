@@ -10,3 +10,4 @@ $ git clone --recursive https://github.com/fferri/v_repExtCustomUI.git
 $ cmake .
 $ cmake --build .
 ```
+you may need to set the `CMAKE_PREFIX_PATH` environment variable to the `lib/cmake` subdirectory of your Qt installation, i.e. `/path/to/Qt/Qt5.9.0/5.9/<platform>/lib/cmake`
