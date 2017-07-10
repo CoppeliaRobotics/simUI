@@ -9,6 +9,14 @@
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
 
+//#define DEBUG_QT3D_CALLS
+
+#ifdef DEBUG_QT3D_CALLS
+#define LOG_QT3D_CALL(msg) std::cout << "QT3D: " << msg << std::endl
+#else
+#define LOG_QT3D_CALL(msg)
+#endif
+
 Scene3D::Scene3D()
     : Widget("scene3d"),
       view(0L),
@@ -199,7 +207,7 @@ Qt3DCore::QNode * Scene3D::createNode(Qt3DCore::QNode *parentQNode, int parentId
 
     if(node.type == sim_ui_scene3d_node_type_camera)
     {
-        // exception: we don't create camare, but use the already existing camera
+        // exception: we don't create a new camera node, but use the already existing one
         Qt3DCore::QNode *cameraNode = view->camera();
         nodeById_[node.id] = cameraNode;
         qnode = cameraNode;
@@ -266,18 +274,20 @@ bool Scene3D::nodeExists(int id)
 
 bool Scene3D::nodeTypeIsValid(int type)
 {
-    Qt3DCore::QNode *node = nodeFactory(type);
-    if(node)
-    {
-        delete node;
-        return true;
-    }
-    else return false;
+    return nodeFactory(type, 0L, true);
 }
 
-Qt3DCore::QNode * Scene3D::nodeFactory(int type)
+Qt3DCore::QNode * Scene3D::nodeFactory(int type, Qt3DCore::QNode *parent, bool onlyTest)
 {
-#define MAP_NODE_TYPE(t,c) case sim_ui_scene3d_node_type_##t: return new c(parent);
+#define MAP_NODE_TYPE(t,c) \
+    case sim_ui_scene3d_node_type_##t: \
+        if(onlyTest) return (Qt3DCore::QNode *)1; \
+        ret = new c(parent); \
+        LOG_QT3D_CALL((boost::format("new %s(%x) -> %x") % #c % (void*)parent % ret).str()); \
+        break;
+
+    Qt3DCore::QNode *ret = 0L;
+
     switch(type)
     {
     MAP_NODE_TYPE(entity, Qt3DCore::QEntity);
@@ -288,8 +298,10 @@ Qt3DCore::QNode * Scene3D::nodeFactory(int type)
     MAP_NODE_TYPE(mesh_cuboid, Qt3DExtras::QCuboidMesh);
     MAP_NODE_TYPE(phong_material, Qt3DExtras::QPhongMaterial);
     }
+
 #undef MAP_NODE_TYPE
-    return 0L;
+
+    return ret;
 }
 
 Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
@@ -301,7 +313,7 @@ Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
     if(!parent)
         throw std::runtime_error("invalid parent id");
 
-    Qt3DCore::QNode *node = nodeFactory(type);
+    Qt3DCore::QNode *node = nodeFactory(type, parent, false);
     if(!node)
         throw std::runtime_error((boost::format("invalid node type: %d") % type).str());
 
@@ -310,6 +322,7 @@ Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
     {
         if(Qt3DCore::QEntity *qe = dynamic_cast<Qt3DCore::QEntity*>(parent))
         {
+            LOG_QT3D_CALL((boost::format("%x->addComponent(%x)") % (void*)qe % (void*)qcomp).str());
             qe->addComponent(qcomp);
         }
     }
@@ -329,6 +342,7 @@ void Scene3D::enableNode(int id, bool enabled)
     if(!node)
         throw std::runtime_error("invalid node id");
 
+    LOG_QT3D_CALL((boost::format("%x->setEnabled(%d)") % (void*)node % enabled).str());
     node->setEnabled(enabled);
 }
 
@@ -340,6 +354,8 @@ void Scene3D::setIntParameter(int id, std::string param, int value)
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
         throw std::runtime_error("invalid node id");
+
+    LOG_QT3D_CALL((boost::format("%x set %s = %d") % (void*)node % param % value).str());
 
     if(0) {}
     else if(Qt3DRender::QCamera *c = dynamic_cast<Qt3DRender::QCamera*>(node))
@@ -373,6 +389,8 @@ void Scene3D::setFloatParameter(int id, std::string param, float value)
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
         throw std::runtime_error("invalid node id");
+
+    LOG_QT3D_CALL((boost::format("%x set %s = %f") % (void*)node % param % value).str());
 
     if(0) {}
     else if(Qt3DCore::QTransform *t = dynamic_cast<Qt3DCore::QTransform*>(node))
@@ -445,6 +463,8 @@ void Scene3D::setStringParameter(int id, std::string param, std::string value)
     if(!node)
         throw std::runtime_error("invalid node id");
 
+    LOG_QT3D_CALL((boost::format("%x set %s = %s") % (void*)node % param % value).str());
+
     if(0) {}
     else
         REPORT_INVALID_PARAMETER(param);
@@ -455,6 +475,8 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
         throw std::runtime_error("invalid node id");
+
+    LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f>") % (void*)node % param % x % y % z).str());
 
     QVector3D value(x, y, z);
 
@@ -510,6 +532,8 @@ void Scene3D::setVector4Parameter(int id, std::string param, float x, float y, f
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
         throw std::runtime_error("invalid node id");
+
+    LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f, %f>") % (void*)node % param % x % y % z % w).str());
 
     if(0) {}
     else if(Qt3DCore::QTransform *t = dynamic_cast<Qt3DCore::QTransform*>(node))

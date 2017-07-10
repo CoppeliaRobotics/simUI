@@ -71,7 +71,7 @@ protected:
     void createNodes(Qt3DCore::QNode *parentQNode, int parentId, std::vector<Node> &nodes);
     Qt3DCore::QNode * createNode(Qt3DCore::QNode *parentQNode, int parentId, Node &node);
 
-    Qt3DCore::QNode * nodeFactory(int type);
+    Qt3DCore::QNode * nodeFactory(int type, Qt3DCore::QNode *parent, bool onlyTest);
 
 public:
     Scene3D();
