@@ -2657,6 +2657,35 @@
         <return>
         </return>
     </command>
+    <command name="setScene3DNodeVector2Param">
+        <description>Set node vector2 parameter in a scene3d widget.</description>
+        <categories>
+            <category name="scene3d" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>node id</description>
+            </param>
+            <param name="paramName" type="string">
+                <description>name of parameter</description>
+            </param>
+            <param name="x" type="float">
+                <description>value of first component</description>
+            </param>
+            <param name="y" type="float">
+                <description>value of second component</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="setScene3DNodeVector3Param">
         <description>Set node vector3 parameter in a scene3d widget.</description>
         <categories>

@@ -1179,6 +1179,11 @@ void UIProxy::onSetScene3DStringParam(Scene3D *scene3d, int id, std::string para
     scene3d->setStringParameter(id, param, value);
 }
 
+void UIProxy::onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y)
+{
+    scene3d->setVector2Parameter(id, param, x, y);
+}
+
 void UIProxy::onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z)
 {
     scene3d->setVector3Parameter(id, param, x, y, z);

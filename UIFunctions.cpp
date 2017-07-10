@@ -164,6 +164,7 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setScene3DIntParam, uiproxy, &UIProxy::onSetScene3DIntParam, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setScene3DFloatParam, uiproxy, &UIProxy::onSetScene3DFloatParam, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setScene3DStringParam, uiproxy, &UIProxy::onSetScene3DStringParam, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setScene3DVector2Param, uiproxy, &UIProxy::onSetScene3DVector2Param, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setScene3DVector3Param, uiproxy, &UIProxy::onSetScene3DVector3Param, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setScene3DVector4Param, uiproxy, &UIProxy::onSetScene3DVector4Param, Qt::BlockingQueuedConnection);
 }

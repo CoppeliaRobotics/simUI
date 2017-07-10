@@ -1036,6 +1036,13 @@ void setScene3DNodeStringParam(SScriptCallBack *p, const char *cmd, setScene3DNo
     UIFunctions::getInstance()->setScene3DStringParam(scene3d, in->nodeId, in->paramName, in->value);
 }
 
+void setScene3DNodeVector2Param(SScriptCallBack *p, const char *cmd, setScene3DNodeVector2Param_in *in, setScene3DNodeVector2Param_out *out)
+{
+    Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");
+    if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
+    UIFunctions::getInstance()->setScene3DVector2Param(scene3d, in->nodeId, in->paramName, in->x, in->y);
+}
+
 void setScene3DNodeVector3Param(SScriptCallBack *p, const char *cmd, setScene3DNodeVector3Param_in *in, setScene3DNodeVector3Param_out *out)
 {
     Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, cmd, "scene3d");

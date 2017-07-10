@@ -143,6 +143,7 @@ public slots:
     void onSetScene3DIntParam(Scene3D *scene3d, int id, std::string param, int value);
     void onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, float value);
     void onSetScene3DStringParam(Scene3D *scene3d, int id, std::string param, std::string value);
+    void onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y);
     void onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z);
     void onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w);
 
