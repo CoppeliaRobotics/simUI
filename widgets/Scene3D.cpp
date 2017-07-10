@@ -187,7 +187,7 @@ void Scene3D::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
 
     Widget::parse(parent, widgets, e);
 
-    clearColor = xmlutils::getAttrIntV(e, "clear-color", "0,0,0", 3, 3, ",");
+    clearColor = xmlutils::getAttrIntV(e, "clear-color", "-1,-1,-1", 3, 3, ",");
 
     parseNodes(e, nodes);
 }
@@ -232,10 +232,35 @@ Qt3DCore::QNode * Scene3D::createNode(Qt3DCore::QNode *parentQNode, int parentId
     return qnode;
 }
 
+void dumpNodeTree(Qt3DCore::QNode *node, int level = 0)
+{
+    std::string ind = ""; for(int i = 0; i < level; i++) ind += "    ";
+    std::string typeStr = "NODE", extra = "";
+    if(Qt3DCore::QEntity *e = dynamic_cast<Qt3DCore::QEntity*>(node))
+    {
+        typeStr = "ENTITY";
+        extra += " components=[";
+        for(int i = 0; i < e->components().size(); i++)
+            extra += (boost::format("%s%x") % (i ? ", " : "") % e->components()[i]).str();
+        extra += "]";
+    }
+    else if(dynamic_cast<Qt3DCore::QTransform*>(node)) typeStr = "TRANSFORM";
+    else if(dynamic_cast<Qt3DRender::QCamera*>(node)) typeStr = "CAMERA";
+    else if(dynamic_cast<Qt3DExtras::QFirstPersonCameraController*>(node)) typeStr = "FIRST_PERSON_CAMERA_CONTROLLER";
+    else if(dynamic_cast<Qt3DRender::QPointLight*>(node)) typeStr = "POINT_LIGHT";
+    else if(dynamic_cast<Qt3DExtras::QCuboidMesh*>(node)) typeStr = "CUBOID_MESH";
+    else if(dynamic_cast<Qt3DExtras::QPhongMaterial*>(node)) typeStr = "PHONG_MATERIAL";
+    std::cout << ind << (boost::format("%s %x id=%d enabled=%d") % typeStr % node % node->id() % node->isEnabled()).str() << extra << std::endl;
+    BOOST_FOREACH(Qt3DCore::QNode *node1, node->childNodes())
+    {
+        dumpNodeTree(node1, level + 1);
+    }
+}
+
 QWidget * Scene3D::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
 {
     view = new Qt3DExtras::Qt3DWindow();
-    view->defaultFrameGraph()->setClearColor(QColor(clearColor[0], clearColor[1], clearColor[2]));
+    view->defaultFrameGraph()->setClearColor((clearColor[0] >= 0 && clearColor[1] >= 0 && clearColor[2] >= 0) ? QColor(clearColor[0], clearColor[1], clearColor[2]) : parent->palette().color(parent->backgroundRole()));
     QWidget *container = QWidget::createWindowContainer(view);
     QSize screenSize = view->screen()->size();
     container->setMinimumSize(QSize(200, 100));
@@ -307,11 +332,11 @@ Qt3DCore::QNode * Scene3D::nodeFactory(int type, Qt3DCore::QNode *parent, bool o
 Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
 {
     if(nodeById(id))
-        throw std::runtime_error("duplicate node id");
+        throw std::runtime_error((boost::format("duplicate node id: %d") % id).str());
 
     Qt3DCore::QNode *parent = nodeById(parentId);
     if(!parent)
-        throw std::runtime_error("invalid parent id");
+        throw std::runtime_error((boost::format("invalid parent id: %d") % parentId).str());
 
     Qt3DCore::QNode *node = nodeFactory(type, parent, false);
     if(!node)
@@ -340,7 +365,7 @@ void Scene3D::enableNode(int id, bool enabled)
 {
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
-        throw std::runtime_error("invalid node id");
+        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x->setEnabled(%d)") % (void*)node % enabled).str());
     node->setEnabled(enabled);
@@ -353,7 +378,7 @@ void Scene3D::setIntParameter(int id, std::string param, int value)
 {
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
-        throw std::runtime_error("invalid node id");
+        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = %d") % (void*)node % param % value).str());
 
@@ -388,7 +413,7 @@ void Scene3D::setFloatParameter(int id, std::string param, float value)
 {
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
-        throw std::runtime_error("invalid node id");
+        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = %f") % (void*)node % param % value).str());
 
@@ -461,7 +486,7 @@ void Scene3D::setStringParameter(int id, std::string param, std::string value)
 {
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
-        throw std::runtime_error("invalid node id");
+        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = %s") % (void*)node % param % value).str());
 
@@ -474,7 +499,7 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
 {
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
-        throw std::runtime_error("invalid node id");
+        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f>") % (void*)node % param % x % y % z).str());
 
@@ -531,7 +556,7 @@ void Scene3D::setVector4Parameter(int id, std::string param, float x, float y, f
 {
     Qt3DCore::QNode *node = nodeById(id);
     if(!node)
-        throw std::runtime_error("invalid node id");
+        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f, %f>") % (void*)node % param % x % y % z % w).str());
 
