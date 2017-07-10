@@ -2492,10 +2492,23 @@
         <item name="entity" />
         <item name="transform" />
         <item name="camera" />
-        <item name="first_person_camera_controller" />
-        <item name="point_light" />
+        <item name="camera_controller_first_person" />
+        <item name="camera_controller_orbit" />
+        <item name="light_point" />
+        <item name="light_directional" />
+        <item name="light_spot" />
         <item name="mesh_cuboid" />
-        <item name="phong_material" />
+        <item name="mesh_torus" />
+        <item name="mesh_cone" />
+        <item name="mesh_cylinder" />
+        <item name="mesh_plane" />
+        <item name="mesh_sphere" />
+        <item name="mesh" />
+        <item name="material_phong" />
+        <item name="material_gooch" />
+        <item name="material_texture" />
+        <item name="texture2d" />
+        <item name="texture_image" />
     </enum>
     <command name="addScene3DNode">
         <description>Add a node in a scene3d widget.</description>

@@ -9,41 +9,36 @@
 
 #include <QtCore/QObject>
 
-#include <Qt3DCore/qentity.h>
-#include <Qt3DCore/qtransform.h>
-
-#include <Qt3DRender/qcamera.h>
-#include <Qt3DCore/qentity.h>
-#include <Qt3DRender/qcameralens.h>
-
+#include <Qt3DCore/QEntity>
+#include <Qt3DCore/QTransform>
+#include <Qt3DRender/QCamera>
+#include <Qt3DRender/QCameraLens>
 #include <Qt3DInput/QInputAspect>
-
-#include <Qt3DExtras/qtorusmesh.h>
-#include <Qt3DRender/qmesh.h>
-#include <Qt3DRender/qtechnique.h>
-#include <Qt3DRender/qmaterial.h>
-#include <Qt3DRender/qeffect.h>
-#include <Qt3DRender/qtexture.h>
-#include <Qt3DRender/qrenderpass.h>
-#include <Qt3DRender/qsceneloader.h>
-#include <Qt3DRender/qpointlight.h>
-
-#include <Qt3DCore/qtransform.h>
-#include <Qt3DCore/qaspectengine.h>
-
-#include <Qt3DRender/qrenderaspect.h>
-#include <Qt3DExtras/qforwardrenderer.h>
-
-#include <Qt3DExtras/qt3dwindow.h>
-#include <Qt3DExtras/qfirstpersoncameracontroller.h>
-
+#include <Qt3DCore/QAspectEngine>
+#include <Qt3DExtras/QCuboidMesh>
 #include <Qt3DExtras/QTorusMesh>
 #include <Qt3DExtras/QConeMesh>
 #include <Qt3DExtras/QCylinderMesh>
-#include <Qt3DExtras/QCuboidMesh>
 #include <Qt3DExtras/QPlaneMesh>
 #include <Qt3DExtras/QSphereMesh>
+#include <Qt3DRender/QMesh>
+#include <Qt3DRender/QTechnique>
+#include <Qt3DRender/QMaterial>
 #include <Qt3DExtras/QPhongMaterial>
+#include <Qt3DExtras/QGoochMaterial>
+#include <Qt3DExtras/QTextureMaterial>
+#include <Qt3DRender/QEffect>
+#include <Qt3DRender/QTexture>
+#include <Qt3DRender/QRenderPass>
+#include <Qt3DRender/QSceneLoader>
+#include <Qt3DRender/QPointLight>
+#include <Qt3DRender/QDirectionalLight>
+#include <Qt3DRender/QSpotLight>
+#include <Qt3DRender/QRenderAspect>
+#include <Qt3DExtras/QForwardRenderer>
+#include <Qt3DExtras/Qt3DWindow>
+#include <Qt3DExtras/QFirstPersonCameraController>
+#include <Qt3DExtras/QOrbitCameraController>
 
 #include "tinyxml2.h"
 
@@ -90,6 +85,7 @@ public:
     void setIntParameter(int id, std::string param, int value);
     void setFloatParameter(int id, std::string param, float value);
     void setStringParameter(int id, std::string param, std::string value);
+    void setVector2Parameter(int id, std::string param, float x, float y);
     void setVector3Parameter(int id, std::string param, float x, float y, float z);
     void setVector4Parameter(int id, std::string param, float x, float y, float z, float w);
 
@@ -104,11 +100,12 @@ struct NodeParam {
     float floatValue;
     bool isString;
     std::string stringValue;
+    bool isVector2;
     bool isVector3;
     bool isVector4;
     float vectorValue[4];
 
-    NodeParam() : isInt(false), isFloat(false), isString(false), isVector3(false), isVector4(false) {}
+    NodeParam() : isInt(false), isFloat(false), isString(false), isVector2(false), isVector3(false), isVector4(false) {}
 };
 
 struct Node {
