@@ -226,19 +226,30 @@ void dumpNodeTree(Qt3DCore::QNode *node, int level = 0)
     std::string typeStr = "NODE", extra = "";
     if(Qt3DCore::QEntity *e = dynamic_cast<Qt3DCore::QEntity*>(node))
     {
-        typeStr = "ENTITY";
+        typeStr = "Qt3DCore::QEntity";
         extra += " components=[";
         for(int i = 0; i < e->components().size(); i++)
             extra += (boost::format("%s%x") % (i ? ", " : "") % e->components()[i]).str();
         extra += "]";
     }
-    else if(dynamic_cast<Qt3DCore::QTransform*>(node)) typeStr = "TRANSFORM";
-    else if(dynamic_cast<Qt3DRender::QCamera*>(node)) typeStr = "CAMERA";
-    else if(dynamic_cast<Qt3DExtras::QFirstPersonCameraController*>(node)) typeStr = "FIRST_PERSON_CAMERA_CONTROLLER";
-    else if(dynamic_cast<Qt3DRender::QPointLight*>(node)) typeStr = "POINT_LIGHT";
-    else if(dynamic_cast<Qt3DExtras::QCuboidMesh*>(node)) typeStr = "CUBOID_MESH";
-    else if(dynamic_cast<Qt3DExtras::QPhongMaterial*>(node)) typeStr = "PHONG_MATERIAL";
-    std::cout << ind << (boost::format("%s %x id=%d enabled=%d") % typeStr % node % node->id() % node->isEnabled()).str() << extra << std::endl;
+#define TYPE(xmltag,enumitem,c) else if(dynamic_cast<c*>(node)) typeStr = #c;
+#define ENDTYPE
+#define PARAM_INT(xmlattr,m)
+#define PARAM_FLOAT(xmlattr,m)
+#define PARAM_STRING(xmlattr,m)
+#define PARAM_VEC2(xmlattr,m)
+#define PARAM_VEC3(xmlattr,m)
+#define PARAM_VEC4(xmlattr,m)
+#include "Scene3D.Qt3DWrapper.cpp"
+#undef TYPE
+#undef ENDTYPE
+#undef PARAM_INT
+#undef PARAM_FLOAT
+#undef PARAM_STRING
+#undef PARAM_VEC2
+#undef PARAM_VEC3
+#undef PARAM_VEC4
+    std::cout << ind << (boost::format("%s %x enabled=%d") % typeStr % node % node->isEnabled()).str() << extra << std::endl;
     BOOST_FOREACH(Qt3DCore::QNode *node1, node->childNodes())
     {
         dumpNodeTree(node1, level + 1);
