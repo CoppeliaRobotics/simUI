@@ -106,6 +106,8 @@ struct NodeParam {
     float vectorValue[4];
 
     NodeParam() : isInt(false), isFloat(false), isString(false), isVector2(false), isVector3(false), isVector4(false) {}
+
+    void parse(const std::string &nodeName, const std::string &s, NodeParam *dest);
 };
 
 struct Node {

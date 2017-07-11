@@ -17,6 +17,63 @@
 #define LOG_QT3D_CALL(msg)
 #endif
 
+void NodeParam::parse(const std::string &nodeName, const std::string &s, NodeParam *dest)
+{
+    std::string expected = "";
+    try
+    {
+        if(isInt)
+        {
+            expected = "int";
+            dest->intValue = boost::lexical_cast<int>(s);
+            dest->isInt = true;
+        }
+        else if(isFloat)
+        {
+            expected = "float";
+            dest->floatValue = boost::lexical_cast<float>(s);
+            dest->isFloat = true;
+        }
+        else if(isString)
+        {
+            expected = "string";
+            dest->isString = true;
+            dest->stringValue = s;
+        }
+        else if(isVector2)
+        {
+            expected = "vector2";
+            std::vector<std::string> v;
+            xmlutils::string2vector(s, v, 2, 2, ",");
+            for(int i = 0; i < 2; i++)
+                dest->vectorValue[i] = boost::lexical_cast<float>(v[i]);
+            dest->isVector2 = true;
+        }
+        else if(isVector3)
+        {
+            expected = "vector3";
+            std::vector<std::string> v;
+            xmlutils::string2vector(s, v, 3, 3, ",");
+            for(int i = 0; i < 3; i++)
+                dest->vectorValue[i] = boost::lexical_cast<float>(v[i]);
+            dest->isVector3 = true;
+        }
+        else if(isVector4)
+        {
+            expected = "vector4";
+            std::vector<std::string> v;
+            xmlutils::string2vector(s, v, 4, 4, ",");
+            for(int i = 0; i < 4; i++)
+                dest->vectorValue[i] = boost::lexical_cast<float>(v[i]);
+            dest->isVector4 = true;
+        }
+    }
+    catch(std::exception &ex)
+    {
+        throw std::runtime_error((boost::format("invalid value for param '%s' in node '%s' (expected %s)") % dest->name % nodeName % expected).str());
+    }
+}
+
 Scene3D::Scene3D()
     : Widget("scene3d"),
       view(0L),
@@ -69,97 +126,31 @@ void parseNodes(tinyxml2::XMLElement *e, std::vector<Node> &nodes)
             std::string attr(a->Name()), attrValue(a->Value());
             if(attr == "id")
             {
-                node.id = boost::lexical_cast<int>(attrValue);
-                continue;
+                try
+                {
+                    node.id = boost::lexical_cast<int>(attrValue);
+                    if(node.id <= 0) throw std::runtime_error("id must be positive");
+                }
+                catch(std::exception &ex)
+                {
+                    throw std::runtime_error("invalid value for paramater 'id'. mmust be a positive integer.");
+                }
             }
-            if(attr == "enabled")
+            else if(attr == "enabled")
             {
                 if(attrValue != "true" && attrValue != "false")
                     throw std::runtime_error("invalid value for paramater 'enabled'. mmust be 'true' or 'false'.");
                 node.enabled = attrValue == "true";
-                continue;
             }
-            std::map<std::string, NodeParam>::iterator it = meta.params.find(attr);
-            if(it == meta.params.end())
-                throw std::runtime_error((boost::format("invalid node param '%s' for node '%s'") % attr % tag1).str());
-            NodeParam &metaparam = it->second;
-            NodeParam param;
-            param.name = attr;
-            if(metaparam.isInt)
+            else
             {
-                try
-                {
-                    param.isInt = true;
-                    param.intValue = boost::lexical_cast<int>(attrValue);
-                }
-                catch(std::exception &ex)
-                {
-                    throw std::runtime_error((boost::format("invalid value for param '%s' in node '%s' (expected int)") % attr % tag1).str());
-                }
+                std::map<std::string, NodeParam>::iterator it = meta.params.find(attr);
+                if(it == meta.params.end())
+                    throw std::runtime_error((boost::format("invalid node param '%s' for node '%s'") % attr % tag1).str());
+                NodeParam &metaparam = it->second;
+                node.params[attr].name = attr;
+                metaparam.parse(tag1, attrValue, &node.params[attr]);
             }
-            else if(metaparam.isFloat)
-            {
-                try
-                {
-                    param.isFloat = true;
-                    param.floatValue = boost::lexical_cast<float>(attrValue);
-                }
-                catch(std::exception &ex)
-                {
-                    throw std::runtime_error((boost::format("invalid value for param '%s' in node '%s' (expected float)") % attr % tag1).str());
-                }
-            }
-            else if(metaparam.isString)
-            {
-                param.isString = true;
-                param.stringValue = attrValue;
-            }
-            else if(metaparam.isVector2)
-            {
-                try
-                {
-                    param.isVector2 = true;
-                    std::vector<std::string> v;
-                    xmlutils::string2vector(attrValue, v, 2, 2, ",");
-                    for(int i = 0; i < 2; i++)
-                        param.vectorValue[i] = boost::lexical_cast<float>(v[i]);
-                }
-                catch(std::exception &ex)
-                {
-                    throw std::runtime_error((boost::format("invalid value for param '%s' in node '%s' (expected Vector2)") % attr % tag1).str());
-                }
-            }
-            else if(metaparam.isVector3)
-            {
-                try
-                {
-                    param.isVector3 = true;
-                    std::vector<std::string> v;
-                    xmlutils::string2vector(attrValue, v, 3, 3, ",");
-                    for(int i = 0; i < 3; i++)
-                        param.vectorValue[i] = boost::lexical_cast<float>(v[i]);
-                }
-                catch(std::exception &ex)
-                {
-                    throw std::runtime_error((boost::format("invalid value for param '%s' in node '%s' (expected Vector3)") % attr % tag1).str());
-                }
-            }
-            else if(metaparam.isVector4)
-            {
-                try
-                {
-                    param.isVector4 = true;
-                    std::vector<std::string> v;
-                    xmlutils::string2vector(attrValue, v, 4, 4, ",");
-                    for(int i = 0; i < 4; i++)
-                        param.vectorValue[i] = boost::lexical_cast<float>(v[i]);
-                }
-                catch(std::exception &ex)
-                {
-                    throw std::runtime_error((boost::format("invalid value for param '%s' in node '%s' (expected Vector4)") % attr % tag1).str());
-                }
-            }
-            node.params[attr] = param;
         }
         if(node.id == -1)
             node.id = --autoId;
