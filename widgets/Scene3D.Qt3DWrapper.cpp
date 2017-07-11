@@ -295,6 +295,24 @@ PARAM_VEC2("texture-offset",
 )
 ENDTYPE
 
+TYPE("material-diffuse-map", material_diffuse_map, Qt3DExtras::QDiffuseMapMaterial)
+PARAM_FLOAT("shininess",
+    o->setShininess(value);
+)
+PARAM_VEC3("ambient",
+    o->setAmbient(color);
+)
+PARAM_INT("diffuse-texture",
+    o->setDiffuse(dynamic_cast<Qt3DRender::QAbstractTexture*>(nodeById(value)));
+)
+PARAM_VEC3("specular",
+    o->setSpecular(color);
+)
+PARAM_FLOAT("texture-scale",
+    o->setTextureScale(value);
+)
+ENDTYPE
+
 TYPE("texture2d", texture2d, Qt3DRender::QTexture2D)
 PARAM_INT("texture-image",
     o->addTextureImage(dynamic_cast<Qt3DRender::QAbstractTextureImage*>(nodeById(value)));

@@ -272,12 +272,20 @@ QWidget * Scene3D::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
     return container;
 }
 
+Qt3DCore::QNode * Scene3D::nodeById(int id, Qt3DCore::QNode *def)
+{
+    if(id == -1) return rootEntity;
+    std::map<int, Qt3DCore::QNode*>::iterator it = nodeById_.find(id);
+    if(it == nodeById_.end()) return def;
+    else return it->second;
+}
+
 Qt3DCore::QNode * Scene3D::nodeById(int id)
 {
     if(id == -1) return rootEntity;
     std::map<int, Qt3DCore::QNode*>::iterator it = nodeById_.find(id);
-    if(it == nodeById_.end()) return 0L;
-    else return it->second;
+    if(it == nodeById_.end()) throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
+    return it->second;
 }
 
 bool Scene3D::nodeExists(int id)
@@ -327,16 +335,26 @@ Qt3DCore::QNode * Scene3D::nodeFactory(int type, Qt3DCore::QNode *parent, bool o
 
 Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
 {
-    if(nodeById(id))
+    if(nodeById(id, 0L))
         throw std::runtime_error((boost::format("duplicate node id: %d") % id).str());
 
-    Qt3DCore::QNode *parent = nodeById(parentId);
+    Qt3DCore::QNode *parent = nodeById(parentId, 0L);
     if(!parent)
         throw std::runtime_error((boost::format("invalid parent id: %d") % parentId).str());
 
-    Qt3DCore::QNode *node = nodeFactory(type, parent, false);
-    if(!node)
-        throw std::runtime_error((boost::format("invalid node type: %d") % type).str());
+    Qt3DCore::QNode *node = 0L;
+
+    try
+    {
+        node = nodeFactory(type, parent, false);
+        if(!node)
+            throw std::runtime_error((boost::format("invalid node type: %d") % type).str());
+    }
+    catch(std::exception &ex)
+    {
+        std::cout << "ERROR: failed to create object " << id << " of type " << scene3d_node_type_string((scene3d_node_type)type) << ": " << ex.what() << std::endl;
+        return 0L;
+    }
 
     // if it is a QComponent, add it as a component of parent node
     if(Qt3DCore::QComponent *qcomp = dynamic_cast<Qt3DCore::QComponent*>(node))
@@ -360,8 +378,6 @@ void Scene3D::removeNode(int id)
 void Scene3D::enableNode(int id, bool enabled)
 {
     Qt3DCore::QNode *node = nodeById(id);
-    if(!node)
-        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x->setEnabled(%d)") % (void*)node % enabled).str());
     node->setEnabled(enabled);
@@ -370,8 +386,8 @@ void Scene3D::enableNode(int id, bool enabled)
 #define REPORT_INVALID_PARAMETER(p) \
     std::cout << "WARNING: unknown Scne3D Node parameter: " << p << std::endl;
 
-#define BEGIN if(0) {
-#define END } else REPORT_INVALID_PARAMETER(param);
+#define BEGIN try { if(0) {
+#define END } else REPORT_INVALID_PARAMETER(param); } catch(std::exception &ex) {std::cout << "ERROR: failed to set param '" << param << "' of node " << id << ": " << ex.what() << std::endl;}
 #define TYPE(xmltag,enumitem,c) } else if(c *o = dynamic_cast<c*>(node)) { if(0){
 #define ENDTYPE } else REPORT_INVALID_PARAMETER(param);
 #define PARAM_ON(x,m) } else if(param == x) { m
@@ -386,8 +402,6 @@ void Scene3D::enableNode(int id, bool enabled)
 void Scene3D::setIntParameter(int id, std::string param, int value)
 {
     Qt3DCore::QNode *node = nodeById(id);
-    if(!node)
-        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = %d") % (void*)node % param % value).str());
 
@@ -403,8 +417,6 @@ void Scene3D::setIntParameter(int id, std::string param, int value)
 void Scene3D::setFloatParameter(int id, std::string param, float value)
 {
     Qt3DCore::QNode *node = nodeById(id);
-    if(!node)
-        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = %f") % (void*)node % param % value).str());
 
@@ -420,8 +432,6 @@ void Scene3D::setFloatParameter(int id, std::string param, float value)
 void Scene3D::setStringParameter(int id, std::string param, std::string value)
 {
     Qt3DCore::QNode *node = nodeById(id);
-    if(!node)
-        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = %s") % (void*)node % param % value).str());
 
@@ -440,8 +450,6 @@ void Scene3D::setStringParameter(int id, std::string param, std::string value)
 void Scene3D::setVector2Parameter(int id, std::string param, float x, float y)
 {
     Qt3DCore::QNode *node = nodeById(id);
-    if(!node)
-        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f>") % (void*)node % param % x % y % z).str());
 
@@ -459,8 +467,6 @@ void Scene3D::setVector2Parameter(int id, std::string param, float x, float y)
 void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, float z)
 {
     Qt3DCore::QNode *node = nodeById(id);
-    if(!node)
-        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f>") % (void*)node % param % x % y % z).str());
 
@@ -479,8 +485,6 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
 void Scene3D::setVector4Parameter(int id, std::string param, float x, float y, float z, float w)
 {
     Qt3DCore::QNode *node = nodeById(id);
-    if(!node)
-        throw std::runtime_error((boost::format("invalid node id: %d") % id).str());
 
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f, %f>") % (void*)node % param % x % y % z % w).str());
 

@@ -2507,6 +2507,7 @@
         <item name="material_phong" />
         <item name="material_gooch" />
         <item name="material_texture" />
+        <item name="material_diffuse_map" />
         <item name="texture2d" />
         <item name="texture_image" />
     </enum>

@@ -26,6 +26,7 @@
 #include <Qt3DRender/QMaterial>
 #include <Qt3DExtras/QPhongMaterial>
 #include <Qt3DExtras/QGoochMaterial>
+#include <Qt3DExtras/QDiffuseMapMaterial>
 #include <Qt3DExtras/QTextureMaterial>
 #include <Qt3DRender/QEffect>
 #include <Qt3DRender/QTexture>
@@ -75,6 +76,7 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
 
+    Qt3DCore::QNode * nodeById(int id, Qt3DCore::QNode *def);
     Qt3DCore::QNode * nodeById(int id);
     bool nodeExists(int id);
     bool nodeTypeIsValid(int type);
