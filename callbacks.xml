@@ -2510,6 +2510,7 @@
         <item name="material_diffuse_map" />
         <item name="texture2d" />
         <item name="texture_image" />
+        <item name="object_picker" />
     </enum>
     <command name="addScene3DNode">
         <description>Add a node in a scene3d widget.</description>
@@ -3204,6 +3205,22 @@
             </param>
             <param name="text" type="string">
                 <description>a textual representation of the key</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+    <script-function name="onScene3DObjectClickCallback">
+        <description>Callback called when an object is clicked in a scene3d widget.</description>
+        <params>
+            <param name="handle" type="int">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the widget</description>
+            </param>
+            <param name="nodeId" type="int">
+                <description>the ID of the object-picker</description>
             </param>
         </params>
         <return>

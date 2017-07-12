@@ -1,4 +1,4 @@
-TYPE("transform", transform, Qt3DCore::QTransform)
+TYPE("transform", transform, Qt3DCore::QTransform,)
 PARAM_FLOAT("scale",
     o->setScale(value);
 )
@@ -22,7 +22,7 @@ PARAM_VEC4("rotation",
 )
 ENDTYPE
 
-TYPE("camera", camera, Qt3DRender::QCamera)
+TYPE("camera", camera, Qt3DRender::QCamera,)
 PARAM_INT("projection-type",
     o->setProjectionType((Qt3DRender::QCameraLens::ProjectionType)value);
 )
@@ -73,7 +73,7 @@ PARAM_VEC3("view-center",
 )
 ENDTYPE
 
-TYPE("camera-controller-first-person", camera_controller_first_person, Qt3DExtras::QFirstPersonCameraController)
+TYPE("camera-controller-first-person", camera_controller_first_person, Qt3DExtras::QFirstPersonCameraController,)
 PARAM_INT("camera",
     o->setCamera(dynamic_cast<Qt3DRender::QCamera*>(nodeById(value)));
 )
@@ -91,7 +91,7 @@ PARAM_FLOAT("deceleration",
 )
 ENDTYPE
 
-TYPE("camera-controller-orbit", camera_controller_orbit, Qt3DExtras::QOrbitCameraController)
+TYPE("camera-controller-orbit", camera_controller_orbit, Qt3DExtras::QOrbitCameraController,)
 PARAM_INT("camera",
     o->setCamera(dynamic_cast<Qt3DRender::QCamera*>(nodeById(value)));
 )
@@ -106,7 +106,7 @@ PARAM_FLOAT("zoom-in-limit",
 )
 ENDTYPE
 
-TYPE("light-point", light_point, Qt3DRender::QPointLight)
+TYPE("light-point", light_point, Qt3DRender::QPointLight,)
 PARAM_FLOAT("intensity",
     o->setIntensity(value);
 )
@@ -124,7 +124,7 @@ PARAM_VEC3("color",
 )
 ENDTYPE
 
-TYPE("light-directional", light_directional, Qt3DRender::QDirectionalLight)
+TYPE("light-directional", light_directional, Qt3DRender::QDirectionalLight,)
 PARAM_FLOAT("intensity",
     o->setIntensity(value);
 )
@@ -136,7 +136,7 @@ PARAM_VEC3("world-direction",
 )
 ENDTYPE
 
-TYPE("light-spot", light_spot, Qt3DRender::QSpotLight)
+TYPE("light-spot", light_spot, Qt3DRender::QSpotLight,)
 PARAM_FLOAT("intensity",
     o->setIntensity(value);
 )
@@ -160,7 +160,7 @@ PARAM_VEC3("local-direction",
 )
 ENDTYPE
 
-TYPE("mesh-cuboid", mesh_cuboid, Qt3DExtras::QCuboidMesh)
+TYPE("mesh-cuboid", mesh_cuboid, Qt3DExtras::QCuboidMesh,)
 PARAM_FLOAT("x-extent",
     o->setXExtent(value);
 )
@@ -172,7 +172,7 @@ PARAM_FLOAT("z-extent",
 )
 ENDTYPE
 
-TYPE("mesh-torus", mesh_torus, Qt3DExtras::QTorusMesh)
+TYPE("mesh-torus", mesh_torus, Qt3DExtras::QTorusMesh,)
 PARAM_FLOAT("radius",
     o->setRadius(value);
 )
@@ -187,7 +187,7 @@ PARAM_INT("slices",
 )
 ENDTYPE
 
-TYPE("mesh-cone", mesh_cone, Qt3DExtras::QConeMesh)
+TYPE("mesh-cone", mesh_cone, Qt3DExtras::QConeMesh,)
 PARAM_FLOAT("top-radius",
     o->setTopRadius(value);
 )
@@ -205,7 +205,7 @@ PARAM_INT("slices",
 )
 ENDTYPE
 
-TYPE("mesh-cylinder", mesh_cylinder, Qt3DExtras::QCylinderMesh)
+TYPE("mesh-cylinder", mesh_cylinder, Qt3DExtras::QCylinderMesh,)
 PARAM_FLOAT("radius",
     o->setRadius(value);
 )
@@ -220,7 +220,7 @@ PARAM_INT("slices",
 )
 ENDTYPE
 
-TYPE("mesh-plane", mesh_plane, Qt3DExtras::QPlaneMesh)
+TYPE("mesh-plane", mesh_plane, Qt3DExtras::QPlaneMesh,)
 PARAM_FLOAT("width",
     o->setWidth(value);
 )
@@ -229,7 +229,7 @@ PARAM_FLOAT("height",
 )
 ENDTYPE
 
-TYPE("mesh-sphere", mesh_sphere, Qt3DExtras::QSphereMesh)
+TYPE("mesh-sphere", mesh_sphere, Qt3DExtras::QSphereMesh,)
 PARAM_FLOAT("radius",
     o->setRadius(value);
 )
@@ -241,13 +241,13 @@ PARAM_INT("slices",
 )
 ENDTYPE
 
-TYPE("mesh", mesh, Qt3DRender::QMesh)
+TYPE("mesh", mesh, Qt3DRender::QMesh,)
 PARAM_STRING("source",
     o->setSource(url);
 )
 ENDTYPE
 
-TYPE("material-phong", material_phong, Qt3DExtras::QPhongMaterial)
+TYPE("material-phong", material_phong, Qt3DExtras::QPhongMaterial,)
 PARAM_FLOAT("shininess",
     o->setShininess(value);
 )
@@ -262,7 +262,7 @@ PARAM_VEC3("specular",
 )
 ENDTYPE
 
-TYPE("material-gooch", material_gooch, Qt3DExtras::QGoochMaterial)
+TYPE("material-gooch", material_gooch, Qt3DExtras::QGoochMaterial,)
 PARAM_FLOAT("alpha",
     o->setAlpha(value);
 )
@@ -286,7 +286,7 @@ PARAM_VEC3("warm-color",
 )
 ENDTYPE
 
-TYPE("material-texture", material_texture, Qt3DExtras::QTextureMaterial)
+TYPE("material-texture", material_texture, Qt3DExtras::QTextureMaterial,)
 PARAM_INT("texture",
     o->setTexture(dynamic_cast<Qt3DRender::QAbstractTexture*>(nodeById(value)));
 )
@@ -295,7 +295,7 @@ PARAM_VEC2("texture-offset",
 )
 ENDTYPE
 
-TYPE("material-diffuse-map", material_diffuse_map, Qt3DExtras::QDiffuseMapMaterial)
+TYPE("material-diffuse-map", material_diffuse_map, Qt3DExtras::QDiffuseMapMaterial,)
 PARAM_FLOAT("shininess",
     o->setShininess(value);
 )
@@ -313,13 +313,13 @@ PARAM_FLOAT("texture-scale",
 )
 ENDTYPE
 
-TYPE("texture2d", texture2d, Qt3DRender::QTexture2D)
+TYPE("texture2d", texture2d, Qt3DRender::QTexture2D,)
 PARAM_INT("texture-image",
     o->addTextureImage(dynamic_cast<Qt3DRender::QAbstractTextureImage*>(nodeById(value)));
 )
 ENDTYPE
 
-TYPE("texture-image", texture_image, Qt3DRender::QTextureImage)
+TYPE("texture-image", texture_image, Qt3DRender::QTextureImage,)
 PARAM_STRING("source",
     o->setSource(url);
 )
@@ -328,6 +328,10 @@ PARAM_INT("mirrored",
 )
 ENDTYPE
 
-TYPE("entity", entity, Qt3DCore::QEntity)
+#define object_picker_postinit QObject::connect(o, &Qt3DRender::QObjectPicker::clicked, UIProxy::getInstance(), &UIProxy::onScene3DObjectClicked);
+TYPE("object-picker", object_picker, Qt3DRender::QObjectPicker, object_picker_postinit)
+ENDTYPE
+
+TYPE("entity", entity, Qt3DCore::QEntity,)
 ENDTYPE
 

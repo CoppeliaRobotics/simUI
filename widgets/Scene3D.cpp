@@ -17,6 +17,8 @@
 #define LOG_QT3D_CALL(msg)
 #endif
 
+std::map<Qt3DCore::QNode*, Scene3D*> Scene3D::nodeScene_;
+
 void NodeParam::parse(const std::string &nodeName, const std::string &s, NodeParam *dest)
 {
     std::string expected = "";
@@ -89,7 +91,7 @@ static std::map<std::string, Node> typemap;
 
 void initTypemap()
 {
-#define TYPE(xmltag,enumitem,c) typemap[xmltag].type = sim_ui_scene3d_node_type_##enumitem; { std::map<std::string, NodeParam> &params_ = typemap[xmltag].params;
+#define TYPE(xmltag,enumitem,c,postinit) typemap[xmltag].type = sim_ui_scene3d_node_type_##enumitem; { std::map<std::string, NodeParam> &params_ = typemap[xmltag].params;
 #define ENDTYPE }
 #define PARAM_INT(xmlattr,m) params_[xmlattr].isInt = true;
 #define PARAM_FLOAT(xmlattr,m) params_[xmlattr].isFloat = true;
@@ -165,6 +167,8 @@ void Scene3D::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
 
     Widget::parse(parent, widgets, e);
 
+    onClick = xmlutils::getAttrStr(e, "on-click", "");
+
     clearColor = xmlutils::getAttrIntV(e, "clear-color", "-1,-1,-1", 3, 3, ",");
 
     parseNodes(e, nodes);
@@ -188,6 +192,8 @@ Qt3DCore::QNode * Scene3D::createNode(Qt3DCore::QNode *parentQNode, int parentId
         // exception: we don't create a new camera node, but use the already existing one
         Qt3DCore::QNode *cameraNode = view->camera();
         nodeById_[node.id] = cameraNode;
+        nodeId_[cameraNode] = node.id;
+        Scene3D::nodeScene_[cameraNode] = this;
         qnode = cameraNode;
     }
     else
@@ -223,7 +229,7 @@ void dumpNodeTree(Qt3DCore::QNode *node, int level = 0)
             extra += (boost::format("%s%x") % (i ? ", " : "") % e->components()[i]).str();
         extra += "]";
     }
-#define TYPE(xmltag,enumitem,c) else if(dynamic_cast<c*>(node)) typeStr = #c;
+#define TYPE(xmltag,enumitem,c,postinit) else if(dynamic_cast<c*>(node)) typeStr = #c;
 #define ENDTYPE
 #define PARAM_INT(xmlattr,m)
 #define PARAM_FLOAT(xmlattr,m)
@@ -288,6 +294,16 @@ Qt3DCore::QNode * Scene3D::nodeById(int id)
     return it->second;
 }
 
+int Scene3D::nodeId(Qt3DCore::QNode *node)
+{
+    return nodeId_[node];
+}
+
+Scene3D * Scene3D::nodeScene(Qt3DCore::QNode *node)
+{
+    return Scene3D::nodeScene_[node];
+}
+
 bool Scene3D::nodeExists(int id)
 {
     if(id == -1) return true;
@@ -302,16 +318,16 @@ bool Scene3D::nodeTypeIsValid(int type)
 
 Qt3DCore::QNode * Scene3D::nodeFactory(int type, Qt3DCore::QNode *parent, bool onlyTest)
 {
-    Qt3DCore::QNode *ret = 0L;
-
     switch(type)
     {
-#define TYPE(xmltag,enumitem,c) \
-    case sim_ui_scene3d_node_type_##enumitem: \
+#define TYPE(xmltag,enumitem,c,postinit) \
+    case sim_ui_scene3d_node_type_##enumitem: { \
         if(onlyTest) return (Qt3DCore::QNode *)1; \
-        ret = new c(parent); \
+        c *o = new c(parent); \
+        postinit \
         LOG_QT3D_CALL((boost::format("new %s(%x) -> %x") % #c % (void*)parent % ret).str()); \
-        break;
+        return o; \
+    } break;
 #define ENDTYPE
 #define PARAM_INT(xmlattr,m)
 #define PARAM_FLOAT(xmlattr,m)
@@ -330,7 +346,7 @@ Qt3DCore::QNode * Scene3D::nodeFactory(int type, Qt3DCore::QNode *parent, bool o
 #undef PARAM_VEC4
     }
 
-    return ret;
+    return 0L;
 }
 
 Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
@@ -367,6 +383,8 @@ Qt3DCore::QNode * Scene3D::addNode(int id, int parentId, int type)
     }
 
     nodeById_[id] = node;
+    nodeId_[node] = id;
+    Scene3D::nodeScene_[node] = this;
 
     return node;
 }
@@ -388,7 +406,7 @@ void Scene3D::enableNode(int id, bool enabled)
 
 #define BEGIN try { if(0) {
 #define END } else REPORT_INVALID_PARAMETER(param); } catch(std::exception &ex) {std::cout << "ERROR: failed to set param '" << param << "' of node " << id << ": " << ex.what() << std::endl;}
-#define TYPE(xmltag,enumitem,c) } else if(c *o = dynamic_cast<c*>(node)) { if(0){
+#define TYPE(xmltag,enumitem,c,postinit) } else if(c *o = dynamic_cast<c*>(node)) { if(0){
 #define ENDTYPE } else REPORT_INVALID_PARAMETER(param);
 #define PARAM_ON(x,m) } else if(param == x) { m
 #define PARAM_OFF
@@ -471,7 +489,7 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
     LOG_QT3D_CALL((boost::format("%x set %s = <%f, %f, %f>") % (void*)node % param % x % y % z).str());
 
     QVector3D vector(x, y, z);
-    QColor color(x, y, z);
+    QColor color((int)x, (int)y, (int)z);
 
     BEGIN
 #undef PARAM_VEC3

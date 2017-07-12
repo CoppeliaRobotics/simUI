@@ -568,6 +568,35 @@ void UIProxy::onPositionChanged(const QVector3D &position)
     std::cout << "Position changed: " << position.x() << ", " << position.y() << ", " << position.z() << std::endl;
 }
 
+void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
+{
+    ASSERT_THREAD(UI);
+    DBG << "[enter]" << std::endl;
+
+    if(Qt3DRender::QObjectPicker *obj = dynamic_cast<Qt3DRender::QObjectPicker*>(sender()))
+    {
+        Scene3D *scene3d = Scene3D::nodeScene(obj);
+        if(scene3d)
+        {
+            int objId = scene3d->nodeId(obj);
+            if(objId)
+            {
+                emit scene3DObjectClick(scene3d, objId);
+            }
+        }
+        else
+        {
+            DBG << "received QPickEvent but sender() is not associated with a Scene3D widget" << std::endl;
+        }
+    }
+    else
+    {
+        DBG << "received QPickEvent but sender() is not a QObjectPicker" << std::endl;
+    }
+
+    DBG << "[leave]" << std::endl;
+}
+
 // The following slots are wrappers for functions called from SIM thread
 // which should instead execute in the UI thread.
 

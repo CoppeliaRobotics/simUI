@@ -58,6 +58,7 @@ public slots:
     void onAnchorClicked(const QUrl &link);
     void onViewCenterChanged(const QVector3D &viewCenter);
     void onPositionChanged(const QVector3D &position);
+    void onScene3DObjectClicked(Qt3DRender::QPickEvent *pick);
     // ---
     void onSetStyleSheet(Widget *widget, std::string styleSheet);
     void onSetButtonText(Button *button, std::string text);
@@ -172,6 +173,7 @@ signals:
     void connectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
     void connectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
     void keyPressed(Widget *widget, int key, std::string text);
+    void scene3DObjectClick(Scene3D *scene3d, int id);
 };
 
 #endif // UIPROXY_H_INCLUDED

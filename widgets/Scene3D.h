@@ -40,6 +40,8 @@
 #include <Qt3DExtras/Qt3DWindow>
 #include <Qt3DExtras/QFirstPersonCameraController>
 #include <Qt3DExtras/QOrbitCameraController>
+#include <Qt3DRender/QObjectPicker>
+#include <Qt3DRender/QPickEvent>
 
 #include "tinyxml2.h"
 
@@ -56,7 +58,11 @@ struct Node;
 class Scene3D : public Widget
 {
 protected:
+    std::string onClick;
+
     std::map<int, Qt3DCore::QNode*> nodeById_;
+    std::map<Qt3DCore::QNode*, int> nodeId_;
+    static std::map<Qt3DCore::QNode*, Scene3D*> nodeScene_;
 
     std::vector<int> clearColor;
     std::vector<Node> nodes;
@@ -78,6 +84,8 @@ public:
 
     Qt3DCore::QNode * nodeById(int id, Qt3DCore::QNode *def);
     Qt3DCore::QNode * nodeById(int id);
+    int nodeId(Qt3DCore::QNode *node);
+    static Scene3D * nodeScene(Qt3DCore::QNode *node);
     bool nodeExists(int id);
     bool nodeTypeIsValid(int type);
 

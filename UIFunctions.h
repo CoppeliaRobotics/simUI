@@ -52,6 +52,7 @@ private slots:
     void onConnectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
     void onConnectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
     void onKeyPress(Widget *widget, int key, std::string text);
+    void onScene3DObjectClick(Scene3D *scene3d, int id);
 
 signals:
     void create(Proxy *proxy);

@@ -167,6 +167,7 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setScene3DVector2Param, uiproxy, &UIProxy::onSetScene3DVector2Param, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setScene3DVector3Param, uiproxy, &UIProxy::onSetScene3DVector3Param, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setScene3DVector4Param, uiproxy, &UIProxy::onSetScene3DVector4Param, Qt::BlockingQueuedConnection);
+    connect(uiproxy, &UIProxy::scene3DObjectClick, this, &UIFunctions::onScene3DObjectClick);
 }
 
 /**
@@ -619,5 +620,22 @@ void UIFunctions::onKeyPress(Widget *widget, int key, std::string text)
     in.text = text;
     onKeyPressCallback_out out;
     onKeyPressCallback(widget->proxy->getScriptID(), e->onKeyPress.c_str(), &in, &out);
+}
+
+void UIFunctions::onScene3DObjectClick(Scene3D *scene3d, int id)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, scene3d);
+
+    if(scene3d->proxy->scriptID == -1) return;
+
+    if(scene3d->onClick == "") return;
+
+    onScene3DObjectClickCallback_in in;
+    in.handle = scene3d->proxy->getHandle();
+    in.id = scene3d->id;
+    in.nodeId = id;
+    onScene3DObjectClickCallback_out out;
+    onScene3DObjectClickCallback(scene3d->proxy->getScriptID(), scene3d->onClick.c_str(), &in, &out);
 }
 
