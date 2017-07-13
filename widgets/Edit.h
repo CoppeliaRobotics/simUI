@@ -1,6 +1,8 @@
 #ifndef EDIT_H_INCLUDED
 #define EDIT_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <string>
 

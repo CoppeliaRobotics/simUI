@@ -1,6 +1,8 @@
 #ifndef PROGRESSBAR_H_INCLUDED
 #define PROGRESSBAR_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <string>
 

@@ -4,6 +4,7 @@
 
 #include "UIProxy.h"
 
+#include <QMouseEvent>
 #include <QLabel>
 
 #include "stubs.h"

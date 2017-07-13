@@ -1,6 +1,8 @@
 #ifndef WIDGET_H_INCLUDED
 #define WIDGET_H_INCLUDED
 
+#include "config.h"
+
 #include <stdexcept>
 #include <vector>
 #include <map>

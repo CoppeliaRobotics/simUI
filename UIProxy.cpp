@@ -17,6 +17,8 @@
 #include <QGroupBox>
 #include <QComboBox>
 #include <QDialog>
+#include <QTreeWidget>
+#include <QTextBrowser>
 
 #include "stubs.h"
 
@@ -86,6 +88,7 @@ void UIProxy::onCreate(Proxy *proxy)
 // That signal will be connected to a slot in UIFunctions, such
 // that the callback is called from the SIM thread.
 
+#if WIDGET_BUTTON || WIDGET_RADIOBUTTON
 void UIProxy::onButtonClick()
 {
     ASSERT_THREAD(UI);
@@ -103,7 +106,9 @@ void UIProxy::onButtonClick()
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_LABEL
 void UIProxy::onLinkActivated(const QString &link)
 {
     ASSERT_THREAD(UI);
@@ -121,6 +126,7 @@ void UIProxy::onLinkActivated(const QString &link)
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
 void UIProxy::onValueChangeInt(int value)
 {
@@ -176,6 +182,7 @@ void UIProxy::onValueChangeString(QString value)
     DBG << "[leave]" << std::endl;
 }
 
+#if WIDGET_EDIT
 void UIProxy::onEditingFinished()
 {
     ASSERT_THREAD(UI);
@@ -196,7 +203,9 @@ void UIProxy::onEditingFinished()
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_PLOT
 void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event)
 {
     ASSERT_THREAD(UI);
@@ -251,7 +260,9 @@ void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMou
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_TABLE
 void UIProxy::onCellActivate(int row, int col)
 {
     ASSERT_THREAD(UI);
@@ -302,7 +313,9 @@ void UIProxy::onTableSelectionChange()
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_TREE
 void UIProxy::onTreeSelectionChange()
 {
     ASSERT_THREAD(UI);
@@ -330,7 +343,9 @@ void UIProxy::onTreeSelectionChange()
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_IMAGE
 void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(UI);
@@ -340,7 +355,9 @@ void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_DATAFLOW
 void UIProxy::onNodeAdded(QDataflowModelNode *node)
 {
     ASSERT_THREAD(UI);
@@ -524,7 +541,9 @@ void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_TEXTBROWSER
 void UIProxy::onTextChanged()
 {
     ASSERT_THREAD(UI);
@@ -557,7 +576,9 @@ void UIProxy::onAnchorClicked(const QUrl &link)
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_SCENE3D
 void UIProxy::onViewCenterChanged(const QVector3D &viewCenter)
 {
     std::cout << "View center changed: " << viewCenter.x() << ", " << viewCenter.y() << ", " << viewCenter.z() << std::endl;
@@ -596,6 +617,7 @@ void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
 // The following slots are wrappers for functions called from SIM thread
 // which should instead execute in the UI thread.
@@ -639,6 +661,7 @@ void UIProxy::onSetStyleSheet(Widget *widget, std::string styleSheet)
     DBG << "[leave]" << std::endl;
 }
 
+#if WIDGET_BUTTON
 void UIProxy::onSetButtonText(Button *button, std::string text)
 {
     ASSERT_THREAD(UI);
@@ -658,6 +681,7 @@ void UIProxy::onSetButtonPressed(Button *button, bool pressed)
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
 void UIProxy::onShowWindow(Window *window)
 {
@@ -723,6 +747,7 @@ void UIProxy::onSetTitle(Window *window, std::string title)
     DBG << "[leave]" << std::endl;
 }
 
+#if WIDGET_IMAGE
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
     ASSERT_THREAD(UI);
@@ -734,6 +759,7 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
 void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 {
@@ -763,6 +789,7 @@ void UIProxy::onSetEnabled(Widget *widget, bool enabled)
     DBG << "[leave]" << std::endl;
 }
 
+#if WIDGET_EDIT
 void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
@@ -772,7 +799,9 @@ void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_SPINBOX
 void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
@@ -782,7 +811,9 @@ void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSig
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_LABEL
 void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
@@ -792,7 +823,9 @@ void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignal
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_HSLIDER || WIDGET_VSLIDER
 void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
@@ -802,7 +835,9 @@ void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_CHECKBOX
 void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
@@ -812,7 +847,9 @@ void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool 
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_RADIOBUTTON
 void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
@@ -822,7 +859,9 @@ void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool s
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_COMBOBOX
 void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
@@ -862,7 +901,9 @@ void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool sup
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
+#if WIDGET_TABS
 void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
@@ -872,6 +913,7 @@ void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
 
     DBG << "[leave]" << std::endl;
 }
+#endif
 
 void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
 {
@@ -887,6 +929,7 @@ void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
     DBG << "[leave]" << std::endl;
 }
 
+#if WIDGET_PLOT
 void UIProxy::onReplot(Plot *plot)
 {
     plot->replot(true);
@@ -997,7 +1040,9 @@ void UIProxy::onSetLegendVisibility(Plot *plot, bool visible)
 {
     plot->setLegendVisibility(visible);
 }
+#endif
 
+#if WIDGET_TABLE
 void UIProxy::onClearTable(Table *table, bool suppressSignals)
 {
     table->clear(suppressSignals);
@@ -1052,12 +1097,16 @@ void UIProxy::onSetTableSelection(Table *table, int row, int column, bool suppre
 {
     table->setSelection(row, column, suppressSignals);
 }
+#endif
 
+#if WIDGET_PROGRESSBAR
 void UIProxy::onSetProgress(Progressbar *progressbar, int value)
 {
     progressbar->setValue(value);
 }
+#endif
 
+#if WIDGET_TREE
 void UIProxy::onSetColumnCountTree(Tree *tree, int count, bool suppressSignals)
 {
     tree->setColumnCount(count, suppressSignals);
@@ -1122,7 +1171,9 @@ void UIProxy::onExpandToDepth(Tree *tree, int depth, bool suppressSignals)
 {
     tree->expandToDepth(depth, suppressSignals);
 }
+#endif
 
+#if WIDGET_DATAFLOW
 void UIProxy::onAddNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets)
 {
     dataflow->addNode(id, pos, text, inlets, outlets);
@@ -1167,7 +1218,9 @@ void UIProxy::onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, i
 {
     dataflow->removeConnection(srcId, srcOutlet, dstId, dstInlet);
 }
+#endif
 
+#if WIDGET_TEXTBROWSER
 void UIProxy::onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals)
 {
     textbrowser->setText(text, suppressSignals);
@@ -1177,7 +1230,9 @@ void UIProxy::onSetUrl(TextBrowser *textbrowser, std::string url)
 {
     textbrowser->setUrl(url);
 }
+#endif
 
+#if WIDGET_SCENE3D
 void UIProxy::onAddScene3DNode(Scene3D *scene3d, int id, int parentId, int type)
 {
     scene3d->addNode(id, parentId, type);
@@ -1222,4 +1277,5 @@ void UIProxy::onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string par
 {
     scene3d->setVector4Parameter(id, param, x, y, z, w);
 }
+#endif
 

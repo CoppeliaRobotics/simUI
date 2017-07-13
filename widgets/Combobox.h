@@ -1,6 +1,8 @@
 #ifndef COMBOBOX_H_INCLUDED
 #define COMBOBOX_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <string>
 

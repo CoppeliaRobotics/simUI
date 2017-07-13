@@ -1,6 +1,8 @@
 #ifndef LAYOUTWIDGET_H_INCLUDED
 #define LAYOUTWIDGET_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <map>
 #include <string>

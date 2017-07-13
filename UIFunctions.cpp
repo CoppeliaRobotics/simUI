@@ -55,38 +55,65 @@ void UIFunctions::connectSignals()
     UIProxy *uiproxy = UIProxy::getInstance();
     // connect signals/slots from UIProxy to UIFunctions and vice-versa
     connect(this, &UIFunctions::create, uiproxy, &UIProxy::onCreate, Qt::BlockingQueuedConnection);
+#if WIDGET_BUTTON
     connect(uiproxy, &UIProxy::buttonClick, this, &UIFunctions::onButtonClick);
+#endif
+#if WIDGET_LABEL
     connect(uiproxy, &UIProxy::linkActivated, this, &UIFunctions::onLinkActivated);
+#endif
     connect(uiproxy, &UIProxy::valueChangeInt, this, &UIFunctions::onValueChangeInt);
     connect(uiproxy, &UIProxy::valueChangeDouble, this, &UIFunctions::onValueChangeDouble);
     connect(uiproxy, &UIProxy::valueChangeString, this, &UIFunctions::onValueChangeString);
+#if WIDGET_EDIT
     connect(uiproxy, &UIProxy::editingFinished, this, &UIFunctions::onEditingFinished);
+#endif
     connect(uiproxy, &UIProxy::windowClose, this, &UIFunctions::onWindowClose);
     connect(this, &UIFunctions::destroy, uiproxy, &UIProxy::onDestroy, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setStyleSheet, uiproxy, &UIProxy::onSetStyleSheet, Qt::BlockingQueuedConnection);
+#if WIDGET_BUTTON
     connect(this, &UIFunctions::setButtonText, uiproxy, &UIProxy::onSetButtonText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setButtonPressed, uiproxy, &UIProxy::onSetButtonPressed, Qt::BlockingQueuedConnection);
+#endif
     connect(this, &UIFunctions::showWindow, uiproxy, &UIProxy::onShowWindow, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::hideWindow, uiproxy, &UIProxy::onHideWindow, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setPosition, uiproxy, &UIProxy::onSetPosition, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setSize, uiproxy, &UIProxy::onSetSize, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setTitle, uiproxy, &UIProxy::onSetTitle, Qt::BlockingQueuedConnection);
+#if WIDGET_IMAGE
     connect(this, &UIFunctions::setImage, uiproxy, &UIProxy::onSetImage, Qt::BlockingQueuedConnection);
     connect(uiproxy, &UIProxy::loadImageFromFile, this, &UIFunctions::onLoadImageFromFile);
+#endif
     connect(this, &UIFunctions::sceneChange, uiproxy, &UIProxy::onSceneChange, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setEnabled, uiproxy, &UIProxy::onSetEnabled, Qt::BlockingQueuedConnection);
+#if WIDGET_EDIT
     connect(this, &UIFunctions::setEditValue, uiproxy, &UIProxy::onSetEditValue, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_SPINBOX
     connect(this, &UIFunctions::setSpinboxValue, uiproxy, &UIProxy::onSetSpinboxValue, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_LABEL
     connect(this, &UIFunctions::setLabelText, uiproxy, &UIProxy::onSetLabelText, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_HSLIDER || WIDGET_VSLIDER
     connect(this, &UIFunctions::setSliderValue, uiproxy, &UIProxy::onSetSliderValue, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_CHECKBOX
     connect(this, &UIFunctions::setCheckboxValue, uiproxy, &UIProxy::onSetCheckboxValue, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_RADIOBUTTON
     connect(this, &UIFunctions::setRadiobuttonValue, uiproxy, &UIProxy::onSetRadiobuttonValue, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_COMBOBOX
     connect(this, &UIFunctions::insertComboboxItem, uiproxy, &UIProxy::onInsertComboboxItem, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::removeComboboxItem, uiproxy, &UIProxy::onRemoveComboboxItem, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setComboboxItems, uiproxy, &UIProxy::onSetComboboxItems, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setComboboxSelectedIndex, uiproxy, &UIProxy::onSetComboboxSelectedIndex, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TABS
     connect(this, &UIFunctions::setCurrentTab, uiproxy, &UIProxy::onSetCurrentTab, Qt::BlockingQueuedConnection);
+#endif
     connect(this, &UIFunctions::setWidgetVisibility, uiproxy, &UIProxy::onSetWidgetVisibility, Qt::BlockingQueuedConnection);
+#if WIDGET_PLOT
     connect(this, &UIFunctions::replot, uiproxy, &UIProxy::onReplot, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::addCurve, uiproxy, &UIProxy::onAddCurve, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::addCurveTimePoints, uiproxy, &UIProxy::onAddCurveTimePoints, Qt::BlockingQueuedConnection);
@@ -108,26 +135,54 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setLegendVisibility, uiproxy, &UIProxy::onSetLegendVisibility, Qt::BlockingQueuedConnection);
     connect(uiproxy, &UIProxy::plottableClick, this, &UIFunctions::onPlottableClick);
     connect(uiproxy, &UIProxy::legendClick, this, &UIFunctions::onLegendClick);
+#endif
+#if WIDGET_TABLE
     connect(uiproxy, &UIProxy::cellActivate, this, &UIFunctions::onCellActivate);
     connect(uiproxy, &UIProxy::tableSelectionChange, this, &UIFunctions::onSelectionChangeTable);
+#endif
+#if WIDGET_TREE
     connect(uiproxy, &UIProxy::treeSelectionChange, this, &UIFunctions::onSelectionChangeTree);
+#endif
+#if WIDGET_IMAGE
     connect(uiproxy, &UIProxy::mouseEvent, this, &UIFunctions::onMouseEvent);
+#endif
+#if WIDGET_TABLE
     connect(this, &UIFunctions::clearTable, uiproxy, &UIProxy::onClearTable, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setRowCount, uiproxy, &UIProxy::onSetRowCount, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnCountTable, uiproxy, &UIProxy::onSetColumnCountTable, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TREE
     connect(this, &UIFunctions::setColumnCountTree, uiproxy, &UIProxy::onSetColumnCountTree, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TABLE
     connect(this, &UIFunctions::setItem, uiproxy, &UIProxy::onSetItem, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setRowHeaderText, uiproxy, &UIProxy::onSetRowHeaderText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnHeaderTextTable, uiproxy, &UIProxy::onSetColumnHeaderTextTable, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TREE
     connect(this, &UIFunctions::setColumnHeaderTextTree, uiproxy, &UIProxy::onSetColumnHeaderTextTree, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TABLE
     connect(this, &UIFunctions::setItemEditable, uiproxy, &UIProxy::onSetItemEditable, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::restoreStateTable, uiproxy, &UIProxy::onRestoreStateTable, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TREE
     connect(this, &UIFunctions::restoreStateTree, uiproxy, &UIProxy::onRestoreStateTree, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TABLE
     connect(this, &UIFunctions::setRowHeight, uiproxy, &UIProxy::onSetRowHeight, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnWidthTable, uiproxy, &UIProxy::onSetColumnWidthTable, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TREE
     connect(this, &UIFunctions::setColumnWidthTree, uiproxy, &UIProxy::onSetColumnWidthTree, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TABLE
     connect(this, &UIFunctions::setTableSelection, uiproxy, &UIProxy::onSetTableSelection, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_PROGRESSBAR
     connect(this, &UIFunctions::setProgress, uiproxy, &UIProxy::onSetProgress, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_TREE
     connect(this, &UIFunctions::clearTree, uiproxy, &UIProxy::onClearTree, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::addTreeItem, uiproxy, &UIProxy::onAddTreeItem, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::updateTreeItemText, uiproxy, &UIProxy::onUpdateTreeItemText, Qt::BlockingQueuedConnection);
@@ -137,6 +192,8 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::expandAll, uiproxy, &UIProxy::onExpandAll, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::collapseAll, uiproxy, &UIProxy::onCollapseAll, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::expandToDepth, uiproxy, &UIProxy::onExpandToDepth, Qt::BlockingQueuedConnection);
+#endif
+#if WIDGET_DATAFLOW
     connect(this, &UIFunctions::addNode, uiproxy, &UIProxy::onAddNode, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::removeNode, uiproxy, &UIProxy::onRemoveNode, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setNodeValid, uiproxy, &UIProxy::onSetNodeValid, Qt::BlockingQueuedConnection);
@@ -155,9 +212,13 @@ void UIFunctions::connectSignals()
     connect(uiproxy, &UIProxy::nodeOutletCountChanged, this, &UIFunctions::onNodeOutletCountChanged);
     connect(uiproxy, &UIProxy::connectionAdded, this, &UIFunctions::onConnectionAdded);
     connect(uiproxy, &UIProxy::connectionRemoved, this, &UIFunctions::onConnectionRemoved);
+#endif
+#if WIDGET_TEXTBROWSER
     connect(this, &UIFunctions::setText, uiproxy, &UIProxy::onSetText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setUrl, uiproxy, &UIProxy::onSetUrl, Qt::BlockingQueuedConnection);
+#endif
     connect(uiproxy, &UIProxy::keyPressed, this, &UIFunctions::onKeyPress);
+#if WIDGET_SCENE3D
     connect(this, &UIFunctions::addScene3DNode, uiproxy, &UIProxy::onAddScene3DNode, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::removeScene3DNode, uiproxy, &UIProxy::onRemoveScene3DNode, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setScene3DNodeEnabled, uiproxy, &UIProxy::onSetScene3DNodeEnabled, Qt::BlockingQueuedConnection);
@@ -168,6 +229,7 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setScene3DVector3Param, uiproxy, &UIProxy::onSetScene3DVector3Param, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setScene3DVector4Param, uiproxy, &UIProxy::onSetScene3DVector4Param, Qt::BlockingQueuedConnection);
     connect(uiproxy, &UIProxy::scene3DObjectClick, this, &UIFunctions::onScene3DObjectClick);
+#endif
 }
 
 /**
@@ -181,6 +243,7 @@ void UIFunctions::connectSignals()
     if(!clazz::exists(p)) {DBG << "warning: " #clazz << p << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
     if(!p->proxy) return;
 
+#if WIDGET_BUTTON
 void UIFunctions::onButtonClick(Widget *widget)
 {
     ASSERT_THREAD(!UI);
@@ -197,7 +260,9 @@ void UIFunctions::onButtonClick(Widget *widget)
     onclickCallback_out out;
     onclickCallback(widget->proxy->scriptID, e->onclick.c_str(), &in, &out);
 }
+#endif
 
+#if WIDGET_LABEL
 void UIFunctions::onLinkActivated(Widget *widget, QString link)
 {
     ASSERT_THREAD(!UI);
@@ -215,18 +280,22 @@ void UIFunctions::onLinkActivated(Widget *widget, QString link)
     onLinkActivatedCallback_out out;
     onLinkActivatedCallback(widget->proxy->scriptID, e->onLinkActivated.c_str(), &in, &out);
 }
+#endif
 
 void UIFunctions::onValueChangeInt(Widget *widget, int value)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, widget);
 
+    EventOnChangeInt *ei = dynamic_cast<EventOnChangeInt*>(widget);
+    EventOnChangeDouble *ed = 0L;
+#if WIDGET_SPINBOX
     /* XXX: spinbox inherits EventOnChangeDouble; however, when float="false",
      *      it emits a valueChanged(int) signal. So we try to read here also
      *      for a EventOnChangeDouble handler here to cover for that case.
      */
-    EventOnChangeInt *ei = dynamic_cast<EventOnChangeInt*>(widget);
-    EventOnChangeDouble *ed = dynamic_cast<Spinbox*>(widget) ? dynamic_cast<EventOnChangeDouble*>(widget) : 0;
+    ed = dynamic_cast<Spinbox*>(widget) ? dynamic_cast<EventOnChangeDouble*>(widget) : 0;
+#endif
 
     if(!ei && !ed) return;
     std::string onchange = ei ? ei->onchange : ed->onchange;
@@ -276,6 +345,7 @@ void UIFunctions::onValueChangeString(Widget *widget, QString value)
     onchangeStringCallback(widget->proxy->scriptID, e->onchange.c_str(), &in, &out);
 }
 
+#if WIDGET_EDIT
 void UIFunctions::onEditingFinished(Edit *edit, QString value)
 {
     ASSERT_THREAD(!UI);
@@ -293,6 +363,7 @@ void UIFunctions::onEditingFinished(Edit *edit, QString value)
     oneditingfinishedCallback_out out;
     oneditingfinishedCallback(edit->proxy->scriptID, e->oneditingfinished.c_str(), &in, &out);
 }
+#endif
 
 void UIFunctions::onWindowClose(Window *window)
 {
@@ -305,6 +376,7 @@ void UIFunctions::onWindowClose(Window *window)
     oncloseCallback(window->proxy->getScriptID(), window->onclose.c_str(), &in, &out);
 }
 
+#if WIDGET_IMAGE
 void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
 {
     ASSERT_THREAD(!UI);
@@ -326,7 +398,9 @@ void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w,
         setImage(image, (simChar *)data, resolution[0], resolution[1]);
     }
 }
+#endif
 
+#if WIDGET_PLOT
 void UIFunctions::onPlottableClick(Plot *plot, std::string name, int index, double x, double y)
 {
     ASSERT_THREAD(!UI);
@@ -359,7 +433,9 @@ void UIFunctions::onLegendClick(Plot *plot, std::string name)
     onLegendClickCallback_out out;
     onLegendClickCallback(plot->proxy->getScriptID(), plot->onLegendClick.c_str(), &in, &out);
 }
+#endif
 
+#if WIDGET_TABLE
 void UIFunctions::onCellActivate(Table *table, int row, int col, std::string text)
 {
     ASSERT_THREAD(!UI);
@@ -392,7 +468,9 @@ void UIFunctions::onSelectionChangeTable(Table *table, int row, int col)
     onTableSelectionChangeCallback_out out;
     onTableSelectionChangeCallback(table->proxy->getScriptID(), table->onSelectionChange.c_str(), &in, &out);
 }
+#endif
 
+#if WIDGET_TREE
 void UIFunctions::onSelectionChangeTree(Tree *tree, int id)
 {
     ASSERT_THREAD(!UI);
@@ -407,7 +485,9 @@ void UIFunctions::onSelectionChangeTree(Tree *tree, int id)
     onTreeSelectionChangeCallback_out out;
     onTreeSelectionChangeCallback(tree->proxy->getScriptID(), tree->onSelectionChange.c_str(), &in, &out);
 }
+#endif
 
+#if WIDGET_IMAGE
 void UIFunctions::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(!UI);
@@ -440,7 +520,9 @@ void UIFunctions::onMouseEvent(Image *image, int type, bool shift, bool control,
     if(cb == "") return;
     onMouseEventCallback(image->proxy->getScriptID(), cb.c_str(), &in, &out);
 }
+#endif
 
+#if WIDGET_DATAFLOW
 void UIFunctions::onNodeAdded(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets)
 {
     ASSERT_THREAD(!UI);
@@ -601,6 +683,7 @@ void UIFunctions::onConnectionRemoved(Dataflow *dataflow, int srcNodeId, int src
     onConnectionRemovedCallback_out out;
     onConnectionRemovedCallback(dataflow->proxy->getScriptID(), dataflow->onConnectionRemoved.c_str(), &in, &out);
 }
+#endif
 
 void UIFunctions::onKeyPress(Widget *widget, int key, std::string text)
 {
@@ -622,6 +705,7 @@ void UIFunctions::onKeyPress(Widget *widget, int key, std::string text)
     onKeyPressCallback(widget->proxy->getScriptID(), e->onKeyPress.c_str(), &in, &out);
 }
 
+#if WIDGET_SCENE3D
 void UIFunctions::onScene3DObjectClick(Scene3D *scene3d, int id)
 {
     ASSERT_THREAD(!UI);
@@ -638,4 +722,5 @@ void UIFunctions::onScene3DObjectClick(Scene3D *scene3d, int id)
     onScene3DObjectClickCallback_out out;
     onScene3DObjectClickCallback(scene3d->proxy->getScriptID(), scene3d->onClick.c_str(), &in, &out);
 }
+#endif
 

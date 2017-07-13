@@ -1,6 +1,8 @@
 #ifndef VSLIDER_H_INCLUDED
 #define VSLIDER_H_INCLUDED
 
+#include "config.h"
+
 #include "Slider.h"
 
 class VSlider : public Slider

@@ -80,26 +80,64 @@ bool Widget::exists(Widget *w)
 Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
     std::string tag(e->Value());
+#if WIDGET_BUTTON
     if(tag == "button") return parse1<Button>(parent, widgets, e);
+#endif // WIDGET_BUTTON
+#if WIDGET_EDIT
     if(tag == "edit") return parse1<Edit>(parent, widgets, e);
+#endif // WIDGET_EDIT
+#if WIDGET_HSLIDER
     if(tag == "hslider") return parse1<HSlider>(parent, widgets, e);
+#endif // WIDGET_HSLIDER
+#if WIDGET_VSLIDER
     if(tag == "vslider") return parse1<VSlider>(parent, widgets, e);
+#endif // WIDGET_VSLIDER
+#if WIDGET_LABEL
     if(tag == "label") return parse1<Label>(parent, widgets, e);
+#endif // WIDGET_LABEL
+#if WIDGET_CHECKBOX
     if(tag == "checkbox") return parse1<Checkbox>(parent, widgets, e);
+#endif // WIDGET_CHECKBOX
+#if WIDGET_RADIOBUTTON
     if(tag == "radiobutton") return parse1<Radiobutton>(parent, widgets, e);
+#endif // WIDGET_RADIOBUTTON
+#if WIDGET_SPINBOX
     if(tag == "spinbox") return parse1<Spinbox>(parent, widgets, e);
+#endif // WIDGET_SPINBOX
+#if WIDGET_COMBOBOX
     if(tag == "combobox") return parse1<Combobox>(parent, widgets, e);
+#endif // WIDGET_COMBOBOX
+#if WIDGET_GROUP
     if(tag == "group") return parse1<Group>(parent, widgets, e);
+#endif // WIDGET_GROUP
+#if WIDGET_TABS
     if(tag == "tabs") return parse1<Tabs>(parent, widgets, e);
+#endif // WIDGET_TABS
     if(tag == "stretch") return parse1<Stretch>(parent, widgets, e);
+#if WIDGET_IMAGE
     if(tag == "image") return parse1<Image>(parent, widgets, e);
+#endif // WIDGET_IMAGE
+#if WIDGET_PLOT
     if(tag == "plot") return parse1<Plot>(parent, widgets, e);
+#endif // WIDGET_PLOT
+#if WIDGET_TABLE
     if(tag == "table") return parse1<Table>(parent, widgets, e);
+#endif // WIDGET_TABLE
+#if WIDGET_TREE
     if(tag == "tree") return parse1<Tree>(parent, widgets, e);
+#endif // WIDGET_TREE
+#if WIDGET_PROGRESSBAR
     if(tag == "progressbar") return parse1<Progressbar>(parent, widgets, e);
+#endif // WIDGET_PROGRESSBAR
+#if WIDGET_DATAFLOW
     if(tag == "dataflow") return parse1<Dataflow>(parent, widgets, e);
+#endif // WIDGET_DATAFLOW
+#if WIDGET_TEXTBROWSER
     if(tag == "text-browser") return parse1<TextBrowser>(parent, widgets, e);
+#endif // WIDGET_TEXTBROWSER
+#if WIDGET_SCENE3D
     if(tag == "scene3d") return parse1<Scene3D>(parent, widgets, e);
+#endif // WIDGET_SCENE3D
 
     throw std::range_error((boost::format("invalid element <%s>") % tag).str());
 }

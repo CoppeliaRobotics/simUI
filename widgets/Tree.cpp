@@ -8,6 +8,7 @@
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 
+#include <QHeaderView>
 #include <QTreeWidget>
 
 Tree::Tree()

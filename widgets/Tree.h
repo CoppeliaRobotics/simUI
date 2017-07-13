@@ -1,6 +1,8 @@
 #ifndef TREE_H_INCLUDED
 #define TREE_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <map>
 #include <string>

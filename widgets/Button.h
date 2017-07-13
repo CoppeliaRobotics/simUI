@@ -1,6 +1,8 @@
 #ifndef BUTTON_H_INCLUDED
 #define BUTTON_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <string>
 

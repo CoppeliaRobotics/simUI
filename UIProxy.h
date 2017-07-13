@@ -1,6 +1,8 @@
 #ifndef UIPROXY_H_INCLUDED
 #define UIPROXY_H_INCLUDED
 
+#include "config.h"
+
 #include <map>
 
 #include <QObject>
@@ -33,18 +35,42 @@ public:
 public slots:
     void onDestroy(Proxy *proxy);
     void onCreate(Proxy *proxy);
+
+#if WIDGET_BUTTON || WIDGET_RADIOBUTTON
     void onButtonClick();
+#endif
+
+#if WIDGET_LABEL
     void onLinkActivated(const QString &link);
+#endif
+
     void onValueChangeInt(int value);
     void onValueChangeDouble(double value);
     void onValueChangeString(QString value);
+
+#if WIDGET_EDIT
     void onEditingFinished();
+#endif
+
+#if WIDGET_PLOT
     void onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event);
     void onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event);
+#endif
+
+#if WIDGET_TABLE
     void onCellActivate(int row, int col);
     void onTableSelectionChange();
+#endif
+
+#if WIDGET_TREE
     void onTreeSelectionChange();
+#endif
+
+#if WIDGET_IMAGE
     void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+#endif
+
+#if WIDGET_DATAFLOW
     void onNodeAdded(QDataflowModelNode *node);
     void onNodeRemoved(QDataflowModelNode *node);
     void onNodeValidChanged(QDataflowModelNode *node, bool valid);
@@ -54,35 +80,79 @@ public slots:
     void onNodeOutletCountChanged(QDataflowModelNode *node, int count);
     void onConnectionAdded(QDataflowModelConnection *conn);
     void onConnectionRemoved(QDataflowModelConnection *conn);
+#endif
+
+#if WIDGET_TEXTBROWSER
     void onTextChanged();
     void onAnchorClicked(const QUrl &link);
+#endif
+
+#if WIDGET_SCENE3D
     void onViewCenterChanged(const QVector3D &viewCenter);
     void onPositionChanged(const QVector3D &position);
     void onScene3DObjectClicked(Qt3DRender::QPickEvent *pick);
+#endif
+
     // ---
+
     void onSetStyleSheet(Widget *widget, std::string styleSheet);
+
+#if WIDGET_BUTTON
     void onSetButtonText(Button *button, std::string text);
     void onSetButtonPressed(Button *button, bool pressed);
+#endif
+
     void onShowWindow(Window *window);
     void onHideWindow(Window *window);
     void onSetPosition(Window *window, int x, int y);
     void onSetSize(Window *window, int w, int h);
     void onSetTitle(Window *window, std::string title);
+
+#if WIDGET_IMAGE
     void onSetImage(Image *image, const char *data, int w, int h);
+#endif
+
     void onSceneChange(Window *window, int oldSceneID, int newSceneID);
     void onSetEnabled(Widget *widget, bool enabled);
+
+#if WIDGET_EDIT
     void onSetEditValue(Edit *edit, std::string value, bool suppressSignals);
+#endif
+
+#if WIDGET_SPINBOX
     void onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals);
+#endif
+
+#if WIDGET_LABEL
     void onSetLabelText(Label *label, std::string text, bool suppressSignals);
+#endif
+
+#if WIDGET_HSLIDER || WIDGET_VSLIDER
     void onSetSliderValue(Slider *slider, int value, bool suppressSignals);
+#endif
+
+#if WIDGET_CHECKBOX
     void onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals);
+#endif
+
+#if WIDGET_RADIOBUTTON
     void onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals);
+#endif
+
+#if WIDGET_COMBOBOX
     void onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals);
     void onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals);
     void onSetComboboxItems(Combobox *combobox, std::vector<std::string> items, int index, bool suppressSignals);
     void onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals);
+#endif
+
+#if WIDGET_TABS
     void onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals);
+#endif
+
     void onSetWidgetVisibility(Widget *widget, bool visible);
+
+#if WIDGET_PLOT
     void onReplot(Plot *plot);
     void onAddCurve(Plot *plot, int type, std::string name, std::vector<int> color, int style, curve_options *opts);
     void onAddCurveTimePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y);
@@ -102,6 +172,9 @@ public slots:
     void onRescaleAxesAll(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY);
     void onSetMouseOptions(Plot *plot, bool panX, bool panY, bool zoomX, bool zoomY);
     void onSetLegendVisibility(Plot *plot, bool visible);
+#endif
+
+#if WIDGET_TABLE
     void onClearTable(Table *table, bool suppressSignals);
     void onSetRowCount(Table *table, int count, bool suppressSignals);
     void onSetColumnCountTable(Table *table, int count, bool suppressSignals);
@@ -113,7 +186,13 @@ public slots:
     void onSetRowHeight(Table *table, int row, int min_size, int max_size);
     void onSetColumnWidthTable(Table *table, int column, int min_size, int max_size);
     void onSetTableSelection(Table *table, int row, int column, bool suppressSignals);
+#endif
+
+#if WIDGET_PROGRESSBAR
     void onSetProgress(Progressbar *progressbar, int value);
+#endif
+
+#if WIDGET_TREE
     void onSetColumnCountTree(Tree *tree, int count, bool suppressSignals);
     void onSetColumnHeaderTextTree(Tree *tree, int column, std::string text);
     void onRestoreStateTree(Tree *tree, std::string state);
@@ -127,6 +206,9 @@ public slots:
     void onExpandAll(Tree *tree, bool suppressSignals);
     void onCollapseAll(Tree *tree, bool suppressSignals);
     void onExpandToDepth(Tree *tree, int depth, bool suppressSignals);
+#endif
+
+#if WIDGET_DATAFLOW
     void onAddNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets);
     void onRemoveNode(Dataflow *dataflow, int id);
     void onSetNodeValid(Dataflow *dataflow, int id, bool valid);
@@ -136,8 +218,14 @@ public slots:
     void onSetNodeOutletCount(Dataflow *dataflow, int id, int count);
     void onAddConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
     void onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
+#endif
+
+#if WIDGET_TEXTBROWSER
     void onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
     void onSetUrl(TextBrowser *textbrowser, std::string url);
+#endif
+
+#if WIDGET_SCENE3D
     void onAddScene3DNode(Scene3D *scene3d, int id, int parentId, int type);
     void onRemoveScene3DNode(Scene3D *scene3d, int id);
     void onSetScene3DNodeEnabled(Scene3D *scene3d, int id, bool enabled);
@@ -147,6 +235,7 @@ public slots:
     void onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y);
     void onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z);
     void onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w);
+#endif
 
 signals:
     void buttonClick(Widget *widget);
@@ -154,15 +243,33 @@ signals:
     void valueChangeInt(Widget *widget, int value);
     void valueChangeDouble(Widget *widget, double value);
     void valueChangeString(Widget *widget, QString value);
+
+#if WIDGET_EDIT
     void editingFinished(Edit *edit, QString value);
+#endif
+
     void windowClose(Window *window);
+
+#if WIDGET_IMAGE
     void loadImageFromFile(Image *image, const char *filename, int w, int h);
+    void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+#endif
+
+#if WIDGET_PLOT
     void plottableClick(Plot *plot, std::string name, int index, double x, double y);
     void legendClick(Plot *plot, std::string name);
+#endif
+
+#if WIDGET_TABLE
     void cellActivate(Table *table, int row, int col, std::string value);
     void tableSelectionChange(Table *table, int row, int col);
+#endif
+
+#if WIDGET_TREE
     void treeSelectionChange(Tree *tree, int id);
-    void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+#endif
+
+#if WIDGET_DATAFLOW
     void nodeAdded(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets);
     void nodeRemoved(Dataflow *dataflow, int id);
     void nodeValidChanged(Dataflow *dataflow, int id, bool valid);
@@ -172,8 +279,13 @@ signals:
     void nodeOutletCountChanged(Dataflow *dataflow, int id, int outlets);
     void connectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
     void connectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
+#endif
+
     void keyPressed(Widget *widget, int key, std::string text);
+
+#if WIDGET_SCENE3D
     void scene3DObjectClick(Scene3D *scene3d, int id);
+#endif
 };
 
 #endif // UIPROXY_H_INCLUDED

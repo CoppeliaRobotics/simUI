@@ -1,6 +1,8 @@
 #ifndef TABS_H_INCLUDED
 #define TABS_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <string>
 

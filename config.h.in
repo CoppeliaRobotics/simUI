@@ -1,1 +1,27 @@
-#cmakedefine ENABLE_SIGNAL_SPY 1
+#ifndef CONFIG_H_INCLUDED
+#define CONFIG_H_INCLUDED
+
+#cmakedefine ENABLE_SIGNAL_SPY
+
+#cmakedefine01 WIDGET_BUTTON
+#cmakedefine01 WIDGET_CHECKBOX
+#cmakedefine01 WIDGET_COMBOBOX
+#cmakedefine01 WIDGET_DATAFLOW
+#cmakedefine01 WIDGET_EDIT
+#cmakedefine01 WIDGET_GROUP
+#cmakedefine01 WIDGET_HSLIDER
+#cmakedefine01 WIDGET_IMAGE
+#cmakedefine01 WIDGET_LABEL
+#cmakedefine01 WIDGET_PLOT
+#cmakedefine01 WIDGET_PROGRESSBAR
+#cmakedefine01 WIDGET_RADIOBUTTON
+#cmakedefine01 WIDGET_SCENE3D
+#cmakedefine01 WIDGET_SPINBOX
+#cmakedefine01 WIDGET_TABLE
+#cmakedefine01 WIDGET_TABS
+#cmakedefine01 WIDGET_TEXTBROWSER
+#cmakedefine01 WIDGET_TREE
+#cmakedefine01 WIDGET_VSLIDER
+
+#endif // CONFIG_H_INCLUDED
+

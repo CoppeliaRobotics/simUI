@@ -1,6 +1,8 @@
 #ifndef WINDOW_H_INCLUDED
 #define WINDOW_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <map>
 #include <set>

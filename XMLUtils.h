@@ -1,6 +1,8 @@
 #ifndef XMLUTILS_H_INCLUDED
 #define XMLUTILS_H_INCLUDED
 
+#include "config.h"
+
 #include <string>
 #include <vector>
 #include <set>

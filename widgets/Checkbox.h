@@ -1,6 +1,8 @@
 #ifndef CHECKBOX_H_INCLUDED
 #define CHECKBOX_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <string>
 

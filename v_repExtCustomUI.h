@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include "config.h"
+
 #ifdef _WIN32
 	#define VREP_DLLEXPORT extern "C" __declspec(dllexport)
 #endif /* _WIN32 */

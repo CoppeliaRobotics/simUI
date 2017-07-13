@@ -1,6 +1,8 @@
 #ifndef DEBUG_H_INCLUDED
 #define DEBUG_H_INCLUDED
 
+#include "config.h"
+
 #include <iostream>
 
 #include <QThread>

@@ -1,6 +1,8 @@
 #ifndef PROXY_H_INCLUDED
 #define PROXY_H_INCLUDED
 
+#include "config.h"
+
 #include <map>
 #include <set>
 

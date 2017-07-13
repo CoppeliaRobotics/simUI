@@ -1,11 +1,14 @@
 #ifndef SCENE3D_H_INCLUDED
 #define SCENE3D_H_INCLUDED
 
+#include "config.h"
+
 #include <vector>
 #include <map>
 #include <string>
 
 #include <QWidget>
+#include <QScreen>
 
 #include <QtCore/QObject>
 
