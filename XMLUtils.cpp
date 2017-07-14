@@ -8,6 +8,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 #include <set>
+#include <vector>
 
 #include "v_repLib.h"
 
@@ -401,37 +402,42 @@ std::vector<int> xmlutils::getAttrIntV(tinyxml2::XMLElement *e, std::string name
     }
 }
 
-namespace xmlutils { static std::set<std::string> knownAttributes; };
+namespace xmlutils { static std::vector<std::set<std::string> > knownAttributes; };
 
 void xmlutils::resetKnownAttributes()
 {
-    knownAttributes.clear();
+    knownAttributes.push_back(std::set<std::string>());
 }
 
 void xmlutils::markKnownAttribute(std::string a)
 {
-    knownAttributes.insert(a);
+    if(knownAttributes.size())
+        knownAttributes.back().insert(a);
 }
 
 #include <iostream>
 
 std::set<std::string> xmlutils::getUnknownAttributes(tinyxml2::XMLElement *e)
 {
+    if(knownAttributes.size() == 0)
+        return std::set<std::string>();
+    std::set<std::string> &knownAttributes1 = knownAttributes.back();
     std::set<std::string> ret;
     for(const tinyxml2::XMLAttribute *a = e->FirstAttribute(); a; a = a->Next())
     {
         std::string attr(a->Name());
-        if(knownAttributes.find(attr) == knownAttributes.end())
+        if(knownAttributes1.find(attr) == knownAttributes1.end())
             ret.insert(attr);
     }
+    knownAttributes.pop_back();
     return ret;
 }
 
-void xmlutils::reportUnknownAttributes(tinyxml2::XMLElement *e)
+void xmlutils::reportUnknownAttributes(const std::string &widget, tinyxml2::XMLElement *e)
 {
     BOOST_FOREACH(const std::string &a, getUnknownAttributes(e))
     {
-        simAddStatusbarMessage((boost::format("WARNING: unknown UI XML attribute: %s") % a).str().c_str());
+        simAddStatusbarMessage((boost::format("WARNING: unknown UI XML attribute '%s' in widget '%s'") % a % widget).str().c_str());
     }
 }
 

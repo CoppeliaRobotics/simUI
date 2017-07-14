@@ -77,7 +77,7 @@ T * Widget::parse1(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     {
         xmlutils::resetKnownAttributes();
         obj->parse(parent, widgets, e);
-        xmlutils::reportUnknownAttributes(e);
+        xmlutils::reportUnknownAttributes(obj->widgetClass, e);
 
         // object parsed successfully
         // now check if ID is duplicate:
