@@ -50,8 +50,8 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     button->setAutoRepeatDelay(auto_repeat_delay);
     button->setAutoRepeatInterval(auto_repeat_interval);
     button->setCheckable(checkable);
-    button->setChecked(checked);
     button->setAutoExclusive(auto_exclusive);
+    button->setChecked(checked);
     QObject::connect(button, &QPushButton::clicked, uiproxy, &UIProxy::onButtonClick);
     setQWidget(button);
     setProxy(proxy);

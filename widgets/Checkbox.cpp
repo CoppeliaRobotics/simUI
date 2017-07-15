@@ -36,9 +36,9 @@ QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
     checkbox->setEnabled(enabled);
     checkbox->setVisible(visible);
     checkbox->setStyleSheet(QString::fromStdString(style));
-    checkbox->setChecked(checked);
     checkbox->setCheckable(checkable);
     checkbox->setAutoExclusive(auto_exclusive);
+    checkbox->setChecked(checked);
     QObject::connect(checkbox, &QCheckBox::stateChanged, uiproxy, &UIProxy::onValueChangeInt);
     setQWidget(checkbox);
     setProxy(proxy);
