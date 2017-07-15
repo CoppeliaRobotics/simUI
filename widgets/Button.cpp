@@ -29,6 +29,8 @@ void Button::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 
     auto_repeat_interval = xmlutils::getAttrInt(e, "auto-repeat-interval", 200);
 
+    checked = xmlutils::getAttrBool(e, "checked", false);
+
     checkable = xmlutils::getAttrBool(e, "checkable", false);
 
     auto_exclusive = xmlutils::getAttrBool(e, "auto-exclusive", false);
@@ -48,6 +50,7 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     button->setAutoRepeatDelay(auto_repeat_delay);
     button->setAutoRepeatInterval(auto_repeat_interval);
     button->setCheckable(checkable);
+    button->setChecked(checked);
     button->setAutoExclusive(auto_exclusive);
     QObject::connect(button, &QPushButton::clicked, uiproxy, &UIProxy::onButtonClick);
     setQWidget(button);

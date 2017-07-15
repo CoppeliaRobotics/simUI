@@ -25,6 +25,7 @@ protected:
     int auto_repeat_delay;
     int auto_repeat_interval;
     bool checkable;
+    bool checked;
     bool auto_exclusive;
 
 public:
