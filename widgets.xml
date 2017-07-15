@@ -136,6 +136,12 @@
                 <description>If true, the button is checkable.</description>
             </attribute>
             <attribute>
+                <name>checked</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, the button is initially checked.</description>
+            </attribute>
+            <attribute>
                 <name>auto-exclusive</name>
                 <type>bool</type>
                 <default>false</default>
