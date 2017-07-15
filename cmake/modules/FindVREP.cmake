@@ -33,38 +33,36 @@ set(VREP_EXPORTED_SOURCES "${VREP_COMMON}/v_repLib.cpp")
 
 set(VREP_VERSION_CHECK_SRC "${CMAKE_BINARY_DIR}/vrep_version_check.cpp")
 set(VREP_VERSION_CHECK_BIN "${CMAKE_BINARY_DIR}/vrep_version_check")
-file(WRITE ${VREP_VERSION_CHECK_SRC} "#include <iostream>\n#include <v_repConst.h>\nint main(){std::cout << VREP_PROGRAM_VERSION_NB;}")
+file(WRITE ${VREP_VERSION_CHECK_SRC} "
+#include <iostream>
+#include <v_repConst.h>
+int main() {
+    char sep = ';';
+    std::cout
+        << VREP_PROGRAM_VERSION_NB/10000 << sep
+        << VREP_PROGRAM_VERSION_NB/100%100 << sep
+        << VREP_PROGRAM_VERSION_NB%100 << sep
+        << VREP_PROGRAM_REVISION_NB << sep
+        << 0 << std::endl;
+}
+")
 message(STATUS "Checking V-REP header version...")
-try_run(VREP_VERSION_RUN_RESULT VREP_VERSION_COMPILE_RESULT ${VREP_VERSION_CHECK_BIN} ${VREP_VERSION_CHECK_SRC} CMAKE_FLAGS -DINCLUDE_DIRECTORIES=${VREP_INCLUDE} RUN_OUTPUT_VARIABLE VREP_VERSION_NUM)
+try_run(VREP_VERSION_RUN_RESULT VREP_VERSION_COMPILE_RESULT ${VREP_VERSION_CHECK_BIN} ${VREP_VERSION_CHECK_SRC} CMAKE_FLAGS -DINCLUDE_DIRECTORIES=${VREP_INCLUDE} RUN_OUTPUT_VARIABLE VREP_VERSION_CHECK_OUTPUT)
 if(${VREP_VERSION_COMPILE_RESULT})
     if(${VREP_VERSION_RUN_RESULT} EQUAL 0)
-        #message(STATUS "V-REP header version ${VREP_VERSION_NUM}")
-        math(EXPR VREP_VERSION_MAJOR ${VREP_VERSION_NUM}/10000)
-        math(EXPR VREP_VERSION_MINOR ${VREP_VERSION_NUM}/100%100)
-        math(EXPR VREP_VERSION_PATCH ${VREP_VERSION_NUM}%100)
+        list(GET VREP_VERSION_CHECK_OUTPUT 0 VREP_VERSION_MAJOR)
+        list(GET VREP_VERSION_CHECK_OUTPUT 1 VREP_VERSION_MINOR)
+        list(GET VREP_VERSION_CHECK_OUTPUT 2 VREP_VERSION_PATCH)
+        list(GET VREP_VERSION_CHECK_OUTPUT 3 VREP_REVISION)
+        set(VREP_VERSION "${VREP_VERSION_MAJOR}.${VREP_VERSION_MINOR}.${VREP_VERSION_PATCH}.${VREP_REVISION}")
+        set(VREP_VERSION_STR "${VREP_VERSION_MAJOR}.${VREP_VERSION_MINOR}.${VREP_VERSION_PATCH} rev${VREP_REVISION}")
+        message(STATUS "V-REP headers version ${VREP_VERSION_STR}")
     else()
         message(FATAL_ERROR "Failed to run V-REP version check program")
     endif()
 else()
     message(FATAL_ERROR "Failed to compile V-REP version check program")
 endif()
-
-set(VREP_REVISION_CHECK_SRC "${CMAKE_BINARY_DIR}/vrep_revision_check.cpp")
-set(VREP_REVISION_CHECK_BIN "${CMAKE_BINARY_DIR}/vrep_revision_check")
-file(WRITE ${VREP_REVISION_CHECK_SRC} "#include <iostream>\n#include <v_repConst.h>\nint main(){std::cout << VREP_PROGRAM_REVISION_NB;}")
-message(STATUS "Checking V-REP header revision...")
-try_run(VREP_REVISION_RUN_RESULT VREP_REVISION_COMPILE_RESULT ${VREP_REVISION_CHECK_BIN} ${VREP_REVISION_CHECK_SRC} CMAKE_FLAGS -DINCLUDE_DIRECTORIES=${VREP_INCLUDE} RUN_OUTPUT_VARIABLE VREP_REVISION)
-if(${VREP_REVISION_COMPILE_RESULT})
-    if(${VREP_REVISION_RUN_RESULT} EQUAL 0)
-        #message(STATUS "V-REP header revision ${VREP_REVISION}")
-    else()
-        message(FATAL_ERROR "Failed to run V-REP revision check program")
-    endif()
-else()
-    message(FATAL_ERROR "Failed to compile V-REP revision check program")
-endif()
-
-message(STATUS "V-REP header version ${VREP_VERSION_MAJOR}.${VREP_VERSION_MINOR}.${VREP_VERSION_PATCH} rev${VREP_REVISION}")
 
 if(WIN32)
     add_definitions(-DWIN_VREP)
