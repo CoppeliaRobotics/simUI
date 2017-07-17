@@ -734,7 +734,7 @@
                 <name>on-click</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the click event. Arguments of the function are: (uiHandle, id).</description>
+                <description>Name of a Lua function to handle the click event. Arguments of the function are: (uiHandle, id, nodeId).</description>
             </attribute>
         </attributes>
     </element>
