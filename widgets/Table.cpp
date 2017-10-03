@@ -191,7 +191,7 @@ void Table::setItemImage(int row, int column, std::string data, int width, int h
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
     QImage image((unsigned char *)data.data(), width, height, bpp * width, format);
-    item->setData(Qt::DecorationRole, QPixmap::fromImage(image));
+    item->setData(Qt::DecorationRole, QPixmap::fromImage(image.mirrored()));
     tablewidget->setItem(row, column, item);
     tablewidget->blockSignals(oldSignalsState);
 }
