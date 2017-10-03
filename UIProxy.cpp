@@ -1063,6 +1063,11 @@ void UIProxy::onSetItem(Table *table, int row, int column, std::string text, boo
     table->setItem(row, column, text, suppressSignals);
 }
 
+void UIProxy::onSetItemImage(Table *table, int row, int column, std::string data, int width, int height, bool suppressSignals)
+{
+    table->setItemImage(row, column, data, width, height, suppressSignals);
+}
+
 void UIProxy::onSetRowHeaderText(Table *table, int row, std::string text)
 {
     table->setRowHeaderText(row, text);

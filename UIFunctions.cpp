@@ -156,6 +156,7 @@ void UIFunctions::connectSignals()
 #endif
 #if WIDGET_TABLE
     connect(this, &UIFunctions::setItem, uiproxy, &UIProxy::onSetItem, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setItemImage, uiproxy, &UIProxy::onSetItemImage, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setRowHeaderText, uiproxy, &UIProxy::onSetRowHeaderText, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setColumnHeaderTextTable, uiproxy, &UIProxy::onSetColumnHeaderTextTable, Qt::BlockingQueuedConnection);
 #endif

@@ -174,6 +174,7 @@ signals:
     void setRowCount(Table *table, int count, bool suppressSignals);
     void setColumnCountTable(Table *table, int count, bool suppressSignals);
     void setItem(Table *table, int row, int col, std::string text, bool suppressSignals);
+    void setItemImage(Table *table, int row, int col, std::string data, int width, int height, bool suppressSignals);
     void setRowHeaderText(Table *table, int row, std::string text);
     void setColumnHeaderTextTable(Table *table, int col, std::string text);
     void setItemEditable(Table *table, int row, int col, bool editable);

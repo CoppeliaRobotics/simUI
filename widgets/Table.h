@@ -53,6 +53,7 @@ public:
     void setRowCount(int count, bool suppressSignals);
     void setColumnCount(int count, bool suppressSignals);
     void setItem(int row, int column, std::string text, bool suppressSignals);
+    void setItemImage(int row, int column, std::string data, int width, int height, bool suppressSignals);
     int getRowCount();
     int getColumnCount();
     std::string getItem(int row, int column);

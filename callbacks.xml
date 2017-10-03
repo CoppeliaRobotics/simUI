@@ -1652,6 +1652,41 @@
         <return>
         </return>
     </command>
+    <command name="setItemImage">
+        <description>Change item image in the specified table widget.</description>
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="row" type="int">
+                <description>row index</description>
+            </param>
+            <param name="column" type="int">
+                <description>column index</description>
+            </param>
+            <param name="data" type="string">
+                <description>image data</description>
+            </param>
+            <param name="width" type="int">
+                <description>image width</description>
+            </param>
+            <param name="height" type="int">
+                <description>image height</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="getRowCount">
         <description>Get the table widget number of rows.</description>
         <categories>

@@ -841,6 +841,14 @@ void setItem(SScriptCallBack *p, const char *cmd, setItem_in *in, setItem_out *o
 #endif
 }
 
+void setItemImage(SScriptCallBack *p, const char *cmd, setItemImage_in *in, setItemImage_out *out)
+{
+#if WIDGET_TABLE
+    Table *table = getWidget<Table>(in->handle, in->id, cmd, "table");
+    UIFunctions::getInstance()->setItemImage(table, in->row, in->column, in->data, in->width, in->height, in->suppressEvents);
+#endif
+}
+
 void getRowCount(SScriptCallBack *p, const char *cmd, getRowCount_in *in, getRowCount_out *out)
 {
 #if WIDGET_TABLE

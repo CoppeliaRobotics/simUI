@@ -48,7 +48,7 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
                 std::string tag2(e2->Value() ? e2->Value() : "");
                 if(tag2 != "item") continue;
                 TableItem item;
-                item.text = std::string(e2->GetText());
+                item.text = std::string(e2->GetText() ? e2->GetText() : "");
                 item.editable = xmlutils::getAttrBool(e2, "editable", true);
                 rows[rows.size()-1].push_back(item);
             }
@@ -177,7 +177,22 @@ void Table::setItem(int row, int column, std::string text, bool suppressSignals)
 {
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
     bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
-    tablewidget->setItem(row, column, new QTableWidgetItem(QString::fromStdString(text)));
+    QTableWidgetItem *item = new QTableWidgetItem;
+    item->setText(QString::fromStdString(text));
+    tablewidget->setItem(row, column, item);
+    tablewidget->blockSignals(oldSignalsState);
+}
+
+void Table::setItemImage(int row, int column, std::string data, int width, int height, bool suppressSignals)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
+    QTableWidgetItem *item = new QTableWidgetItem;
+    QImage::Format format = QImage::Format_RGB888;
+    int bpp = 3; // bytes per pixel
+    QImage image((unsigned char *)data.data(), width, height, bpp * width, format);
+    item->setData(Qt::DecorationRole, QPixmap::fromImage(image));
+    tablewidget->setItem(row, column, item);
     tablewidget->blockSignals(oldSignalsState);
 }
 
