@@ -156,15 +156,14 @@ std::map<int, QDataflowModelNode*>::iterator Dataflow::findNode(int id)
 
 void Dataflow::addNode(int id, QPoint pos, QString text, int inlets, int outlets)
 {
-    QDataflowModelNode *node = new QDataflowModelNode(model(), pos, text, inlets, outlets);
+    QDataflowModelNode *node = model()->create(pos, text, inlets, outlets);
     mapNode(node, id);
-    model()->addNode(node);
 }
 
 void Dataflow::removeNode(int id)
 {
     QDataflowModelNode *node = getNode(id);
-    model()->removeNode(node);
+    model()->remove(node);
     unmapNode(node);
 }
 
@@ -231,12 +230,12 @@ int Dataflow::getNodeOutletCount(int id)
 void Dataflow::addConnection(int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet)
 {
     QDataflowModelNode *src = getNode(srcNodeId), *dst = getNode(dstNodeId);
-    model()->addConnection(src->outlet(srcOutlet), dst->inlet(dstInlet));
+    model()->connect(src, srcOutlet, dst, dstInlet);
 }
 
 void Dataflow::removeConnection(int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet)
 {
     QDataflowModelNode *src = getNode(srcNodeId), *dst = getNode(dstNodeId);
-    model()->removeConnection(src->outlet(srcOutlet), dst->inlet(dstInlet));
+    model()->disconnect(src, srcOutlet, dst, dstInlet);
 }
 
