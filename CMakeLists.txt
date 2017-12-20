@@ -151,3 +151,5 @@ endif()
 add_library(v_repExtCustomUI SHARED ${SOURCES})
 target_link_libraries(v_repExtCustomUI ${LIBRARIES})
 
+install(TARGETS v_repExtCustomUI DESTINATION ${VREP_ROOT})
+
