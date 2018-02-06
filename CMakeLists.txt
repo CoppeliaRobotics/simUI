@@ -67,11 +67,12 @@ set(SOURCES
     XMLUtils.cpp
     debug.cpp
     tinyxml2.cpp
-    v_repExtCustomUI.cpp
+    plugin.cpp
     widgets/Event.cpp
     widgets/LayoutWidget.cpp
     widgets/Widget.cpp
     widgets/Window.cpp
+    ${CMAKE_SOURCE_DIR}/external/v_repPlusPlus/Plugin.cpp
     ${CMAKE_BINARY_DIR}/generated/stubs.cpp
     ${VREP_EXPORTED_SOURCES}
 )
