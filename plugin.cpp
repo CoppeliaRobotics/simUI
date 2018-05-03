@@ -1292,6 +1292,8 @@ class Plugin : public vrep::Plugin
 public:
     void onStart()
     {
+        oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
+
         if(simGetMainWindow(1) == NULL)
             throw std::runtime_error("doesn't work in headless mode");
 
@@ -1337,7 +1339,7 @@ public:
 
 private:
     bool firstInstancePass = true;
-    int oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
+    int oldSceneID = -1;
 };
 
 VREP_PLUGIN(PLUGIN_NAME, PLUGIN_VERSION, Plugin)
