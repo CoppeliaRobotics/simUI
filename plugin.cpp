@@ -1317,11 +1317,10 @@ public:
         UIProxy::destroyInstance();
     }
 
-    void onInstancePass(bool objectsErased, bool objectsCreated, bool modelLoaded, bool sceneLoaded, bool undoCalled, bool redoCalled, bool sceneSwitched, bool editModeActive, bool objectsScaled, bool selectionStateChanged, bool keyPressed, bool simulationStarted, bool simulationEnded, bool scriptCreated, bool scriptErased)
+    void onInstancePass(const vrep::InstancePassFlags &flags, bool first)
     {
-        if(firstInstancePass)
+        if(first)
         {
-            firstInstancePass = false;
             UIFunctions::getInstance(); // construct UIFunctions here (SIM thread)
         }
     }
@@ -1338,7 +1337,6 @@ public:
     }
 
 private:
-    bool firstInstancePass = true;
     int oldSceneID = -1;
 };
 
