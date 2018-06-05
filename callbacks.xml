@@ -512,6 +512,28 @@
         <return>
         </return>
     </command>
+    <command name="getComboboxSelectedIndex">
+        <description>Get the selected item index in a combobox widget.</description>
+        <categories>
+            <category name="combobox" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <see-also>
+        </see-also>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="index" type="int">
+                <description>Index of selected item after inserting all the items.</description>
+            </param>
+        </return>
+    </command>
     <command name="setComboboxSelectedIndex">
         <description>Change the selected item index in a combobox widget.</description>
         <categories>

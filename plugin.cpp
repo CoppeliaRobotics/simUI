@@ -336,6 +336,15 @@ void setComboboxSelectedIndex(SScriptCallBack *p, const char *cmd, setComboboxSe
 #endif
 }
 
+void getComboboxSelectedIndex(SScriptCallBack *p, const char *cmd, getComboboxSelectedIndex_in *in, getComboboxSelectedIndex_out *out)
+{
+#if WIDGET_COMBOBOX
+    ASSERT_THREAD(!UI);
+    Combobox *combobox = getWidget<Combobox>(in->handle, in->id, cmd, "combobox");
+    out->index = combobox->getSelectedIndex();
+#endif
+}
+
 void hide(SScriptCallBack *p, const char *cmd, hide_in *in, hide_out *out)
 {
     ASSERT_THREAD(!UI);
