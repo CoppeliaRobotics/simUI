@@ -160,7 +160,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     if(qwidget_size.isValid())
         window->resize(qwidget_size);
     window->show();
-#ifdef LIN_VREP
+#if defined(LIN_VREP) || defined(MAC_VREP)
     if(!resizable) window->setFixedSize(window->size());
 #endif
     if(placement == "relative")
