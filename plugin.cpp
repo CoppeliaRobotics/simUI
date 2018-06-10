@@ -1309,6 +1309,9 @@ public:
         if(!registerScriptStuff())
             throw std::runtime_error("failed to register script stuff");
 
+        simSetModuleInfo(PLUGIN_NAME, 0, "Custom User-Interface Plugin", 0);
+        simSetModuleInfo(PLUGIN_NAME, 1, __DATE__, 0);
+
 #include "lua_calltips.cpp"
 
 #if defined(ENABLE_SIGNAL_SPY) && defined(DEBUG)
