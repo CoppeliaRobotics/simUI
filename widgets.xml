@@ -153,6 +153,12 @@
                 <default />
                 <description>Name of a Lua function to handle the click event. Arguments of the function are: (uiHandle, id).</description>
             </attribute>
+            <attribute>
+                <name>icon</name>
+                <type>string</type>
+                <default />
+                <description>Name of a icon to use. The only icon name scheme supported is default://SP_xxx where SP_xxx is a constant from http://doc.qt.io/qt-5/qstyle.html#StandardPixmap-enum</description>
+            </attribute>
         </attributes>
     </element>
     <element>

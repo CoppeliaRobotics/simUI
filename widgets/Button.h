@@ -27,6 +27,7 @@ protected:
     bool checkable;
     bool checked;
     bool auto_exclusive;
+    std::string icon;
 
 public:
     Button();

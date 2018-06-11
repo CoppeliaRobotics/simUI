@@ -36,6 +36,8 @@ void Button::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     auto_exclusive = xmlutils::getAttrBool(e, "auto-exclusive", false);
 
     onclick = xmlutils::getAttrStr(e, "on-click", "");
+
+    icon = xmlutils::getAttrStr(e, "icon", "");
 }
 
 QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
@@ -52,6 +54,20 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     button->setCheckable(checkable);
     button->setAutoExclusive(auto_exclusive);
     button->setChecked(checked);
+    if(!icon.empty())
+    {
+        QIcon qicon;
+        if(icon.substr(0, 10) == "default://")
+        {
+            icon = icon.substr(10);
+            QStyle::StandardPixmap sp = QStyle::SP_MessageBoxQuestion;
+            if(0) {}
+#define M(n) else if(icon == #n) sp = QStyle::n
+#include "StandardIcons.h"
+#undef M(n)
+            button->setIcon(button->style()->standardIcon(sp));
+        }
+    }
     QObject::connect(button, &QPushButton::clicked, uiproxy, &UIProxy::onButtonClick);
     setQWidget(button);
     setProxy(proxy);
