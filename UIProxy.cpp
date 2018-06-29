@@ -144,47 +144,33 @@ void UIProxy::onFileDialog(int type, std::string title, std::string startPath, s
     QString qinitName = QString::fromStdString(initName);
     QString qextName = QString::fromStdString(extName);
     QString qext = QString::fromStdString(ext);
-
-    QString filter;
     QStringList extNames = qextName.split(";");
     QStringList exts = qext.split(";");
+    QString filter;
     for(int i = 0; i < std::min(extNames.length(), exts.length()); i++)
-    {
-        if(i) filter += ";;";
-        filter += extNames[i];
-        filter += " (*.";
-        filter += exts[i];
-        filter += ")";
-    }
-
+        filter += QString("%1%2 (*.%3)").arg(i ? ";;" : "").arg(extNames[i]).arg(exts[i]);
     QFileDialog::Options opts = QFileDialog::DontUseNativeDialog;
+    QString file;
+    QStringList files;
 
     switch(type)
     {
     case sim_ui_filedialog_type_load:
-        {
-            QString fileName = QFileDialog::getOpenFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
-            result->push_back(fileName.toStdString());
-        }
+        file = QFileDialog::getOpenFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
+        result->push_back(file.toStdString());
         break;
     case sim_ui_filedialog_type_load_multiple:
-        {
-            QStringList files = QFileDialog::getOpenFileNames(nullptr, qtitle, qstartPath, filter, nullptr, opts);
-            for(auto file : files)
-                result->push_back(file.toStdString());
-        }
+        files = QFileDialog::getOpenFileNames(nullptr, qtitle, qstartPath, filter, nullptr, opts);
+        for(auto file : files)
+            result->push_back(file.toStdString());
         break;
     case sim_ui_filedialog_type_save:
-        {
-            QString fileName2 = QFileDialog::getSaveFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
-            result->push_back(fileName2.toStdString());
-        }
+        file = QFileDialog::getSaveFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
+        result->push_back(file.toStdString());
         break;
     case sim_ui_filedialog_type_folder:
-        {
-            QString dir = QFileDialog::getExistingDirectory(nullptr, qtitle, qstartPath, opts | QFileDialog::ShowDirsOnly);
-            result->push_back(dir.toStdString());
-        }
+        file = QFileDialog::getExistingDirectory(nullptr, qtitle, qstartPath, opts | QFileDialog::ShowDirsOnly);
+        result->push_back(file.toStdString());
         break;
     }
 }
