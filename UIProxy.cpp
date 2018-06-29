@@ -153,11 +153,11 @@ void UIProxy::onFileDialog(int type, std::string title, std::string startPath, s
     }
     QString qextName = QString::fromStdString(extName);
     QString qext = QString::fromStdString(ext);
-    QStringList extNames = qextName.split(";");
     QStringList exts = qext.split(";");
-    QString filter;
-    for(int i = 0; i < std::min(extNames.length(), exts.length()); i++)
-        filter += QString("%1%2 (*.%3)").arg(i ? ";;" : "").arg(extNames[i]).arg(exts[i]);
+    QString filter = qextName + " (";
+    for(int i = 0; i < exts.length(); i++)
+        filter += QString("%1*.%2").arg(i ? " " : "").arg(exts[i]);
+    filter += ")";
     QFileDialog::Options opts = QFileDialog::DontUseNativeDialog;
     QString file;
     QStringList files;
