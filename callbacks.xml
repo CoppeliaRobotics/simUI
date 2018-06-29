@@ -1000,28 +1000,28 @@
         </return>
     </command>
     <enum name="msgbox_type" item-prefix="msgbox_type_" base="10100">
-        <item name="info" />
-        <item name="question" />
-        <item name="warning" />
-        <item name="critical" />
+        <item name="info" value="sim_msgbox_type_info" />
+        <item name="question" value="sim_msgbox_type_question" />
+        <item name="warning" value="sim_msgbox_type_warning" />
+        <item name="critical" value="sim_msgbox_type_critical" />
     </enum>
     <enum name="msgbox_buttons" item-prefix="msgbox_buttons_" base="10300">
-        <item name="ok" />
-        <item name="yesno" />
-        <item name="yesnocancel" />
-        <item name="okcancel" />
+        <item name="ok" value="sim_msgbox_buttons_ok" />
+        <item name="yesno" value="sim_msgbox_buttons_yesno" />
+        <item name="yesnocancel" value="sim_msgbox_buttons_yesnocancel" />
+        <item name="okcancel" value="sim_msgbox_buttons_okcancel" />
     </enum>
     <enum name="msgbox_result" item-prefix="msgbox_result_" base="10500">
-        <item name="cancel" />
-        <item name="no" />
-        <item name="yes" />
-        <item name="ok" />
+        <item name="cancel" value="sim_msgbox_return_cancel" />
+        <item name="no" value="sim_msgbox_return_no" />
+        <item name="yes" value="sim_msgbox_return_yes" />
+        <item name="ok" value="sim_msgbox_return_ok" />
     </enum>
     <enum name="filedialog_type" item-prefix="filedialog_type_" base="10700">
-        <item name="load" />
-        <item name="load_multiple" />
-        <item name="save" />
-        <item name="folder" />
+        <item name="load" value="sim_filedlg_type_load" />
+        <item name="load_multiple" value="sim_filedlg_type_load_multiple" />
+        <item name="save" value="sim_filedlg_type_save" />
+        <item name="folder" value="sim_filedlg_type_folder" />
     </enum>
     <enum name="curve_type" item-prefix="curve_type_" base="20400">
         <item name="time">
