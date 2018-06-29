@@ -38,6 +38,26 @@
 #include "signal_spy.h"
 #endif
 
+void msgBox(SScriptCallBack *p, const char *cmd, msgBox_in *in, msgBox_out *out)
+{
+    ASSERT_THREAD(!UI);
+    DBG << "[enter]" << std::endl;
+    int result;
+    UIFunctions::getInstance()->msgBox(in->type, in->buttons, in->title, in->message, &result);
+    out->result = result;
+    DBG << "[leave]" << std::endl;
+}
+
+void fileDialog(SScriptCallBack *p, const char *cmd, fileDialog_in *in, fileDialog_out *out)
+{
+    ASSERT_THREAD(!UI);
+    DBG << "[enter]" << std::endl;
+    std::vector<std::string> result;
+    UIFunctions::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, &result);
+    for(auto x : result) out->result.push_back(x);
+    DBG << "[leave]" << std::endl;
+}
+
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
     ASSERT_THREAD(!UI);

@@ -54,6 +54,8 @@ void UIFunctions::connectSignals()
 {
     UIProxy *uiproxy = UIProxy::getInstance();
     // connect signals/slots from UIProxy to UIFunctions and vice-versa
+    connect(this, &UIFunctions::msgBox, uiproxy, &UIProxy::onMsgBox, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::fileDialog, uiproxy, &UIProxy::onFileDialog, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::create, uiproxy, &UIProxy::onCreate, Qt::BlockingQueuedConnection);
 #if WIDGET_BUTTON
     connect(uiproxy, &UIProxy::buttonClick, this, &UIFunctions::onButtonClick);

@@ -33,6 +33,8 @@ public:
     static simFloat wheelZoomFactor;
 
 public slots:
+    void onMsgBox(int type, int buttons, std::string title, std::string message, int *result);
+    void onFileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, std::vector<std::string> *result);
     void onDestroy(Proxy *proxy);
     void onCreate(Proxy *proxy);
 

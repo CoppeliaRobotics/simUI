@@ -2,6 +2,8 @@
 #include "debug.h"
 
 #include <QThread>
+#include <QMessageBox>
+#include <QFileDialog>
 #include <QWidget>
 #include <QPixmap>
 #include <QImage>
@@ -69,6 +71,122 @@ void UIProxy::destroyInstance()
     }
 
     DBG << "[leave]" << std::endl;
+}
+
+void UIProxy::onMsgBox(int type, int buttons, std::string title, std::string message, int *result)
+{
+    ASSERT_THREAD(UI);
+
+    QString qtitle = QString::fromStdString(title);
+    QString qmessage = QString::fromStdString(message);
+
+    QMessageBox msgBox;
+    msgBox.setText(qtitle);
+    msgBox.setInformativeText(qmessage);
+    switch(type)
+    {
+    case sim_ui_msgbox_type_info:
+        msgBox.setIcon(QMessageBox::Information);
+        break;
+    case sim_ui_msgbox_type_question:
+        msgBox.setIcon(QMessageBox::Question);
+        break;
+    case sim_ui_msgbox_type_warning:
+        msgBox.setIcon(QMessageBox::Warning);
+        break;
+    case sim_ui_msgbox_type_critical:
+        msgBox.setIcon(QMessageBox::Critical);
+        break;
+    }
+    switch(buttons)
+    {
+    case sim_ui_msgbox_buttons_ok:
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        break;
+    case sim_ui_msgbox_buttons_yesno:
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        break;
+    case sim_ui_msgbox_buttons_yesnocancel:
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        break;
+    case sim_ui_msgbox_buttons_okcancel:
+        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        break;
+    }
+    int ret = msgBox.exec();
+    switch(ret)
+    {
+    case QMessageBox::Ok:
+        *result = sim_ui_msgbox_result_ok;
+        break;
+    case QMessageBox::Cancel:
+        *result = sim_ui_msgbox_result_cancel;
+        break;
+    case QMessageBox::Yes:
+        *result = sim_ui_msgbox_result_yes;
+        break;
+    case QMessageBox::No:
+        *result = sim_ui_msgbox_result_no;
+        break;
+    }
+}
+
+void UIProxy::onFileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, std::vector<std::string> *result)
+{
+    ASSERT_THREAD(UI);
+
+    QString qtitle = QString::fromStdString(title);
+    QString qstartPath = QString::fromStdString(startPath);
+    QString qinitName = QString::fromStdString(initName);
+    QString qextName = QString::fromStdString(extName);
+    QString qext = QString::fromStdString(ext);
+
+    QString filter;
+    QStringList extNames = qextName.split(";");
+    QStringList exts = qext.split(";");
+    for(int i = 0; i < std::min(extNames.length(), exts.length()); i++)
+    {
+        if(i) filter += ";;";
+        filter += extNames[i];
+        filter += " (*.";
+        filter += exts[i];
+        filter += ")";
+    }
+
+    QFileDialog::Options opts = QFileDialog::DontUseNativeDialog;
+
+    switch(type)
+    {
+    case sim_ui_filedialog_type_load:
+        {
+            QString fileName = QFileDialog::getOpenFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
+            result->push_back(fileName.toStdString());
+        }
+        break;
+    case sim_ui_filedialog_type_load_multiple:
+        {
+            QStringList files = QFileDialog::getOpenFileNames(nullptr, qtitle, qstartPath, filter, nullptr, opts);
+            for(auto file : files)
+                result->push_back(file.toStdString());
+        }
+        break;
+    case sim_ui_filedialog_type_save:
+        {
+            QString fileName2 = QFileDialog::getSaveFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
+            result->push_back(fileName2.toStdString());
+        }
+        break;
+    case sim_ui_filedialog_type_folder:
+        {
+            QString dir = QFileDialog::getExistingDirectory(nullptr, qtitle, qstartPath, opts | QFileDialog::ShowDirsOnly);
+            result->push_back(dir.toStdString());
+        }
+        break;
+    }
 }
 
 void UIProxy::onCreate(Proxy *proxy)

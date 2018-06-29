@@ -89,6 +89,8 @@ private slots:
 #endif
 
 signals:
+    void msgBox(int type, int buttons, std::string title, std::string message, int *result);
+    void fileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, std::vector<std::string> *result);
     void create(Proxy *proxy);
     void destroy(Proxy *proxy);
     void setStyleSheet(Widget *widget, std::string styleSheet);

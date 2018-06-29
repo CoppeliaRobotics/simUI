@@ -3,6 +3,56 @@
 
 <plugin name="CustomUI" short-name="UI" author="federico.ferri.it@gmail.com">
     <description>API functions for creating custom user interfaces.</description>
+    <command name="msgBox">
+        <description>Display a message box.</description>
+        <params>
+            <param name="type" type="int">
+                <description>type</description>
+            </param>
+            <param name="buttons" type="int">
+                <description>buttons</description>
+            </param>
+            <param name="title" type="string">
+                <description>title</description>
+            </param>
+            <param name="message" type="string">
+                <description>message</description>
+            </param>
+        </params>
+        <return>
+            <param name="result" type="int">
+                <description>result</description>
+            </param>
+        </return>
+    </command>
+    <command name="fileDialog">
+        <description>Display a file dialog.</description>
+        <params>
+            <param name="type" type="int">
+                <description>type</description>
+            </param>
+            <param name="title" type="string">
+                <description>title</description>
+            </param>
+            <param name="startPath" type="string">
+                <description>start path</description>
+            </param>
+            <param name="initName" type="string">
+                <description>initial file name</description>
+            </param>
+            <param name="extName" type="string">
+                <description>the name of the extension</description>
+            </param>
+            <param name="ext" type="string">
+                <description>the actual extension</description>
+            </param>
+        </params>
+        <return>
+            <param name="result" type="table" item-type="string">
+                <description>result</description>
+            </param>
+        </return>
+    </command>
     <command name="create">
         <description>Create a window.</description>
         <categories>
@@ -949,6 +999,30 @@
         <return>
         </return>
     </command>
+    <enum name="msgbox_type" item-prefix="msgbox_type_" base="10100">
+        <item name="info" />
+        <item name="question" />
+        <item name="warning" />
+        <item name="critical" />
+    </enum>
+    <enum name="msgbox_buttons" item-prefix="msgbox_buttons_" base="10300">
+        <item name="ok" />
+        <item name="yesno" />
+        <item name="yesnocancel" />
+        <item name="okcancel" />
+    </enum>
+    <enum name="msgbox_result" item-prefix="msgbox_result_" base="10500">
+        <item name="cancel" />
+        <item name="no" />
+        <item name="yes" />
+        <item name="ok" />
+    </enum>
+    <enum name="filedialog_type" item-prefix="filedialog_type_" base="10700">
+        <item name="load" />
+        <item name="load_multiple" />
+        <item name="save" />
+        <item name="folder" />
+    </enum>
     <enum name="curve_type" item-prefix="curve_type_" base="20400">
         <item name="time">
             <description>a curve with an X-simple domain, i.e. <em>y = f(x)</em></description>
