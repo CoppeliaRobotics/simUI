@@ -142,6 +142,15 @@ void UIProxy::onFileDialog(int type, std::string title, std::string startPath, s
     QString qtitle = QString::fromStdString(title);
     QString qstartPath = QString::fromStdString(startPath);
     QString qinitName = QString::fromStdString(initName);
+    if(qinitName != "")
+    {
+        if(qstartPath.length() > 0)
+        {
+            QChar c = qstartPath[qstartPath.length() - 1];
+            if(c != '/' && c != '\\') qstartPath += "/";
+            qstartPath += qinitName;
+        }
+    }
     QString qextName = QString::fromStdString(extName);
     QString qext = QString::fromStdString(ext);
     QStringList extNames = qextName.split(";");
