@@ -68,6 +68,7 @@ set(SOURCES
     debug.cpp
     tinyxml2.cpp
     plugin.cpp
+    c.cpp
     widgets/Event.cpp
     widgets/LayoutWidget.cpp
     widgets/Widget.cpp
