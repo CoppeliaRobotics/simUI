@@ -16,7 +16,7 @@ VREP_DLLEXPORT int msgBox(int type, int buttons, const char *title, const char *
     return out.result;
 }
 
-VREP_DLLEXPORT char * fileDialog(int type, const char *title, const char *startPath, const char *initName, const char *extName, const char *ext)
+VREP_DLLEXPORT char * fileDialog(int type, const char *title, const char *startPath, const char *initName, const char *extName, const char *ext, int native)
 {
     fileDialog_in in;
     in.type = type;
@@ -25,6 +25,7 @@ VREP_DLLEXPORT char * fileDialog(int type, const char *title, const char *startP
     in.initName = initName;
     in.extName = extName;
     in.ext = ext;
+    in.native = !!native;
 
     fileDialog_out out;
 

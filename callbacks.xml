@@ -46,6 +46,9 @@
             <param name="ext" type="string">
                 <description>the actual extension</description>
             </param>
+            <param name="native" type="bool" default="false">
+                <description>use OS-native file dialogs</description>
+            </param>
         </params>
         <return>
             <param name="result" type="table" item-type="string">

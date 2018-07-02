@@ -53,7 +53,7 @@ void fileDialog(SScriptCallBack *p, const char *cmd, fileDialog_in *in, fileDial
     ASSERT_THREAD(!UI);
     DBG << "[enter]" << std::endl;
     std::vector<std::string> result;
-    UIFunctions::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, &result);
+    UIFunctions::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
     for(auto x : result) out->result.push_back(x);
     DBG << "[leave]" << std::endl;
 }

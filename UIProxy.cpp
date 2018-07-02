@@ -140,7 +140,7 @@ void UIProxy::onMsgBox(int type, int buttons, std::string title, std::string mes
     }
 }
 
-void UIProxy::onFileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, std::vector<std::string> *result)
+void UIProxy::onFileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, bool native, std::vector<std::string> *result)
 {
     ASSERT_THREAD(UI);
 
@@ -163,7 +163,8 @@ void UIProxy::onFileDialog(int type, std::string title, std::string startPath, s
     for(int i = 0; i < exts.length(); i++)
         filter += QString("%1*.%2").arg(i ? " " : "").arg(exts[i]);
     filter += ")";
-    QFileDialog::Options opts = QFileDialog::DontUseNativeDialog;
+    QFileDialog::Options opts;
+    if(!native) opts |= QFileDialog::DontUseNativeDialog;
     QString file;
     QStringList files;
 
