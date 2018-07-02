@@ -81,8 +81,13 @@ void UIProxy::onMsgBox(int type, int buttons, std::string title, std::string mes
     QString qmessage = QString::fromStdString(message);
 
     QMessageBox msgBox;
+#ifdef MAC_VREP
     msgBox.setText(qtitle);
     msgBox.setInformativeText(qmessage);
+#else
+    msgBox.setWindowTitle(qtitle);
+    msgBox.setText(qmessage);
+#endif
     switch(type)
     {
     case sim_ui_msgbox_type_info:
