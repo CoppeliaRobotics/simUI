@@ -60,4 +60,32 @@ function simUI.removeTableColumn(ui,widget,index)
     simUI.setColumnCount(ui,widget,cols-1)
 end
 
+--@fun setScene3DNodeParam polymorphic version of the onSetScene3DNodeXXXParam() functions
+--@arg int ui the ui handle
+--@arg int widget the widget identifier
+--@arg int nodeId the node id
+--@arg string paramName the parameter name
+--@arg anything paramValue the parameter value
+function simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue)
+    if type(paramValue)=='number' then
+        if math.floor(paramValue)==paramValue then
+            simUI.setScene3DNodeIntParam(ui,widget,nodeId,paramName,paramValue)
+        else
+            simUI.setScene3DNodeFloatParam(ui,widget,nodeId,paramName,paramValue)
+        end
+    elseif type(paramValue)=='string' then
+        simUI.setScene3DNodeStringParam(ui,widget,nodeId,paramName,paramValue)
+    elseif type(paramValue)=='table' then
+        if #paramValue==2 then
+            simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue[1],paramValue[2])
+        elseif #paramValue==3 then
+            simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue[1],paramValue[2],paramValue[3])
+        elseif #paramValue==4 then
+            simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue[1],paramValue[2],paramValue[3],paramValue[4])
+        end
+    else
+        error(string.format('unsupported value type: %s', type(paramValue)))
+    end
+end
+
 return simUI
