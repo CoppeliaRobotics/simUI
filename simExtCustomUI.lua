@@ -1,6 +1,6 @@
 local simUI={}
 
---@fun insertTableRow
+--@fun insertTableRow insert a row in a table widget
 --@arg int ui the ui handle
 --@arg int widget the widget identifier
 --@arg int index the index (0-based) where the new row will appear
@@ -15,7 +15,7 @@ function simUI.insertTableRow(ui,widget,index)
     end
 end
 
---@fun removeTableRow
+--@fun removeTableRow remove a row from a table widget
 --@arg int ui the ui handle
 --@arg int widget the widget identifier
 --@arg int index the row index (0-based) to remove
@@ -30,7 +30,7 @@ function simUI.removeTableRow(ui,widget,index)
     simUI.setRowCount(ui,widget,rows-1)
 end
 
---@fun insertTableColumn
+--@fun insertTableColumn insert a column in a table widget
 --@arg int ui the ui handle
 --@arg int widget the widget identifier
 --@arg int index the index (0-based) where the new column will appear
@@ -45,7 +45,7 @@ function simUI.insertTableColumn(ui,widget,index)
     end
 end
 
---@fun removeTableColumn
+--@fun removeTableColumn remove a column from a table widget
 --@arg int ui the ui handle
 --@arg int widget the widget identifier
 --@arg int index the column index (0-based) to remove
