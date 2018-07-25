@@ -64,7 +64,7 @@ int main() {
             if(NOT VREP_FIND_QUIETLY)
                 message(STATUS "V-REP headers version ${VREP_VERSION_STR}")
             endif()
-            if(DEFINED ${VREP_FIND_VERSION})
+            if(DEFINED VREP_FIND_VERSION)
                 if(${VREP_VERSION} VERSION_LESS ${VREP_FIND_VERSION})
                     message(FATAL_ERROR "Found V-REP version ${VREP_VERSION} but ${VREP_FIND_VERSION} required.")
                 endif()
