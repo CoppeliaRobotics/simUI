@@ -64,7 +64,7 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
             if(0) {}
 #define M(n) else if(icon == #n) sp = QStyle::n
 #include "StandardIcons.h"
-#undef M(n)
+#undef M
             button->setIcon(button->style()->standardIcon(sp));
         }
     }
