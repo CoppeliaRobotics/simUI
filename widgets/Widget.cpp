@@ -17,20 +17,20 @@ Widget::Widget(std::string widgetClass_)
     // don't do this here because id is set by user:
     // Widget::widgets[id] = this;
 
-    DBG << "this=" << this << ", widgetClass=" << widgetClass << std::endl;
+    DEBUG_OUT << "this=" << this << ", widgetClass=" << widgetClass << std::endl;
 }
 
 Widget::~Widget()
 {
     Widget::widgets.erase(this);
 
-    DBG << "this=" << this << ", id=" << id << ", widgetClass=" << widgetClass << std::endl;
+    DEBUG_OUT << "this=" << this << ", id=" << id << ", widgetClass=" << widgetClass << std::endl;
 
     // this should be destroyed from the UI thread
 
     if(qwidget)
     {
-        //DBG << this << "  delete 'qwidget' member (deleteLater())" << std::endl;
+        //DEBUG_OUT << this << "  delete 'qwidget' member (deleteLater())" << std::endl;
 
         //qwidget->deleteLater();
 

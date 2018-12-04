@@ -49,7 +49,7 @@ void SignalSpy::signal(QObject *caller, int signalIndex, void **)
         int index = signalToMethodIndex(caller->metaObject(), signalIndex);
         if(index >= 0)
         {
-            DBG << caller << callerNickname(caller) << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
+            DEBUG_OUT << caller << callerNickname(caller) << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
         }
     }
 }
@@ -60,7 +60,7 @@ void SignalSpy::slot(QObject *caller, int index, void **)
     QScopedValueRollback<bool> roll(entered.localData(), true);
     if(spyCondition(caller))
     {
-        DBG << caller << callerNickname(caller) << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
+        DEBUG_OUT << caller << callerNickname(caller) << " :: " << caller->metaObject()->method(index).methodSignature() << std::endl;
     }
 }
 

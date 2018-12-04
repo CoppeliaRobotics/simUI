@@ -41,27 +41,27 @@
 void msgBox(SScriptCallBack *p, const char *cmd, msgBox_in *in, msgBox_out *out)
 {
     ASSERT_THREAD(!UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
     int result;
     UIFunctions::getInstance()->msgBox(in->type, in->buttons, in->title, in->message, &result);
     out->result = result;
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void fileDialog(SScriptCallBack *p, const char *cmd, fileDialog_in *in, fileDialog_out *out)
 {
     ASSERT_THREAD(!UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
     std::vector<std::string> result;
     UIFunctions::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
     for(auto x : result) out->result.push_back(x);
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
 {
     ASSERT_THREAD(!UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
     tinyxml2::XMLDocument xmldoc;
     tinyxml2::XMLError error = xmldoc.Parse(in->xml.c_str(), in->xml.size());
 
@@ -95,35 +95,35 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
         destroy = true;
 
     int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
-    DBG << "Creating a new Proxy object... (destroy at simulation end = " << (destroy ? "true" : "false") << ")" << std::endl;
+    DEBUG_OUT << "Creating a new Proxy object... (destroy at simulation end = " << (destroy ? "true" : "false") << ")" << std::endl;
     Proxy *proxy = new Proxy(destroy, sceneID, p->scriptID, window, widgets);
     out->uiHandle = proxy->getHandle();
-    DBG << "Proxy " << proxy->getHandle() << " created in scene " << sceneID << std::endl;
+    DEBUG_OUT << "Proxy " << proxy->getHandle() << " created in scene " << sceneID << std::endl;
 
-    DBG << "call UIFunctions::create() (will emit the create(Proxy*) signal)..." << std::endl;
+    DEBUG_OUT << "call UIFunctions::create() (will emit the create(Proxy*) signal)..." << std::endl;
     UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
                             // will run code for creating Qt widgets in the UI thread
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void destroy(SScriptCallBack *p, const char *cmd, destroy_in *in, destroy_out *out)
 {
     ASSERT_THREAD(!UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     Proxy *proxy = Proxy::byHandle(in->handle);
     if(!proxy)
     {
-        DBG << "invalid ui handle: " << in->handle << std::endl;
+        DEBUG_OUT << "invalid ui handle: " << in->handle << std::endl;
 
         simSetLastError(cmd, "invalid ui handle");
         return;
     }
 
-    DBG << "call UIFunctions::destroy() (will emit the destroy(Proxy*) signal)..." << std::endl;
+    DEBUG_OUT << "call UIFunctions::destroy() (will emit the destroy(Proxy*) signal)..." << std::endl;
     UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 Widget* getWidget(int handle, int id)

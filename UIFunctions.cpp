@@ -31,23 +31,23 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
 
         simThread(); // we remember of this currentThreadId as the "SIM" thread
 
-        DBG << "UIFunctions(" << UIFunctions::instance << ") constructed in thread " << QThread::currentThreadId() << std::endl;
+        DEBUG_OUT << "UIFunctions(" << UIFunctions::instance << ") constructed in thread " << QThread::currentThreadId() << std::endl;
     }
     return UIFunctions::instance;
 }
 
 void UIFunctions::destroyInstance()
 {
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(UIFunctions::instance)
     {
         delete UIFunctions::instance;
 
-        DBG << "destroyed UIFunctions instance" << std::endl;
+        DEBUG_OUT << "destroyed UIFunctions instance" << std::endl;
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIFunctions::connectSignals()
@@ -243,7 +243,7 @@ void UIFunctions::connectSignals()
  */
 #define CHECK_POINTER(clazz,p) \
     if(!p) return; \
-    if(!clazz::exists(p)) {DBG << "warning: " #clazz << p << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
+    if(!clazz::exists(p)) {DEBUG_OUT << "warning: " #clazz << p << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
     if(!p->proxy) return;
 
 #if WIDGET_BUTTON

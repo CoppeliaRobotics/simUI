@@ -34,14 +34,14 @@ Window::Window()
       visibility_state(true),
       proxy(NULL)
 {
-    DBG << std::endl;
+    DEBUG_OUT << std::endl;
 }
 
 Window::~Window()
 {
     Window::windows.erase(this);
 
-    DBG << std::endl;
+    DEBUG_OUT << std::endl;
 }
 
 void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
@@ -238,12 +238,12 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
 {
     int mySceneID = proxy->getSceneID();
 
-    DBG << "oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
-    DBG << "mySceneID=" << mySceneID << std::endl;
+    DEBUG_OUT << "oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
+    DEBUG_OUT << "mySceneID=" << mySceneID << std::endl;
 
     if(oldSceneID == mySceneID && newSceneID != mySceneID)
     {
-        DBG << "hidden" << std::endl;
+        DEBUG_OUT << "hidden" << std::endl;
 
         bool saved_visibility_state = visibility_state;
         hide();
@@ -252,7 +252,7 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
 
     if(oldSceneID != mySceneID && newSceneID == mySceneID)
     {
-        DBG << "shown" << std::endl;
+        DEBUG_OUT << "shown" << std::endl;
 
         if(visibility_state)
             show();

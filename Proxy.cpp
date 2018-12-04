@@ -21,31 +21,31 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Wind
       sceneID(sceneID_),
       scriptID(scriptID_)
 {
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     Proxy::proxies[handle] = this;
 
-    DBG << "Proxy::proxies[" << handle << "] = " << this << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "Proxy::proxies[" << handle << "] = " << this << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 Proxy::~Proxy()
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     // should be destroyed from the UI thread
 
     if(ui)
     {
-        DBG << "delete 'ui' member..." << std::endl;
+        DEBUG_OUT << "delete 'ui' member..." << std::endl;
 
         delete ui;
     }
 
     Proxy::proxies.erase(handle);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 Proxy* Proxy::byHandle(int handle)
@@ -53,7 +53,7 @@ Proxy* Proxy::byHandle(int handle)
     std::map<int, Proxy*>::const_iterator it = Proxy::proxies.find(handle);
     Proxy *ret = it == Proxy::proxies.end() ? NULL : it->second;
 
-    DBG << "handle " << handle << " -> " << ret << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
+    DEBUG_OUT << "handle " << handle << " -> " << ret << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
 
     return ret;
 }
@@ -77,7 +77,7 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 void Proxy::destroyTransientObjects()
 {
     ASSERT_THREAD(!UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     std::vector<int> t;
 
@@ -92,12 +92,12 @@ void Proxy::destroyTransientObjects()
         Proxy *proxy = Proxy::byHandle(*it);
         if(proxy)
         {
-            DBG << "destroying proxy " << proxy->getHandle() << "... (call UIFunctions::destroy())" << std::endl;
+            DEBUG_OUT << "destroying proxy " << proxy->getHandle() << "... (call UIFunctions::destroy())" << std::endl;
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 // destroy all objects (must be called from SIM thread):
@@ -105,19 +105,19 @@ void Proxy::destroyTransientObjects()
 void Proxy::destroyAllObjects()
 {
     ASSERT_THREAD(!UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
     {
         Proxy *proxy = it->second;
         if(proxy)
         {
-            DBG << "destroying proxy " << proxy->getHandle() << "... (call UIFunctions::destroy())" << std::endl;
+            DEBUG_OUT << "destroying proxy " << proxy->getHandle() << "... (call UIFunctions::destroy())" << std::endl;
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 // analogous of previous function, but to be used when called from UI thread:
@@ -125,19 +125,19 @@ void Proxy::destroyAllObjects()
 void Proxy::destroyAllObjectsFromUIThread()
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
     {
         Proxy *proxy = it->second;
         if(proxy)
         {
-            DBG << "destroying proxy " << proxy->getHandle() << "... (call UIProxy::onDestroy())" << std::endl;
+            DEBUG_OUT << "destroying proxy " << proxy->getHandle() << "... (call UIProxy::onDestroy())" << std::endl;
             UIProxy::getInstance()->onDestroy(proxy); // will also delete proxy
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)

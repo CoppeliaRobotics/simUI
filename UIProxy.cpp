@@ -54,23 +54,23 @@ UIProxy * UIProxy::getInstance(QObject *parent)
 
         uiThread(); // we remember this currentThreadId as the "UI" thread
 
-        DBG << "UIProxy(" << UIProxy::instance << ") constructed in thread " << QThread::currentThreadId() << std::endl;
+        DEBUG_OUT << "UIProxy(" << UIProxy::instance << ") constructed in thread " << QThread::currentThreadId() << std::endl;
     }
     return UIProxy::instance;
 }
 
 void UIProxy::destroyInstance()
 {
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(UIProxy::instance)
     {
         delete UIProxy::instance;
 
-        DBG << "destroyed UIProxy instance" << std::endl;
+        DEBUG_OUT << "destroyed UIProxy instance" << std::endl;
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onMsgBox(int type, int buttons, std::string title, std::string message, int *result)
@@ -193,11 +193,11 @@ void UIProxy::onFileDialog(int type, std::string title, std::string startPath, s
 void UIProxy::onCreate(Proxy *proxy)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     proxy->createQtWidget(this);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 // The following slots are directly connected to Qt Widgets' signals.
@@ -211,7 +211,7 @@ void UIProxy::onCreate(Proxy *proxy)
 void UIProxy::onButtonClick()
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -223,7 +223,7 @@ void UIProxy::onButtonClick()
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -231,7 +231,7 @@ void UIProxy::onButtonClick()
 void UIProxy::onLinkActivated(const QString &link)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -243,14 +243,14 @@ void UIProxy::onLinkActivated(const QString &link)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
 void UIProxy::onValueChangeInt(int value)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -262,13 +262,13 @@ void UIProxy::onValueChangeInt(int value)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onValueChangeDouble(double value)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -280,13 +280,13 @@ void UIProxy::onValueChangeDouble(double value)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onValueChangeString(QString value)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -298,14 +298,14 @@ void UIProxy::onValueChangeString(QString value)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 #if WIDGET_EDIT
 void UIProxy::onEditingFinished()
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QLineEdit *qedit = dynamic_cast<QLineEdit*>(sender());
 
@@ -320,7 +320,7 @@ void UIProxy::onEditingFinished()
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -328,7 +328,7 @@ void UIProxy::onEditingFinished()
 void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(QWidget *qwidget = dynamic_cast<QWidget*>(sender()))
     {
@@ -354,13 +354,13 @@ void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMous
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(QWidget *qwidget = dynamic_cast<QWidget*>(sender()))
     {
@@ -377,7 +377,7 @@ void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMou
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -385,7 +385,7 @@ void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMou
 void UIProxy::onCellActivate(int row, int col)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QTableWidget *qwidget = dynamic_cast<QTableWidget*>(sender());
 
@@ -399,13 +399,13 @@ void UIProxy::onCellActivate(int row, int col)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onTableSelectionChange()
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QTableWidget *qwidget = dynamic_cast<QTableWidget*>(sender());
 
@@ -430,7 +430,7 @@ void UIProxy::onTableSelectionChange()
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -438,7 +438,7 @@ void UIProxy::onTableSelectionChange()
 void UIProxy::onTreeSelectionChange()
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QTreeWidget *qwidget = dynamic_cast<QTreeWidget*>(sender());
 
@@ -460,7 +460,7 @@ void UIProxy::onTreeSelectionChange()
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -468,11 +468,11 @@ void UIProxy::onTreeSelectionChange()
 void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     emit mouseEvent(image, type, shift, control, x, y);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -480,7 +480,7 @@ void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int
 void UIProxy::onNodeAdded(QDataflowModelNode *node)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -495,13 +495,13 @@ void UIProxy::onNodeAdded(QDataflowModelNode *node)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onNodeRemoved(QDataflowModelNode *node)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -516,13 +516,13 @@ void UIProxy::onNodeRemoved(QDataflowModelNode *node)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onNodeValidChanged(QDataflowModelNode *node, bool valid)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -536,13 +536,13 @@ void UIProxy::onNodeValidChanged(QDataflowModelNode *node, bool valid)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onNodePosChanged(QDataflowModelNode *node, QPoint pos)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -556,13 +556,13 @@ void UIProxy::onNodePosChanged(QDataflowModelNode *node, QPoint pos)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onNodeTextChanged(QDataflowModelNode *node, QString text)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -576,13 +576,13 @@ void UIProxy::onNodeTextChanged(QDataflowModelNode *node, QString text)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onNodeInletCountChanged(QDataflowModelNode *node, int count)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -596,13 +596,13 @@ void UIProxy::onNodeInletCountChanged(QDataflowModelNode *node, int count)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onNodeOutletCountChanged(QDataflowModelNode *node, int count)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -616,13 +616,13 @@ void UIProxy::onNodeOutletCountChanged(QDataflowModelNode *node, int count)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onConnectionAdded(QDataflowModelConnection *conn)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -637,13 +637,13 @@ void UIProxy::onConnectionAdded(QDataflowModelConnection *conn)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -658,7 +658,7 @@ void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -666,7 +666,7 @@ void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
 void UIProxy::onTextChanged()
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(QTextBrowser *qtextbrowser = dynamic_cast<QTextBrowser*>(sender()))
     {
@@ -677,13 +677,13 @@ void UIProxy::onTextChanged()
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onAnchorClicked(const QUrl &link)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(QTextBrowser *qtextbrowser = dynamic_cast<QTextBrowser*>(sender()))
     {
@@ -693,7 +693,7 @@ void UIProxy::onAnchorClicked(const QUrl &link)
         }
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -711,7 +711,7 @@ void UIProxy::onPositionChanged(const QVector3D &position)
 void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(Qt3DRender::QObjectPicker *obj = dynamic_cast<Qt3DRender::QObjectPicker*>(sender()))
     {
@@ -726,15 +726,15 @@ void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
         }
         else
         {
-            DBG << "received QPickEvent but sender() is not associated with a Scene3D widget" << std::endl;
+            DEBUG_OUT << "received QPickEvent but sender() is not associated with a Scene3D widget" << std::endl;
         }
     }
     else
     {
-        DBG << "received QPickEvent but sender() is not a QObjectPicker" << std::endl;
+        DEBUG_OUT << "received QPickEvent but sender() is not a QObjectPicker" << std::endl;
     }
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -744,179 +744,179 @@ void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
 void UIProxy::onDestroy(Proxy *proxy)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
-    DBG << "proxy=" << (void*)proxy << std::endl;
+    DEBUG_OUT << "proxy=" << (void*)proxy << std::endl;
 
     if(!proxy)
     {
-        DBG << "WARNING: proxy is NULL" << std::endl;
+        DEBUG_OUT << "WARNING: proxy is NULL" << std::endl;
         return;
     }
     if(!proxy->ui)
     {
-        DBG << "WARNING: proxy->ui is NULL" << std::endl;
+        DEBUG_OUT << "WARNING: proxy->ui is NULL" << std::endl;
         return;
     }
     if(!proxy->ui->qwidget)
     {
-        DBG << "WARNING: proxy->ui->qwidget is NULL" << std::endl;
+        DEBUG_OUT << "WARNING: proxy->ui->qwidget is NULL" << std::endl;
         return;
     }
 
-    DBG << "calling proxy->ui->qwidget->deleteLater()..." << std::endl;
+    DEBUG_OUT << "calling proxy->ui->qwidget->deleteLater()..." << std::endl;
     proxy->ui->qwidget->deleteLater();
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onSetStyleSheet(Widget *widget, std::string styleSheet)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     widget->getQWidget()->setStyleSheet(QString::fromStdString(styleSheet));
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 #if WIDGET_BUTTON
 void UIProxy::onSetButtonText(Button *button, std::string text)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     button->setText(text);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onSetButtonPressed(Button *button, bool pressed)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     button->setPressed(pressed);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
 void UIProxy::onShowWindow(Window *window)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
-    DBG << "window=" << (void*)window << std::endl;
+    DEBUG_OUT << "window=" << (void*)window << std::endl;
 
     if(!window) return;
 
     window->show();
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onHideWindow(Window *window)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
-    DBG << "window=" << (void*)window << std::endl;
+    DEBUG_OUT << "window=" << (void*)window << std::endl;
 
     if(!window) return;
 
     window->hide();
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onSetPosition(Window *window, int x, int y)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(!window) return;
 
     window->move(x, y);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onSetSize(Window *window, int w, int h)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(!window) return;
 
     window->resize(w, h);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onSetTitle(Window *window, std::string title)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     if(!window) return;
 
     window->setTitle(title);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 #if WIDGET_IMAGE
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
-    DBG << "image=" << (void*)image << ", data=" << (void*)data << ", w=" << w << ", h=" << h << std::endl;
+    DEBUG_OUT << "image=" << (void*)image << ", data=" << (void*)data << ", w=" << w << ", h=" << h << std::endl;
 
     image->setImage(data, w, h);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
 void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
-    DBG << "window=" << (void*)window << ", oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
+    DEBUG_OUT << "window=" << (void*)window << ", oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
 
     if(!window) return;
 
     window->onSceneChange(oldSceneID, newSceneID);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onSetEnabled(Widget *widget, bool enabled)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
-    DBG << "widget=" << (void*)widget << ", enabled=" << enabled << std::endl;
+    DEBUG_OUT << "widget=" << (void*)widget << ", enabled=" << enabled << std::endl;
 
     if(!widget) return;
 
     widget->getQWidget()->setEnabled(enabled);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 #if WIDGET_EDIT
 void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     edit->setValue(value, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -924,11 +924,11 @@ void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals
 void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     spinbox->setValue(value, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -936,11 +936,11 @@ void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSig
 void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     label->setText(text, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -948,11 +948,11 @@ void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignal
 void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     slider->setValue(value, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -960,11 +960,11 @@ void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     checkbox->setValue(value, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -972,11 +972,11 @@ void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool 
 void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     radiobutton->setValue(value, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -984,41 +984,41 @@ void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool s
 void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     combobox->insertItem(index, text, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     combobox->removeItem(index, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onSetComboboxItems(Combobox *combobox, std::vector<std::string> items, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     combobox->setItems(items, index, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     combobox->setSelectedIndex(index, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
@@ -1026,26 +1026,26 @@ void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool sup
 void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
     tabs->setCurrentTab(index, suppressSignals);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 #endif
 
 void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
 {
     ASSERT_THREAD(UI);
-    DBG << "[enter]" << std::endl;
+    DEBUG_OUT << "[enter]" << std::endl;
 
-    DBG << "widget=" << (void*)widget << ", visible=" << visible << std::endl;
+    DEBUG_OUT << "widget=" << (void*)widget << ", visible=" << visible << std::endl;
 
     if(!widget) return;
 
     widget->getQWidget()->setVisible(visible);
 
-    DBG << "[leave]" << std::endl;
+    DEBUG_OUT << "[leave]" << std::endl;
 }
 
 #if WIDGET_PLOT
