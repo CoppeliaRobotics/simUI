@@ -268,6 +268,12 @@
                 <description>Initial text.</description>
             </attribute>
             <attribute>
+                <name>password</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, display platform-dependent password mask characters instead of the characters actually entered.</description>
+            </attribute>
+            <attribute>
                 <name>on-change</name>
                 <type>string</type>
                 <default />

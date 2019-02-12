@@ -20,6 +20,7 @@ class Edit : public Widget, public EventOnChangeString, public EventOnEditingFin
 {
 protected:
     std::string value;
+    bool password;
 
 public:
     Edit();

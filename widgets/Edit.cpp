@@ -21,6 +21,8 @@ void Edit::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
     value = xmlutils::getAttrStr(e, "value", "");
 
+    password = xmlutils::getAttrBool(e, "password", false);
+
     onchange = xmlutils::getAttrStr(e, "on-change", "");
 
     oneditingfinished = xmlutils::getAttrStr(e, "on-editing-finished", "");
@@ -33,6 +35,7 @@ QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     edit->setVisible(visible);
     edit->setStyleSheet(QString::fromStdString(style));
     edit->setText(QString::fromStdString(value));
+    edit->setEchoMode(password ? QLineEdit::Password : QLineEdit::Normal);
     QObject::connect(edit, &QLineEdit::textChanged, uiproxy, &UIProxy::onValueChangeString);
     QObject::connect(edit, &QLineEdit::editingFinished, uiproxy, &UIProxy::onEditingFinished);
     setQWidget(edit);
