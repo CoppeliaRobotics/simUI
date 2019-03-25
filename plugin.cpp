@@ -40,20 +40,26 @@
 
 void msgBox(SScriptCallBack *p, const char *cmd, msgBox_in *in, msgBox_out *out)
 {
-    ASSERT_THREAD(!UI);
     DEBUG_OUT << "[enter]" << std::endl;
     int result;
-    UIFunctions::getInstance()->msgBox(in->type, in->buttons, in->title, in->message, &result);
+    // this function is called also from the C API: always run it in the correct thread
+    if(QThread::currentThreadId() == UI_THREAD)
+        UIProxy::getInstance()->onMsgBox(in->type, in->buttons, in->title, in->message, &result);
+    else
+        UIFunctions::getInstance()->msgBox(in->type, in->buttons, in->title, in->message, &result);
     out->result = result;
     DEBUG_OUT << "[leave]" << std::endl;
 }
 
 void fileDialog(SScriptCallBack *p, const char *cmd, fileDialog_in *in, fileDialog_out *out)
 {
-    ASSERT_THREAD(!UI);
     DEBUG_OUT << "[enter]" << std::endl;
     std::vector<std::string> result;
-    UIFunctions::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
+    // this function is called also from the C API: always run it in the correct thread
+    if(QThread::currentThreadId() == UI_THREAD)
+        UIProxy::getInstance()->onFileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
+    else
+        UIFunctions::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
     for(auto x : result) out->result.push_back(x);
     DEBUG_OUT << "[leave]" << std::endl;
 }
