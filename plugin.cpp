@@ -97,7 +97,7 @@ void create(SScriptCallBack *p, const char *cmd, create_in *in, create_out *out)
     int objectHandle;
     simGetScriptProperty(p->scriptID, &scriptProperty, &objectHandle);
     int scriptType = (scriptProperty | sim_scripttype_threaded) - sim_scripttype_threaded;
-    if(scriptType == sim_scripttype_mainscript || scriptType == sim_scripttype_childscript || scriptType == sim_scripttype_jointctrlcallback)
+    if(scriptType == sim_scripttype_mainscript || scriptType == sim_scripttype_childscript)
         destroy = true;
 
     int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
