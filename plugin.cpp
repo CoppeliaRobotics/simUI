@@ -1353,6 +1353,9 @@ public:
 
         UIFunctions::destroyInstance();
         UIProxy::destroyInstance();
+
+        UI_THREAD = NULL;
+        SIM_THREAD = NULL;
     }
 
     void onInstancePass(const vrep::InstancePassFlags &flags, bool first)
