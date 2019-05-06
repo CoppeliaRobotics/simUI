@@ -1358,12 +1358,9 @@ public:
         SIM_THREAD = NULL;
     }
 
-    void onInstancePass(const vrep::InstancePassFlags &flags, bool first)
+    void onFirstInstancePass(const vrep::InstancePassFlags &flags)
     {
-        if(first)
-        {
-            UIFunctions::getInstance(); // construct UIFunctions here (SIM thread)
-        }
+        UIFunctions::getInstance(); // construct UIFunctions here (SIM thread)
     }
 
     void onInstanceSwitch(int sceneID)
