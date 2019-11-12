@@ -141,11 +141,11 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     LayoutWidget::createQtWidget(proxy, uiproxy, window);
     window->setWindowTitle(QString::fromStdString(title));
     Qt::WindowFlags flags = Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint;
-#ifdef MAC_VREP
+#ifdef MAC_SIM
     flags |= Qt::Tool;
 #else
-#ifdef LIN_VREP
-    flags |= Qt::Dialog; // Qt::Window doesn't stay above V-REP main window since Qt 5.9
+#ifdef LIN_SIM
+    flags |= Qt::Dialog; // Qt::Window doesn't stay above CoppeliaSim's main window since Qt 5.9
 #else
     flags |= Qt::Dialog;
 #endif
@@ -160,7 +160,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     if(qwidget_size.isValid())
         window->resize(qwidget_size);
     window->show();
-#if defined(LIN_VREP) || defined(MAC_VREP)
+#if defined(LIN_SIM) || defined(MAC_SIM)
     if(!resizable) window->setFixedSize(window->size());
 #endif
     if(placement == "relative")

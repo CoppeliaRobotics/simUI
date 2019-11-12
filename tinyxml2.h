@@ -49,12 +49,6 @@ distribution.
         AStyle.exe --style=1tbs --indent-switches --break-closing-brackets --indent-preprocessor tinyxml2.cpp tinyxml2.h
 */
 
-#if defined( _DEBUG ) || defined( DEBUG ) || defined (__DEBUG__)
-#   ifndef DEBUG
-#       define DEBUG
-#   endif
-#endif
-
 #ifdef _MSC_VER
 #   pragma warning(push)
 #   pragma warning(disable: 4251)
@@ -73,7 +67,7 @@ distribution.
 #endif
 
 
-#if defined(DEBUG)
+#ifndef NDEBUG
 #   if defined(_MSC_VER)
 #       // "(void)0," is for suppressing C4127 warning in "assert(false)", "assert(true)" and the like
 #       define TIXMLASSERT( x )           if ( !((void)0,(x))) { __debugbreak(); }
@@ -96,6 +90,8 @@ static const int TIXML2_MAJOR_VERSION = 3;
 static const int TIXML2_MINOR_VERSION = 0;
 static const int TIXML2_PATCH_VERSION = 0;
 
+namespace simExtCustomUI
+{
 namespace tinyxml2
 {
 class XMLDocument;
@@ -370,7 +366,7 @@ public:
         }
         --_currentAllocs;
         Chunk* chunk = static_cast<Chunk*>( mem );
-#ifdef DEBUG
+#ifndef NDEBUG
         memset( chunk, 0xfe, sizeof(Chunk) );
 #endif
         chunk->next = _root;
@@ -2094,6 +2090,7 @@ private:
 
 
 }	// tinyxml2
+}	// simExtCustomUI
 
 #if defined(_MSC_VER)
 #   pragma warning(pop)

@@ -8,7 +8,7 @@
 #include "UIProxy.h"
 #include "UIFunctions.h"
 
-#include "v_repLib.h"
+#include "simLib.h"
 
 int Proxy::nextProxyHandle = 1000;
 std::map<int, Proxy *> Proxy::proxies;
@@ -69,7 +69,7 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 {
     ASSERT_THREAD(UI);
 
-    ui->createQtWidget(this, uiproxy, UIProxy::vrepMainWindow);
+    ui->createQtWidget(this, uiproxy, UIProxy::simMainWindow);
 }
 
 // this function will be called at simulation end to destroy objects that

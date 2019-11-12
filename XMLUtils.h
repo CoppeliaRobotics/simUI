@@ -9,6 +9,8 @@
 
 #include "tinyxml2.h"
 
+using namespace simExtCustomUI;
+
 namespace xmlutils
 {
     bool containsHyphens(const std::string &name);

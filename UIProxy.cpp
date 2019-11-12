@@ -30,7 +30,7 @@ using namespace tinyxml2;
 
 UIProxy *UIProxy::instance = NULL;
 
-QWidget *UIProxy::vrepMainWindow = NULL;
+QWidget *UIProxy::simMainWindow = NULL;
 
 simFloat UIProxy::wheelZoomFactor = 1.0;
 
@@ -49,7 +49,7 @@ UIProxy * UIProxy::getInstance(QObject *parent)
     if(!UIProxy::instance)
     {
         UIProxy::instance = new UIProxy(parent);
-        UIProxy::vrepMainWindow = (QWidget *)simGetMainWindow(1);
+        UIProxy::simMainWindow = (QWidget *)simGetMainWindow(1);
         simGetFloatParameter(sim_floatparam_mouse_wheel_zoom_factor, &UIProxy::wheelZoomFactor);
 
         uiThread(); // we remember this currentThreadId as the "UI" thread
@@ -81,7 +81,7 @@ void UIProxy::onMsgBox(int type, int buttons, std::string title, std::string mes
     QString qmessage = QString::fromStdString(message);
 
     QMessageBox msgBox;
-#ifdef MAC_VREP
+#ifdef MAC_SIM
     msgBox.setText(qtitle);
     msgBox.setInformativeText(qmessage);
 #else

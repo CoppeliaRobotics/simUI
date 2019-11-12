@@ -29,7 +29,7 @@ private:
     static UIProxy *instance;
 
 public:
-    static QWidget *vrepMainWindow;
+    static QWidget *simMainWindow;
     static simFloat wheelZoomFactor;
 
 public slots:

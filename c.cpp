@@ -1,7 +1,7 @@
 #include "stubs.h"
-#include "v_repPlusPlus/Plugin.h"
+#include "simPlusPlus/Plugin.h"
 
-VREP_DLLEXPORT int customUi_msgBox(int type, int buttons, const char *title, const char *message)
+SIM_DLLEXPORT int customUi_msgBox(int type, int buttons, const char *title, const char *message)
 {
     msgBox_in in;
     in.type = type;
@@ -16,7 +16,7 @@ VREP_DLLEXPORT int customUi_msgBox(int type, int buttons, const char *title, con
     return out.result;
 }
 
-VREP_DLLEXPORT char * customUi_fileDialog(int type, const char *title, const char *startPath, const char *initName, const char *extName, const char *ext, int native)
+SIM_DLLEXPORT char * customUi_fileDialog(int type, const char *title, const char *startPath, const char *initName, const char *extName, const char *ext, int native)
 {
     fileDialog_in in;
     in.type = type;
@@ -30,6 +30,8 @@ VREP_DLLEXPORT char * customUi_fileDialog(int type, const char *title, const cha
     fileDialog_out out;
 
     fileDialog(nullptr, "", &in, &out);
+
+    if(out.result.empty()) return nullptr;
 
     int sz = 0;
     for(auto &x : out.result) sz += x.length() + 1;

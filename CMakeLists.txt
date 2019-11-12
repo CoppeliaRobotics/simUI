@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 2.8.11)
-project(v_repExtCustomUI)
+project(simExtCustomUI)
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_MACOSX_RPATH 1)
-
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 
 find_package(Boost REQUIRED)
 find_package(Qt5Core REQUIRED)
@@ -17,20 +16,27 @@ find_package(Qt53DRender REQUIRED)
 find_package(Qt53DInput REQUIRED)
 find_package(Qt53DExtras REQUIRED)
 
+if(NOT LIBPLUGIN_DIR)
+    if(DEFINED ENV{COPPELIASIM_ROOT_DIR})
+        set(LIBPLUGIN_DIR $ENV{COPPELIASIM_ROOT_DIR}/programming/libPlugin)
+    else()
+        set(LIBPLUGIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../libPlugin)
+    endif()
+endif()
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules
-    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/CoppeliaRobotics-modules)
-find_package(VREP 3.5.0 REQUIRED)
+    ${LIBPLUGIN_DIR}/cmake)
+find_package(CoppeliaSim 4.0.0.0 REQUIRED)
 
-include_directories(${VREP_INCLUDE})
+include_directories(${COPPELIASIM_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QDataflowCanvas)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QCustomPlot-2.0.0)
 include_directories(${Boost_INCLUDE_DIRS})
 
-vrep_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/simExtCustomUI.lua)
+coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/simExtCustomUI.lua)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html
     COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml
@@ -49,11 +55,7 @@ set(WIDGET_LABEL true CACHE BOOL "include the label widget")
 set(WIDGET_PLOT true CACHE BOOL "include the plot widget")
 set(WIDGET_PROGRESSBAR true CACHE BOOL "include the progressbar widget")
 set(WIDGET_RADIOBUTTON true CACHE BOOL "include the radiobutton widget")
-if(${VREP_QT3D})
-set(WIDGET_SCENE3D true CACHE BOOL "include the scene3d widget (requires V-REP with Qt3D support)")
-else()
-set(WIDGET_SCENE3D false CACHE BOOL "include the scene3d widget (requires V-REP with Qt3D support)")
-endif()
+set(WIDGET_SCENE3D true CACHE BOOL "include the scene3d widget")
 set(WIDGET_SPINBOX true CACHE BOOL "include the spinbox widget")
 set(WIDGET_TABLE true CACHE BOOL "include the table widget")
 set(WIDGET_TABS true CACHE BOOL "include the tabs widget")
@@ -76,14 +78,12 @@ set(SOURCES
     widgets/LayoutWidget.cpp
     widgets/Widget.cpp
     widgets/Window.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/v_repPlusPlus/Plugin.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/generated/stubs.cpp
-    ${VREP_EXPORTED_SOURCES}
+    ${COPPELIASIM_EXPORTED_SOURCES}
 )
 
 set(LIBRARIES
     ${Boost_LIBRARIES}
-    ${VREP_LIBRARIES}
+    ${COPPELIASIM_LIBRARIES}
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
@@ -153,8 +153,8 @@ if(ENABLE_SIGNAL_SPY)
     set(SOURCES ${SOURCES} signal_spy.cpp)
 endif()
 
-add_library(v_repExtCustomUI SHARED ${SOURCES})
-target_link_libraries(v_repExtCustomUI ${LIBRARIES})
+add_library(simExtCustomUI SHARED ${SOURCES})
+target_link_libraries(simExtCustomUI ${LIBRARIES})
 
-install(TARGETS v_repExtCustomUI DESTINATION ${VREP_ROOT})
+install(TARGETS simExtCustomUI DESTINATION ${COPPELIASIM_ROOT_DIR})
 

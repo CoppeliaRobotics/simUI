@@ -24,7 +24,7 @@
 
 #include "tinyxml2.h"
 
-#include "v_repPlusPlus/Plugin.h"
+#include "simPlusPlus/Plugin.h"
 #include "plugin.h"
 #include "debug.h"
 #include "config.h"
@@ -37,6 +37,8 @@
 #ifdef ENABLE_SIGNAL_SPY
 #include "signal_spy.h"
 #endif
+
+using namespace simExtCustomUI;
 
 void msgBox(SScriptCallBack *p, const char *cmd, msgBox_in *in, msgBox_out *out)
 {
@@ -1322,7 +1324,7 @@ void setScene3DNodeVector4Param(SScriptCallBack *p, const char *cmd, setScene3DN
 #endif
 }
 
-class Plugin : public vrep::Plugin
+class Plugin : public sim::Plugin
 {
 public:
     void onStart()
@@ -1340,7 +1342,7 @@ public:
 
 #include "lua_calltips.cpp"
 
-#if defined(ENABLE_SIGNAL_SPY) && defined(DEBUG)
+#if defined(ENABLE_SIGNAL_SPY) && !defined(NDEBUG)
         SignalSpy::start();
 #endif
 
@@ -1358,7 +1360,7 @@ public:
         SIM_THREAD = NULL;
     }
 
-    void onFirstInstancePass(const vrep::InstancePassFlags &flags)
+    void onFirstInstancePass(const sim::InstancePassFlags &flags)
     {
         UIFunctions::getInstance(); // construct UIFunctions here (SIM thread)
     }
@@ -1378,5 +1380,5 @@ private:
     int oldSceneID = -1;
 };
 
-VREP_PLUGIN(PLUGIN_NAME, PLUGIN_VERSION, Plugin)
+SIM_PLUGIN(PLUGIN_NAME, PLUGIN_VERSION, Plugin)
 
