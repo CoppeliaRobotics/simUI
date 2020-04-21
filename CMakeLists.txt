@@ -156,5 +156,5 @@ endif()
 add_library(simExtCustomUI SHARED ${SOURCES})
 target_link_libraries(simExtCustomUI ${LIBRARIES})
 
-install(TARGETS simExtCustomUI DESTINATION ${COPPELIASIM_ROOT_DIR})
+install(TARGETS simExtCustomUI DESTINATION ${COPPELIASIM_PLUGINS_DIR})
 
