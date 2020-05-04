@@ -31,23 +31,23 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
 
         simThread(); // we remember of this currentThreadId as the "SIM" thread
 
-        DEBUG_OUT << "UIFunctions(" << UIFunctions::instance << ") constructed in thread " << QThread::currentThreadId() << std::endl;
+        log(sim_verbosity_debug, boost::format("UIFunctions(%x) constructed in thread %s") % UIFunctions::instance % QThread::currentThreadId());
     }
     return UIFunctions::instance;
 }
 
 void UIFunctions::destroyInstance()
 {
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(UIFunctions::instance)
     {
         delete UIFunctions::instance;
 
-        DEBUG_OUT << "destroyed UIFunctions instance" << std::endl;
+        log(sim_verbosity_debug, "destroyed UIFunctions instance");
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIFunctions::connectSignals()
@@ -243,7 +243,7 @@ void UIFunctions::connectSignals()
  */
 #define CHECK_POINTER(clazz,p) \
     if(!p) return; \
-    if(!clazz::exists(p)) {DEBUG_OUT << "warning: " #clazz << p << " has already been deleted (or the pointer is invalid)" << std::endl; return;} \
+    if(!clazz::exists(p)) {log(sim_verbosity_warnings, boost::format("%s %x has already been deleted (or the pointer is invalid)") % #clazz % p); return;} \
     if(!p->proxy) return;
 
 #if WIDGET_BUTTON

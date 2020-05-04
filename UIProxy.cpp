@@ -54,23 +54,23 @@ UIProxy * UIProxy::getInstance(QObject *parent)
 
         uiThread(); // we remember this currentThreadId as the "UI" thread
 
-        DEBUG_OUT << "UIProxy(" << UIProxy::instance << ") constructed in thread " << QThread::currentThreadId() << std::endl;
+        log(sim_verbosity_debug, boost::format("UIProxy(%x) constructed in thread %s") % UIProxy::instance % QThread::currentThreadId());
     }
     return UIProxy::instance;
 }
 
 void UIProxy::destroyInstance()
 {
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(UIProxy::instance)
     {
         delete UIProxy::instance;
 
-        DEBUG_OUT << "destroyed UIProxy instance" << std::endl;
+        log(sim_verbosity_debug, "destroyed UIProxy instance");
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onMsgBox(int type, int buttons, std::string title, std::string message, int *result)
@@ -193,11 +193,11 @@ void UIProxy::onFileDialog(int type, std::string title, std::string startPath, s
 void UIProxy::onCreate(Proxy *proxy)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     proxy->createQtWidget(this);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 // The following slots are directly connected to Qt Widgets' signals.
@@ -211,7 +211,7 @@ void UIProxy::onCreate(Proxy *proxy)
 void UIProxy::onButtonClick()
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -223,7 +223,7 @@ void UIProxy::onButtonClick()
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -231,7 +231,7 @@ void UIProxy::onButtonClick()
 void UIProxy::onLinkActivated(const QString &link)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -243,14 +243,14 @@ void UIProxy::onLinkActivated(const QString &link)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
 void UIProxy::onValueChangeInt(int value)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -262,13 +262,13 @@ void UIProxy::onValueChangeInt(int value)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onValueChangeDouble(double value)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -280,13 +280,13 @@ void UIProxy::onValueChangeDouble(double value)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onValueChangeString(QString value)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QWidget *qwidget = dynamic_cast<QWidget*>(sender());
     if(qwidget)
@@ -298,14 +298,14 @@ void UIProxy::onValueChangeString(QString value)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 #if WIDGET_EDIT
 void UIProxy::onEditingFinished()
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QLineEdit *qedit = dynamic_cast<QLineEdit*>(sender());
 
@@ -320,7 +320,7 @@ void UIProxy::onEditingFinished()
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -328,7 +328,7 @@ void UIProxy::onEditingFinished()
 void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(QWidget *qwidget = dynamic_cast<QWidget*>(sender()))
     {
@@ -354,13 +354,13 @@ void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMous
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(QWidget *qwidget = dynamic_cast<QWidget*>(sender()))
     {
@@ -377,7 +377,7 @@ void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMou
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -385,7 +385,7 @@ void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMou
 void UIProxy::onCellActivate(int row, int col)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QTableWidget *qwidget = dynamic_cast<QTableWidget*>(sender());
 
@@ -399,13 +399,13 @@ void UIProxy::onCellActivate(int row, int col)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onTableSelectionChange()
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QTableWidget *qwidget = dynamic_cast<QTableWidget*>(sender());
 
@@ -430,7 +430,7 @@ void UIProxy::onTableSelectionChange()
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -438,7 +438,7 @@ void UIProxy::onTableSelectionChange()
 void UIProxy::onTreeSelectionChange()
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QTreeWidget *qwidget = dynamic_cast<QTreeWidget*>(sender());
 
@@ -460,7 +460,7 @@ void UIProxy::onTreeSelectionChange()
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -468,11 +468,11 @@ void UIProxy::onTreeSelectionChange()
 void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     emit mouseEvent(image, type, shift, control, x, y);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -480,7 +480,7 @@ void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int
 void UIProxy::onNodeAdded(QDataflowModelNode *node)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -495,13 +495,13 @@ void UIProxy::onNodeAdded(QDataflowModelNode *node)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onNodeRemoved(QDataflowModelNode *node)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -516,13 +516,13 @@ void UIProxy::onNodeRemoved(QDataflowModelNode *node)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onNodeValidChanged(QDataflowModelNode *node, bool valid)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -536,13 +536,13 @@ void UIProxy::onNodeValidChanged(QDataflowModelNode *node, bool valid)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onNodePosChanged(QDataflowModelNode *node, QPoint pos)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -556,13 +556,13 @@ void UIProxy::onNodePosChanged(QDataflowModelNode *node, QPoint pos)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onNodeTextChanged(QDataflowModelNode *node, QString text)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -576,13 +576,13 @@ void UIProxy::onNodeTextChanged(QDataflowModelNode *node, QString text)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onNodeInletCountChanged(QDataflowModelNode *node, int count)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -596,13 +596,13 @@ void UIProxy::onNodeInletCountChanged(QDataflowModelNode *node, int count)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onNodeOutletCountChanged(QDataflowModelNode *node, int count)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -616,13 +616,13 @@ void UIProxy::onNodeOutletCountChanged(QDataflowModelNode *node, int count)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onConnectionAdded(QDataflowModelConnection *conn)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -637,13 +637,13 @@ void UIProxy::onConnectionAdded(QDataflowModelConnection *conn)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     QDataflowModel *model = dynamic_cast<QDataflowModel*>(sender());
 
@@ -658,7 +658,7 @@ void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -666,7 +666,7 @@ void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
 void UIProxy::onTextChanged()
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(QTextBrowser *qtextbrowser = dynamic_cast<QTextBrowser*>(sender()))
     {
@@ -677,13 +677,13 @@ void UIProxy::onTextChanged()
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onAnchorClicked(const QUrl &link)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(QTextBrowser *qtextbrowser = dynamic_cast<QTextBrowser*>(sender()))
     {
@@ -693,7 +693,7 @@ void UIProxy::onAnchorClicked(const QUrl &link)
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -711,7 +711,7 @@ void UIProxy::onPositionChanged(const QVector3D &position)
 void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(Qt3DRender::QObjectPicker *obj = dynamic_cast<Qt3DRender::QObjectPicker*>(sender()))
     {
@@ -726,15 +726,15 @@ void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
         }
         else
         {
-            DEBUG_OUT << "received QPickEvent but sender() is not associated with a Scene3D widget" << std::endl;
+            log(sim_verbosity_debug, "received QPickEvent but sender() is not associated with a Scene3D widget");
         }
     }
     else
     {
-        DEBUG_OUT << "received QPickEvent but sender() is not a QObjectPicker" << std::endl;
+        log(sim_verbosity_debug, "received QPickEvent but sender() is not a QObjectPicker");
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -744,179 +744,179 @@ void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
 void UIProxy::onDestroy(Proxy *proxy)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
-    DEBUG_OUT << "proxy=" << (void*)proxy << std::endl;
+    log(sim_verbosity_debug, boost::format("proxy=%x") %  proxy);
 
     if(!proxy)
     {
-        DEBUG_OUT << "WARNING: proxy is NULL" << std::endl;
+        log(sim_verbosity_debug, "WARNING: proxy is NULL");
         return;
     }
     if(!proxy->ui)
     {
-        DEBUG_OUT << "WARNING: proxy->ui is NULL" << std::endl;
+        log(sim_verbosity_debug, "WARNING: proxy->ui is NULL");
         return;
     }
     if(!proxy->ui->qwidget)
     {
-        DEBUG_OUT << "WARNING: proxy->ui->qwidget is NULL" << std::endl;
+        log(sim_verbosity_debug, "WARNING: proxy->ui->qwidget is NULL");
         return;
     }
 
-    DEBUG_OUT << "calling proxy->ui->qwidget->deleteLater()..." << std::endl;
+    log(sim_verbosity_debug, "calling proxy->ui->qwidget->deleteLater()...");
     proxy->ui->qwidget->deleteLater();
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onSetStyleSheet(Widget *widget, std::string styleSheet)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     widget->getQWidget()->setStyleSheet(QString::fromStdString(styleSheet));
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 #if WIDGET_BUTTON
 void UIProxy::onSetButtonText(Button *button, std::string text)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     button->setText(text);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onSetButtonPressed(Button *button, bool pressed)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     button->setPressed(pressed);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
 void UIProxy::onShowWindow(Window *window)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
-    DEBUG_OUT << "window=" << (void*)window << std::endl;
+    log(sim_verbosity_debug, boost::format("window=%x") % window);
 
     if(!window) return;
 
     window->show();
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onHideWindow(Window *window)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
-    DEBUG_OUT << "window=" << (void*)window << std::endl;
+    log(sim_verbosity_debug, boost::format("window=%x") % window);
 
     if(!window) return;
 
     window->hide();
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onSetPosition(Window *window, int x, int y)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(!window) return;
 
     window->move(x, y);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onSetSize(Window *window, int w, int h)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(!window) return;
 
     window->resize(w, h);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onSetTitle(Window *window, std::string title)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     if(!window) return;
 
     window->setTitle(title);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 #if WIDGET_IMAGE
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
-    DEBUG_OUT << "image=" << (void*)image << ", data=" << (void*)data << ", w=" << w << ", h=" << h << std::endl;
+    log(sim_verbosity_debug, boost::format("image=%x, data=%x, w=%d, h=%d") % image % data % w % h);
 
     image->setImage(data, w, h);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
 void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
-    DEBUG_OUT << "window=" << (void*)window << ", oldSceneID=" << oldSceneID << ", newSceneID" << newSceneID << std::endl;
+    log(sim_verbosity_debug, boost::format("window=%x, oldSceneID=%d, newSceneID=%d") % window % oldSceneID % newSceneID);
 
     if(!window) return;
 
     window->onSceneChange(oldSceneID, newSceneID);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onSetEnabled(Widget *widget, bool enabled)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
-    DEBUG_OUT << "widget=" << (void*)widget << ", enabled=" << enabled << std::endl;
+    log(sim_verbosity_debug, boost::format("widget=%x, enabled=%d") % widget % enabled);
 
     if(!widget) return;
 
     widget->getQWidget()->setEnabled(enabled);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 #if WIDGET_EDIT
 void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     edit->setValue(value, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -924,11 +924,11 @@ void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals
 void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     spinbox->setValue(value, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -936,11 +936,11 @@ void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSig
 void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     label->setText(text, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -948,11 +948,11 @@ void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignal
 void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     slider->setValue(value, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -960,11 +960,11 @@ void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     checkbox->setValue(value, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -972,11 +972,11 @@ void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool 
 void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     radiobutton->setValue(value, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -984,41 +984,41 @@ void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool s
 void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     combobox->insertItem(index, text, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     combobox->removeItem(index, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onSetComboboxItems(Combobox *combobox, std::vector<std::string> items, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     combobox->setItems(items, index, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     combobox->setSelectedIndex(index, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
@@ -1026,26 +1026,26 @@ void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool sup
 void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     tabs->setCurrentTab(index, suppressSignals);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 #endif
 
 void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
-    DEBUG_OUT << "widget=" << (void*)widget << ", visible=" << visible << std::endl;
+    log(sim_verbosity_debug, boost::format("widget=%x, visible=%d") % widget % visible);
 
     if(!widget) return;
 
     widget->getQWidget()->setVisible(visible);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 #if WIDGET_PLOT

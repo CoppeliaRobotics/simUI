@@ -17,20 +17,20 @@ Widget::Widget(std::string widgetClass_)
     // don't do this here because id is set by user:
     // Widget::widgets[id] = this;
 
-    DEBUG_OUT << "this=" << this << ", widgetClass=" << widgetClass << std::endl;
+    log(sim_verbosity_debug, boost::format("%s this=%x, widgetClass=%s") % __FUNC__ % this % widgetClass);
 }
 
 Widget::~Widget()
 {
     Widget::widgets.erase(this);
 
-    DEBUG_OUT << "this=" << this << ", id=" << id << ", widgetClass=" << widgetClass << std::endl;
+    log(sim_verbosity_debug, boost::format("%s this=%x, id=%d, widgetClass=%s") % __FUNC__ % this % id % widgetClass);
 
     // this should be destroyed from the UI thread
 
     if(qwidget)
     {
-        //DEBUG_OUT << this << "  delete 'qwidget' member (deleteLater())" << std::endl;
+        //log(sim_verbosity_debug, this << "  delete 'qwidget' member (deleteLater())");
 
         //qwidget->deleteLater();
 

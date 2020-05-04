@@ -21,31 +21,31 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Wind
       sceneID(sceneID_),
       scriptID(scriptID_)
 {
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     Proxy::proxies[handle] = this;
 
-    DEBUG_OUT << "Proxy::proxies[" << handle << "] = " << this << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("Proxy::proxies[%d] = %x (tableSize=%d)") % handle % this % Proxy::proxies.size());
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 Proxy::~Proxy()
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     // should be destroyed from the UI thread
 
     if(ui)
     {
-        DEBUG_OUT << "delete 'ui' member..." << std::endl;
+        log(sim_verbosity_debug, "delete 'ui' member...");
 
         delete ui;
     }
 
     Proxy::proxies.erase(handle);
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 Proxy* Proxy::byHandle(int handle)
@@ -53,7 +53,7 @@ Proxy* Proxy::byHandle(int handle)
     std::map<int, Proxy*>::const_iterator it = Proxy::proxies.find(handle);
     Proxy *ret = it == Proxy::proxies.end() ? NULL : it->second;
 
-    DEBUG_OUT << "handle " << handle << " -> " << ret << " (tableSize=" << Proxy::proxies.size() << ")" << std::endl;
+    log(sim_verbosity_debug, boost::format("handle %d -> %x (tableSize=%d)") % handle % ret % Proxy::proxies.size());
 
     return ret;
 }
@@ -77,7 +77,7 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 void Proxy::destroyTransientObjects()
 {
     ASSERT_THREAD(!UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     std::vector<int> t;
 
@@ -92,12 +92,12 @@ void Proxy::destroyTransientObjects()
         Proxy *proxy = Proxy::byHandle(*it);
         if(proxy)
         {
-            DEBUG_OUT << "destroying proxy " << proxy->getHandle() << "... (call UIFunctions::destroy())" << std::endl;
+            log(sim_verbosity_debug, boost::format("destroying proxy %d... (call UIFunctions::destroy())") % proxy->getHandle());
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 // destroy all objects (must be called from SIM thread):
@@ -105,19 +105,19 @@ void Proxy::destroyTransientObjects()
 void Proxy::destroyAllObjects()
 {
     ASSERT_THREAD(!UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
     {
         Proxy *proxy = it->second;
         if(proxy)
         {
-            DEBUG_OUT << "destroying proxy " << proxy->getHandle() << "... (call UIFunctions::destroy())" << std::endl;
+            log(sim_verbosity_debug, boost::format("destroying proxy %d... (call UIFunctions::destroy())") % proxy->getHandle());
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 // analogous of previous function, but to be used when called from UI thread:
@@ -125,19 +125,19 @@ void Proxy::destroyAllObjects()
 void Proxy::destroyAllObjectsFromUIThread()
 {
     ASSERT_THREAD(UI);
-    DEBUG_OUT << "[enter]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
     {
         Proxy *proxy = it->second;
         if(proxy)
         {
-            DEBUG_OUT << "destroying proxy " << proxy->getHandle() << "... (call UIProxy::onDestroy())" << std::endl;
+            log(sim_verbosity_debug, boost::format("destroying proxy %d... (call UIProxy::onDestroy())") % proxy->getHandle());
             UIProxy::getInstance()->onDestroy(proxy); // will also delete proxy
         }
     }
 
-    DEBUG_OUT << "[leave]" << std::endl;
+    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)

@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "simLib.h"
 
 #include <sstream>
 #include <iostream>
@@ -30,5 +31,18 @@ void simThread()
     if(SIM_THREAD != NULL && SIM_THREAD != h)
         std::cerr << "warning: SIM thread has already been set" << std::endl;
     SIM_THREAD = h;
+}
+
+void log(int v, const std::string &msg)
+{
+    int vg = sim_verbosity_default;
+    simGetModuleInfo(PLUGIN_NAME, sim_moduleinfo_verbosity, nullptr, &vg);
+    if(vg < v) return;
+    std::cout << PLUGIN_NAME << ": " << msg << std::endl;
+}
+
+void log(int v, boost::format &fmt)
+{
+    log(v, fmt.str());
 }
 

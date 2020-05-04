@@ -4,10 +4,12 @@
 #include "config.h"
 
 #include <iostream>
+#include <boost/format.hpp>
 
 #include <QThread>
 
 #include "plugin.h"
+#include "simConst.h"
 
 extern Qt::HANDLE UI_THREAD;
 extern Qt::HANDLE SIM_THREAD;
@@ -16,37 +18,30 @@ std::string threadNickname();
 void uiThread();
 void simThread();
 
-#ifndef DEBUG_STREAM
-#define DEBUG_STREAM std::cerr
-#endif // DEBUG_STREAM
+void log(int v, const std::string &msg);
+void log(int v, boost::format &fmt);
 
 #ifdef __PRETTY_FUNCTION__
-#define DBG_WHAT __PRETTY_FUNCTION__
+#define __FUNC__ __PRETTY_FUNCTION__
 #else
-#define DBG_WHAT __func__
+#define __FUNC__ __func__
 #endif
-
-#ifndef NDEBUG
-#define DEBUG_OUT DEBUG_STREAM << "\033[1;33m[" << PLUGIN_NAME << ":" << threadNickname() << "] \033[1;31m" << __FILE__ << ":" << __LINE__ << "  \033[1;32m" << DBG_WHAT << "\033[0m" << "  "
-#else // NDEBUG
-#define DEBUG_OUT if(true) {} else DEBUG_STREAM
-#endif // NDEBUG
 
 #define ASSERT_THREAD(ID) \
     if(UI_THREAD == NULL) {\
-        DEBUG_OUT << "WARNING: cannot check ASSERT_THREAD(" #ID ") because global variable UI_THREAD is not set yet." << std::endl;\
+        log(sim_verbosity_debug, "WARNING: cannot check ASSERT_THREAD(" #ID ") because global variable UI_THREAD is not set yet.");\
     } else if(strcmp(#ID, "UI") == 0) {\
         if(QThread::currentThreadId() != UI_THREAD) {\
-            std::cerr << PLUGIN_NAME << ": " << __FILE__ << ":" << __LINE__ << " FATAL: " << DBG_WHAT << " should be called from UI thread" << std::endl;\
+            log(sim_verbosity_errors, boost::format("%s:%d %s should be called from UI thread") % __FILE__ % __LINE__ % __FUNC__);\
             exit(1);\
         }\
     } else if(strcmp(#ID, "!UI") == 0) {\
         if(QThread::currentThreadId() == UI_THREAD) {\
-            std::cerr << PLUGIN_NAME << ": " << __FILE__ << ":" << __LINE__ << " FATAL: " << DBG_WHAT << " should NOT be called from UI thread" << std::endl;\
+            log(sim_verbosity_errors, boost::format("%s:%d %s should NOT be called from UI thread") % __FILE__ % __LINE__ % __FUNC__);\
             exit(1);\
         }\
     } else {\
-        DEBUG_OUT << "WARNING: cannot check ASSERT_THREAD(" #ID "). Can check only UI and !UI." << std::endl;\
+        log(sim_verbosity_debug, "WARNING: cannot check ASSERT_THREAD(" #ID "). Can check only UI and !UI.");\
     }
 
 #endif // DEBUG_H_INCLUDED
