@@ -21,18 +21,17 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Wind
       sceneID(sceneID_),
       scriptID(scriptID_)
 {
-    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
+    TRACE_FUNC;
 
     Proxy::proxies[handle] = this;
 
     log(sim_verbosity_debug, boost::format("Proxy::proxies[%d] = %x (tableSize=%d)") % handle % this % Proxy::proxies.size());
-    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 Proxy::~Proxy()
 {
     ASSERT_THREAD(UI);
-    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
+    TRACE_FUNC;
 
     // should be destroyed from the UI thread
 
@@ -44,8 +43,6 @@ Proxy::~Proxy()
     }
 
     Proxy::proxies.erase(handle);
-
-    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 Proxy* Proxy::byHandle(int handle)
@@ -77,7 +74,7 @@ void Proxy::createQtWidget(UIProxy *uiproxy)
 void Proxy::destroyTransientObjects()
 {
     ASSERT_THREAD(!UI);
-    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
+    TRACE_FUNC;
 
     std::vector<int> t;
 
@@ -96,8 +93,6 @@ void Proxy::destroyTransientObjects()
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
-
-    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 // destroy all objects (must be called from SIM thread):
@@ -105,7 +100,7 @@ void Proxy::destroyTransientObjects()
 void Proxy::destroyAllObjects()
 {
     ASSERT_THREAD(!UI);
-    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
+    TRACE_FUNC;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
     {
@@ -116,8 +111,6 @@ void Proxy::destroyAllObjects()
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
-
-    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 // analogous of previous function, but to be used when called from UI thread:
@@ -125,7 +118,7 @@ void Proxy::destroyAllObjects()
 void Proxy::destroyAllObjectsFromUIThread()
 {
     ASSERT_THREAD(UI);
-    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
+    TRACE_FUNC;
 
     for(std::map<int, Proxy*>::const_iterator it = Proxy::proxies.begin(); it != Proxy::proxies.end(); ++it)
     {
@@ -136,8 +129,6 @@ void Proxy::destroyAllObjectsFromUIThread()
             UIProxy::getInstance()->onDestroy(proxy); // will also delete proxy
         }
     }
-
-    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)

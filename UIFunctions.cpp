@@ -38,7 +38,7 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
 
 void UIFunctions::destroyInstance()
 {
-    log(sim_verbosity_debug, boost::format("[enter] %s") % __FUNC__);
+    TRACE_FUNC;
 
     if(UIFunctions::instance)
     {
@@ -46,8 +46,6 @@ void UIFunctions::destroyInstance()
 
         log(sim_verbosity_debug, "destroyed UIFunctions instance");
     }
-
-    log(sim_verbosity_debug, boost::format("[leave] %s") % __FUNC__);
 }
 
 void UIFunctions::connectSignals()

@@ -27,6 +27,17 @@ void log(int v, boost::format &fmt);
 #define __FUNC__ __func__
 #endif
 
+class FuncTracer
+{
+    int l_;
+    std::string f_;
+public:
+    FuncTracer(const std::string &f, int l = sim_verbosity_warnings) : f_(f), l_(l) {log(l_, f_ + " [enter]");}
+    ~FuncTracer() {log(l_, f_ + " [leave]");}
+};
+
+#define TRACE_FUNC FuncTracer __x865724935876492587346##__LINE__((boost::format("%s:%d:%s:") % __FILE__ % __LINE__ % __FUNC__).str())
+
 #define ASSERT_THREAD(ID) \
     if(UI_THREAD == NULL) {\
         log(sim_verbosity_debug, "WARNING: cannot check ASSERT_THREAD(" #ID ") because global variable UI_THREAD is not set yet.");\
