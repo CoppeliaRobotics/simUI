@@ -1,8 +1,6 @@
 #include "Window.h"
 #include "Widget.h"
 
-#include "debug.h"
-
 #include "XMLUtils.h"
 
 #include "UIProxy.h"

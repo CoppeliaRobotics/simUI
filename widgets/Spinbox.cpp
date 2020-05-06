@@ -1,7 +1,6 @@
 #include "Spinbox.h"
 
 #include "XMLUtils.h"
-#include "debug.h"
 #include "UIProxy.h"
 
 #include <cmath>

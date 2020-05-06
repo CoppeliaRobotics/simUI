@@ -35,6 +35,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QDataflowCanvas)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QCustomPlot-2.0.1)
 include_directories(${Boost_INCLUDE_DIRS})
+add_definitions(-DQT_COMPIL)
 
 coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/simExtCustomUI.lua)
 
@@ -70,7 +71,6 @@ set(SOURCES
     UIFunctions.cpp
     UIProxy.cpp
     XMLUtils.cpp
-    debug.cpp
     tinyxml2.cpp
     plugin.cpp
     c.cpp

@@ -1,5 +1,3 @@
-#include "debug.h"
-
 #include "XMLUtils.h"
 
 #include "UIProxy.h"

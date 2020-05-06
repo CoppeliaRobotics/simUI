@@ -27,7 +27,6 @@
 
 #include "simPlusPlus/Plugin.h"
 #include "plugin.h"
-#include "debug.h"
 #include "config.h"
 #include "stubs.h"
 #include "Proxy.h"

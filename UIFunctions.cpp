@@ -1,5 +1,4 @@
 #include "UIFunctions.h"
-#include "debug.h"
 #include "UIProxy.h"
 
 #include <QThread>

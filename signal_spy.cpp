@@ -1,5 +1,4 @@
 #include "signal_spy.h"
-#include "debug.h"
 #include "UIProxy.h"
 #include "UIFunctions.h"
 #include <string>

@@ -3,7 +3,6 @@
 #include "XMLUtils.h"
 
 #include "UIProxy.h"
-#include "debug.h"
 
 #include <iostream>
 #include <boost/lexical_cast.hpp>

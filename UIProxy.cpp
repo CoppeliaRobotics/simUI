@@ -1,5 +1,4 @@
 #include "UIProxy.h"
-#include "debug.h"
 
 #include <QThread>
 #include <QMessageBox>
