@@ -47,7 +47,7 @@ public:
     {
         oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
 
-        if(simGetMainWindow(1) == NULL)
+        if(simGetBooleanParameter(sim_boolparam_headless) > 0)
             throw std::runtime_error("doesn't work in headless mode");
 
         if(!registerScriptStuff())
