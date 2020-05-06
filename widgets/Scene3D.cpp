@@ -13,7 +13,7 @@
 //#define DEBUG_QT3D_CALLS
 
 #ifdef DEBUG_QT3D_CALLS
-#define LOG_QT3D_CALL(msg) std::cout << "QT3D: " << msg << std::endl
+#define LOG_QT3D_CALL(msg) log(sim_verbosity_debug, boost::format("QT3D: %s") % msg)
 #else
 #define LOG_QT3D_CALL(msg)
 #endif

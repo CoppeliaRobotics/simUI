@@ -649,12 +649,12 @@ void UIProxy::onAnchorClicked(const QUrl &link)
 #if WIDGET_SCENE3D
 void UIProxy::onViewCenterChanged(const QVector3D &viewCenter)
 {
-    std::cout << "View center changed: " << viewCenter.x() << ", " << viewCenter.y() << ", " << viewCenter.z() << std::endl;
+    log(sim_verbosity_debug, boost::format("View center changed: %f, %f, %f") % viewCenter.x() % viewCenter.y() % viewCenter.z());
 }
 
 void UIProxy::onPositionChanged(const QVector3D &position)
 {
-    std::cout << "Position changed: " << position.x() << ", " << position.y() << ", " << position.z() << std::endl;
+    log(sim_verbosity_debug, boost::format("Position changed: %f, %f, %f") % position.x() % position.y() % position.z());
 }
 
 void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
