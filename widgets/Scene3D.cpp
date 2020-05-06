@@ -8,6 +8,7 @@
 
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
+#include <boost/lexical_cast.hpp>
 
 //#define DEBUG_QT3D_CALLS
 
