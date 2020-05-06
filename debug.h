@@ -18,9 +18,6 @@ std::string threadNickname();
 void uiThread();
 void simThread();
 
-void log(int v, const std::string &msg);
-void log(int v, boost::format &fmt);
-
 #ifdef __PRETTY_FUNCTION__
 #define __FUNC__ __PRETTY_FUNCTION__
 #else

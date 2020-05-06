@@ -33,16 +33,3 @@ void simThread()
     SIM_THREAD = h;
 }
 
-void log(int v, const std::string &msg)
-{
-    int vg = sim_verbosity_default;
-    simGetModuleInfo(PLUGIN_NAME, sim_moduleinfo_verbosity, nullptr, &vg);
-    if(vg < v) return;
-    std::cout << PLUGIN_NAME << ": " << msg << std::endl;
-}
-
-void log(int v, boost::format &fmt)
-{
-    log(v, fmt.str());
-}
-
