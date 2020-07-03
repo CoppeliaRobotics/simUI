@@ -56,8 +56,6 @@ public:
         setExtVersion("Custom User-Interface Plugin");
         setBuildDate(BUILD_DATE);
 
-#include "lua_calltips.cpp"
-
 #if defined(ENABLE_SIGNAL_SPY) && !defined(NDEBUG)
         SignalSpy::start();
 #endif
