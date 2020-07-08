@@ -24,6 +24,7 @@ protected:
     std::string onMouseDown;
     std::string onMouseUp;
     std::string onMouseMove;
+    bool scaledContents;
 
 public:
     Image();

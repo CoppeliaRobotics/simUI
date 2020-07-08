@@ -26,6 +26,8 @@ void Image::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     height = xmlutils::getAttrInt(e, "height", -1);
 
+    scaledContents = xmlutils::getAttrBool(e, "scaled-contents", false);
+
     onMouseDown = xmlutils::getAttrStr(e, "on-mouse-down", "");
 
     onMouseUp = xmlutils::getAttrStr(e, "on-mouse-up", "");
@@ -41,6 +43,7 @@ QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     label->setEnabled(enabled);
     label->setVisible(visible);
     label->setStyleSheet(QString::fromStdString(style));
+    label->setScaledContents(scaledContents);
     if(width > 0 && height > 0)
     {
         QImage img(width, height, QImage::Format_ARGB32);

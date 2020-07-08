@@ -416,6 +416,12 @@
                 <description>Desired height for the initial image.</description>
             </attribute>
             <attribute>
+                <name>scaled-contents</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>This property holds whether this widget will scale its image to fill all available space.</description>
+            </attribute>
+            <attribute>
                 <name>on-mouse-down</name>
                 <type>string</type>
                 <default />
