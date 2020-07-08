@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "simLib.h"
+#include "stubs.h"
 
 static std::set<std::string> repDepNames;
 
@@ -18,10 +19,10 @@ static std::set<std::string> repDepNames;
     if(repDepNames.find(dname) == repDepNames.end())    \
     {                                                   \
         std::stringstream ss;                           \
-        ss << "WARNING: attribute name '" << dname      \
+        ss << "attribute name '" << dname               \
            << "' is deprecated. please use '" << name   \
            << "' instead.";                             \
-        simAddStatusbarMessage(ss.str().c_str());       \
+        log(sim_verbosity_warnings, ss.str().c_str());  \
         repDepNames.insert(dname);                      \
     }
 
@@ -437,7 +438,7 @@ void xmlutils::reportUnknownAttributes(const std::string &widget, tinyxml2::XMLE
 {
     BOOST_FOREACH(const std::string &a, getUnknownAttributes(e))
     {
-        simAddStatusbarMessage((boost::format("WARNING: unknown UI XML attribute '%s' in widget '%s'") % a % widget).str().c_str());
+        log(sim_verbosity_warnings, boost::format("unknown UI XML attribute '%s' in widget '%s'") % a % widget);
     }
 }
 
