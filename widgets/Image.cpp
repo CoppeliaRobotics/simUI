@@ -28,6 +28,8 @@ void Image::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     scaledContents = xmlutils::getAttrBool(e, "scaled-contents", false);
 
+    keepAspectRatio = xmlutils::getAttrBool(e, "keep-aspect-ratio", false);
+
     onMouseDown = xmlutils::getAttrStr(e, "on-mouse-down", "");
 
     onMouseUp = xmlutils::getAttrStr(e, "on-mouse-up", "");
@@ -67,7 +69,7 @@ void Image::setImage(const char *data, int w, int h)
     int bpp = 3; // bytes per pixel
     QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, bpp * w, format));
     simReleaseBufferE((char *)data); // XXX: simReleaseBuffer should accept a const pointer?
-    QLabel *qimage = static_cast<QLabel*>(getQWidget());
+    QImageWidget *qimage = static_cast<QImageWidget*>(getQWidget());
     qimage->setPixmap(pixmap);
     qimage->resize(pixmap.size());
 }
@@ -76,6 +78,46 @@ QImageWidget::QImageWidget(QWidget *parent, Image *image_)
     : QLabel(parent), image(image_)
 {
     setMouseTracking(true);
+}
+
+void QImageWidget::setPixmap(const QPixmap &pm)
+{
+    pixmapWidth = pm.width();
+    pixmapHeight = pm.height();
+    updateMargins();
+    QLabel::setPixmap(pm);
+}
+
+void QImageWidget::resizeEvent(QResizeEvent *event)
+{
+    updateMargins();
+    QLabel::resizeEvent(event);
+}
+
+void QImageWidget::updateMargins()
+{
+    if(pixmapWidth <= 0 || pixmapHeight <= 0) return;
+
+    if(!image->keepAspectRatio)
+    {
+        setContentsMargins(0, 0, 0, 0);
+        return;
+    }
+
+    int w = this->width();
+    int h = this->height();
+
+    if(w <= 0 || h <= 0) return;
+    if(w * pixmapHeight > h * pixmapWidth)
+    {
+        int m = (w - (pixmapWidth * h / pixmapHeight)) / 2;
+        setContentsMargins(m, 0, m, 0);
+    }
+    else
+    {
+        int m = (h - (pixmapHeight * w / pixmapWidth)) / 2;
+        setContentsMargins(0, m, 0, m);
+    }
 }
 
 void QImageWidget::mouseMoveEvent(QMouseEvent *event)

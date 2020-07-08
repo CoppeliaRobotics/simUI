@@ -422,6 +422,12 @@
                 <description>This property holds whether this widget will scale its image to fill all available space.</description>
             </attribute>
             <attribute>
+                <name>keep-aspect-ratio</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, and also scaled-contents is true, will keep aspect ratio when resizing.</description>
+            </attribute>
+            <attribute>
                 <name>on-mouse-down</name>
                 <type>string</type>
                 <default />

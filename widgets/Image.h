@@ -25,6 +25,7 @@ protected:
     std::string onMouseUp;
     std::string onMouseMove;
     bool scaledContents;
+    bool keepAspectRatio;
 
 public:
     Image();
@@ -44,9 +45,15 @@ class QImageWidget : public QLabel
     Q_OBJECT
 private:
     Image *image;
+    int pixmapWidth;
+    int pixmapHeight;
 
 public:
     QImageWidget(QWidget *parent, Image *image_);
+    void setPixmap(const QPixmap &pm);
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+    void updateMargins();
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
