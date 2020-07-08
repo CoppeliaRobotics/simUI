@@ -77,6 +77,8 @@ void Image::setImage(const char *data, int w, int h)
 QImageWidget::QImageWidget(QWidget *parent, Image *image_)
     : QLabel(parent), image(image_)
 {
+    pixmapWidth = 0;
+    pixmapHeight = 0;
     setMouseTracking(true);
 }
 
