@@ -38,6 +38,7 @@ coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAK
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html
     COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl)
+add_custom_target(generate_widgets_html ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html)
 
 set(ENABLE_SIGNAL_SPY false CACHE BOOL "if Qt private headers are installed, enable this to debug Qt signals")
 set(WIDGET_BUTTON true CACHE BOOL "include the button widget")
