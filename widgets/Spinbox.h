@@ -19,6 +19,7 @@ class UIProxy;
 class Spinbox : public Widget, public EventOnChangeDouble
 {
 protected:
+    double value;
     double minimum;
     double maximum;
     std::string prefix;

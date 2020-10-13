@@ -341,6 +341,12 @@
                 <description>Qt stylesheet.</description>
             </attribute>
             <attribute>
+                <name>value</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Initial value.</description>
+            </attribute>
+            <attribute>
                 <name>minimum</name>
                 <type>int</type>
                 <default>0</default>
@@ -779,6 +785,12 @@
                 <description>Qt stylesheet.</description>
             </attribute>
             <attribute>
+                <name>value</name>
+                <type>int or float</type>
+                <default>0</default>
+                <description>Initial value.</description>
+            </attribute>
+            <attribute>
                 <name>minimum</name>
                 <type>int or float</type>
                 <default>0</default>
@@ -1049,6 +1061,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <type>string</type>
                 <default />
                 <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
+                <name>value</name>
+                <type>int</type>
+                <default>0</default>
+                <description>Initial value.</description>
             </attribute>
             <attribute>
                 <name>minimum</name>

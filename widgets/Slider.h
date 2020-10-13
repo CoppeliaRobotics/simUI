@@ -20,6 +20,7 @@ class UIProxy;
 class Slider : public Widget, public EventOnChangeInt
 {
 protected:
+    int value;
     int minimum;
     int maximum;
     int tickInterval;

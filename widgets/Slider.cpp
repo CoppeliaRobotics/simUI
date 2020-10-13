@@ -22,6 +22,8 @@ void Slider::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 {
     Widget::parse(parent, widgets, e);
 
+    value = xmlutils::getAttrInt(e, "value", 0);
+
     minimum = xmlutils::getAttrInt(e, "minimum", 0);
 
     maximum = xmlutils::getAttrInt(e, "maximum", 100);
@@ -53,6 +55,7 @@ QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     slider->setEnabled(enabled);
     slider->setVisible(visible);
     slider->setStyleSheet(QString::fromStdString(style));
+    slider->setValue(value);
     slider->setMinimum(minimum);
     slider->setMaximum(maximum);
     slider->setTickPosition(tickPosition);

@@ -25,6 +25,8 @@ void Spinbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
 {
     Widget::parse(parent, widgets, e);
 
+    value = xmlutils::getAttrDouble(e, "value", 0);
+
     minimum = xmlutils::getAttrDouble(e, "minimum", 0);
 
     maximum = xmlutils::getAttrDouble(e, "maximum", 100);
@@ -49,6 +51,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
         spinbox->setEnabled(enabled);
         spinbox->setVisible(visible);
         spinbox->setStyleSheet(QString::fromStdString(style));
+        spinbox->setValue(value);
         spinbox->setMinimum(minimum);
         spinbox->setMaximum(maximum);
         spinbox->setPrefix(QString::fromStdString(prefix));
@@ -65,6 +68,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
         spinbox->setEnabled(enabled);
         spinbox->setVisible(visible);
         spinbox->setStyleSheet(QString::fromStdString(style));
+        spinbox->setValue(int(value));
         spinbox->setMinimum(int(minimum));
         spinbox->setMaximum(int(maximum));
         spinbox->setPrefix(QString::fromStdString(prefix));
