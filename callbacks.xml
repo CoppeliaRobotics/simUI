@@ -789,6 +789,27 @@
         <return>
         </return>
     </command>
+    <command name="setWindowEnabled">
+        <description>Enable or disable a UI window.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
+        <see-also>
+        </see-also>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="enabled" type="bool">
+                <description>enabled</description>
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="setImageData">
         <description>Set image content using specified bitmap (RGB888) data.</description>
         <categories>

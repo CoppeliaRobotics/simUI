@@ -795,6 +795,16 @@ void UIProxy::onSetTitle(Window *window, std::string title)
     window->setTitle(title);
 }
 
+void UIProxy::onSetWindowEnabled(Window *window, bool enabled)
+{
+    ASSERT_THREAD(UI);
+    TRACE_FUNC;
+
+    if(!window) return;
+
+    window->setEnabled(enabled);
+}
+
 #if WIDGET_IMAGE
 void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 {

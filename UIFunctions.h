@@ -99,6 +99,7 @@ signals:
     void setPosition(Window *window, int x, int y);
     void setSize(Window *window, int w, int h);
     void setTitle(Window *window, std::string title);
+    void setWindowEnabled(Window *window, bool enabled);
 
 #if WIDGET_IMAGE
     void setImage(Image *image, const char *data, int w, int h);

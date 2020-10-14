@@ -109,6 +109,7 @@ public slots:
     void onSetPosition(Window *window, int x, int y);
     void onSetSize(Window *window, int w, int h);
     void onSetTitle(Window *window, std::string title);
+    void onSetWindowEnabled(Window *window, bool enabled);
 
 #if WIDGET_IMAGE
     void onSetImage(Image *image, const char *data, int w, int h);

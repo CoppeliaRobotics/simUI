@@ -52,6 +52,8 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     title = xmlutils::getAttrStr(e, "title", "Custom UI");
 
+    enabled = xmlutils::getAttrBool(e, "enabled", true);
+
     resizable = xmlutils::getAttrBool(e, "resizable", false);
 
     closeable = xmlutils::getAttrBool(e, "closeable", false);
@@ -157,6 +159,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     if(!activate) window->setAttribute(Qt::WA_ShowWithoutActivating);
     if(qwidget_size.isValid())
         window->resize(qwidget_size);
+    window->setEnabled(enabled);
     window->show();
 #if defined(LIN_SIM) || defined(MAC_SIM)
     if(!resizable) window->setFixedSize(window->size());
@@ -230,6 +233,12 @@ std::string Window::getTitle()
 {
     QDialog *dialog = static_cast<QDialog*>(getQWidget());
     return dialog->windowTitle().toStdString();
+}
+
+void Window::setEnabled(bool enabled)
+{
+    QDialog *dialog = static_cast<QDialog*>(getQWidget());
+    return dialog->setEnabled(enabled);
 }
 
 void Window::onSceneChange(int oldSceneID, int newSceneID)

@@ -512,6 +512,17 @@ public:
         UIFunctions::getInstance()->setTitle(window, in->title);
     }
 
+    void setWindowEnabled(setWindowEnabled_in *in, setWindowEnabled_out *out)
+    {
+        ASSERT_THREAD(!UI);
+        Proxy *proxy = Proxy::byHandle(in->handle);
+        if(!proxy)
+            throw std::runtime_error("invalid ui handle");
+
+        Window *window = proxy->getWidget();
+        UIFunctions::getInstance()->setWindowEnabled(window, in->enabled);
+    }
+
     void setImageData(setImageData_in *in, setImageData_out *out)
     {
 #if WIDGET_IMAGE

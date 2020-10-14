@@ -78,6 +78,7 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setPosition, uiproxy, &UIProxy::onSetPosition, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setSize, uiproxy, &UIProxy::onSetSize, Qt::BlockingQueuedConnection);
     connect(this, &UIFunctions::setTitle, uiproxy, &UIProxy::onSetTitle, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::setWindowEnabled, uiproxy, &UIProxy::onSetWindowEnabled, Qt::BlockingQueuedConnection);
 #if WIDGET_IMAGE
     connect(this, &UIFunctions::setImage, uiproxy, &UIProxy::onSetImage, Qt::BlockingQueuedConnection);
     connect(uiproxy, &UIProxy::loadImageFromFile, this, &UIFunctions::onLoadImageFromFile);

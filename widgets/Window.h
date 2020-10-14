@@ -28,6 +28,7 @@ class WindowWidget : public Widget
 class Window : public LayoutWidget
 {
 protected:
+    bool enabled;
     std::string title;
     bool resizable;
     bool closeable;
@@ -66,6 +67,7 @@ public:
     void resize(int w, int h);
     void setTitle(std::string title);
     std::string getTitle();
+    void setEnabled(bool enabled);
 
     void onSceneChange(int oldSceneID, int newSceneID);
 
