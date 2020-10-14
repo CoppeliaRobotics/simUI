@@ -144,7 +144,7 @@ public:
         int scriptProperty;
         int objectHandle;
         simGetScriptProperty(in->_scriptID, &scriptProperty, &objectHandle);
-        int scriptType = (scriptProperty | sim_scripttype_threaded) - sim_scripttype_threaded;
+        int scriptType = (scriptProperty | sim_scripttype_threaded_old) - sim_scripttype_threaded_old;
         if(scriptType == sim_scripttype_mainscript || scriptType == sim_scripttype_childscript)
             destroy = true;
 
