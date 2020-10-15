@@ -187,6 +187,27 @@ void UIProxy::onFileDialog(int type, std::string title, std::string startPath, s
     }
 }
 
+void UIProxy::onColorDialog(std::vector<float> initColor, std::string title, bool showAlphaChannel, bool native, std::vector<float> *result)
+{
+    ASSERT_THREAD(UI);
+
+    QString qtitle = QString::fromStdString(title);
+    QColor cinitColor;
+    cinitColor.setRgbF(initColor[0], initColor[1], initColor[2]);
+    if(initColor.size() == 4) cinitColor.setAlphaF(initColor[3]);
+    if(!cinitColor.isValid()) cinitColor = Qt::white;
+
+    QColorDialog::ColorDialogOptions opts;
+    if(showAlphaChannel) opts |= QColorDialog::ShowAlphaChannel;
+    if(!native) opts |= QColorDialog::DontUseNativeDialog;
+
+    QColor cresult = QColorDialog::getColor(cinitColor, nullptr, qtitle, opts);
+    result->push_back(cresult.redF());
+    result->push_back(cresult.greenF());
+    result->push_back(cresult.blueF());
+    if(showAlphaChannel) result->push_back(cresult.alphaF());
+}
+
 void UIProxy::onCreate(Proxy *proxy)
 {
     ASSERT_THREAD(UI);

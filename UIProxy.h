@@ -35,6 +35,7 @@ public:
 public slots:
     void onMsgBox(int type, int buttons, std::string title, std::string message, int *result);
     void onFileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, bool native, std::vector<std::string> *result);
+    void onColorDialog(std::vector<float> initColor, std::string title, bool showAlphaChannel, bool native, std::vector<float> *result);
     void onDestroy(Proxy *proxy);
     void onCreate(Proxy *proxy);
 

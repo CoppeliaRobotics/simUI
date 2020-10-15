@@ -116,6 +116,17 @@ public:
         log(sim_verbosity_debug, "[leave]");
     }
 
+    void colorDialog(colorDialog_in *in, colorDialog_out *out)
+    {
+        log(sim_verbosity_debug, "[enter]");
+        // this function is called also from the C API: always run it in the correct thread
+        if(QThread::currentThreadId() == UI_THREAD)
+            UIProxy::getInstance()->onColorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &out->result);
+        else
+            UIFunctions::getInstance()->colorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &out->result);
+        log(sim_verbosity_debug, "[leave]");
+    }
+
     void create(create_in *in, create_out *out)
     {
         ASSERT_THREAD(!UI);

@@ -48,3 +48,26 @@ SIM_DLLEXPORT char * customUi_fileDialog(int type, const char *title, const char
     return ret;
 }
 
+SIM_DLLEXPORT float * customUi_colorDialog(const float *initColor, const char *title, int showAlphaChannel, int native)
+{
+    colorDialog_in in;
+    for(int i = 0; i < (showAlphaChannel ? 4 : 3); i++)
+        in.initColor.push_back(initColor[i]);
+    in.title = title;
+    in.showAlphaChannel = showAlphaChannel;
+    in.native = !!native;
+
+    colorDialog_out out;
+
+    colorDialog(nullptr, "", &in, &out);
+
+    if(out.result.empty()) return nullptr;
+
+    simFloat *ret = (simFloat*)simCreateBuffer(sizeof(simFloat) * (showAlphaChannel ? 4 : 3));
+    ret[0] = out.result[0];
+    ret[1] = out.result[1];
+    ret[2] = out.result[2];
+    if(showAlphaChannel) ret[3] = out.result[3];
+    return ret;
+}
+

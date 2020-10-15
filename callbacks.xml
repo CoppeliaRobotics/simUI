@@ -56,6 +56,28 @@
             </param>
         </return>
     </command>
+    <command name="colorDialog">
+        <description>Display a color dialog.</description>
+        <params>
+            <param name="initColor" type="table" item-type="float" min-size="3" max-size="4" default="{1,1,1}">
+                <description>initial color</description>
+            </param>
+            <param name="title" type="string" default="Select color">
+                <description>the title of the dialog</description>
+            </param>
+            <param name="showAlphaChannel" type="bool" default="false">
+                <description>allow the user to select the alpha component of a color</description>
+            </param>
+            <param name="native" type="bool" default="true">
+                <description>use OS-native file dialogs</description>
+            </param>
+        </params>
+        <return>
+            <param name="result" type="table" item-type="float" size="3">
+                <description>result</description>
+            </param>
+        </return>
+    </command>
     <command name="create">
         <description>Create a window.</description>
         <categories>
