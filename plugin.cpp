@@ -155,7 +155,11 @@ public:
         int scriptProperty;
         int objectHandle;
         simGetScriptProperty(in->_scriptID, &scriptProperty, &objectHandle);
+#if SIM_PROGRAM_FULL_VERSION_NB <= 4010003
+        int scriptType = (scriptProperty | sim_scripttype_threaded) - sim_scripttype_threaded;
+#else
         int scriptType = (scriptProperty | sim_scripttype_threaded_old) - sim_scripttype_threaded_old;
+#endif
         if(scriptType == sim_scripttype_mainscript || scriptType == sim_scripttype_childscript)
             destroy = true;
 
