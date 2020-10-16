@@ -45,7 +45,7 @@ class Plugin : public sim::Plugin
 public:
     void onStart()
     {
-        oldSceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
+        oldSceneID = sim::getInt32Parameter(sim_intparam_scene_unique_id);
 
         if(simGetBooleanParameter(sim_boolparam_headless) > 0)
             throw std::runtime_error("doesn't work in headless mode");
@@ -92,7 +92,7 @@ public:
 
     void msgBox(msgBox_in *in, msgBox_out *out)
     {
-        log(sim_verbosity_debug, "[enter]");
+        sim::addLog(sim_verbosity_debug, "[enter]");
         int result;
         // this function is called also from the C API: always run it in the correct thread
         if(QThread::currentThreadId() == UI_THREAD)
@@ -100,12 +100,12 @@ public:
         else
             UIFunctions::getInstance()->msgBox(in->type, in->buttons, in->title, in->message, &result);
         out->result = result;
-        log(sim_verbosity_debug, "[leave]");
+        sim::addLog(sim_verbosity_debug, "[leave]");
     }
 
     void fileDialog(fileDialog_in *in, fileDialog_out *out)
     {
-        log(sim_verbosity_debug, "[enter]");
+        sim::addLog(sim_verbosity_debug, "[enter]");
         std::vector<std::string> result;
         // this function is called also from the C API: always run it in the correct thread
         if(QThread::currentThreadId() == UI_THREAD)
@@ -113,24 +113,24 @@ public:
         else
             UIFunctions::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
         for(auto x : result) out->result.push_back(x);
-        log(sim_verbosity_debug, "[leave]");
+        sim::addLog(sim_verbosity_debug, "[leave]");
     }
 
     void colorDialog(colorDialog_in *in, colorDialog_out *out)
     {
-        log(sim_verbosity_debug, "[enter]");
+        sim::addLog(sim_verbosity_debug, "[enter]");
         // this function is called also from the C API: always run it in the correct thread
         if(QThread::currentThreadId() == UI_THREAD)
             UIProxy::getInstance()->onColorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &out->result);
         else
             UIFunctions::getInstance()->colorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &out->result);
-        log(sim_verbosity_debug, "[leave]");
+        sim::addLog(sim_verbosity_debug, "[leave]");
     }
 
     void create(create_in *in, create_out *out)
     {
         ASSERT_THREAD(!UI);
-        log(sim_verbosity_debug, "[enter]");
+        sim::addLog(sim_verbosity_debug, "[enter]");
         tinyxml2::XMLDocument xmldoc;
         tinyxml2::XMLError error = xmldoc.Parse(in->xml.c_str(), in->xml.size());
 
@@ -163,35 +163,35 @@ public:
         if(scriptType == sim_scripttype_mainscript || scriptType == sim_scripttype_childscript)
             destroy = true;
 
-        int sceneID = simGetInt32ParameterE(sim_intparam_scene_unique_id);
-        log(sim_verbosity_debug, boost::format("Creating a new Proxy object... (destroy at simulation end = %s)") % (destroy ? "true" : "false"));
+        int sceneID = sim::getInt32Parameter(sim_intparam_scene_unique_id);
+        sim::addLog(sim_verbosity_debug, "Creating a new Proxy object... (destroy at simulation end = %s)", (destroy ? "true" : "false"));
         Proxy *proxy = new Proxy(destroy, sceneID, in->_scriptID, window, widgets);
         out->uiHandle = proxy->getHandle();
-        log(sim_verbosity_debug, boost::format("Proxy %d created in scene %d") % proxy->getHandle() % sceneID);
+        sim::addLog(sim_verbosity_debug, "Proxy %d created in scene %d", proxy->getHandle(), sceneID);
 
-        log(sim_verbosity_debug, "call UIFunctions::create() (will emit the create(Proxy*) signal)...");
+        sim::addLog(sim_verbosity_debug, "call UIFunctions::create() (will emit the create(Proxy*) signal)...");
         UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
                                 // will run code for creating Qt widgets in the UI thread
-        log(sim_verbosity_debug, "[leave]");
+        sim::addLog(sim_verbosity_debug, "[leave]");
     }
 
     void destroy(destroy_in *in, destroy_out *out)
     {
         ASSERT_THREAD(!UI);
-        log(sim_verbosity_debug, "[enter]");
+        sim::addLog(sim_verbosity_debug, "[enter]");
 
         Proxy *proxy = Proxy::byHandle(in->handle);
         if(!proxy)
         {
-            log(sim_verbosity_debug, boost::format("invalid ui handle: %d") % in->handle);
+            sim::addLog(sim_verbosity_debug, "invalid ui handle: %d", in->handle);
 
             throw std::runtime_error("invalid ui handle");
         }
 
-        log(sim_verbosity_debug, "call UIFunctions::destroy() (will emit the destroy(Proxy*) signal)...");
+        sim::addLog(sim_verbosity_debug, "call UIFunctions::destroy() (will emit the destroy(Proxy*) signal)...");
         UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
 
-        log(sim_verbosity_debug, "[leave]");
+        sim::addLog(sim_verbosity_debug, "[leave]");
     }
 
     Widget* getWidget(int handle, int id)
@@ -559,7 +559,7 @@ public:
             throw std::runtime_error(ss.str());
         }
 
-        simChar *img = simCreateBufferE(sz);
+        simChar *img = sim::createBuffer(sz);
         std::memcpy(img, in->data.c_str(), sz);
         simInt resolution[2] = {in->width, in->height};
         simTransformImage((simUChar *)img, resolution, 4, NULL, NULL, NULL);

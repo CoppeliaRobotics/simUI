@@ -7,7 +7,7 @@
 #include "UIProxy.h"
 #include "UIFunctions.h"
 
-#include "simLib.h"
+#include <simPlusPlus/Lib.h>
 
 int Proxy::nextProxyHandle = 1000;
 std::map<int, Proxy *> Proxy::proxies;
@@ -24,7 +24,7 @@ Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Wind
 
     Proxy::proxies[handle] = this;
 
-    log(sim_verbosity_debug, boost::format("Proxy::proxies[%d] = %x (tableSize=%d)") % handle % this % Proxy::proxies.size());
+    sim::addLog(sim_verbosity_debug, "Proxy::proxies[%d] = %x (tableSize=%d)", handle, this, Proxy::proxies.size());
 }
 
 Proxy::~Proxy()
@@ -36,7 +36,7 @@ Proxy::~Proxy()
 
     if(ui)
     {
-        log(sim_verbosity_debug, "delete 'ui' member...");
+        sim::addLog(sim_verbosity_debug, "delete 'ui' member...");
 
         delete ui;
     }
@@ -49,7 +49,7 @@ Proxy* Proxy::byHandle(int handle)
     std::map<int, Proxy*>::const_iterator it = Proxy::proxies.find(handle);
     Proxy *ret = it == Proxy::proxies.end() ? NULL : it->second;
 
-    log(sim_verbosity_debug, boost::format("handle %d -> %x (tableSize=%d)") % handle % ret % Proxy::proxies.size());
+    sim::addLog(sim_verbosity_debug, "handle %d -> %x (tableSize=%d)", handle, ret, Proxy::proxies.size());
 
     return ret;
 }
@@ -88,7 +88,7 @@ void Proxy::destroyTransientObjects()
         Proxy *proxy = Proxy::byHandle(*it);
         if(proxy)
         {
-            log(sim_verbosity_debug, boost::format("destroying proxy %d... (call UIFunctions::destroy())") % proxy->getHandle());
+            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call UIFunctions::destroy())", proxy->getHandle());
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
@@ -106,7 +106,7 @@ void Proxy::destroyAllObjects()
         Proxy *proxy = it->second;
         if(proxy)
         {
-            log(sim_verbosity_debug, boost::format("destroying proxy %d... (call UIFunctions::destroy())") % proxy->getHandle());
+            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call UIFunctions::destroy())", proxy->getHandle());
             UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
@@ -124,7 +124,7 @@ void Proxy::destroyAllObjectsFromUIThread()
         Proxy *proxy = it->second;
         if(proxy)
         {
-            log(sim_verbosity_debug, boost::format("destroying proxy %d... (call UIProxy::onDestroy())") % proxy->getHandle());
+            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call UIProxy::onDestroy())", proxy->getHandle());
             UIProxy::getInstance()->onDestroy(proxy); // will also delete proxy
         }
     }

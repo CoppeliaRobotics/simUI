@@ -10,7 +10,7 @@
 #include <set>
 #include <vector>
 
-#include "simLib.h"
+#include <simPlusPlus/Lib.h>
 #include "stubs.h"
 
 static std::set<std::string> repDepNames;
@@ -22,7 +22,7 @@ static std::set<std::string> repDepNames;
         ss << "attribute name '" << dname               \
            << "' is deprecated. please use '" << name   \
            << "' instead.";                             \
-        log(sim_verbosity_warnings, ss.str().c_str());  \
+        sim::addLog(sim_verbosity_warnings, ss.str().c_str());  \
         repDepNames.insert(dname);                      \
     }
 
@@ -438,7 +438,7 @@ void xmlutils::reportUnknownAttributes(const std::string &widget, tinyxml2::XMLE
 {
     BOOST_FOREACH(const std::string &a, getUnknownAttributes(e))
     {
-        log(sim_verbosity_warnings, boost::format("unknown UI XML attribute '%s' in widget '%s'") % a % widget);
+        sim::addLog(sim_verbosity_warnings, "unknown UI XML attribute '%s' in widget '%s'", a, widget);
     }
 }
 

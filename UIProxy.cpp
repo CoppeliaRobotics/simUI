@@ -21,6 +21,7 @@
 #include <QTreeWidget>
 #include <QTextBrowser>
 
+#include <simPlusPlus/Lib.h>
 #include "stubs.h"
 
 using namespace tinyxml2;
@@ -53,7 +54,7 @@ UIProxy * UIProxy::getInstance(QObject *parent)
 
         uiThread(); // we remember this currentThreadId as the "UI" thread
 
-        log(sim_verbosity_debug, boost::format("UIProxy(%x) constructed in thread %s") % UIProxy::instance % QThread::currentThreadId());
+        sim::addLog(sim_verbosity_debug, "UIProxy(%x) constructed in thread %s", UIProxy::instance, QThread::currentThreadId());
     }
     return UIProxy::instance;
 }
@@ -66,7 +67,7 @@ void UIProxy::destroyInstance()
     {
         delete UIProxy::instance;
 
-        log(sim_verbosity_debug, "destroyed UIProxy instance");
+        sim::addLog(sim_verbosity_debug, "destroyed UIProxy instance");
     }
 }
 
@@ -670,12 +671,12 @@ void UIProxy::onAnchorClicked(const QUrl &link)
 #if WIDGET_SCENE3D
 void UIProxy::onViewCenterChanged(const QVector3D &viewCenter)
 {
-    log(sim_verbosity_debug, boost::format("View center changed: %f, %f, %f") % viewCenter.x() % viewCenter.y() % viewCenter.z());
+    sim::addLog(sim_verbosity_debug, "View center changed: %f, %f, %f", viewCenter.x(), viewCenter.y(), viewCenter.z());
 }
 
 void UIProxy::onPositionChanged(const QVector3D &position)
 {
-    log(sim_verbosity_debug, boost::format("Position changed: %f, %f, %f") % position.x() % position.y() % position.z());
+    sim::addLog(sim_verbosity_debug, "Position changed: %f, %f, %f", position.x(), position.y(), position.z());
 }
 
 void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
@@ -696,12 +697,12 @@ void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
         }
         else
         {
-            log(sim_verbosity_debug, "received QPickEvent but sender() is not associated with a Scene3D widget");
+            sim::addLog(sim_verbosity_debug, "received QPickEvent but sender() is not associated with a Scene3D widget");
         }
     }
     else
     {
-        log(sim_verbosity_debug, "received QPickEvent but sender() is not a QObjectPicker");
+        sim::addLog(sim_verbosity_debug, "received QPickEvent but sender() is not a QObjectPicker");
     }
 }
 #endif
@@ -714,25 +715,25 @@ void UIProxy::onDestroy(Proxy *proxy)
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    log(sim_verbosity_debug, boost::format("proxy=%x") %  proxy);
+    sim::addLog(sim_verbosity_debug, "proxy=%x",  proxy);
 
     if(!proxy)
     {
-        log(sim_verbosity_debug, "WARNING: proxy is NULL");
+        sim::addLog(sim_verbosity_debug, "WARNING: proxy is NULL");
         return;
     }
     if(!proxy->ui)
     {
-        log(sim_verbosity_debug, "WARNING: proxy->ui is NULL");
+        sim::addLog(sim_verbosity_debug, "WARNING: proxy->ui is NULL");
         return;
     }
     if(!proxy->ui->qwidget)
     {
-        log(sim_verbosity_debug, "WARNING: proxy->ui->qwidget is NULL");
+        sim::addLog(sim_verbosity_debug, "WARNING: proxy->ui->qwidget is NULL");
         return;
     }
 
-    log(sim_verbosity_debug, "calling proxy->ui->qwidget->deleteLater()...");
+    sim::addLog(sim_verbosity_debug, "calling proxy->ui->qwidget->deleteLater()...");
     proxy->ui->qwidget->deleteLater();
 }
 
@@ -767,7 +768,7 @@ void UIProxy::onShowWindow(Window *window)
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    log(sim_verbosity_debug, boost::format("window=%x") % window);
+    sim::addLog(sim_verbosity_debug, "window=%x", window);
 
     if(!window) return;
 
@@ -779,7 +780,7 @@ void UIProxy::onHideWindow(Window *window)
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    log(sim_verbosity_debug, boost::format("window=%x") % window);
+    sim::addLog(sim_verbosity_debug, "window=%x", window);
 
     if(!window) return;
 
@@ -832,7 +833,7 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    log(sim_verbosity_debug, boost::format("image=%x, data=%x, w=%d, h=%d") % image % data % w % h);
+    sim::addLog(sim_verbosity_debug, "image=%x, data=%x, w=%d, h=%d", image, data, w, h);
 
     image->setImage(data, w, h);
 }
@@ -843,7 +844,7 @@ void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    log(sim_verbosity_debug, boost::format("window=%x, oldSceneID=%d, newSceneID=%d") % window % oldSceneID % newSceneID);
+    sim::addLog(sim_verbosity_debug, "window=%x, oldSceneID=%d, newSceneID=%d", window, oldSceneID, newSceneID);
 
     if(!window) return;
 
@@ -855,7 +856,7 @@ void UIProxy::onSetEnabled(Widget *widget, bool enabled)
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    log(sim_verbosity_debug, boost::format("widget=%x, enabled=%d") % widget % enabled);
+    sim::addLog(sim_verbosity_debug, "widget=%x, enabled=%d", widget, enabled);
 
     if(!widget) return;
 
@@ -971,7 +972,7 @@ void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    log(sim_verbosity_debug, boost::format("widget=%x, visible=%d") % widget % visible);
+    sim::addLog(sim_verbosity_debug, "widget=%x, visible=%d", widget, visible);
 
     if(!widget) return;
 

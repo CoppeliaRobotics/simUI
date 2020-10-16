@@ -15,20 +15,20 @@ Widget::Widget(std::string widgetClass_)
     // don't do this here because id is set by user:
     // Widget::widgets[id] = this;
 
-    log(sim_verbosity_debug, boost::format("%s this=%x, widgetClass=%s") % __FUNC__ % this % widgetClass);
+    sim::addLog(sim_verbosity_debug, "%s this=%x, widgetClass=%s", __FUNC__, this, widgetClass);
 }
 
 Widget::~Widget()
 {
     Widget::widgets.erase(this);
 
-    log(sim_verbosity_debug, boost::format("%s this=%x, id=%d, widgetClass=%s") % __FUNC__ % this % id % widgetClass);
+    sim::addLog(sim_verbosity_debug, "%s this=%x, id=%d, widgetClass=%s", __FUNC__, this, id, widgetClass);
 
     // this should be destroyed from the UI thread
 
     if(qwidget)
     {
-        //log(sim_verbosity_debug, this << "  delete 'qwidget' member (deleteLater())");
+        //sim::addLog(sim_verbosity_debug, this << "  delete 'qwidget' member (deleteLater())");
 
         //qwidget->deleteLater();
 

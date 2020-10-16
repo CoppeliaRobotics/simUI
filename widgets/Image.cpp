@@ -68,7 +68,7 @@ void Image::setImage(const char *data, int w, int h)
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
     QPixmap pixmap = QPixmap::fromImage(QImage((unsigned char *)data, w, h, bpp * w, format));
-    simReleaseBufferE((char *)data); // XXX: simReleaseBuffer should accept a const pointer?
+    sim::releaseBuffer((char *)data); // XXX: simReleaseBuffer should accept a const pointer?
     QImageWidget *qimage = static_cast<QImageWidget*>(getQWidget());
     qimage->setPixmap(pixmap);
     qimage->resize(pixmap.size());

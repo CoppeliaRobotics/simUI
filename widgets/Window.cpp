@@ -32,14 +32,14 @@ Window::Window()
       visibility_state(true),
       proxy(NULL)
 {
-    log(sim_verbosity_debug, __FUNC__);
+    sim::addLog(sim_verbosity_debug, __FUNC__);
 }
 
 Window::~Window()
 {
     Window::windows.erase(this);
 
-    log(sim_verbosity_debug, __FUNC__);
+    sim::addLog(sim_verbosity_debug, __FUNC__);
 }
 
 void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
@@ -245,12 +245,12 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
 {
     int mySceneID = proxy->getSceneID();
 
-    log(sim_verbosity_debug, boost::format("onSceneChange: oldSceneID=%d, newSceneID=%d") % oldSceneID % newSceneID);
-    log(sim_verbosity_debug, boost::format("onSceneChange: mySceneID=%d") % mySceneID);
+    sim::addLog(sim_verbosity_debug, "onSceneChange: oldSceneID=%d, newSceneID=%d", oldSceneID, newSceneID);
+    sim::addLog(sim_verbosity_debug, "onSceneChange: mySceneID=%d", mySceneID);
 
     if(oldSceneID == mySceneID && newSceneID != mySceneID)
     {
-        log(sim_verbosity_debug, "hidden");
+        sim::addLog(sim_verbosity_debug, "hidden");
 
         bool saved_visibility_state = visibility_state;
         hide();
@@ -259,7 +259,7 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
 
     if(oldSceneID != mySceneID && newSceneID == mySceneID)
     {
-        log(sim_verbosity_debug, "shown");
+        sim::addLog(sim_verbosity_debug, "shown");
 
         if(visibility_state)
             show();

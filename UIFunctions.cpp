@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+#include <simPlusPlus/Lib.h>
 #include "stubs.h"
 
 // UIFunctions is a singleton
@@ -30,7 +31,7 @@ UIFunctions * UIFunctions::getInstance(QObject *parent)
 
         simThread(); // we remember of this currentThreadId as the "SIM" thread
 
-        log(sim_verbosity_debug, boost::format("UIFunctions(%x) constructed in thread %s") % UIFunctions::instance % QThread::currentThreadId());
+        sim::addLog(sim_verbosity_debug, "UIFunctions(%x) constructed in thread %s", UIFunctions::instance, QThread::currentThreadId());
     }
     return UIFunctions::instance;
 }
@@ -43,7 +44,7 @@ void UIFunctions::destroyInstance()
     {
         delete UIFunctions::instance;
 
-        log(sim_verbosity_debug, "destroyed UIFunctions instance");
+        sim::addLog(sim_verbosity_debug, "destroyed UIFunctions instance");
     }
 }
 
@@ -242,7 +243,7 @@ void UIFunctions::connectSignals()
  */
 #define CHECK_POINTER(clazz,p) \
     if(!p) return; \
-    if(!clazz::exists(p)) {log(sim_verbosity_warnings, boost::format("%s %x has already been deleted (or the pointer is invalid)") % #clazz % p); return;} \
+    if(!clazz::exists(p)) {sim::addLog(sim_verbosity_warnings, "%s %x has already been deleted (or the pointer is invalid)", #clazz, p); return;} \
     if(!p->proxy) return;
 
 #if WIDGET_BUTTON
@@ -392,7 +393,7 @@ void UIFunctions::onLoadImageFromFile(Image *image, const char *filename, int w,
     {
         int size[2] = {w, h};
         simUChar *scaled = simGetScaledImage(data, resolution, size, 0, NULL);
-        simReleaseBufferE((simChar *)data);
+        sim::releaseBuffer((simChar *)data);
         setImage(image, (simChar *)scaled, w, h);
     }
     else
