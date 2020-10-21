@@ -54,9 +54,9 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void updateMargins();
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 signals:
     void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
