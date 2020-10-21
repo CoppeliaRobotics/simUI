@@ -427,7 +427,7 @@ void Plot::addTimeData(std::string name, const std::vector<double>& x, const std
 
     if(!cyclic_buffer && max_buffer_size > 0 && curve->dataCount() >= max_buffer_size) return;
 
-    curve->addData(QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
+    curve->addData(QVector<double>(x.begin(), x.end()), QVector<double>(y.begin(), y.end()));
 
     if(max_buffer_size > 0)
     {
@@ -453,7 +453,7 @@ void Plot::addXYData(std::string name, const std::vector<double>& t, const std::
 
     if(!cyclic_buffer && max_buffer_size > 0 && curve->dataCount() >= max_buffer_size) return;
 
-    curve->addData(QVector<double>::fromStdVector(t), QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
+    curve->addData(QVector<double>(t.begin(), t.end()), QVector<double>(x.begin(), x.end()), QVector<double>(y.begin(), y.end()));
 
     if(max_buffer_size > 0)
     {
@@ -623,9 +623,8 @@ void Tracer::trace(const QPoint& p)
             itemTracer->setVisible(true);
 
             double graphY = curve->dataMainValue(i);
-            QString txt;
-            txt.sprintf("%f, %f", positionX, graphY);
-            itemTracerLabel->setText(txt);
+            QString txt("%1, %2");
+            itemTracerLabel->setText(txt.arg(positionX).arg(graphY));
             itemTracerLabel->position->setCoords(positionX, graphY);
             itemTracerLabel->setVisible(true);
         }
