@@ -427,7 +427,11 @@ void Plot::addTimeData(std::string name, const std::vector<double>& x, const std
 
     if(!cyclic_buffer && max_buffer_size > 0 && curve->dataCount() >= max_buffer_size) return;
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    curve->addData(QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
+#else
     curve->addData(QVector<double>(x.begin(), x.end()), QVector<double>(y.begin(), y.end()));
+#endif
 
     if(max_buffer_size > 0)
     {
@@ -453,7 +457,11 @@ void Plot::addXYData(std::string name, const std::vector<double>& t, const std::
 
     if(!cyclic_buffer && max_buffer_size > 0 && curve->dataCount() >= max_buffer_size) return;
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    curve->addData(QVector<double>::fromStdVector(t), QVector<double>::fromStdVector(x), QVector<double>::fromStdVector(y));
+#else
     curve->addData(QVector<double>(t.begin(), t.end()), QVector<double>(x.begin(), x.end()), QVector<double>(y.begin(), y.end()));
+#endif
 
     if(max_buffer_size > 0)
     {
