@@ -62,7 +62,7 @@
             <param name="initColor" type="table" item-type="float" min-size="3" max-size="4" default="{1,1,1}">
                 <description>initial color</description>
             </param>
-            <param name="title" type="string" default="Select color">
+            <param name="title" type="string" default='"Select color"'>
                 <description>the title of the dialog</description>
             </param>
             <param name="showAlphaChannel" type="bool" default="false">
