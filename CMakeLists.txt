@@ -24,12 +24,10 @@ set(CMAKE_MODULE_PATH
     ${LIBPLUGIN_DIR}/cmake)
 find_package(CoppeliaSim 4.1.0.0 REQUIRED)
 
-include_directories(${COPPELIASIM_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QDataflowCanvas)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QCustomPlot-2.0.1)
-include_directories(${Boost_INCLUDE_DIRS})
 add_definitions(-DQT_COMPIL)
 
 coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/simExtCustomUI.lua)
@@ -74,12 +72,10 @@ set(SOURCES
     widgets/LayoutWidget.cpp
     widgets/Widget.cpp
     widgets/Window.cpp
-    ${COPPELIASIM_EXPORTED_SOURCES}
 )
 
 set(LIBRARIES
-    ${Boost_LIBRARIES}
-    ${COPPELIASIM_LIBRARIES}
+    Boost::boost
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
@@ -153,8 +149,5 @@ if(ENABLE_SIGNAL_SPY)
     set(SOURCES ${SOURCES} signal_spy.cpp)
 endif()
 
-add_library(simExtCustomUI SHARED ${SOURCES})
+coppeliasim_add_plugin(simExtCustomUI SOURCES ${SOURCES})
 target_link_libraries(simExtCustomUI ${LIBRARIES})
-
-install(TARGETS simExtCustomUI DESTINATION ${COPPELIASIM_PLUGINS_DIR})
-
