@@ -203,10 +203,13 @@ void UIProxy::onColorDialog(std::vector<float> initColor, std::string title, boo
     if(!native) opts |= QColorDialog::DontUseNativeDialog;
 
     QColor cresult = QColorDialog::getColor(cinitColor, nullptr, qtitle, opts);
-    result->push_back(cresult.redF());
-    result->push_back(cresult.greenF());
-    result->push_back(cresult.blueF());
-    if(showAlphaChannel) result->push_back(cresult.alphaF());
+    if(cresult.isValid())
+    {
+        result->push_back(cresult.redF());
+        result->push_back(cresult.greenF());
+        result->push_back(cresult.blueF());
+        if(showAlphaChannel) result->push_back(cresult.alphaF());
+    }
 }
 
 void UIProxy::onCreate(Proxy *proxy)

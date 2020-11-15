@@ -120,10 +120,12 @@ public:
     {
         sim::addLog(sim_verbosity_debug, "[enter]");
         // this function is called also from the C API: always run it in the correct thread
+        std::vector<float> r;
         if(QThread::currentThreadId() == UI_THREAD)
-            UIProxy::getInstance()->onColorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &out->result);
+            UIProxy::getInstance()->onColorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &r);
         else
-            UIFunctions::getInstance()->colorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &out->result);
+            UIFunctions::getInstance()->colorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &r);
+        if(!r.empty()) out->result = r;
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
 

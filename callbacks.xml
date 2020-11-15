@@ -73,7 +73,7 @@
             </param>
         </params>
         <return>
-            <param name="result" type="table" item-type="float" size="3">
+            <param name="result" type="table" item-type="float" size="3" nullable="true">
                 <description>result</description>
             </param>
         </return>
