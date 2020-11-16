@@ -103,5 +103,41 @@ public:
     friend class UIFunctions;
 };
 
+class EventOnMouseDown : public Event
+{
+protected:
+    std::string onMouseDown;
+
+public:
+    EventOnMouseDown();
+    virtual ~EventOnMouseDown();
+
+    friend class UIFunctions;
+};
+
+class EventOnMouseUp : public Event
+{
+protected:
+    std::string onMouseUp;
+
+public:
+    EventOnMouseUp();
+    virtual ~EventOnMouseUp();
+
+    friend class UIFunctions;
+};
+
+class EventOnMouseMove : public Event
+{
+protected:
+    std::string onMouseMove;
+
+public:
+    EventOnMouseMove();
+    virtual ~EventOnMouseMove();
+
+    friend class UIFunctions;
+};
+
 #endif // EVENT_H_INCLUDED
 

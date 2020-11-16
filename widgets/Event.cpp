@@ -77,3 +77,30 @@ EventOnKeyPress::~EventOnKeyPress()
 {
 }
 
+EventOnMouseDown::EventOnMouseDown()
+    : onMouseDown("")
+{
+}
+
+EventOnMouseDown::~EventOnMouseDown()
+{
+}
+
+EventOnMouseUp::EventOnMouseUp()
+    : onMouseUp("")
+{
+}
+
+EventOnMouseUp::~EventOnMouseUp()
+{
+}
+
+EventOnMouseMove::EventOnMouseMove()
+    : onMouseMove("")
+{
+}
+
+EventOnMouseMove::~EventOnMouseMove()
+{
+}
+
