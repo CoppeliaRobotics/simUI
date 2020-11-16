@@ -442,3 +442,12 @@ void xmlutils::reportUnknownAttributes(const std::string &widget, tinyxml2::XMLE
     }
 }
 
+std::string xmlutils::elementToString(tinyxml2::XMLElement *element)
+{
+    tinyxml2::XMLPrinter printer;
+    element->Accept(&printer);
+    std::stringstream ss;
+    ss << printer.CStr();
+    return ss.str();
+}
+

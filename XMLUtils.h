@@ -68,6 +68,8 @@ namespace xmlutils
     std::set<std::string> getUnknownAttributes(tinyxml2::XMLElement *e);
 
     void reportUnknownAttributes(const std::string &widget, tinyxml2::XMLElement *e);
+
+    std::string elementToString(tinyxml2::XMLElement *element);
 };
 
 #endif // XMLUTILS_H_INCLUDED
