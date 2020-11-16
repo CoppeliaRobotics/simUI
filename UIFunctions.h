@@ -67,7 +67,7 @@ private slots:
 #endif
 
 #if WIDGET_IMAGE
-    void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+    void onMouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y);
 #endif
 
 #if WIDGET_DATAFLOW
@@ -235,6 +235,11 @@ signals:
     void setScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y);
     void setScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z);
     void setScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w);
+#endif
+
+#if WIDGET_SVG
+    void svgLoadFile(SVG *svg, const QString &file);
+    void svgLoadData(SVG *svg, const QByteArray &data);
 #endif
 };
 

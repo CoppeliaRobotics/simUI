@@ -14,16 +14,14 @@ class Proxy;
 class UIProxy;
 
 #include "Widget.h"
+#include "Event.h"
 
-class Image : public Widget
+class Image : public Widget, public EventOnMouseDown, public EventOnMouseUp, public EventOnMouseMove
 {
 protected:
     int width;
     int height;
     std::string file;
-    std::string onMouseDown;
-    std::string onMouseUp;
-    std::string onMouseMove;
     bool scaledContents;
     bool keepAspectRatio;
 

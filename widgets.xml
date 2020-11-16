@@ -389,6 +389,7 @@
         <description>A image display widget.</description>
         <see-also>
             <element>label</element>
+            <element>svg</element>
         </see-also>
         <attributes>
             <attribute>
@@ -1103,6 +1104,51 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <type>string</type>
                 <default />
                 <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
+            </attribute>
+        </attributes>
+    </element>
+    <element>
+        <name>svg</name>
+        <description>An SVG widget. Content can be embedded in the XML.</description>
+        <see-also>
+            <element>image</element>
+        </see-also>
+        <attributes>
+            <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
+                <name>file</name>
+                <type>string</type>
+                <default></default>
+                <description>File to load.</description>
+            </attribute>
+            <attribute>
+                <name>on-mouse-down</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the mouseDown event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+            </attribute>
+            <attribute>
+                <name>on-mouse-up</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the mouseUp event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+            </attribute>
+            <attribute>
+                <name>on-mouse-move</name>
+                <type>string</type>
+                <default />
+                <description>Name of a Lua function to handle the mouseMove event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
         </attributes>
     </element>

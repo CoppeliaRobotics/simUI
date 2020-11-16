@@ -69,8 +69,8 @@ public slots:
     void onTreeSelectionChange();
 #endif
 
-#if WIDGET_IMAGE
-    void onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+#if WIDGET_IMAGE || WIDGET_SVG
+    void onMouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y);
 #endif
 
 #if WIDGET_DATAFLOW
@@ -242,6 +242,11 @@ public slots:
     void onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w);
 #endif
 
+#if WIDGET_SVG
+    void onSvgLoadFile(SVG *svg, const QString &file);
+    void onSvgLoadData(SVG *svg, const QByteArray &data);
+#endif
+
 signals:
     void buttonClick(Widget *widget);
     void linkActivated(Widget *widget, QString link);
@@ -257,7 +262,10 @@ signals:
 
 #if WIDGET_IMAGE
     void loadImageFromFile(Image *image, const char *filename, int w, int h);
-    void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
+#endif
+
+#if WIDGET_IMAGE || WIDGET_SVG
+    void mouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y);
 #endif
 
 #if WIDGET_PLOT

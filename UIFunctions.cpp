@@ -233,6 +233,10 @@ void UIFunctions::connectSignals()
     connect(this, &UIFunctions::setScene3DVector4Param, uiproxy, &UIProxy::onSetScene3DVector4Param, Qt::BlockingQueuedConnection);
     connect(uiproxy, &UIProxy::scene3DObjectClick, this, &UIFunctions::onScene3DObjectClick);
 #endif
+#if WIDGET_SVG
+    connect(this, &UIFunctions::svgLoadFile, uiproxy, &UIProxy::onSvgLoadFile, Qt::BlockingQueuedConnection);
+    connect(this, &UIFunctions::svgLoadData, uiproxy, &UIProxy::onSvgLoadData, Qt::BlockingQueuedConnection);
+#endif
 }
 
 /**
@@ -490,17 +494,17 @@ void UIFunctions::onSelectionChangeTree(Tree *tree, int id)
 }
 #endif
 
-#if WIDGET_IMAGE
-void UIFunctions::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
+#if WIDGET_IMAGE || WIDGET_SVG
+void UIFunctions::onMouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(!UI);
-    CHECK_POINTER(Widget, image);
+    CHECK_POINTER(Widget, widget);
 
-    if(image->proxy->scriptID == -1) return;
+    if(widget->proxy->scriptID == -1) return;
 
     onMouseEventCallback_in in;
-    in.handle = image->proxy->getHandle();
-    in.id = image->id;
+    in.handle = widget->proxy->getHandle();
+    in.id = widget->id;
     in.type = type;
     in.mods.shift = shift;
     in.mods.control = control;
@@ -511,17 +515,20 @@ void UIFunctions::onMouseEvent(Image *image, int type, bool shift, bool control,
     switch(type)
     {
     case sim_customui_mouse_left_button_down:
-        cb = image->onMouseDown;
+        if(auto *eDown = dynamic_cast<EventOnMouseDown*>(widget))
+            cb = eDown->onMouseDown;
         break;
     case sim_customui_mouse_left_button_up:
-        cb = image->onMouseUp;
+        if(auto *eUp = dynamic_cast<EventOnMouseUp*>(widget))
+            cb = eUp->onMouseUp;
         break;
     case sim_customui_mouse_move:
-        cb = image->onMouseMove;
+        if(auto *eMove = dynamic_cast<EventOnMouseMove*>(widget))
+            cb = eMove->onMouseMove;
         break;
     }
     if(cb == "") return;
-    onMouseEventCallback(image->proxy->getScriptID(), cb.c_str(), &in, &out);
+    onMouseEventCallback(widget->proxy->getScriptID(), cb.c_str(), &in, &out);
 }
 #endif
 

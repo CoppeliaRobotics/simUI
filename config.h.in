@@ -20,6 +20,7 @@
 #cmakedefine01 WIDGET_RADIOBUTTON
 #cmakedefine01 WIDGET_SCENE3D
 #cmakedefine01 WIDGET_SPINBOX
+#cmakedefine01 WIDGET_SVG
 #cmakedefine01 WIDGET_TABLE
 #cmakedefine01 WIDGET_TABS
 #cmakedefine01 WIDGET_TEXTBROWSER

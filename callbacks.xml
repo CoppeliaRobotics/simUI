@@ -2932,6 +2932,46 @@
         <return>
         </return>
     </command>
+    <command name="svgLoadFile">
+        <description>Load a SVG file in a SVG widget.</description>
+        <categories>
+            <category name="svg" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="file" type="string">
+                <description>file path</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="svgLoadData">
+        <description>Load a SVG document in a SVG widget.</description>
+        <categories>
+            <category name="svg" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="int">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="data" type="string">
+                <description>SVG data (XML) as a string</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

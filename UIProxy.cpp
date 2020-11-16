@@ -462,13 +462,13 @@ void UIProxy::onTreeSelectionChange()
 }
 #endif
 
-#if WIDGET_IMAGE
-void UIProxy::onMouseEvent(Image *image, int type, bool shift, bool control, int x, int y)
+#if WIDGET_IMAGE || WIDGET_SVG
+void UIProxy::onMouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    emit mouseEvent(image, type, shift, control, x, y);
+    emit mouseEvent(widget, type, shift, control, x, y);
 }
 #endif
 
@@ -1334,6 +1334,18 @@ void UIProxy::onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string par
 void UIProxy::onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w)
 {
     scene3d->setVector4Parameter(id, param, x, y, z, w);
+}
+#endif
+
+#if WIDGET_SVG
+void UIProxy::onSvgLoadFile(SVG *svg, const QString &file)
+{
+    svg->loadFile(file);
+}
+
+void UIProxy::onSvgLoadData(SVG *svg, const QByteArray &data)
+{
+    svg->loadData(data);
 }
 #endif
 

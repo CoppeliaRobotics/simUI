@@ -1367,6 +1367,24 @@ public:
 #endif
     }
 
+    void svgLoadFile(svgLoadFile_in *in, svgLoadFile_out *out)
+    {
+#if WIDGET_SVG
+        SVG *svg = getWidget<SVG>(in->handle, in->id, "svg");
+        QString file = QString::fromStdString(in->file);
+        UIFunctions::getInstance()->svgLoadFile(svg, file);
+#endif
+    }
+
+    void svgLoadData(svgLoadData_in *in, svgLoadData_out *out)
+    {
+#if WIDGET_SVG
+        SVG *svg = getWidget<SVG>(in->handle, in->id, "svg");
+        QByteArray data(in->data.data(), in->data.size());
+        UIFunctions::getInstance()->svgLoadData(svg, data);
+#endif
+    }
+
 private:
     int oldSceneID = -1;
 };

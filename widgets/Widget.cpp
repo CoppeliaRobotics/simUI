@@ -136,6 +136,9 @@ Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyx
 #if WIDGET_SCENE3D
     if(tag == "scene3d") return parse1<Scene3D>(parent, widgets, e);
 #endif // WIDGET_SCENE3D
+#if WIDGET_SVG
+    if(tag == "svg") return parse1<SVG>(parent, widgets, e);
+#endif // WIDGET_SVG
 
     throw std::range_error((boost::format("invalid element <%s>") % tag).str());
 }

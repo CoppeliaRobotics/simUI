@@ -49,6 +49,9 @@
 #if WIDGET_SPINBOX
 #include "Spinbox.h"
 #endif // WIDGET_SPINBOX
+#if WIDGET_SVG
+#include "SVG.h"
+#endif // WIDGET_SVG
 #if WIDGET_TABLE
 #include "Table.h"
 #endif // WIDGET_TABLE
