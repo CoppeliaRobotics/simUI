@@ -29,7 +29,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QDataflowCanvas)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QCustomPlot-2.0.1)
 add_definitions(-DQT_COMPIL)
 
-coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/simExtCustomUI.lua)
+coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/simUI.lua)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html
     COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml
