@@ -79,7 +79,7 @@ void SvgWidget::mouseMoveEvent(QMouseEvent *event)
     if(svg->onMouseMove != "")
     {
         event->accept();
-        int type = sim_customui_mouse_move;
+        int type = sim_ui_mouse_move;
         bool shift = event->modifiers() & Qt::ShiftModifier;
         bool control = event->modifiers() & Qt::ControlModifier;
         int x = event->x();
@@ -97,7 +97,7 @@ void SvgWidget::mousePressEvent(QMouseEvent *event)
     if(svg->onMouseDown != "" && event->button() == Qt::LeftButton)
     {
         event->accept();
-        int type = sim_customui_mouse_left_button_down;
+        int type = sim_ui_mouse_left_button_down;
         bool shift = event->modifiers() & Qt::ShiftModifier;
         bool control = event->modifiers() & Qt::ControlModifier;
         int x = event->x();
@@ -115,7 +115,7 @@ void SvgWidget::mouseReleaseEvent(QMouseEvent *event)
     if(svg->onMouseUp != "" && event->button() == Qt::LeftButton)
     {
         event->accept();
-        int type = sim_customui_mouse_left_button_up;
+        int type = sim_ui_mouse_left_button_up;
         bool shift = event->modifiers() & Qt::ShiftModifier;
         bool control = event->modifiers() & Qt::ControlModifier;
         int x = event->x();
