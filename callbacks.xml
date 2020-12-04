@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <?xml-stylesheet type="text/xsl" href="callbacks.xsl"?>
 
-<plugin name="UI" short-name="UI" author="federico.ferri.it@gmail.com">
+<plugin name="UI" author="federico.ferri.it@gmail.com">
     <description>API functions for creating custom user interfaces.</description>
     <command name="msgBox">
         <description>Display a message box.</description>
