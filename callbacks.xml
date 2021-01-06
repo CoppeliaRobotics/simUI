@@ -59,7 +59,7 @@
     <command name="colorDialog">
         <description>Display a color dialog.</description>
         <params>
-            <param name="initColor" type="table" item-type="float" min-size="3" max-size="4" default="{1,1,1}">
+            <param name="initColor" type="table" item-type="float" size="3..4" default="{1,1,1}">
                 <description>initial color</description>
             </param>
             <param name="title" type="string" default='"Select color"'>
