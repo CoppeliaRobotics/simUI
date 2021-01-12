@@ -45,10 +45,10 @@ add_definitions(-DQT_COMPIL)
 
 coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/simUI.lua)
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html
-    COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm
+    COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl)
-add_custom_target(generate_widgets_html ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/generated/widgets.html)
+add_custom_target(generate_widgets_html ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
 
 set(ENABLE_SIGNAL_SPY false CACHE BOOL "if Qt private headers are installed, enable this to debug Qt signals")
 set(WIDGET_BUTTON true CACHE BOOL "include the button widget")
@@ -170,3 +170,4 @@ endif()
 
 coppeliasim_add_plugin(simExtUI SOURCES ${SOURCES})
 target_link_libraries(simExtUI ${LIBRARIES})
+coppeliasim_add_helpfile(${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
