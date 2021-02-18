@@ -67,7 +67,6 @@ public:
     {
         Proxy::destroyAllObjectsFromUIThread();
 
-        SIM::destroyInstance();
         UI::destroyInstance();
 
         UI_THREAD = NULL;
@@ -77,6 +76,11 @@ public:
     void onFirstInstancePass(const sim::InstancePassFlags &flags)
     {
         SIM::getInstance();
+    }
+
+    void onLastInstancePass()
+    {
+        SIM::destroyInstance();
     }
 
     void onInstanceSwitch(int sceneID)
