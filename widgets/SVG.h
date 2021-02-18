@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -27,12 +27,12 @@ public:
     virtual ~SVG();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     void loadFile(const QString &file);
     void loadData(const QByteArray &contents);
 
-    friend class UIFunctions;
+    friend class SIM;
     friend class SvgWidget;
 };
 

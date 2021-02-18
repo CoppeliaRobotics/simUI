@@ -13,7 +13,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -50,7 +50,7 @@ public:
     virtual ~Tree();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
     void clear(bool suppressSignals);
     void setColumnCount(int count, bool suppressSignals);
     void addItem(int id, int parent, std::vector<std::string> text, bool expanded, bool suppressSignals);
@@ -67,8 +67,8 @@ public:
     void collapseAll(bool suppressSignals);
     void expandToDepth(int depth, bool suppressSignals);
 
-    friend class UIFunctions;
-    friend class UIProxy;
+    friend class SIM;
+    friend class UI;
 };
 
 #endif // TREE_H_INCLUDED

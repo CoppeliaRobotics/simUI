@@ -12,7 +12,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 
@@ -54,7 +54,7 @@ public:
     static Dataflow * byModel(QDataflowModel *model);
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     inline QDataflowCanvas * canvas() {return static_cast<QDataflowCanvas*>(getQWidget());}
     inline QDataflowModel * model() {return canvas()->model();}
@@ -81,7 +81,7 @@ public:
     void addConnection(int srcNodeId, int srcOutlet, int dstNodeId, int dstOutlet);
     void removeConnection(int srcNodeId, int srcOutlet, int dstNodeId, int dstOutlet);
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // DATAFLOW_H_INCLUDED

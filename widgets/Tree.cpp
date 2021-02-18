@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <iostream>
 #include <boost/lexical_cast.hpp>
@@ -118,7 +118,7 @@ void Tree::populateItems(QTreeWidget *treewidget, const std::map<int, std::vecto
     }
 }
 
-QWidget * Tree::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Tree::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QTreeWidget *treewidget = new QTreeWidget(parent);
     treewidget->setEnabled(enabled);
@@ -142,7 +142,7 @@ QWidget * Tree::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     }
     populateItems(treewidget, by_parent, 0, treewidget->invisibleRootItem());
     treewidget->setColumnCount(columncount);
-    QObject::connect(treewidget, &QTreeWidget::itemSelectionChanged, uiproxy, &UIProxy::onTreeSelectionChange);
+    QObject::connect(treewidget, &QTreeWidget::itemSelectionChanged, ui, &UI::onTreeSelectionChange);
     setQWidget(treewidget);
     setProxy(proxy);
     return treewidget;

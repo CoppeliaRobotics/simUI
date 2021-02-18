@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -29,14 +29,14 @@ public:
     virtual ~Radiobutton();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     bool convertValueFromInt(int value);
     int convertValueToInt(bool value);
     void setValue(bool value, bool suppressSignals);
     bool getValue();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // RADIOBUTTON_H_INCLUDED

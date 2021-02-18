@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QLineEdit>
 
@@ -28,7 +28,7 @@ void Edit::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     oneditingfinished = xmlutils::getAttrStr(e, "on-editing-finished", "");
 }
 
-QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Edit::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QLineEdit *edit = new QLineEdit(parent);
     edit->setEnabled(enabled);
@@ -36,8 +36,8 @@ QWidget * Edit::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     edit->setStyleSheet(QString::fromStdString(style));
     edit->setText(QString::fromStdString(value));
     edit->setEchoMode(password ? QLineEdit::Password : QLineEdit::Normal);
-    QObject::connect(edit, &QLineEdit::textChanged, uiproxy, &UIProxy::onValueChangeString);
-    QObject::connect(edit, &QLineEdit::editingFinished, uiproxy, &UIProxy::onEditingFinished);
+    QObject::connect(edit, &QLineEdit::textChanged, ui, &UI::onValueChangeString);
+    QObject::connect(edit, &QLineEdit::editingFinished, ui, &UI::onEditingFinished);
     setQWidget(edit);
     setProxy(proxy);
     return edit;

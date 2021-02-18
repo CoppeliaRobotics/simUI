@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -34,12 +34,12 @@ public:
     virtual ~Button();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     void setText(std::string text);
     void setPressed(bool pressed);
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // BUTTON_H_INCLUDED

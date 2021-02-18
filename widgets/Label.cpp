@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QLabel>
 
@@ -26,7 +26,7 @@ void Label::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
     onLinkActivated = xmlutils::getAttrStr(e, "on-link-activated", "");
 }
 
-QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Label::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QLabel *label = new QLabel(QString::fromStdString(text), parent);
     label->setEnabled(enabled);
@@ -34,7 +34,7 @@ QWidget * Label::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     label->setStyleSheet(QString::fromStdString(style));
     label->setWordWrap(wordWrap);
     label->setOpenExternalLinks(false);
-    QObject::connect(label, &QLabel::linkActivated, uiproxy, &UIProxy::onLinkActivated);
+    QObject::connect(label, &QLabel::linkActivated, ui, &UI::onLinkActivated);
     setQWidget(label);
     setProxy(proxy);
     return label;

@@ -12,7 +12,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -34,12 +34,12 @@ public:
     virtual ~Slider();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     void setValue(int value, bool suppressSignals);
     int getValue();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // SLIDER_H_INCLUDED

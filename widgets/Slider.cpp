@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QSlider>
 
@@ -49,7 +49,7 @@ void Slider::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     onchange = xmlutils::getAttrStr(e, "on-change", "");
 }
 
-QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Slider::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QSlider *slider = new QSlider(getOrientation(), parent);
     slider->setEnabled(enabled);
@@ -61,7 +61,7 @@ QWidget * Slider::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
     slider->setTickPosition(tickPosition);
     slider->setTickInterval(tickInterval);
     slider->setInvertedAppearance(inverted);
-    QObject::connect(slider, &QSlider::valueChanged, uiproxy, &UIProxy::onValueChangeInt);
+    QObject::connect(slider, &QSlider::valueChanged, ui, &UI::onValueChangeInt);
     setQWidget(slider);
     setProxy(proxy);
     return slider;

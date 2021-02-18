@@ -76,8 +76,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DI
 
 set(SOURCES
     Proxy.cpp
-    UIFunctions.cpp
-    UIProxy.cpp
+    SIM.cpp
+    UI.cpp
     XMLUtils.cpp
     tinyxml2.cpp
     plugin.cpp

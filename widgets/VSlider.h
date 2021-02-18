@@ -14,7 +14,7 @@ public:
     VSlider();
     virtual ~VSlider();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // VSLIDER_H_INCLUDED

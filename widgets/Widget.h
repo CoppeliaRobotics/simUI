@@ -18,7 +18,7 @@
 #include "XMLUtils.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 class Widget
 {
@@ -49,7 +49,7 @@ public:
     virtual ~Widget();
 
     virtual void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    virtual QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent) = 0;
+    virtual QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent) = 0;
 
     inline int getId() {return id;}
     inline QWidget * getQWidget() {return qwidget;}
@@ -63,8 +63,8 @@ public:
 
     static bool exists(Widget *w);
 
-    friend class UIFunctions;
-    friend class UIProxy;
+    friend class SIM;
+    friend class UI;
     friend class Window;
     friend class LayoutWidget;
 };

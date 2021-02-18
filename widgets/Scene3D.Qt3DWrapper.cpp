@@ -328,7 +328,7 @@ PARAM_INT("mirrored",
 )
 ENDTYPE
 
-#define object_picker_postinit QObject::connect(o, &Qt3DRender::QObjectPicker::clicked, UIProxy::getInstance(), &UIProxy::onScene3DObjectClicked);
+#define object_picker_postinit QObject::connect(o, &Qt3DRender::QObjectPicker::clicked, UI::getInstance(), &UI::onScene3DObjectClicked);
 TYPE("object-picker", object_picker, Qt3DRender::QObjectPicker, object_picker_postinit)
 ENDTYPE
 

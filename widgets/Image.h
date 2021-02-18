@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -30,11 +30,11 @@ public:
     virtual ~Image();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     void setImage(const char *data, int w, int h);
 
-    friend class UIFunctions;
+    friend class SIM;
     friend class QImageWidget;
 };
 

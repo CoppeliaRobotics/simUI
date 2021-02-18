@@ -1,6 +1,6 @@
 #include "HSlider.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QSlider>
 

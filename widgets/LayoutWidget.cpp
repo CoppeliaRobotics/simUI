@@ -5,7 +5,7 @@
 #include "Widget.h"
 #include "Window.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <iostream>
 
@@ -32,11 +32,11 @@ void Stretch::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
     {
         throw std::runtime_error("stretch must be placed in a widget with vbox/hbox layout");
     }
-    
+
     factor = xmlutils::getAttrInt(e, "factor", 0);
 }
 
-QWidget * Stretch::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Stretch::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     throw std::runtime_error("stretch can be used only in VBox/HBox layouts");
 }
@@ -113,7 +113,7 @@ void LayoutWidget::parse(Widget *self, Widget *parent, std::map<int, Widget*>& w
     }
 }
 
-void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+void LayoutWidget::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     switch(layout)
     {
@@ -133,7 +133,7 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
                     qlayout->addStretch(stretch->factor);
                     continue;
                 }
-                QWidget *qw = w->createQtWidget(proxy, uiproxy, parent);
+                QWidget *qw = w->createQtWidget(proxy, ui, parent);
                 if(qlayout) qlayout->addWidget(qw);
                 if(layout == NONE && w->geometry.isSet)
                 {
@@ -154,7 +154,7 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
                 for(std::vector<Widget*>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
                 {
                     Widget *w = *it2;
-                    QWidget *qw = w->createQtWidget(proxy, uiproxy, parent);
+                    QWidget *qw = w->createQtWidget(proxy, ui, parent);
                     qlayout->addWidget(qw, row, col);
                     col++;
                 }
@@ -169,8 +169,8 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
                 Widget *w1 = (*it)[0], *w2 = (*it)[1];
-                QWidget *qw1 = w1->createQtWidget(proxy, uiproxy, parent);
-                QWidget *qw2 = w2->createQtWidget(proxy, uiproxy, parent);
+                QWidget *qw1 = w1->createQtWidget(proxy, ui, parent);
+                QWidget *qw2 = w2->createQtWidget(proxy, ui, parent);
                 qlayout->addRow(qw1, qw2);
             }
             parent->setLayout(qlayout);

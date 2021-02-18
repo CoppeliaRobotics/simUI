@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "LayoutWidget.h"
@@ -26,9 +26,9 @@ public:
     virtual ~Group();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // GROUP_H_INCLUDED

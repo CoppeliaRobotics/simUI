@@ -13,7 +13,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -47,7 +47,7 @@ public:
     virtual ~Table();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
     void setEditable(bool editable);
     void clear(bool suppressSignals);
     void setRowCount(int count, bool suppressSignals);
@@ -66,7 +66,7 @@ public:
     void setColumnWidth(int column, int min_size, int max_size);
     void setSelection(int row, int column, bool suppressSignals);
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class TableWidget : public QTableWidget

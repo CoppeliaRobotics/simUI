@@ -1,7 +1,7 @@
 #include "Spinbox.h"
 
 #include "XMLUtils.h"
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <cmath>
 
@@ -43,7 +43,7 @@ void Spinbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
     float_ = xmlutils::getAttrBool(e, "float", detectedFloat);
 }
 
-QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Spinbox::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     if(float_)
     {
@@ -57,7 +57,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
         spinbox->setPrefix(QString::fromStdString(prefix));
         spinbox->setSuffix(QString::fromStdString(suffix));
         spinbox->setSingleStep(step);
-        QObject::connect(spinbox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), uiproxy, &UIProxy::onValueChangeDouble);
+        QObject::connect(spinbox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), ui, &UI::onValueChangeDouble);
         setQWidget(spinbox);
         setProxy(proxy);
         return spinbox;
@@ -74,7 +74,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
         spinbox->setPrefix(QString::fromStdString(prefix));
         spinbox->setSuffix(QString::fromStdString(suffix));
         spinbox->setSingleStep(int(step));
-        QObject::connect(spinbox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), uiproxy, &UIProxy::onValueChangeInt);
+        QObject::connect(spinbox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui, &UI::onValueChangeInt);
         setQWidget(spinbox);
         setProxy(proxy);
         return spinbox;

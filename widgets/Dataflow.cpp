@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <stdexcept>
 
@@ -83,7 +83,7 @@ void Dataflow::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
     onConnectionRemoved = xmlutils::getAttrStr(e, "on-connection-removed", "");
 }
 
-QWidget * Dataflow::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Dataflow::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QDataflowCanvas *dataflow = new QDataflowCanvas(parent);
     dataflow->setEnabled(enabled);
@@ -95,15 +95,15 @@ QWidget * Dataflow::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
         bgcol = toQColor(background_color);
     //dataflow->setBackground(QBrush(bgcol));
     QDataflowModel *model = dataflow->model();
-    QObject::connect(model, &QDataflowModel::nodeAdded, uiproxy, &UIProxy::onNodeAdded);
-    QObject::connect(model, &QDataflowModel::nodeRemoved, uiproxy, &UIProxy::onNodeRemoved);
-    QObject::connect(model, &QDataflowModel::nodeValidChanged, uiproxy, &UIProxy::onNodeValidChanged);
-    QObject::connect(model, &QDataflowModel::nodePosChanged, uiproxy, &UIProxy::onNodePosChanged);
-    QObject::connect(model, &QDataflowModel::nodeTextChanged, uiproxy, &UIProxy::onNodeTextChanged);
-    QObject::connect(model, &QDataflowModel::nodeInletCountChanged, uiproxy, &UIProxy::onNodeInletCountChanged);
-    QObject::connect(model, &QDataflowModel::nodeOutletCountChanged, uiproxy, &UIProxy::onNodeOutletCountChanged);
-    QObject::connect(model, &QDataflowModel::connectionAdded, uiproxy, &UIProxy::onConnectionAdded);
-    QObject::connect(model, &QDataflowModel::connectionRemoved, uiproxy, &UIProxy::onConnectionRemoved);
+    QObject::connect(model, &QDataflowModel::nodeAdded, ui, &UI::onNodeAdded);
+    QObject::connect(model, &QDataflowModel::nodeRemoved, ui, &UI::onNodeRemoved);
+    QObject::connect(model, &QDataflowModel::nodeValidChanged, ui, &UI::onNodeValidChanged);
+    QObject::connect(model, &QDataflowModel::nodePosChanged, ui, &UI::onNodePosChanged);
+    QObject::connect(model, &QDataflowModel::nodeTextChanged, ui, &UI::onNodeTextChanged);
+    QObject::connect(model, &QDataflowModel::nodeInletCountChanged, ui, &UI::onNodeInletCountChanged);
+    QObject::connect(model, &QDataflowModel::nodeOutletCountChanged, ui, &UI::onNodeOutletCountChanged);
+    QObject::connect(model, &QDataflowModel::connectionAdded, ui, &UI::onConnectionAdded);
+    QObject::connect(model, &QDataflowModel::connectionRemoved, ui, &UI::onConnectionRemoved);
     setQWidget(dataflow);
     setProxy(proxy);
     byModel_[model] = this;

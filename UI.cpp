@@ -1,4 +1,4 @@
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QThread>
 #include <QMessageBox>
@@ -26,52 +26,52 @@
 
 using namespace tinyxml2;
 
-// UIProxy is a singleton
+// UI is a singleton
 
-UIProxy *UIProxy::instance = NULL;
+UI *UI::instance = NULL;
 
-QWidget *UIProxy::simMainWindow = NULL;
+QWidget *UI::simMainWindow = NULL;
 
-simFloat UIProxy::wheelZoomFactor = 1.0;
+simFloat UI::wheelZoomFactor = 1.0;
 
-UIProxy::UIProxy(QObject *parent)
+UI::UI(QObject *parent)
     : QObject(parent)
 {
 }
 
-UIProxy::~UIProxy()
+UI::~UI()
 {
-    UIProxy::instance = NULL;
+    UI::instance = NULL;
 }
 
-UIProxy * UIProxy::getInstance(QObject *parent)
+UI * UI::getInstance(QObject *parent)
 {
-    if(!UIProxy::instance)
+    if(!UI::instance)
     {
-        UIProxy::instance = new UIProxy(parent);
-        UIProxy::simMainWindow = (QWidget *)simGetMainWindow(1);
-        simGetFloatParameter(sim_floatparam_mouse_wheel_zoom_factor, &UIProxy::wheelZoomFactor);
+        UI::instance = new UI(parent);
+        UI::simMainWindow = (QWidget *)simGetMainWindow(1);
+        simGetFloatParameter(sim_floatparam_mouse_wheel_zoom_factor, &UI::wheelZoomFactor);
 
         uiThread(); // we remember this currentThreadId as the "UI" thread
 
-        sim::addLog(sim_verbosity_debug, "UIProxy(%x) constructed in thread %s", UIProxy::instance, QThread::currentThreadId());
+        sim::addLog(sim_verbosity_debug, "UI(%x) constructed in thread %s", UI::instance, QThread::currentThreadId());
     }
-    return UIProxy::instance;
+    return UI::instance;
 }
 
-void UIProxy::destroyInstance()
+void UI::destroyInstance()
 {
     TRACE_FUNC;
 
-    if(UIProxy::instance)
+    if(UI::instance)
     {
-        delete UIProxy::instance;
+        delete UI::instance;
 
-        sim::addLog(sim_verbosity_debug, "destroyed UIProxy instance");
+        sim::addLog(sim_verbosity_debug, "destroyed UI instance");
     }
 }
 
-void UIProxy::onMsgBox(int type, int buttons, std::string title, std::string message, int *result)
+void UI::onMsgBox(int type, int buttons, std::string title, std::string message, int *result)
 {
     ASSERT_THREAD(UI);
 
@@ -138,7 +138,7 @@ void UIProxy::onMsgBox(int type, int buttons, std::string title, std::string mes
     }
 }
 
-void UIProxy::onFileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, bool native, std::vector<std::string> *result)
+void UI::onFileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, bool native, std::vector<std::string> *result)
 {
     ASSERT_THREAD(UI);
 
@@ -188,7 +188,7 @@ void UIProxy::onFileDialog(int type, std::string title, std::string startPath, s
     }
 }
 
-void UIProxy::onColorDialog(std::vector<float> initColor, std::string title, bool showAlphaChannel, bool native, std::vector<float> *result)
+void UI::onColorDialog(std::vector<float> initColor, std::string title, bool showAlphaChannel, bool native, std::vector<float> *result)
 {
     ASSERT_THREAD(UI);
 
@@ -212,7 +212,7 @@ void UIProxy::onColorDialog(std::vector<float> initColor, std::string title, boo
     }
 }
 
-void UIProxy::onCreate(Proxy *proxy)
+void UI::onCreate(Proxy *proxy)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -224,11 +224,11 @@ void UIProxy::onCreate(Proxy *proxy)
 // Here we look up the sender to find the corresponding Widget object,
 // and emit a signal with the Widget object pointer.
 //
-// That signal will be connected to a slot in UIFunctions, such
+// That signal will be connected to a slot in SIM, such
 // that the callback is called from the SIM thread.
 
 #if WIDGET_BUTTON || WIDGET_RADIOBUTTON
-void UIProxy::onButtonClick()
+void UI::onButtonClick()
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -246,7 +246,7 @@ void UIProxy::onButtonClick()
 #endif
 
 #if WIDGET_LABEL
-void UIProxy::onLinkActivated(const QString &link)
+void UI::onLinkActivated(const QString &link)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -263,7 +263,7 @@ void UIProxy::onLinkActivated(const QString &link)
 }
 #endif
 
-void UIProxy::onValueChangeInt(int value)
+void UI::onValueChangeInt(int value)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -279,7 +279,7 @@ void UIProxy::onValueChangeInt(int value)
     }
 }
 
-void UIProxy::onValueChangeDouble(double value)
+void UI::onValueChangeDouble(double value)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -295,7 +295,7 @@ void UIProxy::onValueChangeDouble(double value)
     }
 }
 
-void UIProxy::onValueChangeString(QString value)
+void UI::onValueChangeString(QString value)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -312,7 +312,7 @@ void UIProxy::onValueChangeString(QString value)
 }
 
 #if WIDGET_EDIT
-void UIProxy::onEditingFinished()
+void UI::onEditingFinished()
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -333,7 +333,7 @@ void UIProxy::onEditingFinished()
 #endif
 
 #if WIDGET_PLOT
-void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event)
+void UI::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMouseEvent *event)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -363,7 +363,7 @@ void UIProxy::onPlottableClick(QCPAbstractPlottable *plottable, int index, QMous
     }
 }
 
-void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event)
+void UI::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMouseEvent *event)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -386,7 +386,7 @@ void UIProxy::onLegendClick(QCPLegend *legend, QCPAbstractLegendItem *item, QMou
 #endif
 
 #if WIDGET_TABLE
-void UIProxy::onCellActivate(int row, int col)
+void UI::onCellActivate(int row, int col)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -404,7 +404,7 @@ void UIProxy::onCellActivate(int row, int col)
     }
 }
 
-void UIProxy::onTableSelectionChange()
+void UI::onTableSelectionChange()
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -435,7 +435,7 @@ void UIProxy::onTableSelectionChange()
 #endif
 
 #if WIDGET_TREE
-void UIProxy::onTreeSelectionChange()
+void UI::onTreeSelectionChange()
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -463,7 +463,7 @@ void UIProxy::onTreeSelectionChange()
 #endif
 
 #if WIDGET_IMAGE || WIDGET_SVG
-void UIProxy::onMouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y)
+void UI::onMouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -473,7 +473,7 @@ void UIProxy::onMouseEvent(Widget *widget, int type, bool shift, bool control, i
 #endif
 
 #if WIDGET_DATAFLOW
-void UIProxy::onNodeAdded(QDataflowModelNode *node)
+void UI::onNodeAdded(QDataflowModelNode *node)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -492,7 +492,7 @@ void UIProxy::onNodeAdded(QDataflowModelNode *node)
     }
 }
 
-void UIProxy::onNodeRemoved(QDataflowModelNode *node)
+void UI::onNodeRemoved(QDataflowModelNode *node)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -511,7 +511,7 @@ void UIProxy::onNodeRemoved(QDataflowModelNode *node)
     }
 }
 
-void UIProxy::onNodeValidChanged(QDataflowModelNode *node, bool valid)
+void UI::onNodeValidChanged(QDataflowModelNode *node, bool valid)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -529,7 +529,7 @@ void UIProxy::onNodeValidChanged(QDataflowModelNode *node, bool valid)
     }
 }
 
-void UIProxy::onNodePosChanged(QDataflowModelNode *node, QPoint pos)
+void UI::onNodePosChanged(QDataflowModelNode *node, QPoint pos)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -547,7 +547,7 @@ void UIProxy::onNodePosChanged(QDataflowModelNode *node, QPoint pos)
     }
 }
 
-void UIProxy::onNodeTextChanged(QDataflowModelNode *node, QString text)
+void UI::onNodeTextChanged(QDataflowModelNode *node, QString text)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -565,7 +565,7 @@ void UIProxy::onNodeTextChanged(QDataflowModelNode *node, QString text)
     }
 }
 
-void UIProxy::onNodeInletCountChanged(QDataflowModelNode *node, int count)
+void UI::onNodeInletCountChanged(QDataflowModelNode *node, int count)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -583,7 +583,7 @@ void UIProxy::onNodeInletCountChanged(QDataflowModelNode *node, int count)
     }
 }
 
-void UIProxy::onNodeOutletCountChanged(QDataflowModelNode *node, int count)
+void UI::onNodeOutletCountChanged(QDataflowModelNode *node, int count)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -601,7 +601,7 @@ void UIProxy::onNodeOutletCountChanged(QDataflowModelNode *node, int count)
     }
 }
 
-void UIProxy::onConnectionAdded(QDataflowModelConnection *conn)
+void UI::onConnectionAdded(QDataflowModelConnection *conn)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -620,7 +620,7 @@ void UIProxy::onConnectionAdded(QDataflowModelConnection *conn)
     }
 }
 
-void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
+void UI::onConnectionRemoved(QDataflowModelConnection *conn)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -641,7 +641,7 @@ void UIProxy::onConnectionRemoved(QDataflowModelConnection *conn)
 #endif
 
 #if WIDGET_TEXTBROWSER
-void UIProxy::onTextChanged()
+void UI::onTextChanged()
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -656,7 +656,7 @@ void UIProxy::onTextChanged()
     }
 }
 
-void UIProxy::onAnchorClicked(const QUrl &link)
+void UI::onAnchorClicked(const QUrl &link)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -672,17 +672,17 @@ void UIProxy::onAnchorClicked(const QUrl &link)
 #endif
 
 #if WIDGET_SCENE3D
-void UIProxy::onViewCenterChanged(const QVector3D &viewCenter)
+void UI::onViewCenterChanged(const QVector3D &viewCenter)
 {
     sim::addLog(sim_verbosity_debug, "View center changed: %f, %f, %f", viewCenter.x(), viewCenter.y(), viewCenter.z());
 }
 
-void UIProxy::onPositionChanged(const QVector3D &position)
+void UI::onPositionChanged(const QVector3D &position)
 {
     sim::addLog(sim_verbosity_debug, "Position changed: %f, %f, %f", position.x(), position.y(), position.z());
 }
 
-void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
+void UI::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -713,7 +713,7 @@ void UIProxy::onScene3DObjectClicked(Qt3DRender::QPickEvent *pick)
 // The following slots are wrappers for functions called from SIM thread
 // which should instead execute in the UI thread.
 
-void UIProxy::onDestroy(Proxy *proxy)
+void UI::onDestroy(Proxy *proxy)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -725,22 +725,22 @@ void UIProxy::onDestroy(Proxy *proxy)
         sim::addLog(sim_verbosity_debug, "WARNING: proxy is NULL");
         return;
     }
-    if(!proxy->ui)
+    if(!proxy->window)
     {
-        sim::addLog(sim_verbosity_debug, "WARNING: proxy->ui is NULL");
+        sim::addLog(sim_verbosity_debug, "WARNING: proxy->window is NULL");
         return;
     }
-    if(!proxy->ui->qwidget)
+    if(!proxy->window->qwidget)
     {
-        sim::addLog(sim_verbosity_debug, "WARNING: proxy->ui->qwidget is NULL");
+        sim::addLog(sim_verbosity_debug, "WARNING: proxy->window->qwidget is NULL");
         return;
     }
 
-    sim::addLog(sim_verbosity_debug, "calling proxy->ui->qwidget->deleteLater()...");
-    proxy->ui->qwidget->deleteLater();
+    sim::addLog(sim_verbosity_debug, "calling proxy->window->qwidget->deleteLater()...");
+    proxy->window->qwidget->deleteLater();
 }
 
-void UIProxy::onSetStyleSheet(Widget *widget, std::string styleSheet)
+void UI::onSetStyleSheet(Widget *widget, std::string styleSheet)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -749,7 +749,7 @@ void UIProxy::onSetStyleSheet(Widget *widget, std::string styleSheet)
 }
 
 #if WIDGET_BUTTON
-void UIProxy::onSetButtonText(Button *button, std::string text)
+void UI::onSetButtonText(Button *button, std::string text)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -757,7 +757,7 @@ void UIProxy::onSetButtonText(Button *button, std::string text)
     button->setText(text);
 }
 
-void UIProxy::onSetButtonPressed(Button *button, bool pressed)
+void UI::onSetButtonPressed(Button *button, bool pressed)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -766,7 +766,7 @@ void UIProxy::onSetButtonPressed(Button *button, bool pressed)
 }
 #endif
 
-void UIProxy::onShowWindow(Window *window)
+void UI::onShowWindow(Window *window)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -778,7 +778,7 @@ void UIProxy::onShowWindow(Window *window)
     window->show();
 }
 
-void UIProxy::onHideWindow(Window *window)
+void UI::onHideWindow(Window *window)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -790,7 +790,7 @@ void UIProxy::onHideWindow(Window *window)
     window->hide();
 }
 
-void UIProxy::onSetPosition(Window *window, int x, int y)
+void UI::onSetPosition(Window *window, int x, int y)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -800,7 +800,7 @@ void UIProxy::onSetPosition(Window *window, int x, int y)
     window->move(x, y);
 }
 
-void UIProxy::onSetSize(Window *window, int w, int h)
+void UI::onSetSize(Window *window, int w, int h)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -810,7 +810,7 @@ void UIProxy::onSetSize(Window *window, int w, int h)
     window->resize(w, h);
 }
 
-void UIProxy::onSetTitle(Window *window, std::string title)
+void UI::onSetTitle(Window *window, std::string title)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -820,7 +820,7 @@ void UIProxy::onSetTitle(Window *window, std::string title)
     window->setTitle(title);
 }
 
-void UIProxy::onSetWindowEnabled(Window *window, bool enabled)
+void UI::onSetWindowEnabled(Window *window, bool enabled)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -831,7 +831,7 @@ void UIProxy::onSetWindowEnabled(Window *window, bool enabled)
 }
 
 #if WIDGET_IMAGE
-void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
+void UI::onSetImage(Image *image, const char *data, int w, int h)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -842,7 +842,7 @@ void UIProxy::onSetImage(Image *image, const char *data, int w, int h)
 }
 #endif
 
-void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
+void UI::onSceneChange(Window *window, int oldSceneID, int newSceneID)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -854,7 +854,7 @@ void UIProxy::onSceneChange(Window *window, int oldSceneID, int newSceneID)
     window->onSceneChange(oldSceneID, newSceneID);
 }
 
-void UIProxy::onSetEnabled(Widget *widget, bool enabled)
+void UI::onSetEnabled(Widget *widget, bool enabled)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -867,7 +867,7 @@ void UIProxy::onSetEnabled(Widget *widget, bool enabled)
 }
 
 #if WIDGET_EDIT
-void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals)
+void UI::onSetEditValue(Edit *edit, std::string value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -877,7 +877,7 @@ void UIProxy::onSetEditValue(Edit *edit, std::string value, bool suppressSignals
 #endif
 
 #if WIDGET_SPINBOX
-void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals)
+void UI::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -887,7 +887,7 @@ void UIProxy::onSetSpinboxValue(Spinbox *spinbox, double value, bool suppressSig
 #endif
 
 #if WIDGET_LABEL
-void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignals)
+void UI::onSetLabelText(Label *label, std::string text, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -897,7 +897,7 @@ void UIProxy::onSetLabelText(Label *label, std::string text, bool suppressSignal
 #endif
 
 #if WIDGET_HSLIDER || WIDGET_VSLIDER
-void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
+void UI::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -907,7 +907,7 @@ void UIProxy::onSetSliderValue(Slider *slider, int value, bool suppressSignals)
 #endif
 
 #if WIDGET_CHECKBOX
-void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals)
+void UI::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -917,7 +917,7 @@ void UIProxy::onSetCheckboxValue(Checkbox *checkbox, Qt::CheckState value, bool 
 #endif
 
 #if WIDGET_RADIOBUTTON
-void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals)
+void UI::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -927,7 +927,7 @@ void UIProxy::onSetRadiobuttonValue(Radiobutton *radiobutton, bool value, bool s
 #endif
 
 #if WIDGET_COMBOBOX
-void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals)
+void UI::onInsertComboboxItem(Combobox *combobox, int index, std::string text, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -935,7 +935,7 @@ void UIProxy::onInsertComboboxItem(Combobox *combobox, int index, std::string te
     combobox->insertItem(index, text, suppressSignals);
 }
 
-void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals)
+void UI::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -943,7 +943,7 @@ void UIProxy::onRemoveComboboxItem(Combobox *combobox, int index, bool suppressS
     combobox->removeItem(index, suppressSignals);
 }
 
-void UIProxy::onSetComboboxItems(Combobox *combobox, std::vector<std::string> items, int index, bool suppressSignals)
+void UI::onSetComboboxItems(Combobox *combobox, std::vector<std::string> items, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -951,7 +951,7 @@ void UIProxy::onSetComboboxItems(Combobox *combobox, std::vector<std::string> it
     combobox->setItems(items, index, suppressSignals);
 }
 
-void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals)
+void UI::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -961,7 +961,7 @@ void UIProxy::onSetComboboxSelectedIndex(Combobox *combobox, int index, bool sup
 #endif
 
 #if WIDGET_TABS
-void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
+void UI::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -970,7 +970,7 @@ void UIProxy::onSetCurrentTab(Tabs *tabs, int index, bool suppressSignals)
 }
 #endif
 
-void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
+void UI::onSetWidgetVisibility(Widget *widget, bool visible)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
@@ -983,56 +983,56 @@ void UIProxy::onSetWidgetVisibility(Widget *widget, bool visible)
 }
 
 #if WIDGET_PLOT
-void UIProxy::onReplot(Plot *plot)
+void UI::onReplot(Plot *plot)
 {
     plot->replot(true);
 }
 
-void UIProxy::onAddCurve(Plot *plot, int type, std::string name, std::vector<int> color, int style, curve_options *opts)
+void UI::onAddCurve(Plot *plot, int type, std::string name, std::vector<int> color, int style, curve_options *opts)
 {
     plot->addCurve(type, name, color, style, opts);
 }
 
-void UIProxy::onAddCurveTimePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y)
+void UI::onAddCurveTimePoints(Plot *plot, std::string name, std::vector<double> x, std::vector<double> y)
 {
     plot->addTimeData(name, x, y);
 }
 
-void UIProxy::onAddCurveXYPoints(Plot *plot, std::string name, std::vector<double> t, std::vector<double> x, std::vector<double> y)
+void UI::onAddCurveXYPoints(Plot *plot, std::string name, std::vector<double> t, std::vector<double> x, std::vector<double> y)
 {
     plot->addXYData(name, t, x, y);
 }
 
-void UIProxy::onClearCurve(Plot *plot, std::string name)
+void UI::onClearCurve(Plot *plot, std::string name)
 {
     plot->clearCurve(name);
 }
 
-void UIProxy::onRemoveCurve(Plot *plot, std::string name)
+void UI::onRemoveCurve(Plot *plot, std::string name)
 {
     plot->removeCurve(name);
 }
 
-void UIProxy::onSetPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax)
+void UI::onSetPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     qplot->xAxis->setRange(xmin, xmax);
     qplot->yAxis->setRange(ymin, ymax);
 }
 
-void UIProxy::onSetPlotXRange(Plot *plot, double xmin, double xmax)
+void UI::onSetPlotXRange(Plot *plot, double xmin, double xmax)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     qplot->xAxis->setRange(xmin, xmax);
 }
 
-void UIProxy::onSetPlotYRange(Plot *plot, double ymin, double ymax)
+void UI::onSetPlotYRange(Plot *plot, double ymin, double ymax)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     qplot->yAxis->setRange(ymin, ymax);
 }
 
-void UIProxy::onGrowPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax)
+void UI::onGrowPlotRanges(Plot *plot, double xmin, double xmax, double ymin, double ymax)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     QCPRange xrange = qplot->xAxis->range();
@@ -1041,309 +1041,309 @@ void UIProxy::onGrowPlotRanges(Plot *plot, double xmin, double xmax, double ymin
     qplot->yAxis->setRange(yrange.lower - ymin, yrange.upper + ymax);
 }
 
-void UIProxy::onGrowPlotXRange(Plot *plot, double xmin, double xmax)
+void UI::onGrowPlotXRange(Plot *plot, double xmin, double xmax)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     QCPRange xrange = qplot->xAxis->range();
     qplot->xAxis->setRange(xrange.lower - xmin, xrange.upper + xmax);
 }
 
-void UIProxy::onGrowPlotYRange(Plot *plot, double ymin, double ymax)
+void UI::onGrowPlotYRange(Plot *plot, double ymin, double ymax)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     QCPRange yrange = qplot->yAxis->range();
     qplot->yAxis->setRange(yrange.lower - ymin, yrange.upper + ymax);
 }
 
-void UIProxy::onSetPlotLabels(Plot *plot, std::string x, std::string y)
+void UI::onSetPlotLabels(Plot *plot, std::string x, std::string y)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     qplot->xAxis->setLabel(QString::fromStdString(x));
     qplot->yAxis->setLabel(QString::fromStdString(y));
 }
 
-void UIProxy::onSetPlotXLabel(Plot *plot, std::string label)
+void UI::onSetPlotXLabel(Plot *plot, std::string label)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     qplot->xAxis->setLabel(QString::fromStdString(label));
 }
 
-void UIProxy::onSetPlotYLabel(Plot *plot, std::string label)
+void UI::onSetPlotYLabel(Plot *plot, std::string label)
 {
     QCustomPlot *qplot = static_cast<QCustomPlot*>(plot->getQWidget());
     qplot->yAxis->setLabel(QString::fromStdString(label));
 }
 
-void UIProxy::onRescaleAxes(Plot *plot, std::string name, bool onlyEnlargeX, bool onlyEnlargeY)
+void UI::onRescaleAxes(Plot *plot, std::string name, bool onlyEnlargeX, bool onlyEnlargeY)
 {
     plot->rescaleAxes(name, onlyEnlargeX, onlyEnlargeY);
 }
 
-void UIProxy::onRescaleAxesAll(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY)
+void UI::onRescaleAxesAll(Plot *plot, bool onlyEnlargeX, bool onlyEnlargeY)
 {
     plot->rescaleAxesAll(onlyEnlargeX, onlyEnlargeY);
 }
 
-void UIProxy::onSetMouseOptions(Plot *plot, bool panX, bool panY, bool zoomX, bool zoomY)
+void UI::onSetMouseOptions(Plot *plot, bool panX, bool panY, bool zoomX, bool zoomY)
 {
     plot->setMouseOptions(panX, panY, zoomX, zoomY);
 }
 
-void UIProxy::onSetLegendVisibility(Plot *plot, bool visible)
+void UI::onSetLegendVisibility(Plot *plot, bool visible)
 {
     plot->setLegendVisibility(visible);
 }
 #endif
 
 #if WIDGET_TABLE
-void UIProxy::onClearTable(Table *table, bool suppressSignals)
+void UI::onClearTable(Table *table, bool suppressSignals)
 {
     table->clear(suppressSignals);
 }
 
-void UIProxy::onSetRowCount(Table *table, int count, bool suppressSignals)
+void UI::onSetRowCount(Table *table, int count, bool suppressSignals)
 {
     table->setRowCount(count, suppressSignals);
 }
 
-void UIProxy::onSetColumnCountTable(Table *table, int count, bool suppressSignals)
+void UI::onSetColumnCountTable(Table *table, int count, bool suppressSignals)
 {
     table->setColumnCount(count, suppressSignals);
 }
 
-void UIProxy::onSetItem(Table *table, int row, int column, std::string text, bool suppressSignals)
+void UI::onSetItem(Table *table, int row, int column, std::string text, bool suppressSignals)
 {
     table->setItem(row, column, text, suppressSignals);
 }
 
-void UIProxy::onSetItemImage(Table *table, int row, int column, std::string data, int width, int height, bool suppressSignals)
+void UI::onSetItemImage(Table *table, int row, int column, std::string data, int width, int height, bool suppressSignals)
 {
     table->setItemImage(row, column, data, width, height, suppressSignals);
 }
 
-void UIProxy::onSetRowHeaderText(Table *table, int row, std::string text)
+void UI::onSetRowHeaderText(Table *table, int row, std::string text)
 {
     table->setRowHeaderText(row, text);
 }
 
-void UIProxy::onSetColumnHeaderTextTable(Table *table, int column, std::string text)
+void UI::onSetColumnHeaderTextTable(Table *table, int column, std::string text)
 {
     table->setColumnHeaderText(column, text);
 }
 
-void UIProxy::onSetItemEditable(Table *table, int row, int column, bool editable)
+void UI::onSetItemEditable(Table *table, int row, int column, bool editable)
 {
     table->setItemEditable(row, column, editable);
 }
 
-void UIProxy::onRestoreStateTable(Table *table, std::string state)
+void UI::onRestoreStateTable(Table *table, std::string state)
 {
     table->restoreState(state);
 }
 
-void UIProxy::onSetRowHeight(Table *table, int row, int min_size, int max_size)
+void UI::onSetRowHeight(Table *table, int row, int min_size, int max_size)
 {
     table->setRowHeight(row, min_size, max_size);
 }
 
-void UIProxy::onSetColumnWidthTable(Table *table, int column, int min_size, int max_size)
+void UI::onSetColumnWidthTable(Table *table, int column, int min_size, int max_size)
 {
     table->setColumnWidth(column, min_size, max_size);
 }
 
-void UIProxy::onSetTableSelection(Table *table, int row, int column, bool suppressSignals)
+void UI::onSetTableSelection(Table *table, int row, int column, bool suppressSignals)
 {
     table->setSelection(row, column, suppressSignals);
 }
 #endif
 
 #if WIDGET_PROGRESSBAR
-void UIProxy::onSetProgress(Progressbar *progressbar, int value)
+void UI::onSetProgress(Progressbar *progressbar, int value)
 {
     progressbar->setValue(value);
 }
 #endif
 
 #if WIDGET_TREE
-void UIProxy::onSetColumnCountTree(Tree *tree, int count, bool suppressSignals)
+void UI::onSetColumnCountTree(Tree *tree, int count, bool suppressSignals)
 {
     tree->setColumnCount(count, suppressSignals);
 }
 
-void UIProxy::onSetColumnHeaderTextTree(Tree *tree, int column, std::string text)
+void UI::onSetColumnHeaderTextTree(Tree *tree, int column, std::string text)
 {
     tree->setColumnHeaderText(column, text);
 }
 
-void UIProxy::onRestoreStateTree(Tree *tree, std::string state)
+void UI::onRestoreStateTree(Tree *tree, std::string state)
 {
     tree->restoreState(state);
 }
 
-void UIProxy::onSetColumnWidthTree(Tree *tree, int column, int min_size, int max_size)
+void UI::onSetColumnWidthTree(Tree *tree, int column, int min_size, int max_size)
 {
     tree->setColumnWidth(column, min_size, max_size);
 }
 
-void UIProxy::onClearTree(Tree *tree, bool suppressSignals)
+void UI::onClearTree(Tree *tree, bool suppressSignals)
 {
     tree->clear(suppressSignals);
 }
 
-void UIProxy::onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text, bool expanded, bool suppressSignals)
+void UI::onAddTreeItem(Tree *tree, int item_id, int parent_id, std::vector<std::string> text, bool expanded, bool suppressSignals)
 {
     tree->addItem(item_id, parent_id, text, expanded, suppressSignals);
 }
 
-void UIProxy::onUpdateTreeItemText(Tree *tree, int item_id, std::vector<std::string> text)
+void UI::onUpdateTreeItemText(Tree *tree, int item_id, std::vector<std::string> text)
 {
     tree->updateItemText(item_id, text);
 }
 
-void UIProxy::onUpdateTreeItemParent(Tree *tree, int item_id, int parent_id, bool suppressSignals)
+void UI::onUpdateTreeItemParent(Tree *tree, int item_id, int parent_id, bool suppressSignals)
 {
     tree->updateItemParent(item_id, parent_id, suppressSignals);
 }
 
-void UIProxy::onRemoveTreeItem(Tree *tree, int item_id, bool suppressSignals)
+void UI::onRemoveTreeItem(Tree *tree, int item_id, bool suppressSignals)
 {
     tree->removeItem(item_id, suppressSignals);
 }
 
-void UIProxy::onSetTreeSelection(Tree *tree, int item_id, bool suppressSignals)
+void UI::onSetTreeSelection(Tree *tree, int item_id, bool suppressSignals)
 {
     tree->setSelection(item_id, suppressSignals);
 }
 
-void UIProxy::onExpandAll(Tree *tree, bool suppressSignals)
+void UI::onExpandAll(Tree *tree, bool suppressSignals)
 {
     tree->expandAll(suppressSignals);
 }
 
-void UIProxy::onCollapseAll(Tree *tree, bool suppressSignals)
+void UI::onCollapseAll(Tree *tree, bool suppressSignals)
 {
     tree->collapseAll(suppressSignals);
 }
 
-void UIProxy::onExpandToDepth(Tree *tree, int depth, bool suppressSignals)
+void UI::onExpandToDepth(Tree *tree, int depth, bool suppressSignals)
 {
     tree->expandToDepth(depth, suppressSignals);
 }
 #endif
 
 #if WIDGET_DATAFLOW
-void UIProxy::onAddNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets)
+void UI::onAddNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets)
 {
     dataflow->addNode(id, pos, text, inlets, outlets);
 }
 
-void UIProxy::onRemoveNode(Dataflow *dataflow, int id)
+void UI::onRemoveNode(Dataflow *dataflow, int id)
 {
     dataflow->removeNode(id);
 }
 
-void UIProxy::onSetNodeValid(Dataflow *dataflow, int id, bool valid)
+void UI::onSetNodeValid(Dataflow *dataflow, int id, bool valid)
 {
     dataflow->setNodeValid(id, valid);
 }
 
-void UIProxy::onSetNodePos(Dataflow *dataflow, int id, QPoint pos)
+void UI::onSetNodePos(Dataflow *dataflow, int id, QPoint pos)
 {
     dataflow->setNodePos(id, pos);
 }
 
-void UIProxy::onSetNodeText(Dataflow *dataflow, int id, QString text)
+void UI::onSetNodeText(Dataflow *dataflow, int id, QString text)
 {
     dataflow->setNodeText(id, text);
 }
 
-void UIProxy::onSetNodeInletCount(Dataflow *dataflow, int id, int count)
+void UI::onSetNodeInletCount(Dataflow *dataflow, int id, int count)
 {
     dataflow->setNodeInletCount(id, count);
 }
 
-void UIProxy::onSetNodeOutletCount(Dataflow *dataflow, int id, int count)
+void UI::onSetNodeOutletCount(Dataflow *dataflow, int id, int count)
 {
     dataflow->setNodeOutletCount(id, count);
 }
 
-void UIProxy::onAddConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet)
+void UI::onAddConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet)
 {
     dataflow->addConnection(srcId, srcOutlet, dstId, dstInlet);
 }
 
-void UIProxy::onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet)
+void UI::onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet)
 {
     dataflow->removeConnection(srcId, srcOutlet, dstId, dstInlet);
 }
 #endif
 
 #if WIDGET_TEXTBROWSER
-void UIProxy::onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals)
+void UI::onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals)
 {
     textbrowser->setText(text, suppressSignals);
 }
 
-void UIProxy::onSetUrl(TextBrowser *textbrowser, std::string url)
+void UI::onSetUrl(TextBrowser *textbrowser, std::string url)
 {
     textbrowser->setUrl(url);
 }
 #endif
 
 #if WIDGET_SCENE3D
-void UIProxy::onAddScene3DNode(Scene3D *scene3d, int id, int parentId, int type)
+void UI::onAddScene3DNode(Scene3D *scene3d, int id, int parentId, int type)
 {
     scene3d->addNode(id, parentId, type);
 }
 
-void UIProxy::onRemoveScene3DNode(Scene3D *scene3d, int id)
+void UI::onRemoveScene3DNode(Scene3D *scene3d, int id)
 {
     scene3d->removeNode(id);
 }
 
-void UIProxy::onSetScene3DNodeEnabled(Scene3D *scene3d, int id, bool enabled)
+void UI::onSetScene3DNodeEnabled(Scene3D *scene3d, int id, bool enabled)
 {
     scene3d->enableNode(id, enabled);
 }
 
-void UIProxy::onSetScene3DIntParam(Scene3D *scene3d, int id, std::string param, int value)
+void UI::onSetScene3DIntParam(Scene3D *scene3d, int id, std::string param, int value)
 {
     scene3d->setIntParameter(id, param, value);
 }
 
-void UIProxy::onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, float value)
+void UI::onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, float value)
 {
     scene3d->setFloatParameter(id, param, value);
 }
 
-void UIProxy::onSetScene3DStringParam(Scene3D *scene3d, int id, std::string param, std::string value)
+void UI::onSetScene3DStringParam(Scene3D *scene3d, int id, std::string param, std::string value)
 {
     scene3d->setStringParameter(id, param, value);
 }
 
-void UIProxy::onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y)
+void UI::onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y)
 {
     scene3d->setVector2Parameter(id, param, x, y);
 }
 
-void UIProxy::onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z)
+void UI::onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z)
 {
     scene3d->setVector3Parameter(id, param, x, y, z);
 }
 
-void UIProxy::onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w)
+void UI::onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w)
 {
     scene3d->setVector4Parameter(id, param, x, y, z, w);
 }
 #endif
 
 #if WIDGET_SVG
-void UIProxy::onSvgLoadFile(SVG *svg, const QString &file)
+void UI::onSvgLoadFile(SVG *svg, const QString &file)
 {
     svg->loadFile(file);
 }
 
-void UIProxy::onSvgLoadData(SVG *svg, const QByteArray &data)
+void UI::onSvgLoadData(SVG *svg, const QByteArray &data)
 {
     svg->loadData(data);
 }

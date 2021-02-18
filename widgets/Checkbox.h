@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -29,14 +29,14 @@ public:
     virtual ~Checkbox();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     Qt::CheckState convertValueFromInt(int value);
     int convertValueToInt(Qt::CheckState value);
     void setValue(Qt::CheckState value, bool suppressSignals);
     Qt::CheckState getValue();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // CHECKBOX_H_INCLUDED

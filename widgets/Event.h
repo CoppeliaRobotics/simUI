@@ -13,7 +13,7 @@ public:
     Event();
     virtual ~Event();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnClick : public Event
@@ -25,7 +25,7 @@ public:
     EventOnClick();
     virtual ~EventOnClick();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnChange : public Event
@@ -37,7 +37,7 @@ public:
     EventOnChange();
     virtual ~EventOnChange();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnChangeInt : public EventOnChange
@@ -46,7 +46,7 @@ public:
     EventOnChangeInt();
     virtual ~EventOnChangeInt();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnChangeDouble : public EventOnChange
@@ -55,7 +55,7 @@ public:
     EventOnChangeDouble();
     virtual ~EventOnChangeDouble();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnChangeString : public EventOnChange
@@ -64,7 +64,7 @@ public:
     EventOnChangeString();
     virtual ~EventOnChangeString();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnEditingFinished : public Event
@@ -76,7 +76,7 @@ public:
     EventOnEditingFinished();
     virtual ~EventOnEditingFinished();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnLinkActivated : public Event
@@ -88,7 +88,7 @@ public:
     EventOnLinkActivated();
     virtual ~EventOnLinkActivated();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnKeyPress : public Event
@@ -100,7 +100,7 @@ public:
     EventOnKeyPress();
     virtual ~EventOnKeyPress();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnMouseDown : public Event
@@ -112,7 +112,7 @@ public:
     EventOnMouseDown();
     virtual ~EventOnMouseDown();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnMouseUp : public Event
@@ -124,7 +124,7 @@ public:
     EventOnMouseUp();
     virtual ~EventOnMouseUp();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 class EventOnMouseMove : public Event
@@ -136,7 +136,7 @@ public:
     EventOnMouseMove();
     virtual ~EventOnMouseMove();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // EVENT_H_INCLUDED

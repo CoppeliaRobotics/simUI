@@ -10,12 +10,12 @@
 
 #include "widgets/Window.h"
 
-class UIProxy;
+class UI;
 
 class Proxy
 {
 public:
-    Proxy(bool destroyAfterSimulationStop, int sceneID, int scriptID, Window *ui, std::map<int, Widget*>& widgets);
+    Proxy(bool destroyAfterSimulationStop, int sceneID, int scriptID, Window *window, std::map<int, Widget*>& widgets);
     virtual ~Proxy();
 
     static void destroyTransientObjects();
@@ -27,9 +27,9 @@ public:
 
     Widget * getWidgetById(int id);
 
-    void createQtWidget(UIProxy *uiproxy);
+    void createQtWidget(UI *ui);
 
-    inline Window * getWidget() {return ui;}
+    inline Window * getWidget() {return window;}
 
     inline int getScriptID() {return scriptID;}
     inline int getSceneID() {return sceneID;}
@@ -51,7 +51,7 @@ private:
     bool destroyAfterSimulationStop;
 
     // UIModel's pointer:
-    Window *ui;
+    Window *window;
 
     // the scene from which this object has been created:
     int sceneID;
@@ -59,8 +59,8 @@ private:
     // the scriptID from which this object has been created:
     int scriptID;
 
-    friend class UIFunctions;
-    friend class UIProxy;
+    friend class SIM;
+    friend class UI;
     friend class Widget;
 };
 

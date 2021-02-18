@@ -1,6 +1,6 @@
 #include "signal_spy.h"
-#include "UIProxy.h"
-#include "UIFunctions.h"
+#include "UI.h"
+#include "SIM.h"
 #include <string>
 #include <5.5.0/QtCore/private/qobject_p.h>
 
@@ -27,13 +27,13 @@ static int signalToMethodIndex(const QMetaObject * mo, int signal)
 static bool spyCondition(QObject *caller)
 {
     std::string className(caller->metaObject()->className());
-    return className == "UIProxy" || className == "UIFunctions";
+    return className == "UI" || className == "SIM";
 }
 
 static std::string callerNickname(QObject *caller)
 {
-    if(caller == UIFunctions::getInstance()) return " (UIFunctionsSingleton)";
-    if(caller == UIProxy::getInstance()) return " (UIProxySingleton)";
+    if(caller == SIM::getInstance()) return " (SIM)";
+    if(caller == UI::getInstance()) return " (UI)";
     return "";
 }
 

@@ -14,7 +14,7 @@
 #include "Widget.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 class Widget;
 
 enum Layout
@@ -35,7 +35,7 @@ public:
     Stretch();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     friend class LayoutWidget;
 };
@@ -50,7 +50,7 @@ public:
     virtual ~LayoutWidget();
 
     void parse(Widget *self, Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    void createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    void createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     friend class Stretch;
 };

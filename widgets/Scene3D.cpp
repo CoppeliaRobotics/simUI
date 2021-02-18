@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <stdexcept>
 
@@ -254,7 +254,7 @@ void dumpNodeTree(Qt3DCore::QNode *node, int level = 0)
     }
 }
 
-QWidget * Scene3D::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Scene3D::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     view = new Qt3DExtras::Qt3DWindow();
     view->defaultFrameGraph()->setClearColor((clearColor[0] >= 0 && clearColor[1] >= 0 && clearColor[2] >= 0) ? QColor(clearColor[0], clearColor[1], clearColor[2]) : parent->palette().color(parent->backgroundRole()));
@@ -271,8 +271,8 @@ QWidget * Scene3D::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *paren
 
     createNodes(rootEntity, -1, nodes);
 
-    QObject::connect(view->camera(), &Qt3DRender::QCamera::viewCenterChanged, uiproxy, &UIProxy::onViewCenterChanged);
-    QObject::connect(view->camera(), &Qt3DRender::QCamera::positionChanged, uiproxy, &UIProxy::onPositionChanged);
+    QObject::connect(view->camera(), &Qt3DRender::QCamera::viewCenterChanged, ui, &UI::onViewCenterChanged);
+    QObject::connect(view->camera(), &Qt3DRender::QCamera::positionChanged, ui, &UI::onPositionChanged);
 
     setQWidget(container);
     setProxy(proxy);

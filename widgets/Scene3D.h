@@ -51,7 +51,7 @@
 #include "stubs.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -83,7 +83,7 @@ public:
     virtual ~Scene3D();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     Qt3DCore::QNode * nodeById(int id, Qt3DCore::QNode *def);
     Qt3DCore::QNode * nodeById(int id);
@@ -102,7 +102,7 @@ public:
     void setVector3Parameter(int id, std::string param, float x, float y, float z);
     void setVector4Parameter(int id, std::string param, float x, float y, float z, float w);
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 struct NodeParam {

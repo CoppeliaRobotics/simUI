@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QMouseEvent>
 #include <QLabel>
@@ -35,7 +35,7 @@ void SVG::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLEl
         data = xmlutils::elementToString(svgdoc);
 }
 
-QWidget * SVG::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * SVG::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     SvgWidget *w = new SvgWidget(parent, this);
     w->setEnabled(enabled);
@@ -50,7 +50,7 @@ QWidget * SVG::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
         QByteArray qdata(data.data(), data.size());
         w->load(qdata);
     }
-    QObject::connect(w, &SvgWidget::mouseEvent, uiproxy, &UIProxy::onMouseEvent);
+    QObject::connect(w, &SvgWidget::mouseEvent, ui, &UI::onMouseEvent);
     setQWidget(w);
     setProxy(proxy);
     return w;

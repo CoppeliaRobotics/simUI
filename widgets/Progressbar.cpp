@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QProgressBar>
 
@@ -35,7 +35,7 @@ void Progressbar::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
     text_visible = xmlutils::getAttrBool(e, "text-visible", true);
 }
 
-QWidget * Progressbar::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Progressbar::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QProgressBar *progressbar = new QProgressBar(parent);
     progressbar->setEnabled(enabled);

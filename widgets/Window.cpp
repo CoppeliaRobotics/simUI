@@ -3,7 +3,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include "stubs.h"
 
@@ -21,7 +21,7 @@ WindowWidget::WindowWidget()
 {
 }
 
-QWidget * WindowWidget::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * WindowWidget::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     throw std::runtime_error("WindowWidget cannot be used");
 }
@@ -114,7 +114,7 @@ public:
             if(window->onclose != "")
             {
                 event->ignore();
-                UIProxy::getInstance()->windowClose(window);
+                UI::getInstance()->windowClose(window);
             }
         }
         else QDialog::keyPressEvent(event);
@@ -125,7 +125,7 @@ public:
         if(window->onclose != "")
         {
             event->ignore();
-            UIProxy::getInstance()->windowClose(window);
+            UI::getInstance()->windowClose(window);
         }
         else
         {
@@ -134,11 +134,11 @@ public:
     }
 };
 
-QWidget * Window::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QDialog *window = new QDialog2(this, parent);
     window->setStyleSheet(QString::fromStdString(style));
-    LayoutWidget::createQtWidget(proxy, uiproxy, window);
+    LayoutWidget::createQtWidget(proxy, ui, window);
     window->setWindowTitle(QString::fromStdString(title));
     Qt::WindowFlags flags = Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint;
 #ifdef MAC_SIM

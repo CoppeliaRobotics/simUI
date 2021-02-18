@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QRadioButton>
 
@@ -30,7 +30,7 @@ void Radiobutton::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
     onclick = xmlutils::getAttrStr(e, "on-click", "");
 }
 
-QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Radiobutton::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QRadioButton *button = new QRadioButton(QString::fromStdString(text), parent);
     button->setEnabled(enabled);
@@ -39,7 +39,7 @@ QWidget * Radiobutton::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *p
     button->setCheckable(checkable);
     button->setAutoExclusive(auto_exclusive);
     button->setChecked(checked);
-    QObject::connect(button, &QRadioButton::released, uiproxy, &UIProxy::onButtonClick);
+    QObject::connect(button, &QRadioButton::released, ui, &UI::onButtonClick);
     setQWidget(button);
     setProxy(proxy);
     return button;

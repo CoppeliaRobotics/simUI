@@ -4,19 +4,19 @@
 #include <map>
 #include <iostream>
 
-#include "UIProxy.h"
-#include "UIFunctions.h"
+#include "UI.h"
+#include "SIM.h"
 
 #include <simPlusPlus/Lib.h>
 
 int Proxy::nextProxyHandle = 1000;
 std::map<int, Proxy *> Proxy::proxies;
 
-Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *ui_, std::map<int, Widget*>& widgets_)
+Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *window_, std::map<int, Widget*>& widgets_)
     : handle(nextProxyHandle++),
       widgets(widgets_),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
-      ui(ui_),
+      window(window_),
       sceneID(sceneID_),
       scriptID(scriptID_)
 {
@@ -34,11 +34,11 @@ Proxy::~Proxy()
 
     // should be destroyed from the UI thread
 
-    if(ui)
+    if(window)
     {
-        sim::addLog(sim_verbosity_debug, "delete 'ui' member...");
+        sim::addLog(sim_verbosity_debug, "delete 'window' member...");
 
-        delete ui;
+        delete window;
     }
 
     Proxy::proxies.erase(handle);
@@ -61,11 +61,11 @@ Widget * Proxy::getWidgetById(int id)
     return ret;
 }
 
-void Proxy::createQtWidget(UIProxy *uiproxy)
+void Proxy::createQtWidget(UI *ui)
 {
     ASSERT_THREAD(UI);
 
-    ui->createQtWidget(this, uiproxy, UIProxy::simMainWindow);
+    window->createQtWidget(this, ui, UI::simMainWindow);
 }
 
 // this function will be called at simulation end to destroy objects that
@@ -88,8 +88,8 @@ void Proxy::destroyTransientObjects()
         Proxy *proxy = Proxy::byHandle(*it);
         if(proxy)
         {
-            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call UIFunctions::destroy())", proxy->getHandle());
-            UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call SIM::destroy())", proxy->getHandle());
+            SIM::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
 }
@@ -106,8 +106,8 @@ void Proxy::destroyAllObjects()
         Proxy *proxy = it->second;
         if(proxy)
         {
-            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call UIFunctions::destroy())", proxy->getHandle());
-            UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call SIM::destroy())", proxy->getHandle());
+            SIM::getInstance()->destroy(proxy); // will also delete proxy
         }
     }
 }
@@ -124,8 +124,8 @@ void Proxy::destroyAllObjectsFromUIThread()
         Proxy *proxy = it->second;
         if(proxy)
         {
-            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call UIProxy::onDestroy())", proxy->getHandle());
-            UIProxy::getInstance()->onDestroy(proxy); // will also delete proxy
+            sim::addLog(sim_verbosity_debug, "destroying proxy %d... (call UI::onDestroy())", proxy->getHandle());
+            UI::getInstance()->onDestroy(proxy); // will also delete proxy
         }
     }
 }
@@ -133,9 +133,9 @@ void Proxy::destroyAllObjectsFromUIThread()
 void Proxy::sceneChange(int oldSceneID, int newSceneID, void *dummy)
 {
     ASSERT_THREAD(!UI);
-    if(ui)
+    if(window)
     {
-        UIFunctions::getInstance()->sceneChange(ui, oldSceneID, newSceneID);
+        SIM::getInstance()->sceneChange(window, oldSceneID, newSceneID);
     }
 }
 

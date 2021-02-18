@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -26,7 +26,7 @@ public:
     virtual ~Combobox();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     void insertItem(int index, std::string text, bool suppressSignals);
     void removeItem(int index, bool suppressSignals);
@@ -37,7 +37,7 @@ public:
     int count();
     std::string itemText(int index);
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // COMBOBOX_H_INCLUDED

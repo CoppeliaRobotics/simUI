@@ -10,22 +10,22 @@
 #include "stubs.h"
 #include "widgets/all.h"
 
-class UIFunctions : public QObject
+class SIM : public QObject
 {
     Q_OBJECT
 
 public:
-    virtual ~UIFunctions();
+    virtual ~SIM();
 
-    static UIFunctions * getInstance(QObject *parent = 0);
+    static SIM * getInstance(QObject *parent = 0);
     static void destroyInstance();
 
     void connectSignals();
 
 private:
-    UIFunctions(QObject *parent = 0);
+    SIM(QObject *parent = 0);
 
-    static UIFunctions *instance;
+    static SIM *instance;
 
 public slots:
 

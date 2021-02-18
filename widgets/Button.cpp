@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QPushButton>
 
@@ -40,7 +40,7 @@ void Button::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     icon = xmlutils::getAttrStr(e, "icon", "");
 }
 
-QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Button::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QPushButton *button = new QPushButton(QString::fromStdString(text), parent);
     button->setEnabled(enabled);
@@ -68,7 +68,7 @@ QWidget * Button::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent
             button->setIcon(button->style()->standardIcon(sp));
         }
     }
-    QObject::connect(button, &QPushButton::clicked, uiproxy, &UIProxy::onButtonClick);
+    QObject::connect(button, &QPushButton::clicked, ui, &UI::onButtonClick);
     setQWidget(button);
     setProxy(proxy);
     return button;

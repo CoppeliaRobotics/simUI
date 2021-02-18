@@ -30,8 +30,8 @@
 #include "config.h"
 #include "stubs.h"
 #include "Proxy.h"
-#include "UIFunctions.h"
-#include "UIProxy.h"
+#include "SIM.h"
+#include "UI.h"
 #include "widgets/all.h"
 
 #ifdef ENABLE_SIGNAL_SPY
@@ -60,15 +60,15 @@ public:
         SignalSpy::start();
 #endif
 
-        UIProxy::getInstance(); // construct UIProxy here (UI thread)
+        UI::getInstance();
     }
 
     void onEnd()
     {
         Proxy::destroyAllObjectsFromUIThread();
 
-        UIFunctions::destroyInstance();
-        UIProxy::destroyInstance();
+        SIM::destroyInstance();
+        UI::destroyInstance();
 
         UI_THREAD = NULL;
         SIM_THREAD = NULL;
@@ -76,7 +76,7 @@ public:
 
     void onFirstInstancePass(const sim::InstancePassFlags &flags)
     {
-        UIFunctions::getInstance(); // construct UIFunctions here (SIM thread)
+        SIM::getInstance();
     }
 
     void onInstanceSwitch(int sceneID)
@@ -96,9 +96,9 @@ public:
         int result;
         // this function is called also from the C API: always run it in the correct thread
         if(QThread::currentThreadId() == UI_THREAD)
-            UIProxy::getInstance()->onMsgBox(in->type, in->buttons, in->title, in->message, &result);
+            UI::getInstance()->onMsgBox(in->type, in->buttons, in->title, in->message, &result);
         else
-            UIFunctions::getInstance()->msgBox(in->type, in->buttons, in->title, in->message, &result);
+            SIM::getInstance()->msgBox(in->type, in->buttons, in->title, in->message, &result);
         out->result = result;
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
@@ -109,9 +109,9 @@ public:
         std::vector<std::string> result;
         // this function is called also from the C API: always run it in the correct thread
         if(QThread::currentThreadId() == UI_THREAD)
-            UIProxy::getInstance()->onFileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
+            UI::getInstance()->onFileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
         else
-            UIFunctions::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
+            SIM::getInstance()->fileDialog(in->type, in->title, in->startPath, in->initName, in->extName, in->ext, in->native, &result);
         for(auto x : result) out->result.push_back(x);
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
@@ -122,9 +122,9 @@ public:
         // this function is called also from the C API: always run it in the correct thread
         std::vector<float> r;
         if(QThread::currentThreadId() == UI_THREAD)
-            UIProxy::getInstance()->onColorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &r);
+            UI::getInstance()->onColorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &r);
         else
-            UIFunctions::getInstance()->colorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &r);
+            SIM::getInstance()->colorDialog(in->initColor, in->title, in->showAlphaChannel, in->native, &r);
         if(!r.empty()) out->result = r;
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
@@ -171,8 +171,8 @@ public:
         out->uiHandle = proxy->getHandle();
         sim::addLog(sim_verbosity_debug, "Proxy %d created in scene %d", proxy->getHandle(), sceneID);
 
-        sim::addLog(sim_verbosity_debug, "call UIFunctions::create() (will emit the create(Proxy*) signal)...");
-        UIFunctions::getInstance()->create(proxy); // connected to UIProxy, which
+        sim::addLog(sim_verbosity_debug, "call SIM::create() (will emit the create(Proxy*) signal)...");
+        SIM::getInstance()->create(proxy); // connected to UI, which
                                 // will run code for creating Qt widgets in the UI thread
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
@@ -190,8 +190,8 @@ public:
             throw std::runtime_error("invalid ui handle");
         }
 
-        sim::addLog(sim_verbosity_debug, "call UIFunctions::destroy() (will emit the destroy(Proxy*) signal)...");
-        UIFunctions::getInstance()->destroy(proxy); // will also delete proxy
+        sim::addLog(sim_verbosity_debug, "call SIM::destroy() (will emit the destroy(Proxy*) signal)...");
+        SIM::getInstance()->destroy(proxy); // will also delete proxy
 
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
@@ -241,7 +241,7 @@ public:
     {
         ASSERT_THREAD(!UI);
         Widget *widget = getWidget(in->handle, in->id);
-        UIFunctions::getInstance()->setStyleSheet(widget, in->styleSheet);
+        SIM::getInstance()->setStyleSheet(widget, in->styleSheet);
     }
 
     void setButtonText(setButtonText_in *in, setButtonText_out *out)
@@ -249,7 +249,7 @@ public:
 #if WIDGET_BUTTON
         ASSERT_THREAD(!UI);
         Button *button = getWidget<Button>(in->handle, in->id, "button");
-        UIFunctions::getInstance()->setButtonText(button, in->text);
+        SIM::getInstance()->setButtonText(button, in->text);
 #endif
     }
 
@@ -258,7 +258,7 @@ public:
 #if WIDGET_BUTTON
         ASSERT_THREAD(!UI);
         Button *button = getWidget<Button>(in->handle, in->id, "button");
-        UIFunctions::getInstance()->setButtonPressed(button, in->pressed);
+        SIM::getInstance()->setButtonPressed(button, in->pressed);
 #endif
     }
 
@@ -275,7 +275,7 @@ public:
 #if WIDGET_HSLIDER || WIDGET_VSLIDER
         ASSERT_THREAD(!UI);
         Slider *slider = getWidget<Slider>(in->handle, in->id, "slider");
-        UIFunctions::getInstance()->setSliderValue(slider, in->value, in->suppressEvents);
+        SIM::getInstance()->setSliderValue(slider, in->value, in->suppressEvents);
 #endif
     }
 
@@ -292,7 +292,7 @@ public:
 #if WIDGET_EDIT
         ASSERT_THREAD(!UI);
         Edit *edit = getWidget<Edit>(in->handle, in->id, "edit");
-        UIFunctions::getInstance()->setEditValue(edit, in->value, in->suppressEvents);
+        SIM::getInstance()->setEditValue(edit, in->value, in->suppressEvents);
 #endif
     }
 
@@ -309,7 +309,7 @@ public:
 #if WIDGET_SPINBOX
         ASSERT_THREAD(!UI);
         Spinbox *spinbox = getWidget<Spinbox>(in->handle, in->id, "spinbox");
-        UIFunctions::getInstance()->setSpinboxValue(spinbox, in->value, in->suppressEvents);
+        SIM::getInstance()->setSpinboxValue(spinbox, in->value, in->suppressEvents);
 #endif
     }
 
@@ -327,7 +327,7 @@ public:
         ASSERT_THREAD(!UI);
         Checkbox *checkbox = getWidget<Checkbox>(in->handle, in->id, "checkbox");
         Qt::CheckState value = checkbox->convertValueFromInt(in->value);
-        UIFunctions::getInstance()->setCheckboxValue(checkbox, value, in->suppressEvents);
+        SIM::getInstance()->setCheckboxValue(checkbox, value, in->suppressEvents);
 #endif
     }
 
@@ -345,7 +345,7 @@ public:
         ASSERT_THREAD(!UI);
         Radiobutton *radiobutton = getWidget<Radiobutton>(in->handle, in->id, "radiobutton");
         bool value = radiobutton->convertValueFromInt(in->value);
-        UIFunctions::getInstance()->setRadiobuttonValue(radiobutton, value, in->suppressEvents);
+        SIM::getInstance()->setRadiobuttonValue(radiobutton, value, in->suppressEvents);
 #endif
     }
 
@@ -362,7 +362,7 @@ public:
 #if WIDGET_LABEL
         ASSERT_THREAD(!UI);
         Label *label = getWidget<Label>(in->handle, in->id, "label");
-        UIFunctions::getInstance()->setLabelText(label, in->text, in->suppressEvents);
+        SIM::getInstance()->setLabelText(label, in->text, in->suppressEvents);
 #endif
     }
 
@@ -371,7 +371,7 @@ public:
 #if WIDGET_COMBOBOX
         ASSERT_THREAD(!UI);
         Combobox *combobox = getWidget<Combobox>(in->handle, in->id, "combobox");
-        UIFunctions::getInstance()->insertComboboxItem(combobox, in->index, in->text, in->suppressEvents);
+        SIM::getInstance()->insertComboboxItem(combobox, in->index, in->text, in->suppressEvents);
 #endif
     }
 
@@ -380,7 +380,7 @@ public:
 #if WIDGET_COMBOBOX
         ASSERT_THREAD(!UI);
         Combobox *combobox = getWidget<Combobox>(in->handle, in->id, "combobox");
-        UIFunctions::getInstance()->removeComboboxItem(combobox, in->index, in->suppressEvents);
+        SIM::getInstance()->removeComboboxItem(combobox, in->index, in->suppressEvents);
 #endif
     }
 
@@ -413,7 +413,7 @@ public:
 #if WIDGET_COMBOBOX
         ASSERT_THREAD(!UI);
         Combobox *combobox = getWidget<Combobox>(in->handle, in->id, "combobox");
-        UIFunctions::getInstance()->setComboboxItems(combobox, in->items, in->index, in->suppressEvents);
+        SIM::getInstance()->setComboboxItems(combobox, in->items, in->index, in->suppressEvents);
 #endif
     }
 
@@ -422,7 +422,7 @@ public:
 #if WIDGET_COMBOBOX
         ASSERT_THREAD(!UI);
         Combobox *combobox = getWidget<Combobox>(in->handle, in->id, "combobox");
-        UIFunctions::getInstance()->setComboboxSelectedIndex(combobox, in->index, in->suppressEvents);
+        SIM::getInstance()->setComboboxSelectedIndex(combobox, in->index, in->suppressEvents);
 #endif
     }
 
@@ -442,7 +442,7 @@ public:
         if(!proxy)
             throw std::runtime_error("invalid ui handle");
 
-        UIFunctions::getInstance()->hideWindow(proxy->getWidget());
+        SIM::getInstance()->hideWindow(proxy->getWidget());
     }
 
     void show(show_in *in, show_out *out)
@@ -452,7 +452,7 @@ public:
         if(!proxy)
             throw std::runtime_error("invalid ui handle");
 
-        UIFunctions::getInstance()->showWindow(proxy->getWidget());
+        SIM::getInstance()->showWindow(proxy->getWidget());
     }
 
     void isVisible(isVisible_in *in, isVisible_out *out)
@@ -483,7 +483,7 @@ public:
             throw std::runtime_error("invalid ui handle");
 
         Window *window = proxy->getWidget();
-        UIFunctions::getInstance()->setPosition(window, in->x, in->y);
+        SIM::getInstance()->setPosition(window, in->x, in->y);
     }
 
     void getSize(getSize_in *in, getSize_out *out)
@@ -505,7 +505,7 @@ public:
             throw std::runtime_error("invalid ui handle");
 
         Window *window = proxy->getWidget();
-        UIFunctions::getInstance()->setSize(window, in->w, in->h);
+        SIM::getInstance()->setSize(window, in->w, in->h);
     }
 
     void getTitle(getTitle_in *in, getTitle_out *out)
@@ -526,7 +526,7 @@ public:
             throw std::runtime_error("invalid ui handle");
 
         Window *window = proxy->getWidget();
-        UIFunctions::getInstance()->setTitle(window, in->title);
+        SIM::getInstance()->setTitle(window, in->title);
     }
 
     void setWindowEnabled(setWindowEnabled_in *in, setWindowEnabled_out *out)
@@ -537,7 +537,7 @@ public:
             throw std::runtime_error("invalid ui handle");
 
         Window *window = proxy->getWidget();
-        UIFunctions::getInstance()->setWindowEnabled(window, in->enabled);
+        SIM::getInstance()->setWindowEnabled(window, in->enabled);
     }
 
     void setImageData(setImageData_in *in, setImageData_out *out)
@@ -566,7 +566,7 @@ public:
         simInt resolution[2] = {in->width, in->height};
         simTransformImage((simUChar *)img, resolution, 4, NULL, NULL, NULL);
 
-        UIFunctions::getInstance()->setImage(imageWidget, img, in->width, in->height);
+        SIM::getInstance()->setImage(imageWidget, img, in->width, in->height);
 #endif
     }
 
@@ -581,7 +581,7 @@ public:
             throw std::runtime_error(ss.str());
         }
 
-        UIFunctions::getInstance()->setEnabled(widget, in->enabled);
+        SIM::getInstance()->setEnabled(widget, in->enabled);
     }
 
     void getCurrentTab(getCurrentTab_in *in, getCurrentTab_out *out)
@@ -597,7 +597,7 @@ public:
 #if WIDGET_TABS
         ASSERT_THREAD(!UI);
         Tabs *tabs = getWidget<Tabs>(in->handle, in->id, "tabs");
-        UIFunctions::getInstance()->setCurrentTab(tabs, in->index, in->suppressEvents);
+        SIM::getInstance()->setCurrentTab(tabs, in->index, in->suppressEvents);
 #endif
     }
 
@@ -618,7 +618,7 @@ public:
             throw std::runtime_error(ss.str());
         }
 
-        UIFunctions::getInstance()->setWidgetVisibility(widget, in->visibility);
+        SIM::getInstance()->setWidgetVisibility(widget, in->visibility);
     }
 
     void getCurrentEditWidget(getCurrentEditWidget_in *in, getCurrentEditWidget_out *out)
@@ -659,7 +659,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->replot(plot);
+        SIM::getInstance()->replot(plot);
 #endif
     }
 
@@ -668,7 +668,7 @@ public:
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
         plot->curveNameMustNotExist(in->name);
-        UIFunctions::getInstance()->addCurve(plot, in->type, in->name, in->color, in->style, &in->options);
+        SIM::getInstance()->addCurve(plot, in->type, in->name, in->color, in->style, &in->options);
 #endif
     }
 
@@ -678,7 +678,7 @@ public:
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
         QCPAbstractPlottable *curve = plot->curveNameMustExist(in->name)->second;
         plot->curveMustBeTime(curve);
-        UIFunctions::getInstance()->addCurveTimePoints(plot, in->name, in->x, in->y);
+        SIM::getInstance()->addCurveTimePoints(plot, in->name, in->x, in->y);
 #endif
     }
 
@@ -688,7 +688,7 @@ public:
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
         QCPAbstractPlottable *curve = plot->curveNameMustExist(in->name)->second;
         plot->curveMustBeXY(curve);
-        UIFunctions::getInstance()->addCurveXYPoints(plot, in->name, in->t, in->x, in->y);
+        SIM::getInstance()->addCurveXYPoints(plot, in->name, in->t, in->x, in->y);
 #endif
     }
 
@@ -697,7 +697,7 @@ public:
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
         plot->curveNameMustExist(in->name);
-        UIFunctions::getInstance()->clearCurve(plot, in->name);
+        SIM::getInstance()->clearCurve(plot, in->name);
 #endif
     }
 
@@ -706,7 +706,7 @@ public:
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
         plot->curveNameMustExist(in->name);
-        UIFunctions::getInstance()->removeCurve(plot, in->name);
+        SIM::getInstance()->removeCurve(plot, in->name);
 #endif
     }
 
@@ -714,7 +714,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->setPlotRanges(plot, in->xmin, in->xmax, in->ymin, in->ymax);
+        SIM::getInstance()->setPlotRanges(plot, in->xmin, in->xmax, in->ymin, in->ymax);
 #endif
     }
 
@@ -722,7 +722,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->setPlotXRange(plot, in->xmin, in->xmax);
+        SIM::getInstance()->setPlotXRange(plot, in->xmin, in->xmax);
 #endif
     }
 
@@ -730,7 +730,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->setPlotYRange(plot, in->ymin, in->ymax);
+        SIM::getInstance()->setPlotYRange(plot, in->ymin, in->ymax);
 #endif
     }
 
@@ -738,7 +738,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->growPlotRanges(plot, in->xmin, in->xmax, in->ymin, in->ymax);
+        SIM::getInstance()->growPlotRanges(plot, in->xmin, in->xmax, in->ymin, in->ymax);
 #endif
     }
 
@@ -746,7 +746,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->growPlotXRange(plot, in->xmin, in->xmax);
+        SIM::getInstance()->growPlotXRange(plot, in->xmin, in->xmax);
 #endif
     }
 
@@ -754,7 +754,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->growPlotYRange(plot, in->ymin, in->ymax);
+        SIM::getInstance()->growPlotYRange(plot, in->ymin, in->ymax);
 #endif
     }
 
@@ -762,7 +762,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->setPlotLabels(plot, in->x, in->y);
+        SIM::getInstance()->setPlotLabels(plot, in->x, in->y);
 #endif
     }
 
@@ -770,7 +770,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->setPlotXLabel(plot, in->label);
+        SIM::getInstance()->setPlotXLabel(plot, in->label);
 #endif
     }
 
@@ -778,7 +778,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->setPlotYLabel(plot, in->label);
+        SIM::getInstance()->setPlotYLabel(plot, in->label);
 #endif
     }
 
@@ -787,7 +787,7 @@ public:
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
         plot->curveNameMustExist(in->name);
-        UIFunctions::getInstance()->rescaleAxes(plot, in->name, in->onlyEnlargeX, in->onlyEnlargeY);
+        SIM::getInstance()->rescaleAxes(plot, in->name, in->onlyEnlargeX, in->onlyEnlargeY);
 #endif
     }
 
@@ -795,7 +795,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->rescaleAxesAll(plot, in->onlyEnlargeX, in->onlyEnlargeY);
+        SIM::getInstance()->rescaleAxesAll(plot, in->onlyEnlargeX, in->onlyEnlargeY);
 #endif
     }
 
@@ -803,7 +803,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->setMouseOptions(plot, in->panX, in->panY, in->zoomX, in->zoomY);
+        SIM::getInstance()->setMouseOptions(plot, in->panX, in->panY, in->zoomX, in->zoomY);
 #endif
     }
 
@@ -811,7 +811,7 @@ public:
     {
 #if WIDGET_PLOT
         Plot *plot = getWidget<Plot>(in->handle, in->id, "plot");
-        UIFunctions::getInstance()->setLegendVisibility(plot, in->visible);
+        SIM::getInstance()->setLegendVisibility(plot, in->visible);
 #endif
     }
 
@@ -827,7 +827,7 @@ public:
     {
 #if WIDGET_TABLE
         Table *table = getWidget<Table>(in->handle, in->id, "table");
-        UIFunctions::getInstance()->clearTable(table, in->suppressEvents);
+        SIM::getInstance()->clearTable(table, in->suppressEvents);
 #endif
     }
 
@@ -835,7 +835,7 @@ public:
     {
 #if WIDGET_TABLE
         Table *table = getWidget<Table>(in->handle, in->id, "table");
-        UIFunctions::getInstance()->setRowCount(table, in->count, in->suppressEvents);
+        SIM::getInstance()->setRowCount(table, in->count, in->suppressEvents);
 #endif
     }
 
@@ -845,14 +845,14 @@ public:
 #if WIDGET_TABLE
         if(Table *table = dynamic_cast<Table*>(widget))
         {
-            UIFunctions::getInstance()->setColumnCountTable(table, in->count, in->suppressEvents);
+            SIM::getInstance()->setColumnCountTable(table, in->count, in->suppressEvents);
             return;
         }
 #endif
 #if WIDGET_TREE
         if(Tree *tree = dynamic_cast<Tree*>(widget))
         {
-            UIFunctions::getInstance()->setColumnCountTree(tree, in->count, in->suppressEvents);
+            SIM::getInstance()->setColumnCountTree(tree, in->count, in->suppressEvents);
             return;
         }
 #endif
@@ -869,7 +869,7 @@ public:
     {
 #if WIDGET_TABLE
         Table *table = getWidget<Table>(in->handle, in->id, "table");
-        UIFunctions::getInstance()->setItem(table, in->row, in->column, in->text, in->suppressEvents);
+        SIM::getInstance()->setItem(table, in->row, in->column, in->text, in->suppressEvents);
 #endif
     }
 
@@ -877,7 +877,7 @@ public:
     {
 #if WIDGET_TABLE
         Table *table = getWidget<Table>(in->handle, in->id, "table");
-        UIFunctions::getInstance()->setItemImage(table, in->row, in->column, in->data, in->width, in->height, in->suppressEvents);
+        SIM::getInstance()->setItemImage(table, in->row, in->column, in->data, in->width, in->height, in->suppressEvents);
 #endif
     }
 
@@ -927,7 +927,7 @@ public:
     {
 #if WIDGET_TABLE
         Table *table = getWidget<Table>(in->handle, in->id, "table");
-        UIFunctions::getInstance()->setRowHeaderText(table, in->row, in->text);
+        SIM::getInstance()->setRowHeaderText(table, in->row, in->text);
 #endif
     }
 
@@ -937,14 +937,14 @@ public:
 #if WIDGET_TABLE
         if(Table *table = dynamic_cast<Table*>(widget))
         {
-            UIFunctions::getInstance()->setColumnHeaderTextTable(table, in->column, in->text);
+            SIM::getInstance()->setColumnHeaderTextTable(table, in->column, in->text);
             return;
         }
 #endif
 #if WIDGET_TREE
         if(Tree *tree = dynamic_cast<Tree*>(widget))
         {
-            UIFunctions::getInstance()->setColumnHeaderTextTree(tree, in->column, in->text);
+            SIM::getInstance()->setColumnHeaderTextTree(tree, in->column, in->text);
             return;
         }
 #endif
@@ -961,7 +961,7 @@ public:
     {
 #if WIDGET_TABLE
         Table *table = getWidget<Table>(in->handle, in->id, "table");
-        UIFunctions::getInstance()->setItemEditable(table, in->row, in->column, in->editable);
+        SIM::getInstance()->setItemEditable(table, in->row, in->column, in->editable);
 #endif
     }
 
@@ -997,14 +997,14 @@ public:
 #if WIDGET_TABLE
         if(Table *table = dynamic_cast<Table*>(widget))
         {
-            UIFunctions::getInstance()->restoreStateTable(table, in->state);
+            SIM::getInstance()->restoreStateTable(table, in->state);
             return;
         }
 #endif
 #if WIDGET_TREE
         if(Tree *tree = dynamic_cast<Tree*>(widget))
         {
-            UIFunctions::getInstance()->restoreStateTree(tree, in->state);
+            SIM::getInstance()->restoreStateTree(tree, in->state);
             return;
         }
 #endif
@@ -1021,7 +1021,7 @@ public:
     {
 #if WIDGET_TABLE
         Table *table = getWidget<Table>(in->handle, in->id, "table");
-        UIFunctions::getInstance()->setRowHeight(table, in->row, in->min_size, in->max_size);
+        SIM::getInstance()->setRowHeight(table, in->row, in->min_size, in->max_size);
 #endif
     }
 
@@ -1031,14 +1031,14 @@ public:
 #if WIDGET_TABLE
         if(Table *table = dynamic_cast<Table*>(widget))
         {
-            UIFunctions::getInstance()->setColumnWidthTable(table, in->column, in->min_size, in->max_size);
+            SIM::getInstance()->setColumnWidthTable(table, in->column, in->min_size, in->max_size);
             return;
         }
 #endif
 #if WIDGET_TREE
         if(Tree *tree = dynamic_cast<Tree*>(widget))
         {
-            UIFunctions::getInstance()->setColumnWidthTree(tree, in->column, in->min_size, in->max_size);
+            SIM::getInstance()->setColumnWidthTree(tree, in->column, in->min_size, in->max_size);
             return;
         }
 #endif
@@ -1055,7 +1055,7 @@ public:
     {
 #if WIDGET_TABLE
         Table *table = getWidget<Table>(in->handle, in->id, "table");
-        UIFunctions::getInstance()->setTableSelection(table, in->row, in->column, in->suppressEvents);
+        SIM::getInstance()->setTableSelection(table, in->row, in->column, in->suppressEvents);
 #endif
     }
 
@@ -1063,7 +1063,7 @@ public:
     {
 #if WIDGET_PROGRESSBAR
         Progressbar *progressbar = getWidget<Progressbar>(in->handle, in->id, "progressbar");
-        UIFunctions::getInstance()->setProgress(progressbar, in->value);
+        SIM::getInstance()->setProgress(progressbar, in->value);
 #endif
     }
 
@@ -1071,7 +1071,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->clearTree(tree, in->suppressEvents);
+        SIM::getInstance()->clearTree(tree, in->suppressEvents);
 #endif
     }
 
@@ -1079,7 +1079,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->addTreeItem(tree, in->item_id, in->parent_id, in->text, in->expanded, in->suppressEvents);
+        SIM::getInstance()->addTreeItem(tree, in->item_id, in->parent_id, in->text, in->expanded, in->suppressEvents);
 #endif
     }
 
@@ -1087,7 +1087,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->updateTreeItemText(tree, in->item_id, in->text);
+        SIM::getInstance()->updateTreeItemText(tree, in->item_id, in->text);
 #endif
     }
 
@@ -1095,7 +1095,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->updateTreeItemParent(tree, in->item_id, in->parent_id, in->suppressEvents);
+        SIM::getInstance()->updateTreeItemParent(tree, in->item_id, in->parent_id, in->suppressEvents);
 #endif
     }
 
@@ -1103,7 +1103,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->removeTreeItem(tree, in->item_id, in->suppressEvents);
+        SIM::getInstance()->removeTreeItem(tree, in->item_id, in->suppressEvents);
 #endif
     }
 
@@ -1111,7 +1111,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->setTreeSelection(tree, in->item_id, in->suppressEvents);
+        SIM::getInstance()->setTreeSelection(tree, in->item_id, in->suppressEvents);
 #endif
     }
 
@@ -1119,7 +1119,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->expandAll(tree, in->suppressEvents);
+        SIM::getInstance()->expandAll(tree, in->suppressEvents);
 #endif
     }
 
@@ -1127,7 +1127,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->collapseAll(tree, in->suppressEvents);
+        SIM::getInstance()->collapseAll(tree, in->suppressEvents);
 #endif
     }
 
@@ -1135,7 +1135,7 @@ public:
     {
 #if WIDGET_TREE
         Tree *tree = getWidget<Tree>(in->handle, in->id, "tree");
-        UIFunctions::getInstance()->expandToDepth(tree, in->depth, in->suppressEvents);
+        SIM::getInstance()->expandToDepth(tree, in->depth, in->suppressEvents);
 #endif
     }
 
@@ -1144,7 +1144,7 @@ public:
 #if WIDGET_DATAFLOW
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
         out->nodeId = dataflow->nextId();
-        UIFunctions::getInstance()->addNode(dataflow, out->nodeId, QPoint(in->x, in->y), QString::fromStdString(in->text), in->inlets, in->outlets);
+        SIM::getInstance()->addNode(dataflow, out->nodeId, QPoint(in->x, in->y), QString::fromStdString(in->text), in->inlets, in->outlets);
 #endif
     }
 
@@ -1152,7 +1152,7 @@ public:
     {
 #if WIDGET_DATAFLOW
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
-        UIFunctions::getInstance()->removeNode(dataflow, in->nodeId);
+        SIM::getInstance()->removeNode(dataflow, in->nodeId);
 #endif
     }
 
@@ -1161,7 +1161,7 @@ public:
 #if WIDGET_DATAFLOW
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
         dataflow->getNode(in->nodeId);
-        UIFunctions::getInstance()->setNodeValid(dataflow, in->nodeId, in->valid);
+        SIM::getInstance()->setNodeValid(dataflow, in->nodeId, in->valid);
 #endif
     }
 
@@ -1179,7 +1179,7 @@ public:
 #if WIDGET_DATAFLOW
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
         dataflow->getNode(in->nodeId);
-        UIFunctions::getInstance()->setNodePos(dataflow, in->nodeId, QPoint(in->x, in->y));
+        SIM::getInstance()->setNodePos(dataflow, in->nodeId, QPoint(in->x, in->y));
 #endif
     }
 
@@ -1199,7 +1199,7 @@ public:
 #if WIDGET_DATAFLOW
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
         dataflow->getNode(in->nodeId);
-        UIFunctions::getInstance()->setNodeText(dataflow, in->nodeId, QString::fromStdString(in->text));
+        SIM::getInstance()->setNodeText(dataflow, in->nodeId, QString::fromStdString(in->text));
 #endif
     }
 
@@ -1217,7 +1217,7 @@ public:
 #if WIDGET_DATAFLOW
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
         dataflow->getNode(in->nodeId);
-        UIFunctions::getInstance()->setNodeInletCount(dataflow, in->nodeId, in->count);
+        SIM::getInstance()->setNodeInletCount(dataflow, in->nodeId, in->count);
 #endif
     }
 
@@ -1235,7 +1235,7 @@ public:
 #if WIDGET_DATAFLOW
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
         dataflow->getNode(in->nodeId);
-        UIFunctions::getInstance()->setNodeOutletCount(dataflow, in->nodeId, in->count);
+        SIM::getInstance()->setNodeOutletCount(dataflow, in->nodeId, in->count);
 #endif
     }
 
@@ -1254,7 +1254,7 @@ public:
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
         dataflow->getNode(in->srcNodeId);
         dataflow->getNode(in->dstNodeId);
-        UIFunctions::getInstance()->addConnection(dataflow, in->srcNodeId, in->srcOutlet, in->dstNodeId, in->dstInlet);
+        SIM::getInstance()->addConnection(dataflow, in->srcNodeId, in->srcOutlet, in->dstNodeId, in->dstInlet);
 #endif
     }
 
@@ -1264,7 +1264,7 @@ public:
         Dataflow *dataflow = getWidget<Dataflow>(in->handle, in->id, "dataflow");
         dataflow->getNode(in->srcNodeId);
         dataflow->getNode(in->dstNodeId);
-        UIFunctions::getInstance()->removeConnection(dataflow, in->srcNodeId, in->srcOutlet, in->dstNodeId, in->dstInlet);
+        SIM::getInstance()->removeConnection(dataflow, in->srcNodeId, in->srcOutlet, in->dstNodeId, in->dstInlet);
 #endif
     }
 
@@ -1272,7 +1272,7 @@ public:
     {
 #if WIDGET_TEXTBROWSER
         TextBrowser *textbrowser = getWidget<TextBrowser>(in->handle, in->id, "text-browser");
-        UIFunctions::getInstance()->setText(textbrowser, in->text, in->suppressEvents);
+        SIM::getInstance()->setText(textbrowser, in->text, in->suppressEvents);
 #endif
     }
 
@@ -1280,7 +1280,7 @@ public:
     {
 #if WIDGET_TEXTBROWSER
         TextBrowser *textbrowser = getWidget<TextBrowser>(in->handle, in->id, "text-browser");
-        UIFunctions::getInstance()->setUrl(textbrowser, in->url);
+        SIM::getInstance()->setUrl(textbrowser, in->url);
 #endif
     }
 
@@ -1291,7 +1291,7 @@ public:
         if(scene3d->nodeExists(in->nodeId)) throw std::runtime_error("node id already exists");
         if(!scene3d->nodeExists(in->parentNodeId)) throw std::runtime_error("parent node id does not exist");
         if(!scene3d->nodeTypeIsValid(in->type)) throw std::runtime_error("invalid node type");
-        UIFunctions::getInstance()->addScene3DNode(scene3d, in->nodeId, in->parentNodeId, in->type);
+        SIM::getInstance()->addScene3DNode(scene3d, in->nodeId, in->parentNodeId, in->type);
 #endif
     }
 
@@ -1300,7 +1300,7 @@ public:
 #if WIDGET_SCENE3D
         Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, "scene3d");
         if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
-        UIFunctions::getInstance()->removeScene3DNode(scene3d, in->nodeId);
+        SIM::getInstance()->removeScene3DNode(scene3d, in->nodeId);
 #endif
     }
 
@@ -1309,7 +1309,7 @@ public:
 #if WIDGET_SCENE3D
         Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, "scene3d");
         if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
-        UIFunctions::getInstance()->setScene3DNodeEnabled(scene3d, in->nodeId, in->enabled);
+        SIM::getInstance()->setScene3DNodeEnabled(scene3d, in->nodeId, in->enabled);
 #endif
     }
 
@@ -1318,7 +1318,7 @@ public:
 #if WIDGET_SCENE3D
         Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, "scene3d");
         if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
-        UIFunctions::getInstance()->setScene3DIntParam(scene3d, in->nodeId, in->paramName, in->value);
+        SIM::getInstance()->setScene3DIntParam(scene3d, in->nodeId, in->paramName, in->value);
 #endif
     }
 
@@ -1327,7 +1327,7 @@ public:
 #if WIDGET_SCENE3D
         Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, "scene3d");
         if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
-        UIFunctions::getInstance()->setScene3DFloatParam(scene3d, in->nodeId, in->paramName, in->value);
+        SIM::getInstance()->setScene3DFloatParam(scene3d, in->nodeId, in->paramName, in->value);
 #endif
     }
 
@@ -1336,7 +1336,7 @@ public:
 #if WIDGET_SCENE3D
         Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, "scene3d");
         if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
-        UIFunctions::getInstance()->setScene3DStringParam(scene3d, in->nodeId, in->paramName, in->value);
+        SIM::getInstance()->setScene3DStringParam(scene3d, in->nodeId, in->paramName, in->value);
 #endif
     }
 
@@ -1345,7 +1345,7 @@ public:
 #if WIDGET_SCENE3D
         Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, "scene3d");
         if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
-        UIFunctions::getInstance()->setScene3DVector2Param(scene3d, in->nodeId, in->paramName, in->x, in->y);
+        SIM::getInstance()->setScene3DVector2Param(scene3d, in->nodeId, in->paramName, in->x, in->y);
 #endif
     }
 
@@ -1354,7 +1354,7 @@ public:
 #if WIDGET_SCENE3D
         Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, "scene3d");
         if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
-        UIFunctions::getInstance()->setScene3DVector3Param(scene3d, in->nodeId, in->paramName, in->x, in->y, in->z);
+        SIM::getInstance()->setScene3DVector3Param(scene3d, in->nodeId, in->paramName, in->x, in->y, in->z);
 #endif
     }
 
@@ -1363,7 +1363,7 @@ public:
 #if WIDGET_SCENE3D
         Scene3D *scene3d = getWidget<Scene3D>(in->handle, in->id, "scene3d");
         if(!scene3d->nodeExists(in->nodeId)) throw std::runtime_error("invalid node id");
-        UIFunctions::getInstance()->setScene3DVector4Param(scene3d, in->nodeId, in->paramName, in->x, in->y, in->z, in->w);
+        SIM::getInstance()->setScene3DVector4Param(scene3d, in->nodeId, in->paramName, in->x, in->y, in->z, in->w);
 #endif
     }
 
@@ -1372,7 +1372,7 @@ public:
 #if WIDGET_SVG
         SVG *svg = getWidget<SVG>(in->handle, in->id, "svg");
         QString file = QString::fromStdString(in->file);
-        UIFunctions::getInstance()->svgLoadFile(svg, file);
+        SIM::getInstance()->svgLoadFile(svg, file);
 #endif
     }
 
@@ -1381,7 +1381,7 @@ public:
 #if WIDGET_SVG
         SVG *svg = getWidget<SVG>(in->handle, in->id, "svg");
         QByteArray data(in->data.data(), in->data.size());
-        UIFunctions::getInstance()->svgLoadData(svg, data);
+        SIM::getInstance()->svgLoadData(svg, data);
 #endif
     }
 

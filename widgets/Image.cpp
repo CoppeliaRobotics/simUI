@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QMouseEvent>
 #include <QLabel>
@@ -39,7 +39,7 @@ void Image::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
     file = xmlutils::getAttrStr(e, "file", "");
 }
 
-QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Image::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QImageWidget *label = new QImageWidget(parent, this);
     label->setEnabled(enabled);
@@ -54,9 +54,9 @@ QWidget * Image::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     }
     if(file != "")
     {
-        UIProxy::getInstance()->loadImageFromFile(this, file.c_str(), width, height);
+        UI::getInstance()->loadImageFromFile(this, file.c_str(), width, height);
     }
-    QObject::connect(label, &QImageWidget::mouseEvent, uiproxy, &UIProxy::onMouseEvent);
+    QObject::connect(label, &QImageWidget::mouseEvent, ui, &UI::onMouseEvent);
     setQWidget(label);
     setProxy(proxy);
     return label;

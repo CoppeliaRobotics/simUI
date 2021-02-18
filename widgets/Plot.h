@@ -12,7 +12,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 
@@ -56,7 +56,7 @@ public:
     virtual ~Plot();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     inline QCustomPlot * qplot() {return static_cast<QCustomPlot*>(getQWidget());}
 
@@ -89,7 +89,7 @@ public:
     void setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY);
     void setLegendVisibility(bool visible);
 
-    friend class UIFunctions;
+    friend class SIM;
     friend class MyCustomPlot;
 };
 

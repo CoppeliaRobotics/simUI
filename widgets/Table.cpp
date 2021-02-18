@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <iostream>
 #include <boost/lexical_cast.hpp>
@@ -83,7 +83,7 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
     onKeyPress = xmlutils::getAttrStr(e, "on-key-press", "");
 }
 
-QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Table::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QTableWidget *tablewidget = new TableWidget(this, parent);
     tablewidget->setEnabled(enabled);
@@ -126,9 +126,9 @@ QWidget * Table::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     }
     tablewidget->setSelectionBehavior(selectionBehavior);
     tablewidget->setSelectionMode(selectionMode);
-    QObject::connect(tablewidget, &QTableWidget::cellActivated, uiproxy, &UIProxy::onCellActivate);
-    QObject::connect(tablewidget, &QTableWidget::cellChanged, uiproxy, &UIProxy::onCellActivate);
-    QObject::connect(tablewidget, &QTableWidget::itemSelectionChanged, uiproxy, &UIProxy::onTableSelectionChange);
+    QObject::connect(tablewidget, &QTableWidget::cellActivated, ui, &UI::onCellActivate);
+    QObject::connect(tablewidget, &QTableWidget::cellChanged, ui, &UI::onCellActivate);
+    QObject::connect(tablewidget, &QTableWidget::itemSelectionChanged, ui, &UI::onTableSelectionChange);
     setQWidget(tablewidget);
     setEditable(editable);
     setProxy(proxy);
@@ -291,7 +291,7 @@ TableWidget::TableWidget(Table *table_, QWidget *parent)
 
 void TableWidget::keyPressEvent(QKeyEvent *event)
 {
-    UIProxy::getInstance()->keyPressed(table, event->key(), event->text().toStdString());
+    UI::getInstance()->keyPressed(table, event->key(), event->text().toStdString());
     QTableWidget::keyPressEvent(event);
 }
 

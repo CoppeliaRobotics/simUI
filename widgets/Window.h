@@ -13,14 +13,14 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "LayoutWidget.h"
 
 class WindowWidget : public Widget
 {
     WindowWidget();
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     friend class Window;
 };
@@ -55,7 +55,7 @@ public:
     virtual ~Window();
 
     virtual void parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     std::string str();
 
@@ -73,8 +73,8 @@ public:
 
     static bool exists(Window *w);
 
-    friend class UIProxy;
-    friend class UIFunctions;
+    friend class UI;
+    friend class SIM;
     friend class QDialog2;
 };
 

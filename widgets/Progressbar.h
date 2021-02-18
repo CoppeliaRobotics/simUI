@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 
@@ -30,10 +30,10 @@ public:
     virtual ~Progressbar();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
     void setValue(int value);
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // PROGRESSBAR_H_INCLUDED

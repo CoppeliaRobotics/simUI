@@ -1,6 +1,6 @@
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <boost/format.hpp>
 

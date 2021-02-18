@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QTextBrowser>
 
@@ -30,7 +30,7 @@ void TextBrowser::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
     onLinkActivated = xmlutils::getAttrStr(e, "on-link-activated", "");
 }
 
-QWidget * TextBrowser::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * TextBrowser::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QTextBrowser *qtextbrowser = new QTextBrowser(parent);
     qtextbrowser->setEnabled(enabled);
@@ -42,8 +42,8 @@ QWidget * TextBrowser::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *p
         qtextbrowser->setPlainText(QString::fromStdString(text));
     qtextbrowser->setReadOnly(read_only);
     qtextbrowser->setOpenLinks(false);
-    QObject::connect(qtextbrowser, &QTextBrowser::textChanged, uiproxy, &UIProxy::onTextChanged);
-    QObject::connect(qtextbrowser, &QTextBrowser::anchorClicked, uiproxy, &UIProxy::onAnchorClicked);
+    QObject::connect(qtextbrowser, &QTextBrowser::textChanged, ui, &UI::onTextChanged);
+    QObject::connect(qtextbrowser, &QTextBrowser::anchorClicked, ui, &UI::onAnchorClicked);
     setQWidget(qtextbrowser);
     setProxy(proxy);
     return qtextbrowser;

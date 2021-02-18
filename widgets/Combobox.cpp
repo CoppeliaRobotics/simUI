@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <iostream>
 #include <boost/foreach.hpp>
@@ -33,7 +33,7 @@ void Combobox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
     onchange = xmlutils::getAttrStr(e, "on-change", "");
 }
 
-QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Combobox::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QComboBox *combobox = new QComboBox(parent);
     combobox->setEnabled(enabled);
@@ -43,7 +43,7 @@ QWidget * Combobox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
     {
         combobox->addItem(QString::fromStdString(*it));
     }
-    QObject::connect(combobox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), uiproxy, &UIProxy::onValueChangeInt);
+    QObject::connect(combobox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), ui, &UI::onValueChangeInt);
     setQWidget(combobox);
     setProxy(proxy);
     return combobox;

@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QGroupBox>
 
@@ -24,7 +24,7 @@ void Group::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
     LayoutWidget::parse(this, parent, widgets, e);
 }
 
-QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Group::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QWidget *groupBox = flat ?
         new QWidget(parent) :
@@ -32,7 +32,7 @@ QWidget * Group::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     groupBox->setEnabled(enabled);
     groupBox->setVisible(visible);
     groupBox->setStyleSheet(QString::fromStdString(style));
-    LayoutWidget::createQtWidget(proxy, uiproxy, groupBox);
+    LayoutWidget::createQtWidget(proxy, ui, groupBox);
     setQWidget(groupBox);
     setProxy(proxy);
     return groupBox;

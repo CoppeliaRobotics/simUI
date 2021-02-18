@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QWidget>
 #include <QTabWidget>
@@ -30,13 +30,13 @@ void Tab::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLEl
     LayoutWidget::parse(this, parent, widgets, e);
 }
 
-QWidget * Tab::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Tab::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QWidget *tab = new QWidget(parent);
     tab->setEnabled(enabled);
     tab->setVisible(visible);
     tab->setStyleSheet(QString::fromStdString(style));
-    LayoutWidget::createQtWidget(proxy, uiproxy, tab);
+    LayoutWidget::createQtWidget(proxy, ui, tab);
     setQWidget(tab);
     setProxy(proxy);
     return tab;
@@ -67,7 +67,7 @@ void Tabs::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     }
 }
 
-QWidget * Tabs::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Tabs::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QTabWidget *tabwidget = new QTabWidget(parent);
     tabwidget->setEnabled(enabled);
@@ -75,7 +75,7 @@ QWidget * Tabs::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     tabwidget->setStyleSheet(QString::fromStdString(style));
     for(std::vector<Tab*>::const_iterator it = tabs.begin(); it != tabs.end(); ++it)
     {
-        QWidget *tab = (*it)->createQtWidget(proxy, uiproxy, tabwidget);
+        QWidget *tab = (*it)->createQtWidget(proxy, ui, tabwidget);
         tabwidget->addTab(tab, QString::fromStdString((*it)->title));
     }
     setQWidget(tabwidget);

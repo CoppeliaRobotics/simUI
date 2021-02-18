@@ -13,20 +13,20 @@
 #include "stubs.h"
 #include "widgets/all.h"
 
-class UIProxy : public QObject
+class UI : public QObject
 {
     Q_OBJECT
 
 public:
-    virtual ~UIProxy();
+    virtual ~UI();
 
-    static UIProxy * getInstance(QObject *parent = 0);
+    static UI * getInstance(QObject *parent = 0);
     static void destroyInstance();
 
 private:
-    UIProxy(QObject *parent = 0);
+    UI(QObject *parent = 0);
 
-    static UIProxy *instance;
+    static UI *instance;
 
 public:
     static QWidget *simMainWindow;

@@ -11,7 +11,7 @@
 #include "tinyxml2.h"
 
 class Proxy;
-class UIProxy;
+class UI;
 
 #include "Widget.h"
 #include "Event.h"
@@ -28,14 +28,14 @@ public:
     virtual ~TextBrowser();
 
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
-    QWidget * createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent);
+    QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     void setText(std::string text, bool suppressSignals);
     std::string getText();
     void setUrl(std::string url);
     std::string getUrl();
 
-    friend class UIFunctions;
+    friend class SIM;
 };
 
 #endif // TEXTBROWSER_H_INCLUDED

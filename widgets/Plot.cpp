@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <stdexcept>
 
@@ -80,7 +80,7 @@ void Plot::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     y_tick_labels = xmlutils::getAttrBool(e, "y-tick-labels", tick_labels);
 }
 
-QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Plot::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QCustomPlot *plot = new MyCustomPlot(this, parent);
     plot->setEnabled(enabled);
@@ -166,8 +166,8 @@ QWidget * Plot::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
     plot->xAxis->setTickLabels(x_tick_labels);
     plot->yAxis->setTickLabels(y_tick_labels);
     plot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    QObject::connect(plot, &MyCustomPlot::plottableClick, uiproxy, &UIProxy::onPlottableClick);
-    QObject::connect(plot, &MyCustomPlot::legendClick, uiproxy, &UIProxy::onLegendClick);
+    QObject::connect(plot, &MyCustomPlot::plottableClick, ui, &UI::onPlottableClick);
+    QObject::connect(plot, &MyCustomPlot::legendClick, ui, &UI::onLegendClick);
     setQWidget(plot);
     setProxy(proxy);
     return plot;
@@ -589,7 +589,7 @@ void Plot::setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY)
     if(zoomY) zooming |= Qt::Vertical;
     ar->setRangeDrag(panning);
     ar->setRangeZoom(zooming);
-    simFloat wheelZoomFactor = UIProxy::wheelZoomFactor;
+    simFloat wheelZoomFactor = UI::wheelZoomFactor;
     ar->setRangeZoomFactor(pow(0.85, -wheelZoomFactor), pow(0.85, -wheelZoomFactor));
 }
 

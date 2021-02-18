@@ -2,7 +2,7 @@
 
 #include "XMLUtils.h"
 
-#include "UIProxy.h"
+#include "UI.h"
 
 #include <QCheckBox>
 
@@ -30,7 +30,7 @@ void Checkbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
     onchange = xmlutils::getAttrStr(e, "on-change", "");
 }
 
-QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *parent)
+QWidget * Checkbox::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QCheckBox *checkbox = new QCheckBox(QString::fromStdString(text), parent);
     checkbox->setEnabled(enabled);
@@ -39,7 +39,7 @@ QWidget * Checkbox::createQtWidget(Proxy *proxy, UIProxy *uiproxy, QWidget *pare
     checkbox->setCheckable(checkable);
     checkbox->setAutoExclusive(auto_exclusive);
     checkbox->setChecked(checked);
-    QObject::connect(checkbox, &QCheckBox::stateChanged, uiproxy, &UIProxy::onValueChangeInt);
+    QObject::connect(checkbox, &QCheckBox::stateChanged, ui, &UI::onValueChangeInt);
     setQWidget(checkbox);
     setProxy(proxy);
     return checkbox;
