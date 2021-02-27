@@ -171,7 +171,7 @@ public:
 
         int sceneID = sim::getInt32Parameter(sim_intparam_scene_unique_id);
         sim::addLog(sim_verbosity_debug, "Creating a new Proxy object... (destroy at simulation end = %s)", (destroy ? "true" : "false"));
-        Proxy *proxy = new Proxy(destroy, sceneID, in->_scriptID, window, widgets);
+        Proxy *proxy = new Proxy(destroy, sceneID, in->_scriptID, scriptType, window, widgets);
         out->uiHandle = proxy->getHandle();
         sim::addLog(sim_verbosity_debug, "Proxy %d created in scene %d", proxy->getHandle(), sceneID);
 

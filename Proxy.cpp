@@ -12,13 +12,14 @@
 int Proxy::nextProxyHandle = 1000;
 std::map<int, Proxy *> Proxy::proxies;
 
-Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, Window *window_, std::map<int, Widget*>& widgets_)
+Proxy::Proxy(bool destroyAfterSimulationStop_, int sceneID_, int scriptID_, int scriptType_, Window *window_, std::map<int, Widget*>& widgets_)
     : handle(nextProxyHandle++),
       widgets(widgets_),
       destroyAfterSimulationStop(destroyAfterSimulationStop_),
       window(window_),
       sceneID(sceneID_),
-      scriptID(scriptID_)
+      scriptID(scriptID_),
+      scriptType(scriptType_)
 {
     TRACE_FUNC;
 

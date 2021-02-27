@@ -15,7 +15,7 @@ class UI;
 class Proxy
 {
 public:
-    Proxy(bool destroyAfterSimulationStop, int sceneID, int scriptID, Window *window, std::map<int, Widget*>& widgets);
+    Proxy(bool destroyAfterSimulationStop, int sceneID, int scriptID, int scriptType, Window *window, std::map<int, Widget*>& widgets);
     virtual ~Proxy();
 
     static void destroyTransientObjects();
@@ -32,6 +32,7 @@ public:
     inline Window * getWidget() {return window;}
 
     inline int getScriptID() {return scriptID;}
+    inline int getScriptType() {return scriptType;}
     inline int getSceneID() {return sceneID;}
 
     void sceneChange(int oldSceneID, int newSceneID, void *dummy);
@@ -58,6 +59,9 @@ private:
 
     // the scriptID from which this object has been created:
     int scriptID;
+
+    // the type of the scriptID above:
+    int scriptType;
 
     friend class SIM;
     friend class UI;
