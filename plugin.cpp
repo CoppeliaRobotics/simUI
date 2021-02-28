@@ -26,6 +26,7 @@
 #include "tinyxml2.h"
 
 #include "simPlusPlus/Plugin.h"
+#include "simPlusPlus/Handle.h"
 #include "plugin.h"
 #include "config.h"
 #include "stubs.h"
@@ -39,6 +40,11 @@
 #endif
 
 using namespace simExtCustomUI;
+
+using sim::Handle;
+using sim::Handles;
+
+template<> std::string sim::Handle<Proxy>::tag() { return "UI"; }
 
 class Plugin : public sim::Plugin
 {
@@ -65,8 +71,6 @@ public:
 
     void onEnd()
     {
-        Proxy::destroyAllObjectsFromUIThread();
-
         UI::destroyInstance();
 
         UI_THREAD = NULL;
@@ -85,13 +89,22 @@ public:
 
     void onInstanceSwitch(int sceneID)
     {
-        Proxy::sceneChange(oldSceneID, sceneID);
+        for(auto proxy : handles.all())
+        {
+            auto window = proxy->getWidget();
+            if(window)
+            {
+                SIM::getInstance()->sceneChange(window, oldSceneID, sceneID);
+            }
+        }
+
         oldSceneID = sceneID;
     }
 
-    void onSimulationEnded()
+    void onScriptStateDestroyed(int scriptID)
     {
-        Proxy::destroyTransientObjects();
+        for(auto proxy : handles.find(scriptID))
+            SIM::getInstance()->destroy(proxy);
     }
 
     void msgBox(msgBox_in *in, msgBox_out *out)
@@ -157,23 +170,15 @@ public:
         }
 
         // determine wether the Proxy object should be destroyed at simulation end
-        bool destroy = false;
-        int scriptProperty;
+        int scriptType;
         int objectHandle;
-        simGetScriptProperty(in->_scriptID, &scriptProperty, &objectHandle);
-#if SIM_PROGRAM_FULL_VERSION_NB <= 4010003
-        int scriptType = (scriptProperty | sim_scripttype_threaded) - sim_scripttype_threaded;
-#else
-        int scriptType = (scriptProperty | sim_scripttype_threaded_old) - sim_scripttype_threaded_old;
-#endif
-        if(scriptType == sim_scripttype_mainscript || scriptType == sim_scripttype_childscript)
-            destroy = true;
-
+        simGetScriptProperty(in->_scriptID, &scriptType, &objectHandle);
         int sceneID = sim::getInt32Parameter(sim_intparam_scene_unique_id);
-        sim::addLog(sim_verbosity_debug, "Creating a new Proxy object... (destroy at simulation end = %s)", (destroy ? "true" : "false"));
-        Proxy *proxy = new Proxy(destroy, sceneID, in->_scriptID, scriptType, window, widgets);
-        out->uiHandle = proxy->getHandle();
-        sim::addLog(sim_verbosity_debug, "Proxy %d created in scene %d", proxy->getHandle(), sceneID);
+        sim::addLog(sim_verbosity_debug, "Creating a new Proxy object...");
+        Proxy *proxy = new Proxy(sceneID, in->_scriptID, scriptType, window, widgets);
+        proxy->handle = handles.add(proxy, in->_scriptID);
+        out->uiHandle = proxy->handle;
+        sim::addLog(sim_verbosity_debug, "Proxy %s created in scene %d", out->uiHandle, sceneID);
 
         sim::addLog(sim_verbosity_debug, "call SIM::create() (will emit the create(Proxy*) signal)...");
         SIM::getInstance()->create(proxy); // connected to UI, which
@@ -186,13 +191,7 @@ public:
         ASSERT_THREAD(!UI);
         sim::addLog(sim_verbosity_debug, "[enter]");
 
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-        {
-            sim::addLog(sim_verbosity_debug, "invalid ui handle: %d", in->handle);
-
-            throw std::runtime_error("invalid ui handle");
-        }
+        Proxy *proxy = handles.get(in->handle);
 
         sim::addLog(sim_verbosity_debug, "call SIM::destroy() (will emit the destroy(Proxy*) signal)...");
         SIM::getInstance()->destroy(proxy); // will also delete proxy
@@ -200,9 +199,9 @@ public:
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
 
-    Widget* getWidget(int handle, int id)
+    Widget* getWidget(const std::string &handle, int id)
     {
-        Widget *widget = Widget::byId(handle, id);
+        Widget *widget = Widget::byId(handle, id, handles);
         if(!widget)
         {
             std::stringstream ss;
@@ -213,7 +212,7 @@ public:
     }
 
     template<typename T>
-    T* getWidget(int handle, int id, const char *widget_type_name)
+    T* getWidget(const std::string &handle, int id, const char *widget_type_name)
     {
         T *twidget = dynamic_cast<T*>(getWidget(handle, id));
         if(!twidget)
@@ -226,7 +225,7 @@ public:
     }
 
     template<typename T>
-    T* getQWidget(int handle, int id, const char *widget_type_name)
+    T* getQWidget(const std::string &handle, int id, const char *widget_type_name)
     {
         Widget *widget = getWidget<Widget>(handle, id, widget_type_name);
 
@@ -442,38 +441,26 @@ public:
     void hide(hide_in *in, hide_out *out)
     {
         ASSERT_THREAD(!UI);
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         SIM::getInstance()->hideWindow(proxy->getWidget());
     }
 
     void show(show_in *in, show_out *out)
     {
         ASSERT_THREAD(!UI);
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         SIM::getInstance()->showWindow(proxy->getWidget());
     }
 
     void isVisible(isVisible_in *in, isVisible_out *out)
     {
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         out->visibility = proxy->getWidget()->getQWidget()->isVisible();
     }
 
     void getPosition(getPosition_in *in, getPosition_out *out)
     {
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         QWidget *window = proxy->getWidget()->getQWidget();
         out->x = window->x();
         out->y = window->y();
@@ -482,20 +469,14 @@ public:
     void setPosition(setPosition_in *in, setPosition_out *out)
     {
         ASSERT_THREAD(!UI);
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         Window *window = proxy->getWidget();
         SIM::getInstance()->setPosition(window, in->x, in->y);
     }
 
     void getSize(getSize_in *in, getSize_out *out)
     {
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         QWidget *window = proxy->getWidget()->getQWidget();
         out->w = window->width();
         out->h = window->height();
@@ -504,20 +485,14 @@ public:
     void setSize(setSize_in *in, setSize_out *out)
     {
         ASSERT_THREAD(!UI);
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         Window *window = proxy->getWidget();
         SIM::getInstance()->setSize(window, in->w, in->h);
     }
 
     void getTitle(getTitle_in *in, getTitle_out *out)
     {
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         QWidget *window = proxy->getWidget()->getQWidget();
         out->title = static_cast<QDialog*>(window)->windowTitle().toStdString();
     }
@@ -525,10 +500,7 @@ public:
     void setTitle(setTitle_in *in, setTitle_out *out)
     {
         ASSERT_THREAD(!UI);
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         Window *window = proxy->getWidget();
         SIM::getInstance()->setTitle(window, in->title);
     }
@@ -536,10 +508,7 @@ public:
     void setWindowEnabled(setWindowEnabled_in *in, setWindowEnabled_out *out)
     {
         ASSERT_THREAD(!UI);
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
-
+        Proxy *proxy = handles.get(in->handle);
         Window *window = proxy->getWidget();
         SIM::getInstance()->setWindowEnabled(window, in->enabled);
     }
@@ -548,7 +517,7 @@ public:
     {
 #if WIDGET_IMAGE
         ASSERT_THREAD(!UI);
-        Image *imageWidget = dynamic_cast<Image*>(Widget::byId(in->handle, in->id));
+        Image *imageWidget = dynamic_cast<Image*>(Widget::byId(in->handle, in->id, handles));
         if(!imageWidget)
         {
             std::stringstream ss;
@@ -577,7 +546,7 @@ public:
     void setEnabled(setEnabled_in *in, setEnabled_out *out)
     {
         ASSERT_THREAD(!UI);
-        Widget *widget = Widget::byId(in->handle, in->id);
+        Widget *widget = Widget::byId(in->handle, in->id, handles);
         if(!widget)
         {
             std::stringstream ss;
@@ -614,7 +583,7 @@ public:
     void setWidgetVisibility(setWidgetVisibility_in *in, setWidgetVisibility_out *out)
     {
         ASSERT_THREAD(!UI);
-        Widget *widget = Widget::byId(in->handle, in->id);
+        Widget *widget = Widget::byId(in->handle, in->id, handles);
         if(!widget)
         {
             std::stringstream ss;
@@ -628,9 +597,7 @@ public:
     void getCurrentEditWidget(getCurrentEditWidget_in *in, getCurrentEditWidget_out *out)
     {
 #if WIDGET_EDIT
-        Proxy *proxy = Proxy::byHandle(in->handle);
-        if(!proxy)
-            throw std::runtime_error("invalid ui handle");
+        Proxy *proxy = handles.get(in->handle);
         QWidget *window = proxy->getWidget()->getQWidget();
         QLineEdit* qedit = NULL;
         QList<QLineEdit*> wl = window->findChildren<QLineEdit*>(QString());
@@ -1390,6 +1357,7 @@ public:
     }
 
 private:
+    Handles<Proxy> handles;
     int oldSceneID = -1;
 };
 

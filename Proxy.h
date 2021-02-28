@@ -15,15 +15,8 @@ class UI;
 class Proxy
 {
 public:
-    Proxy(bool destroyAfterSimulationStop, int sceneID, int scriptID, int scriptType, Window *window, std::map<int, Widget*>& widgets);
+    Proxy(int sceneID, int scriptID, int scriptType, Window *window, std::map<int, Widget*>& widgets);
     virtual ~Proxy();
-
-    static void destroyTransientObjects();
-    static void destroyAllObjects();
-    static void destroyAllObjectsFromUIThread();
-
-    inline int getHandle() {return handle;}
-    static Proxy* byHandle(int handle);
 
     Widget * getWidgetById(int id);
 
@@ -35,21 +28,10 @@ public:
     inline int getScriptType() {return scriptType;}
     inline int getSceneID() {return sceneID;}
 
-    void sceneChange(int oldSceneID, int newSceneID, void *dummy);
-    static void sceneChange(int oldSceneID, int newSceneID);
-
 private:
-    // internal handle of this object (used by the plugin):
-    int handle;
-
-    static std::map<int, Proxy *> proxies; // handle -> Proxy
-
     std::map<int, Widget *> widgets; // widgetId -> Widget
 
-    static int nextProxyHandle;
-
-    // objects created during simulation will be destroyed when simulation terminates:
-    bool destroyAfterSimulationStop;
+    std::string handle;
 
     // UIModel's pointer:
     Window *window;
@@ -66,6 +48,7 @@ private:
     friend class SIM;
     friend class UI;
     friend class Widget;
+    friend class Plugin;
 };
 
 #endif // PROXY_H_INCLUDED

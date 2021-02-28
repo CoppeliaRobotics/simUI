@@ -56,10 +56,9 @@ void Widget::setProxy(Proxy *proxy_)
     proxy->widgets[id] = this;
 }
 
-Widget * Widget::byId(int handle, int id)
+Widget * Widget::byId(const std::string &handle, int id, const sim::Handles<Proxy> &handles)
 {
-    Proxy *proxy = Proxy::byHandle(handle);
-    if(!proxy) return NULL;
+    Proxy *proxy = handles.get(handle);
     return proxy->getWidgetById(id);
 }
 

@@ -378,7 +378,7 @@ void SIM::onWindowClose(Window *window)
     CHECK_POINTER(Window, window);
 
     oncloseCallback_in in;
-    in.handle = window->proxy->getHandle();
+    in.handle = window->proxy->handle;
     oncloseCallback_out out;
     oncloseCallback(window->proxy->getScriptID(), window->onclose.c_str(), &in, &out);
 }
@@ -416,7 +416,7 @@ void SIM::onPlottableClick(Plot *plot, std::string name, int index, double x, do
     if(plot->onCurveClick == "" || plot->proxy->scriptID == -1) return;
 
     onPlottableClickCallback_in in;
-    in.handle = plot->proxy->getHandle();
+    in.handle = plot->proxy->handle;
     in.id = plot->id;
     in.curve = name;
     in.index = index;
@@ -434,7 +434,7 @@ void SIM::onLegendClick(Plot *plot, std::string name)
     if(plot->onLegendClick == "" || plot->proxy->scriptID == -1) return;
 
     onLegendClickCallback_in in;
-    in.handle = plot->proxy->getHandle();
+    in.handle = plot->proxy->handle;
     in.id = plot->id;
     in.curve = name;
     onLegendClickCallback_out out;
@@ -451,7 +451,7 @@ void SIM::onCellActivate(Table *table, int row, int col, std::string text)
     if(table->onCellActivate == "" || table->proxy->scriptID == -1) return;
 
     onCellActivateCallback_in in;
-    in.handle = table->proxy->getHandle();
+    in.handle = table->proxy->handle;
     in.id = table->id;
     in.row = row;
     in.column = col;
@@ -468,7 +468,7 @@ void SIM::onSelectionChangeTable(Table *table, int row, int col)
     if(table->onSelectionChange == "" || table->proxy->scriptID == -1) return;
 
     onTableSelectionChangeCallback_in in;
-    in.handle = table->proxy->getHandle();
+    in.handle = table->proxy->handle;
     in.id = table->id;
     in.row = row;
     in.column = col;
@@ -486,7 +486,7 @@ void SIM::onSelectionChangeTree(Tree *tree, int id)
     if(tree->onSelectionChange == "" || tree->proxy->scriptID == -1) return;
 
     onTreeSelectionChangeCallback_in in;
-    in.handle = tree->proxy->getHandle();
+    in.handle = tree->proxy->handle;
     in.id = tree->id;
     in.item_id = id;
     onTreeSelectionChangeCallback_out out;
@@ -503,7 +503,7 @@ void SIM::onMouseEvent(Widget *widget, int type, bool shift, bool control, int x
     if(widget->proxy->scriptID == -1) return;
 
     onMouseEventCallback_in in;
-    in.handle = widget->proxy->getHandle();
+    in.handle = widget->proxy->handle;
     in.id = widget->id;
     in.type = type;
     in.mods.shift = shift;
@@ -542,7 +542,7 @@ void SIM::onNodeAdded(Dataflow *dataflow, int id, QPoint pos, QString text, int 
     if(dataflow->onNodeAdded == "") return;
 
     onNodeAddedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.nodeId = id;
     in.x = pos.x();
@@ -563,7 +563,7 @@ void SIM::onNodeRemoved(Dataflow *dataflow, int id)
     if(dataflow->onNodeRemoved == "") return;
 
     onNodeRemovedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.nodeId = id;
     onNodeRemovedCallback_out out;
@@ -579,7 +579,7 @@ void SIM::onNodeValidChanged(Dataflow *dataflow, int id, bool valid)
     if(dataflow->onNodeValidChanged == "") return;
 
     onNodeValidChangedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.nodeId = id;
     in.valid = valid;
@@ -596,7 +596,7 @@ void SIM::onNodePosChanged(Dataflow *dataflow, int id, QPoint pos)
     if(dataflow->onNodePosChanged == "") return;
 
     onNodePosChangedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.nodeId = id;
     in.x = pos.x();
@@ -614,7 +614,7 @@ void SIM::onNodeTextChanged(Dataflow *dataflow, int id, QString text)
     if(dataflow->onNodeTextChanged == "") return;
 
     onNodeTextChangedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.nodeId = id;
     in.text = text.toStdString();
@@ -631,7 +631,7 @@ void SIM::onNodeInletCountChanged(Dataflow *dataflow, int id, int inlets)
     if(dataflow->onNodeInletCountChanged == "") return;
 
     onNodeInletCountChangedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.nodeId = id;
     in.count = inlets;
@@ -648,7 +648,7 @@ void SIM::onNodeOutletCountChanged(Dataflow *dataflow, int id, int outlets)
     if(dataflow->onNodeOutletCountChanged == "") return;
 
     onNodeOutletCountChangedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.nodeId = id;
     in.count = outlets;
@@ -665,7 +665,7 @@ void SIM::onConnectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, in
     if(dataflow->onConnectionAdded == "") return;
 
     onConnectionAddedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.srcNodeId = srcNodeId;
     in.srcOutlet = srcOutlet;
@@ -684,7 +684,7 @@ void SIM::onConnectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, 
     if(dataflow->onConnectionRemoved == "") return;
 
     onConnectionRemovedCallback_in in;
-    in.handle = dataflow->proxy->getHandle();
+    in.handle = dataflow->proxy->handle;
     in.id = dataflow->id;
     in.srcNodeId = srcNodeId;
     in.srcOutlet = srcOutlet;
@@ -707,7 +707,7 @@ void SIM::onKeyPress(Widget *widget, int key, std::string text)
     if(e->onKeyPress == "") return;
 
     onKeyPressCallback_in in;
-    in.handle = widget->proxy->getHandle();
+    in.handle = widget->proxy->handle;
     in.id = widget->id;
     in.key = key;
     in.text = text;
@@ -726,7 +726,7 @@ void SIM::onScene3DObjectClick(Scene3D *scene3d, int id)
     if(scene3d->onClick == "") return;
 
     onScene3DObjectClickCallback_in in;
-    in.handle = scene3d->proxy->getHandle();
+    in.handle = scene3d->proxy->handle;
     in.id = scene3d->id;
     in.nodeId = id;
     onScene3DObjectClickCallback_out out;
