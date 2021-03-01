@@ -104,7 +104,7 @@ public:
     void onScriptStateDestroyed(int scriptID)
     {
         for(auto proxy : handles.find(scriptID))
-            SIM::getInstance()->destroy(proxy);
+            SIM::getInstance()->destroy(handles.remove(proxy));
     }
 
     void msgBox(msgBox_in *in, msgBox_out *out)
@@ -194,7 +194,7 @@ public:
         Proxy *proxy = handles.get(in->handle);
 
         sim::addLog(sim_verbosity_debug, "call SIM::destroy() (will emit the destroy(Proxy*) signal)...");
-        SIM::getInstance()->destroy(proxy); // will also delete proxy
+        SIM::getInstance()->destroy(handles.remove(proxy)); // will also delete proxy
 
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
