@@ -172,11 +172,11 @@ public:
         // determine wether the Proxy object should be destroyed at simulation end
         int scriptType;
         int objectHandle;
-        simGetScriptProperty(in->_scriptID, &scriptType, &objectHandle);
+        simGetScriptProperty(in->_.scriptID, &scriptType, &objectHandle);
         int sceneID = sim::getInt32Parameter(sim_intparam_scene_unique_id);
         sim::addLog(sim_verbosity_debug, "Creating a new Proxy object...");
-        Proxy *proxy = new Proxy(sceneID, in->_scriptID, scriptType, window, widgets);
-        proxy->handle = handles.add(proxy, in->_scriptID);
+        Proxy *proxy = new Proxy(sceneID, in->_.scriptID, scriptType, window, widgets);
+        proxy->handle = handles.add(proxy, in->_.scriptID);
         out->uiHandle = proxy->handle;
         sim::addLog(sim_verbosity_debug, "Proxy %s created in scene %d", out->uiHandle, sceneID);
 
