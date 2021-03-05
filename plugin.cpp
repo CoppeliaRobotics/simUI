@@ -41,9 +41,6 @@
 
 using namespace simExtCustomUI;
 
-using sim::Handle;
-using sim::Handles;
-
 template<> std::string sim::Handle<Proxy>::tag() { return "UI"; }
 
 class Plugin : public sim::Plugin
@@ -1357,7 +1354,7 @@ public:
     }
 
 private:
-    Handles<Proxy> handles;
+    sim::Handles<Proxy> handles;
     int oldSceneID = -1;
 };
 
