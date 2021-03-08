@@ -41,7 +41,9 @@
 
 using namespace simExtCustomUI;
 
+#ifndef _MSC_VER
 template<> std::string sim::Handle<Proxy>::tag() { return "UI"; }
+#endif
 
 class Plugin : public sim::Plugin
 {
