@@ -28,6 +28,7 @@ class WindowWidget : public Widget
 class Window : public LayoutWidget
 {
 protected:
+    int a,b,c; // dummy padding to avoid crashes on Ubuntu, somehow. 15.03.2021
     bool enabled;
     std::string title;
     bool resizable;
