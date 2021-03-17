@@ -64,7 +64,11 @@ public:
 
     void hide();
     void show();
+    QPoint pos();
+    void move(const QPoint &p);
     void move(int x, int y);
+    QSize size();
+    void resize(const QSize &s);
     void resize(int w, int h);
     void setTitle(std::string title);
     std::string getTitle();

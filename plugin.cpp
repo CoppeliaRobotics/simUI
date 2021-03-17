@@ -460,9 +460,9 @@ public:
     void getPosition(getPosition_in *in, getPosition_out *out)
     {
         Proxy *proxy = handles.get(in->handle);
-        QWidget *window = proxy->getWidget()->getQWidget();
-        out->x = window->x();
-        out->y = window->y();
+        Window *window = proxy->getWidget();
+        out->x = window->pos().x();
+        out->y = window->pos().y();
     }
 
     void setPosition(setPosition_in *in, setPosition_out *out)
@@ -476,9 +476,9 @@ public:
     void getSize(getSize_in *in, getSize_out *out)
     {
         Proxy *proxy = handles.get(in->handle);
-        QWidget *window = proxy->getWidget()->getQWidget();
-        out->w = window->width();
-        out->h = window->height();
+        Window *window = proxy->getWidget();
+        out->w = window->size().width();
+        out->h = window->size().height();
     }
 
     void setSize(setSize_in *in, setSize_out *out)

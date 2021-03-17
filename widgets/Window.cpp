@@ -137,6 +137,7 @@ public:
 QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
     QDialog *window = new QDialog2(this, parent);
+    qwidget = window;
     window->setStyleSheet(QString::fromStdString(style));
     LayoutWidget::createQtWidget(proxy, ui, window);
     window->setWindowTitle(QString::fromStdString(title));
@@ -158,7 +159,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     //window->setAttribute(Qt::WA_DeleteOnClose);
     if(!activate) window->setAttribute(Qt::WA_ShowWithoutActivating);
     if(qwidget_size.isValid())
-        window->resize(qwidget_size);
+        resize(qwidget_size);
     window->setEnabled(enabled);
     window->show();
 #if defined(LIN_SIM) || defined(MAC_SIM)
@@ -175,13 +176,12 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
             p.setY(parent->window()->frameGeometry().top() + qwidget_pos.y());
         else
             p.setY(parent->window()->frameGeometry().bottom() - window->rect().bottom() + qwidget_pos.y());
-        window->move(p);
+        move(p);
     }
     else if(placement == "absolute")
     {
-        window->move(qwidget_pos);
+        move(qwidget_pos);
     }
-    qwidget = window;
     this->proxy = proxy;
     return window;
 }
@@ -195,8 +195,8 @@ std::string Window::str()
 
 void Window::hide()
 {
-    qwidget_pos = qwidget->pos();
-    qwidget_size = qwidget->size();
+    qwidget_pos = pos();
+    qwidget_size = size();
     qwidget_geometry_saved = true;
     visibility_state = false;
     qwidget->hide();
@@ -206,21 +206,41 @@ void Window::show()
 {
     if(qwidget_geometry_saved)
     {
-        qwidget->move(qwidget_pos);
-        qwidget->resize(qwidget_size);
+        move(qwidget_pos);
+        resize(qwidget_size);
     }
     visibility_state = true;
     qwidget->show();
 }
 
+QPoint Window::pos()
+{
+    return qwidget->geometry().topLeft();
+}
+
+void Window::move(const QPoint &p)
+{
+    qwidget->setGeometry(p.x(), p.y(), qwidget->width(), qwidget->height());
+}
+
 void Window::move(int x, int y)
 {
-    getQWidget()->move(x, y);
+    qwidget->setGeometry(x, y, qwidget->width(), qwidget->height());
+}
+
+QSize Window::size()
+{
+    return qwidget->size();
+}
+
+void Window::resize(const QSize &s)
+{
+    qwidget->resize(s);
 }
 
 void Window::resize(int w, int h)
 {
-    getQWidget()->resize(w, h);
+    qwidget->resize(w, h);
 }
 
 void Window::setTitle(std::string title)
