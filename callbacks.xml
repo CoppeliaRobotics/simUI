@@ -87,7 +87,7 @@
         </see-also>
         <params>
             <param name="xml" type="string">
-                <description>xml ui definition</description>
+                <description>xml ui definition (refer to <a href="simUI-widgets.htm">UI plugin XML syntax</a>)</description>
             </param>
         </params>
         <return>
