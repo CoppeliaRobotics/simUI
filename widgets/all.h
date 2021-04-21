@@ -16,9 +16,6 @@
 #if WIDGET_COMBOBOX
 #include "Combobox.h"
 #endif // WIDGET_COMBOBOX
-#if WIDGET_DATAFLOW
-#include "Dataflow.h"
-#endif // WIDGET_DATAFLOW
 #if WIDGET_EDIT
 #include "Edit.h"
 #endif // WIDGET_EDIT

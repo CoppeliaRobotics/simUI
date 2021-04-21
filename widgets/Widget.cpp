@@ -126,9 +126,6 @@ Widget * Widget::parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyx
 #if WIDGET_PROGRESSBAR
     if(tag == "progressbar") return parse1<Progressbar>(parent, widgets, e);
 #endif // WIDGET_PROGRESSBAR
-#if WIDGET_DATAFLOW
-    if(tag == "dataflow") return parse1<Dataflow>(parent, widgets, e);
-#endif // WIDGET_DATAFLOW
 #if WIDGET_TEXTBROWSER
     if(tag == "text-browser") return parse1<TextBrowser>(parent, widgets, e);
 #endif // WIDGET_TEXTBROWSER

@@ -73,18 +73,6 @@ public slots:
     void onMouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y);
 #endif
 
-#if WIDGET_DATAFLOW
-    void onNodeAdded(QDataflowModelNode *node);
-    void onNodeRemoved(QDataflowModelNode *node);
-    void onNodeValidChanged(QDataflowModelNode *node, bool valid);
-    void onNodePosChanged(QDataflowModelNode *node, QPoint pos);
-    void onNodeTextChanged(QDataflowModelNode *node, QString text);
-    void onNodeInletCountChanged(QDataflowModelNode *node, int count);
-    void onNodeOutletCountChanged(QDataflowModelNode *node, int count);
-    void onConnectionAdded(QDataflowModelConnection *conn);
-    void onConnectionRemoved(QDataflowModelConnection *conn);
-#endif
-
 #if WIDGET_TEXTBROWSER
     void onTextChanged();
     void onAnchorClicked(const QUrl &link);
@@ -213,18 +201,6 @@ public slots:
     void onExpandToDepth(Tree *tree, int depth, bool suppressSignals);
 #endif
 
-#if WIDGET_DATAFLOW
-    void onAddNode(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets);
-    void onRemoveNode(Dataflow *dataflow, int id);
-    void onSetNodeValid(Dataflow *dataflow, int id, bool valid);
-    void onSetNodePos(Dataflow *dataflow, int id, QPoint pos);
-    void onSetNodeText(Dataflow *dataflow, int id, QString text);
-    void onSetNodeInletCount(Dataflow *dataflow, int id, int count);
-    void onSetNodeOutletCount(Dataflow *dataflow, int id, int count);
-    void onAddConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
-    void onRemoveConnection(Dataflow *dataflow, int srcId, int srcOutlet, int dstId, int dstInlet);
-#endif
-
 #if WIDGET_TEXTBROWSER
     void onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
     void onSetUrl(TextBrowser *textbrowser, std::string url);
@@ -280,18 +256,6 @@ signals:
 
 #if WIDGET_TREE
     void treeSelectionChange(Tree *tree, int id);
-#endif
-
-#if WIDGET_DATAFLOW
-    void nodeAdded(Dataflow *dataflow, int id, QPoint pos, QString text, int inlets, int outlets);
-    void nodeRemoved(Dataflow *dataflow, int id);
-    void nodeValidChanged(Dataflow *dataflow, int id, bool valid);
-    void nodePosChanged(Dataflow *dataflow, int id, QPoint pos);
-    void nodeTextChanged(Dataflow *dataflow, int id, QString text);
-    void nodeInletCountChanged(Dataflow *dataflow, int id, int inlets);
-    void nodeOutletCountChanged(Dataflow *dataflow, int id, int outlets);
-    void connectionAdded(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
-    void connectionRemoved(Dataflow *dataflow, int srcNodeId, int srcOutlet, int dstNodeId, int dstInlet);
 #endif
 
     void keyPressed(Widget *widget, int key, std::string text);
