@@ -6,7 +6,7 @@
         <html>
             <head>
                 <meta http-equiv="Content-Language" content="en-us"/>
-                <title>CustomUI Plugin - UI XML Syntax</title>
+                <title>UI Plugin - XML Syntax</title>
                 <style type="text/css">
                     td, th, a, h1, h2, h3 { font-family: Helvetica, Arial; }
                     a, a:active, a:visited { color: black; text-decoration: none; }
