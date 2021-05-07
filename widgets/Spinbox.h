@@ -25,6 +25,7 @@ protected:
     std::string prefix;
     std::string suffix;
     double step;
+    int decimals;
     bool float_;
 
 public:

@@ -37,9 +37,11 @@ void Spinbox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::X
 
     step = xmlutils::getAttrDouble(e, "step", 1);
 
+    decimals = xmlutils::getAttrInt(e, "decimals", -1);
+
     onchange = xmlutils::getAttrStr(e, "on-change", "");
 
-    bool detectedFloat = isFloat(minimum) || isFloat(maximum) || isFloat(step);
+    bool detectedFloat = isFloat(minimum) || isFloat(maximum) || isFloat(step) || decimals > -1;
     float_ = xmlutils::getAttrBool(e, "float", detectedFloat);
 }
 
@@ -57,6 +59,7 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
         spinbox->setPrefix(QString::fromStdString(prefix));
         spinbox->setSuffix(QString::fromStdString(suffix));
         spinbox->setSingleStep(step);
+        spinbox->setDecimals(decimals > -1 ? decimals : 6);
         QObject::connect(spinbox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), ui, &UI::onValueChangeDouble);
         setQWidget(spinbox);
         setProxy(proxy);
