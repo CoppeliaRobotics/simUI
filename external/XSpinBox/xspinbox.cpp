@@ -12,7 +12,8 @@ private:
     int mouseStartPosY = 0;
     int startValueInt = 0;
     double startValueDouble = 0;
-    Qt::ContextMenuPolicy previousContextMenuPolicy;
+    static bool contextMenuPolicyToRestore_;
+    static Qt::ContextMenuPolicy contextMenuPolicyToRestore;
 
 public:
     static RMBDragFeature * hitTest(QAbstractSpinBox *spinbox, QStyleOptionSpinBox *opt, QMouseEvent *event)
@@ -30,13 +31,19 @@ public:
         : spinbox(spinbox)
     {
         mouseStartPosY = event->pos().y();
-        previousContextMenuPolicy = spinbox->contextMenuPolicy();
+        if(!contextMenuPolicyToRestore_)
+        {
+            contextMenuPolicyToRestore_ = true;
+            contextMenuPolicyToRestore = spinbox->contextMenuPolicy();
+        }
         spinbox->setContextMenuPolicy(Qt::PreventContextMenu);
 
         if(auto s = dynamic_cast<QSpinBox*>(spinbox))
             startValueInt = s->value();
         else if(auto s = dynamic_cast<QDoubleSpinBox*>(spinbox))
             startValueDouble = s->value();
+
+        spinbox->setCursor(Qt::SizeVerCursor);
     }
 
     void move(QMouseEvent *event)
@@ -56,10 +63,12 @@ public:
     {
         spinbox->unsetCursor();
         auto s = spinbox;
-        auto pcmc = previousContextMenuPolicy;
-        QTimer::singleShot(500, [s,pcmc] {s->setContextMenuPolicy(pcmc);});
+        QTimer::singleShot(500, [s] {s->setContextMenuPolicy(contextMenuPolicyToRestore);});
     }
 };
+
+bool RMBDragFeature::contextMenuPolicyToRestore_ = false;
+Qt::ContextMenuPolicy RMBDragFeature::contextMenuPolicyToRestore = Qt::PreventContextMenu;
 
 XSpinBox::XSpinBox(QWidget *parent) : QSpinBox(parent)
 {
