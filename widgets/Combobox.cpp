@@ -26,8 +26,8 @@ void Combobox::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::
     {
         std::string tag1(e1->Value());
         if(tag1 != "item") continue;
-        std::string itemName(e1->GetText());
-        items.push_back(itemName);
+        const char *itemName(e1->GetText());
+        items.push_back(itemName ? itemName : "");
     }
 
     onchange = xmlutils::getAttrStr(e, "on-change", "");
