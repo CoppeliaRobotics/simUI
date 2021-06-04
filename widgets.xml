@@ -52,6 +52,12 @@
                 <description>Layout of the widget. When layout is 'none', specify widget placement using the geometry attribute, like: geometry="x,y,width,height".</description>
             </attribute>
             <attribute>
+                <name>content-margins</name>
+                <type>int[4]</type>
+                <default>7,7,7,7</default>
+                <description>Sets the left, top, right, and bottom margins to use around the layout.</description>
+            </attribute>
+            <attribute>
                 <name>placement</name>
                 <type><one-of><value>center</value><value>relative</value><value>absolute</value></one-of></type>
                 <default>center</default>
@@ -318,6 +324,12 @@
                 <type><one-of><value>vbox</value><value>hbox</value><value>form</value><value>grid</value><value>none</value></one-of></type>
                 <default>vbox</default>
                 <description>Layout of the widget. When layout is 'none', specify widget placement using the geometry attribute, like: geometry="x,y,width,height".</description>
+            </attribute>
+            <attribute>
+                <name>content-margins</name>
+                <type>int[4]</type>
+                <default>7,7,7,7</default>
+                <description>Sets the left, top, right, and bottom margins to use around the layout.</description>
             </attribute>
         </attributes>
     </element>
@@ -966,6 +978,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <type><one-of><value>vbox</value><value>hbox</value><value>form</value><value>grid</value><value>none</value></one-of></type>
                 <default>vbox</default>
                 <description>Layout of the widget. When layout is 'none', specify widget placement using the geometry attribute, like: geometry="x,y,width,height".</description>
+            </attribute>
+            <attribute>
+                <name>content-margins</name>
+                <type>int[4]</type>
+                <default>7,7,7,7</default>
+                <description>Sets the left, top, right, and bottom margins to use around the layout.</description>
             </attribute>
         </attributes>
     </element>

@@ -44,6 +44,7 @@ class LayoutWidget
 {
 protected:
     Layout layout;
+    std::array<int, 4> contentMargins;
     std::vector< std::vector<Widget*> > children;
 
 public:
