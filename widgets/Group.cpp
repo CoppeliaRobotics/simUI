@@ -29,6 +29,8 @@ QWidget * Group::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     QWidget *groupBox = flat ?
         new QWidget(parent) :
         new QGroupBox(parent);
+    if(flat)
+        groupBox->setContentsMargins(0, 0, 0, 0);
     groupBox->setEnabled(enabled);
     groupBox->setVisible(visible);
     groupBox->setStyleSheet(QString::fromStdString(style));
