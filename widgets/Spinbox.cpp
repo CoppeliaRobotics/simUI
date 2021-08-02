@@ -55,13 +55,13 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
         spinbox->setEnabled(enabled);
         spinbox->setVisible(visible);
         spinbox->setStyleSheet(QString::fromStdString(style));
-        spinbox->setValue(value);
         spinbox->setMinimum(minimum);
         spinbox->setMaximum(maximum);
         spinbox->setPrefix(QString::fromStdString(prefix));
         spinbox->setSuffix(QString::fromStdString(suffix));
         spinbox->setSingleStep(step);
         spinbox->setDecimals(decimals > -1 ? decimals : 6);
+        spinbox->setValue(value);
         QObject::connect(spinbox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), ui, &UI::onValueChangeDouble);
         setQWidget(spinbox);
         setProxy(proxy);
@@ -73,12 +73,12 @@ QWidget * Spinbox::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
         spinbox->setEnabled(enabled);
         spinbox->setVisible(visible);
         spinbox->setStyleSheet(QString::fromStdString(style));
-        spinbox->setValue(int(value));
         spinbox->setMinimum(int(minimum));
         spinbox->setMaximum(int(maximum));
         spinbox->setPrefix(QString::fromStdString(prefix));
         spinbox->setSuffix(QString::fromStdString(suffix));
         spinbox->setSingleStep(int(step));
+        spinbox->setValue(int(value));
         QObject::connect(spinbox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui, &UI::onValueChangeInt);
         setQWidget(spinbox);
         setProxy(proxy);
