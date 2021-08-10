@@ -22,6 +22,7 @@
 #include <QGroupBox>
 #include <QComboBox>
 #include <QDialog>
+#include <QImageReader>
 
 #include "tinyxml2.h"
 
@@ -1224,6 +1225,23 @@ public:
         QByteArray data(in->data.data(), in->data.size());
         SIM::getInstance()->svgLoadData(svg, data);
 #endif
+    }
+
+    void supportedImageFormats(supportedImageFormats_in *in, supportedImageFormats_out *out)
+    {
+        QList<QByteArray> fmts = QImageReader::supportedImageFormats();
+        std::string sep{""}, s;
+        for(const auto &fmt : fmts)
+        {
+            out->formatList.push_back(fmt.data());
+            if(in->separator)
+            {
+                s += sep + fmt.data();
+                sep = *in->separator;
+            }
+        }
+        if(in->separator)
+            out->formatListStr = s;
     }
 
 private:

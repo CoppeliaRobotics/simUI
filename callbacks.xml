@@ -2623,6 +2623,22 @@
         <return>
         </return>
     </command>
+    <command name="supportedImageFormats">
+        <description>Return a list of supported image formats</description>
+        <params>
+            <param name="separator" type="string" nullable="true" default="nil">
+                <description>if provided, also a string of formats concatenated by separator will be returned</description>
+            </param>
+        </params>
+        <return>
+            <param name="formatList" type="table" item-type="string">
+                <description>list of formats, each item will be the file extension of the format</description>
+            </param>
+            <param name="formatListStr" type="string" nullable="true" default="nil">
+                <description>concatenated list of formats, if separator is provided</description>
+            </param>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
