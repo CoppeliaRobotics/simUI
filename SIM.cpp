@@ -55,6 +55,7 @@ void SIM::connectSignals()
     connect(this, &SIM::msgBox, ui, &UI::onMsgBox, Qt::BlockingQueuedConnection);
     connect(this, &SIM::fileDialog, ui, &UI::onFileDialog, Qt::BlockingQueuedConnection);
     connect(this, &SIM::colorDialog, ui, &UI::onColorDialog, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::inputDialog, ui, &UI::onInputDialog, Qt::BlockingQueuedConnection);
     connect(this, &SIM::create, ui, &UI::onCreate, Qt::BlockingQueuedConnection);
 #if WIDGET_BUTTON
     connect(ui, &UI::buttonClick, this, &SIM::onButtonClick);

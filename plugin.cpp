@@ -146,6 +146,20 @@ public:
         sim::addLog(sim_verbosity_debug, "[leave]");
     }
 
+    void inputDialog(inputDialog_in *in, inputDialog_out *out)
+    {
+        sim::addLog(sim_verbosity_debug, "[enter]");
+        // this function is called also from the C API: always run it in the correct thread
+        bool ok;
+        std::string r;
+        if(QThread::currentThreadId() == UI_THREAD)
+            UI::getInstance()->onInputDialog(in->initValue, in->label, in->title, &ok, &r);
+        else
+            SIM::getInstance()->inputDialog(in->initValue, in->label, in->title, &ok, &r);
+        if(ok) out->result = r;
+        sim::addLog(sim_verbosity_debug, "[leave]");
+    }
+
     void create(create_in *in, create_out *out)
     {
         ASSERT_THREAD(!UI);

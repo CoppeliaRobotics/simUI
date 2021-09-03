@@ -212,6 +212,13 @@ void UI::onColorDialog(std::vector<float> initColor, std::string title, bool sho
     }
 }
 
+void UI::onInputDialog(std::string initValue, std::string label, std::string title, bool *ok, std::string *result)
+{
+    ASSERT_THREAD(UI);
+
+    *result = QInputDialog::getText(nullptr, QString::fromStdString(title), QString::fromStdString(label), QLineEdit::Normal, QString::fromStdString(initValue), ok, Qt::WindowFlags(), Qt::ImhNone).toStdString();
+}
+
 void UI::onCreate(Proxy *proxy)
 {
     ASSERT_THREAD(UI);

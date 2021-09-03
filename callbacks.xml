@@ -78,6 +78,25 @@
             </param>
         </return>
     </command>
+    <command name="inputDialog">
+        <description>Display an input dialog.</description>
+        <params>
+            <param name="initValue" type="string" default='""'>
+                <description>initial value</description>
+            </param>
+            <param name="label" type="string" default='"Input value:"'>
+                <description>label above the input field</description>
+            </param>
+            <param name="title" type="string" default='""'>
+                <description>title of input dialog</description>
+            </param>
+        </params>
+        <return>
+            <param name="result" type="string" nullable="true">
+                <description>result</description>
+            </param>
+        </return>
+    </command>
     <command name="create">
         <description>Create a window.</description>
         <categories>

@@ -71,3 +71,24 @@ SIM_DLLEXPORT float * customUi_colorDialog(const float *initColor, const char *t
     return ret;
 }
 
+SIM_DLLEXPORT char * customUi_inputDialog(const char *initValue, const char *label, const char *title)
+{
+    inputDialog_in in;
+    if(initValue)
+        in.initValue = initValue;
+    if(label)
+        in.label = label;
+    if(title)
+        in.title = title;
+
+    inputDialog_out out;
+
+    inputDialog(nullptr, "", &in, &out);
+
+    if(!out.result) return nullptr;
+
+    simChar *ret = simCreateBuffer(out.result->length());
+    std::memcpy(ret, out.result->data(), out.result->length());
+    return ret;
+}
+
