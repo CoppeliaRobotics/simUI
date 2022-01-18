@@ -85,7 +85,7 @@
                 <name>on-close</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the close event. Arguments of the function are: (uiHandle). When a callback is specified, the window will not close upon pressing the close button. It may be hidden or destroyed explicitly in the callback.</description>
+                <description>Name of a script function to handle the close event. Arguments of the function are: (uiHandle). When a callback is specified, the window will not close upon pressing the close button. It may be hidden or destroyed explicitly in the callback.</description>
             </attribute>
         </attributes>
     </element>
@@ -157,7 +157,7 @@
                 <name>on-click</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the click event. Arguments of the function are: (uiHandle, id).</description>
+                <description>Name of a script function to handle the click event. Arguments of the function are: (uiHandle, id).</description>
             </attribute>
             <attribute>
                 <name>icon</name>
@@ -211,13 +211,13 @@
                 <name>on-change</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
+                <description>Name of a script function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
     <element>
         <name>combobox</name>
-        <description>A combobox widget. It allows to select one from many items from a dropdown menu.  Items can be added as child XML nodes, e.g. &lt;item&gt;Item text&lt;/item&gt;, or dynamically via the Lua API.</description>
+        <description>A combobox widget. It allows to select one from many items from a dropdown menu.  Items can be added as child XML nodes, e.g. &lt;item&gt;Item text&lt;/item&gt;, or dynamically via the script API.</description>
         <attributes>
             <attribute>
                 <name>enabled</name>
@@ -247,7 +247,7 @@
                 <name>on-change</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
+                <description>Name of a script function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -283,13 +283,13 @@
                 <name>on-change</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
+                <description>Name of a script function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
             <attribute>
                 <name>on-editing-finished</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the editing finished event.  Arguments of the function are: (uiHandle, id, newValue).</description>
+                <description>Name of a script function to handle the editing finished event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -392,7 +392,7 @@
                 <name>on-change</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
+                <description>Name of a script function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -450,19 +450,19 @@
                 <name>on-mouse-down</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the mouseDown event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+                <description>Name of a script function to handle the mouseDown event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
             <attribute>
                 <name>on-mouse-up</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the mouseUp event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+                <description>Name of a script function to handle the mouseUp event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
             <attribute>
                 <name>on-mouse-move</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the mouseMove event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+                <description>Name of a script function to handle the mouseMove event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
         </attributes>
     </element>
@@ -501,7 +501,7 @@
                 <name>on-link-activated</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the linkActivated event. Arguments of the function are: (uiHandle, id, linkHref).</description>
+                <description>Name of a script function to handle the linkActivated event. Arguments of the function are: (uiHandle, id, linkHref).</description>
             </attribute>
         </attributes>
     </element>
@@ -651,13 +651,13 @@
                 <name>on-click</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the click event on a curve data point.  Arguments of the function are: (uiHandle, id, curveName, dataIndex, xValue, yValue).</description>
+                <description>Name of a script function to handle the click event on a curve data point.  Arguments of the function are: (uiHandle, id, curveName, dataIndex, xValue, yValue).</description>
             </attribute>
             <attribute>
                 <name>on-legend-click</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the click event on a legend item.  Arguments of the function are: (uiHandle, id, curveName).</description>
+                <description>Name of a script function to handle the click event on a legend item.  Arguments of the function are: (uiHandle, id, curveName).</description>
             </attribute>
         </attributes>
     </element>
@@ -747,7 +747,7 @@
                 <name>on-click</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the click event.  Arguments of the function are: (uiHandle, id).</description>
+                <description>Name of a script function to handle the click event.  Arguments of the function are: (uiHandle, id).</description>
             </attribute>
         </attributes>
     </element>
@@ -777,7 +777,7 @@
                 <name>on-click</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the click event. Arguments of the function are: (uiHandle, id, nodeId).</description>
+                <description>Name of a script function to handle the click event. Arguments of the function are: (uiHandle, id, nodeId).</description>
             </attribute>
         </attributes>
     </element>
@@ -849,7 +849,7 @@
                 <name>on-change</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
+                <description>Name of a script function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -909,19 +909,19 @@
                 <name>on-cell-activate</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the cell activate event. Arguments of the function are: (uiHandle, id, row, column, cellValue).</description>
+                <description>Name of a script function to handle the cell activate event. Arguments of the function are: (uiHandle, id, row, column, cellValue).</description>
             </attribute>
             <attribute>
                 <name>on-selection-change</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the selection change event. Arguments of the function are: (uiHandle, id, row, column). If selection mode is 'rows', column will be -1 and vice versa.</description>
+                <description>Name of a script function to handle the selection change event. Arguments of the function are: (uiHandle, id, row, column). If selection mode is 'rows', column will be -1 and vice versa.</description>
             </attribute>
             <attribute>
                 <name>on-key-press</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the key press event. Arguments of the function are: (uiHandle, id, key, text).</description>
+                <description>Name of a script function to handle the key press event. Arguments of the function are: (uiHandle, id, key, text).</description>
             </attribute>
         </attributes>
     </element>
@@ -1028,13 +1028,13 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <name>on-change</name>
                 <type>string</type>
                 <default></default>
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newText).</description>
+                <description>Name of a script function to handle the change event.  Arguments of the function are: (uiHandle, id, newText).</description>
             </attribute>
             <attribute>
                 <name>on-link-activated</name>
                 <type>string</type>
                 <default></default>
-                <description>Name of a Lua function to handle the linkActivated event. Arguments of the function are: (uiHandle, id, linkHref).</description>
+                <description>Name of a script function to handle the linkActivated event. Arguments of the function are: (uiHandle, id, linkHref).</description>
             </attribute>
         </attributes>
     </element>
@@ -1064,7 +1064,7 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <name>on-selection-change</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the selection change event. Arguments of the function are: (uiHandle, id, item_id).</description>
+                <description>Name of a script function to handle the selection change event. Arguments of the function are: (uiHandle, id, item_id).</description>
             </attribute>
         </attributes>
     </element>
@@ -1127,7 +1127,7 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <name>on-change</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
+                <description>Name of a script function to handle the change event.  Arguments of the function are: (uiHandle, id, newValue).</description>
             </attribute>
         </attributes>
     </element>
@@ -1160,19 +1160,19 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <name>on-mouse-down</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the mouseDown event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+                <description>Name of a script function to handle the mouseDown event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
             <attribute>
                 <name>on-mouse-up</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the mouseUp event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+                <description>Name of a script function to handle the mouseUp event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
             <attribute>
                 <name>on-mouse-move</name>
                 <type>string</type>
                 <default />
-                <description>Name of a Lua function to handle the mouseMove event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
+                <description>Name of a script function to handle the mouseMove event. Arguments of the function are: (uiHandle, id, type, flags, x, y).</description>
             </attribute>
         </attributes>
     </element>
