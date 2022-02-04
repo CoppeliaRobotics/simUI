@@ -1192,7 +1192,7 @@
             <param name="name" type="string">
                 <description>name of the curve</description>
             </param>
-            <param name="color" type="table" item-type="int">
+            <param name="color" type="table" item-type="int" size="3">
                 <description>color of the curve, as RGB values in the 0...255 range</description>
             </param>
             <param name="style" type="int">
