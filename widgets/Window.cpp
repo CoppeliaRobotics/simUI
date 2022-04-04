@@ -155,6 +155,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     else flags |= Qt::MSWindowsFixedSizeDialogHint;
     if(closeable) flags |= Qt::WindowCloseButtonHint;
     window->setWindowFlags(flags);
+    window->setAttribute(Qt::WA_MacAlwaysShowToolWindow);
     window->setModal(modal);
     //window->setAttribute(Qt::WA_DeleteOnClose);
     if(!activate) window->setAttribute(Qt::WA_ShowWithoutActivating);
