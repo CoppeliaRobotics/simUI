@@ -65,7 +65,7 @@ end
 --@arg int widget the widget identifier
 --@arg int nodeId the node id
 --@arg string paramName the parameter name
---@arg anything paramValue the parameter value
+--@arg any paramValue the parameter value
 function simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue)
     if type(paramValue)=='number' then
         if math.floor(paramValue)==paramValue then
