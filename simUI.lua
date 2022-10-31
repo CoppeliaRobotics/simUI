@@ -1,5 +1,25 @@
 local simUI={}
 
+function simUI.__init()
+    simUI.create=(function(origFunc)
+        return function(xml)
+            -- replace ${varName} with their contents
+            -- if varName doesn't exist, it will be created with a progressive id
+            xml=xml:gsub('${(.-)}',function(n)
+                simUI.__id=simUI.__id or 0
+                if _G[n]==nil then
+                    simUI.__id=simUI.__id+1
+                    _G[n]=simUI.__id
+                end
+                return _G[n]
+            end)
+            return origFunc(xml)
+        end
+    end)(simUI.create)
+end
+
+sim.registerScriptFuncHook('sysCall_init','simUI.__init',true)
+
 --@fun insertTableRow insert a row in a table widget
 --@arg int ui the ui handle
 --@arg int widget the widget identifier
