@@ -6,9 +6,13 @@ function simUI.__init()
             -- replace ${varName} with their contents
             -- if varName doesn't exist, it will be created with a progressive id
             xml=xml:gsub('${(.-)}',function(n)
-                simUI.__id=simUI.__id or 0
+                for i=1,1e100 do
+                    local name,value=debug.getlocal(4,i)
+                    if not name then break end
+                    if name==n then return value end
+                end
                 if _G[n]==nil then
-                    simUI.__id=simUI.__id+1
+                    simUI.__id=(simUI.__id or 0)+1
                     _G[n]=simUI.__id
                 end
                 return _G[n]
