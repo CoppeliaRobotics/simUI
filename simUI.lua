@@ -20,6 +20,7 @@ function simUI.__init()
             return origFunc(xml)
         end
     end)(simUI.create)
+    simUI.__init=nil
 end
 
 sim.registerScriptFuncHook('sysCall_init','simUI.__init',true)
