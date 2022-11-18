@@ -32,7 +32,7 @@ UI *UI::instance = NULL;
 
 QWidget *UI::simMainWindow = NULL;
 
-simFloat UI::wheelZoomFactor = 1.0;
+float UI::wheelZoomFactor = 1.0;
 
 UI::UI(QObject *parent)
     : QObject(parent)

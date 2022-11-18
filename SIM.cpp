@@ -371,19 +371,19 @@ void SIM::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
     CHECK_POINTER(Widget, image);
 
     int resolution[2];
-    simUChar *data = simLoadImage(resolution, 0, filename, NULL);
+    unsigned char *data = simLoadImage(resolution, 0, filename, NULL);
     simTransformImage(data, resolution, 4, NULL, NULL, NULL);
 
     if(w > 0 && h > 0)
     {
         int size[2] = {w, h};
-        simUChar *scaled = simGetScaledImage(data, resolution, size, 0, NULL);
-        sim::releaseBuffer((simChar *)data);
-        setImage(image, (simChar *)scaled, w, h);
+        unsigned char *scaled = simGetScaledImage(data, resolution, size, 0, NULL);
+        sim::releaseBuffer((char *)data);
+        setImage(image, (char *)scaled, w, h);
     }
     else
     {
-        setImage(image, (simChar *)data, resolution[0], resolution[1]);
+        setImage(image, (char *)data, resolution[0], resolution[1]);
     }
 }
 #endif

@@ -548,10 +548,10 @@ public:
             throw std::runtime_error(ss.str());
         }
 
-        simChar *img = sim::createBuffer(sz);
+        char *img = sim::createBuffer(sz);
         std::memcpy(img, in->data.c_str(), sz);
-        simInt resolution[2] = {in->width, in->height};
-        simTransformImage((simUChar *)img, resolution, 4, NULL, NULL, NULL);
+        int resolution[2] = {in->width, in->height};
+        simTransformImage((unsigned char *)img, resolution, 4, NULL, NULL, NULL);
 
         SIM::getInstance()->setImage(imageWidget, img, in->width, in->height);
 #endif

@@ -30,7 +30,7 @@ private:
 
 public:
     static QWidget *simMainWindow;
-    static simFloat wheelZoomFactor;
+    static float wheelZoomFactor;
 
 public slots:
     void onMsgBox(int type, int buttons, std::string title, std::string message, int *result);
