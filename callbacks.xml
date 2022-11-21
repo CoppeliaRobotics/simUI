@@ -285,7 +285,7 @@
             </param>
         </params>
         <return>
-            <param name="value" type="float">
+            <param name="value" type="double">
                 <description>value</description>
             </param>
         </return>
@@ -305,7 +305,7 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
-            <param name="value" type="float">
+            <param name="value" type="double">
                 <description>value</description>
             </param>
             <param name="suppressEvents" type="bool" default="true">
@@ -2473,7 +2473,7 @@
             <param name="paramName" type="string">
                 <description>name of parameter</description>
             </param>
-            <param name="value" type="float">
+            <param name="value" type="double">
                 <description>value of parameter</description>
             </param>
         </params>
@@ -2525,10 +2525,10 @@
             <param name="paramName" type="string">
                 <description>name of parameter</description>
             </param>
-            <param name="x" type="float">
+            <param name="x" type="double">
                 <description>value of first component</description>
             </param>
-            <param name="y" type="float">
+            <param name="y" type="double">
                 <description>value of second component</description>
             </param>
         </params>
@@ -2554,13 +2554,13 @@
             <param name="paramName" type="string">
                 <description>name of parameter</description>
             </param>
-            <param name="x" type="float">
+            <param name="x" type="double">
                 <description>value of first component</description>
             </param>
-            <param name="y" type="float">
+            <param name="y" type="double">
                 <description>value of second component</description>
             </param>
-            <param name="z" type="float">
+            <param name="z" type="double">
                 <description>value of third component</description>
             </param>
         </params>
@@ -2586,16 +2586,16 @@
             <param name="paramName" type="string">
                 <description>name of parameter</description>
             </param>
-            <param name="x" type="float">
+            <param name="x" type="double">
                 <description>value of first component</description>
             </param>
-            <param name="y" type="float">
+            <param name="y" type="double">
                 <description>value of second component</description>
             </param>
-            <param name="z" type="float">
+            <param name="z" type="double">
                 <description>value of third component</description>
             </param>
-            <param name="w" type="float">
+            <param name="w" type="double">
                 <description>value of fourth component</description>
             </param>
         </params>
@@ -2712,7 +2712,7 @@
             <param name="id" type="int">
                 <description>the ID of the widget</description>
             </param>
-            <param name="value" type="float">
+            <param name="value" type="double">
                 <description>the new value</description>
             </param>
         </params>
@@ -2776,10 +2776,10 @@
             <param name="index" type="int">
                 <description>the index of the clicked point in the curve</description>
             </param>
-            <param name="x" type="float">
+            <param name="x" type="double">
                 <description>the x value of the clicked point</description>
             </param>
-            <param name="y" type="float">
+            <param name="y" type="double">
                 <description>the y value of the clicked point</description>
             </param>
         </params>
