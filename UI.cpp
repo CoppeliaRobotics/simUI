@@ -32,7 +32,7 @@ UI *UI::instance = NULL;
 
 QWidget *UI::simMainWindow = NULL;
 
-float UI::wheelZoomFactor = 1.0;
+floatDouble UI::wheelZoomFactor = 1.0;
 
 UI::UI(QObject *parent)
     : QObject(parent)
@@ -1103,7 +1103,7 @@ void UI::onSetScene3DIntParam(Scene3D *scene3d, int id, std::string param, int v
     scene3d->setIntParameter(id, param, value);
 }
 
-void UI::onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, float value)
+void UI::onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, double value)
 {
     scene3d->setFloatParameter(id, param, value);
 }
@@ -1113,17 +1113,17 @@ void UI::onSetScene3DStringParam(Scene3D *scene3d, int id, std::string param, st
     scene3d->setStringParameter(id, param, value);
 }
 
-void UI::onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y)
+void UI::onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, double x, double y)
 {
     scene3d->setVector2Parameter(id, param, x, y);
 }
 
-void UI::onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z)
+void UI::onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, double x, double y, double z)
 {
     scene3d->setVector3Parameter(id, param, x, y, z);
 }
 
-void UI::onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w)
+void UI::onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, double x, double y, double z, double w)
 {
     scene3d->setVector4Parameter(id, param, x, y, z, w);
 }

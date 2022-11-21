@@ -207,11 +207,11 @@ signals:
     void removeScene3DNode(Scene3D *scene3d, int id);
     void setScene3DNodeEnabled(Scene3D *scene3d, int id, bool enabled);
     void setScene3DIntParam(Scene3D *scene3d, int id, std::string param, int value);
-    void setScene3DFloatParam(Scene3D *scene3d, int id, std::string param, float value);
+    void setScene3DFloatParam(Scene3D *scene3d, int id, std::string param, double value);
     void setScene3DStringParam(Scene3D *scene3d, int id, std::string param, std::string value);
-    void setScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y);
-    void setScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z);
-    void setScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w);
+    void setScene3DVector2Param(Scene3D *scene3d, int id, std::string param, double x, double y);
+    void setScene3DVector3Param(Scene3D *scene3d, int id, std::string param, double x, double y, double z);
+    void setScene3DVector4Param(Scene3D *scene3d, int id, std::string param, double x, double y, double z, double w);
 #endif
 
 #if WIDGET_SVG

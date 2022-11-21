@@ -96,11 +96,11 @@ public:
     void removeNode(int id);
     void enableNode(int id, bool enabled);
     void setIntParameter(int id, std::string param, int value);
-    void setFloatParameter(int id, std::string param, float value);
+    void setFloatParameter(int id, std::string param, double value);
     void setStringParameter(int id, std::string param, std::string value);
-    void setVector2Parameter(int id, std::string param, float x, float y);
-    void setVector3Parameter(int id, std::string param, float x, float y, float z);
-    void setVector4Parameter(int id, std::string param, float x, float y, float z, float w);
+    void setVector2Parameter(int id, std::string param, double x, double y);
+    void setVector3Parameter(int id, std::string param, double x, double y, double z);
+    void setVector4Parameter(int id, std::string param, double x, double y, double z, double w);
 
     friend class SIM;
 };
@@ -110,13 +110,13 @@ struct NodeParam {
     bool isInt;
     int intValue;
     bool isFloat;
-    float floatValue;
+    double floatValue;
     bool isString;
     std::string stringValue;
     bool isVector2;
     bool isVector3;
     bool isVector4;
-    float vectorValue[4];
+    double vectorValue[4];
 
     NodeParam() : isInt(false), isFloat(false), isString(false), isVector2(false), isVector3(false), isVector4(false) {}
 

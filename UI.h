@@ -30,7 +30,7 @@ private:
 
 public:
     static QWidget *simMainWindow;
-    static float wheelZoomFactor;
+    static floatDouble wheelZoomFactor;
 
 public slots:
     void onMsgBox(int type, int buttons, std::string title, std::string message, int *result);
@@ -213,11 +213,11 @@ public slots:
     void onRemoveScene3DNode(Scene3D *scene3d, int id);
     void onSetScene3DNodeEnabled(Scene3D *scene3d, int id, bool enabled);
     void onSetScene3DIntParam(Scene3D *scene3d, int id, std::string param, int value);
-    void onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, float value);
+    void onSetScene3DFloatParam(Scene3D *scene3d, int id, std::string param, double value);
     void onSetScene3DStringParam(Scene3D *scene3d, int id, std::string param, std::string value);
-    void onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, float x, float y);
-    void onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z);
-    void onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, float x, float y, float z, float w);
+    void onSetScene3DVector2Param(Scene3D *scene3d, int id, std::string param, double x, double y);
+    void onSetScene3DVector3Param(Scene3D *scene3d, int id, std::string param, double x, double y, double z);
+    void onSetScene3DVector4Param(Scene3D *scene3d, int id, std::string param, double x, double y, double z, double w);
 #endif
 
 #if WIDGET_SVG

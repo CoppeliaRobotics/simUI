@@ -589,7 +589,7 @@ void Plot::setMouseOptions(bool panX, bool panY, bool zoomX, bool zoomY)
     if(zoomY) zooming |= Qt::Vertical;
     ar->setRangeDrag(panning);
     ar->setRangeZoom(zooming);
-    float wheelZoomFactor = UI::wheelZoomFactor;
+    double wheelZoomFactor = UI::wheelZoomFactor;
     ar->setRangeZoomFactor(pow(0.85, -wheelZoomFactor), pow(0.85, -wheelZoomFactor));
 }
 

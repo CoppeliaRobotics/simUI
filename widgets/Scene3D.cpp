@@ -34,7 +34,7 @@ void NodeParam::parse(const std::string &nodeName, const std::string &s, NodePar
         else if(isFloat)
         {
             expected = "float";
-            dest->floatValue = boost::lexical_cast<float>(s);
+            dest->floatValue = boost::lexical_cast<double>(s);
             dest->isFloat = true;
         }
         else if(isString)
@@ -49,7 +49,7 @@ void NodeParam::parse(const std::string &nodeName, const std::string &s, NodePar
             std::vector<std::string> v;
             xmlutils::string2vector(s, v, 2, 2, ",");
             for(int i = 0; i < 2; i++)
-                dest->vectorValue[i] = boost::lexical_cast<float>(v[i]);
+                dest->vectorValue[i] = boost::lexical_cast<double>(v[i]);
             dest->isVector2 = true;
         }
         else if(isVector3)
@@ -58,7 +58,7 @@ void NodeParam::parse(const std::string &nodeName, const std::string &s, NodePar
             std::vector<std::string> v;
             xmlutils::string2vector(s, v, 3, 3, ",");
             for(int i = 0; i < 3; i++)
-                dest->vectorValue[i] = boost::lexical_cast<float>(v[i]);
+                dest->vectorValue[i] = boost::lexical_cast<double>(v[i]);
             dest->isVector3 = true;
         }
         else if(isVector4)
@@ -67,7 +67,7 @@ void NodeParam::parse(const std::string &nodeName, const std::string &s, NodePar
             std::vector<std::string> v;
             xmlutils::string2vector(s, v, 4, 4, ",");
             for(int i = 0; i < 4; i++)
-                dest->vectorValue[i] = boost::lexical_cast<float>(v[i]);
+                dest->vectorValue[i] = boost::lexical_cast<double>(v[i]);
             dest->isVector4 = true;
         }
     }
@@ -433,7 +433,7 @@ void Scene3D::setIntParameter(int id, std::string param, int value)
     END
 }
 
-void Scene3D::setFloatParameter(int id, std::string param, float value)
+void Scene3D::setFloatParameter(int id, std::string param, double value)
 {
     Qt3DCore::QNode *node = nodeById(id);
 
@@ -466,7 +466,7 @@ void Scene3D::setStringParameter(int id, std::string param, std::string value)
     END
 }
 
-void Scene3D::setVector2Parameter(int id, std::string param, float x, float y)
+void Scene3D::setVector2Parameter(int id, std::string param, double x, double y)
 {
     Qt3DCore::QNode *node = nodeById(id);
 
@@ -483,7 +483,7 @@ void Scene3D::setVector2Parameter(int id, std::string param, float x, float y)
     END
 }
 
-void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, float z)
+void Scene3D::setVector3Parameter(int id, std::string param, double x, double y, double z)
 {
     Qt3DCore::QNode *node = nodeById(id);
 
@@ -501,7 +501,7 @@ void Scene3D::setVector3Parameter(int id, std::string param, float x, float y, f
     END
 }
 
-void Scene3D::setVector4Parameter(int id, std::string param, float x, float y, float z, float w)
+void Scene3D::setVector4Parameter(int id, std::string param, double x, double y, double z, double w)
 {
     Qt3DCore::QNode *node = nodeById(id);
 
