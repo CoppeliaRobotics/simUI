@@ -15,7 +15,7 @@
 
 #include <QWidget>
 
-#include "simPlusPlus/Handle.h"
+#include "simPlusPlus/Handles.h"
 
 #include "XMLUtils.h"
 
@@ -60,7 +60,7 @@ public:
     static T * parse1(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     static Widget * parseAny(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
 
-    static Widget * byId(const std::string &handle, int id, const sim::Handles<Proxy> &handles);
+    static Widget * byId(const std::string &handle, int id, const sim::Handles<Proxy*> &handles);
     static Widget * byQWidget(QWidget *w);
 
     static bool exists(Widget *w);

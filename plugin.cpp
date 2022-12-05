@@ -27,7 +27,7 @@
 #include "tinyxml2.h"
 
 #include "simPlusPlus/Plugin.h"
-#include "simPlusPlus/Handle.h"
+#include "simPlusPlus/Handles.h"
 #include "plugin.h"
 #include "config.h"
 #include "stubs.h"
@@ -41,10 +41,6 @@
 #endif
 
 using namespace simExtCustomUI;
-
-#ifndef _MSC_VER
-template<> std::string sim::Handle<Proxy>::tag() { return "UI"; }
-#endif
 
 class Plugin : public sim::Plugin
 {
@@ -1259,7 +1255,7 @@ public:
     }
 
 private:
-    sim::Handles<Proxy> handles;
+    sim::Handles<Proxy*> handles{"UI"};
     int oldSceneID = -1;
 };
 
