@@ -544,7 +544,7 @@ public:
             throw std::runtime_error(ss.str());
         }
 
-        char *img = sim::createBuffer(sz);
+        char *img = (char*)sim::createBuffer(sz);
         std::memcpy(img, in->data.c_str(), sz);
         int resolution[2] = {in->width, in->height};
         simTransformImage((unsigned char *)img, resolution, 4, NULL, NULL, NULL);

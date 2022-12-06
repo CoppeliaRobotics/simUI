@@ -35,7 +35,7 @@ SIM_DLLEXPORT char * customUi_fileDialog(int type, const char *title, const char
 
     int sz = 0;
     for(auto &x : out.result) sz += x.length() + 1;
-    char *ret = simCreateBuffer(sz), *tmp = ret;
+    char *ret = (char*)simCreateBuffer(sz), *tmp = ret;
     for(auto &x : out.result)
     {
         strcpy(tmp, x.c_str());
@@ -87,7 +87,7 @@ SIM_DLLEXPORT char * customUi_inputDialog(const char *initValue, const char *lab
 
     if(!out.result) return nullptr;
 
-    char *ret = simCreateBuffer(out.result->length());
+    char *ret = (char*)simCreateBuffer(out.result->length());
     std::memcpy(ret, out.result->data(), out.result->length());
     return ret;
 }
