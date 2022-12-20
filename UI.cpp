@@ -50,7 +50,7 @@ UI * UI::getInstance(QObject *parent)
     {
         UI::instance = new UI(parent);
         UI::simMainWindow = (QWidget *)simGetMainWindow(1);
-        simGetFloatParameter(sim_floatparam_mouse_wheel_zoom_factor, &UI::wheelZoomFactor);
+        simGetFloatParam(sim_floatparam_mouse_wheel_zoom_factor, &UI::wheelZoomFactor);
 
         uiThread(); // we remember this currentThreadId as the "UI" thread
 

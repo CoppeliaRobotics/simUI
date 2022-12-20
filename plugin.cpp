@@ -47,9 +47,9 @@ class Plugin : public sim::Plugin
 public:
     void onStart()
     {
-        oldSceneID = sim::getInt32Parameter(sim_intparam_scene_unique_id);
+        oldSceneID = sim::getInt32Param(sim_intparam_scene_unique_id);
 
-        if(simGetBooleanParameter(sim_boolparam_headless) > 0)
+        if(simGetBoolParam(sim_boolparam_headless) > 0)
             throw std::runtime_error("doesn't work in headless mode");
 
         if(!registerScriptStuff())
@@ -181,9 +181,8 @@ public:
 
         // determine wether the Proxy object should be destroyed at simulation end
         int scriptType;
-        int objectHandle;
-        simGetScriptProperty(in->_.scriptID, &scriptType, &objectHandle);
-        int sceneID = sim::getInt32Parameter(sim_intparam_scene_unique_id);
+        simGetScriptInt32Param(in->_.scriptID,sim_scriptintparam_type,&scriptType);
+        int sceneID = sim::getInt32Param(sim_intparam_scene_unique_id);
         sim::addLog(sim_verbosity_debug, "Creating a new Proxy object...");
         Proxy *proxy = new Proxy(sceneID, in->_.scriptID, scriptType, window, widgets);
         proxy->handle = handles.add(proxy, in->_.scriptID);
