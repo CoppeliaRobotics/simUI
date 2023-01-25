@@ -77,6 +77,7 @@ void SIM::connectSignals()
     connect(this, &SIM::setButtonPressed, ui, &UI::onSetButtonPressed, Qt::BlockingQueuedConnection);
 #endif
     connect(this, &SIM::showWindow, ui, &UI::onShowWindow, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::adjustSize, ui, &UI::onAdjustSize, Qt::BlockingQueuedConnection);
     connect(this, &SIM::hideWindow, ui, &UI::onHideWindow, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setPosition, ui, &UI::onSetPosition, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setSize, ui, &UI::onSetSize, Qt::BlockingQueuedConnection);

@@ -85,6 +85,7 @@ signals:
     void destroy(Proxy *proxy);
     void setStyleSheet(Widget *widget, std::string styleSheet);
     void showWindow(Window *window);
+    void adjustSize(Window *window);
     void hideWindow(Window *window);
     void setPosition(Window *window, int x, int y);
     void setSize(Window *window, int w, int h);

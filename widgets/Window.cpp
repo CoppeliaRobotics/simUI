@@ -194,6 +194,11 @@ std::string Window::str()
     return ss.str();
 }
 
+void Window::adjustSize()
+{
+    qwidget->adjustSize();
+}
+
 void Window::hide()
 {
     qwidget_pos = pos();

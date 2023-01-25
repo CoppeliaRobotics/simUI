@@ -653,6 +653,21 @@
         <return>
         </return>
     </command>
+    <command name="adjustSize">
+        <description>Adjusts the size of the window to fit its contents.</description>
+        <categories>
+            <category name="ui" />
+        </categories>
+        <see-also>
+        </see-also>
+        <params>
+            <param name="handle" type="string">
+                <description>ui handle</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="hide">
         <description>Hide the UI window.</description>
         <categories>

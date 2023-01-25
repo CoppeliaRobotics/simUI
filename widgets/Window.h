@@ -62,6 +62,7 @@ public:
 
     inline QWidget * getQWidget() {return qwidget;}
 
+    void adjustSize();
     void hide();
     void show();
     QPoint pos();

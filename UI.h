@@ -96,6 +96,7 @@ public slots:
 #endif
 
     void onShowWindow(Window *window);
+    void onAdjustSize(Window *window);
     void onHideWindow(Window *window);
     void onSetPosition(Window *window, int x, int y);
     void onSetSize(Window *window, int w, int h);

@@ -447,6 +447,13 @@ public:
 #endif
     }
 
+    void adjustSize(adjustSize_in *in, adjustSize_out *out)
+    {
+        ASSERT_THREAD(!UI);
+        Proxy *proxy = handles.get(in->handle);
+        SIM::getInstance()->adjustSize(proxy->getWidget());
+    }
+
     void hide(hide_in *in, hide_out *out)
     {
         ASSERT_THREAD(!UI);

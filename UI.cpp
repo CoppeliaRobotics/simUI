@@ -617,6 +617,18 @@ void UI::onShowWindow(Window *window)
     window->show();
 }
 
+void UI::onAdjustSize(Window *window)
+{
+    ASSERT_THREAD(UI);
+    TRACE_FUNC;
+
+    sim::addLog(sim_verbosity_debug, "window=%x", window);
+
+    if(!window) return;
+
+    window->adjustSize();
+}
+
 void UI::onHideWindow(Window *window)
 {
     ASSERT_THREAD(UI);
