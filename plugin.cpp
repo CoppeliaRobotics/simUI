@@ -49,7 +49,7 @@ public:
     {
         oldSceneID = sim::getInt32Param(sim_intparam_scene_unique_id);
 
-        if(simGetBoolParam(sim_boolparam_headless) > 0)
+        if(sim::getBoolParam(sim_boolparam_headless))
             throw std::runtime_error("doesn't work in headless mode");
 
         if(!registerScriptStuff())
@@ -180,8 +180,7 @@ public:
         }
 
         // determine wether the Proxy object should be destroyed at simulation end
-        int scriptType;
-        simGetScriptInt32Param(in->_.scriptID,sim_scriptintparam_type,&scriptType);
+        int scriptType = sim::getScriptInt32Param(in->_.scriptID, sim_scriptintparam_type);
         int sceneID = sim::getInt32Param(sim_intparam_scene_unique_id);
         sim::addLog(sim_verbosity_debug, "Creating a new Proxy object...");
         Proxy *proxy = new Proxy(sceneID, in->_.scriptID, scriptType, window, widgets);
@@ -552,8 +551,7 @@ public:
 
         char *img = (char*)sim::createBuffer(sz);
         std::memcpy(img, in->data.c_str(), sz);
-        int resolution[2] = {in->width, in->height};
-        simTransformImage((unsigned char *)img, resolution, 4, NULL, NULL, NULL);
+        sim::transformImage((unsigned char *)img, {in->width, in->height}, 4);
 
         SIM::getInstance()->setImage(imageWidget, img, in->width, in->height);
 #endif

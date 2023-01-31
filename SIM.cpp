@@ -10,7 +10,7 @@
 
 // SIM is a singleton
 
-SIM *SIM::instance = NULL;
+SIM *SIM::instance = nullptr;
 
 SIM::SIM(QObject *parent)
     : QObject(parent)
@@ -20,7 +20,7 @@ SIM::SIM(QObject *parent)
 
 SIM::~SIM()
 {
-    SIM::instance = NULL;
+    SIM::instance = nullptr;
 }
 
 SIM * SIM::getInstance(QObject *parent)
@@ -372,13 +372,13 @@ void SIM::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
     CHECK_POINTER(Widget, image);
 
     int resolution[2];
-    unsigned char *data = simLoadImage(resolution, 0, filename, NULL);
-    simTransformImage(data, resolution, 4, NULL, NULL, NULL);
+    unsigned char *data = sim::loadImage(resolution, 0, filename, nullptr);
+    sim::transformImage(data, resolution, 4);
 
     if(w > 0 && h > 0)
     {
         int size[2] = {w, h};
-        unsigned char *scaled = simGetScaledImage(data, resolution, size, 0, NULL);
+        unsigned char *scaled = sim::getScaledImage(data, resolution, size, 0);
         sim::releaseBuffer((char *)data);
         setImage(image, (char *)scaled, w, h);
     }

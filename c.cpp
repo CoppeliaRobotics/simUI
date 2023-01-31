@@ -35,7 +35,7 @@ SIM_DLLEXPORT char * customUi_fileDialog(int type, const char *title, const char
 
     int sz = 0;
     for(auto &x : out.result) sz += x.length() + 1;
-    char *ret = (char*)simCreateBuffer(sz), *tmp = ret;
+    char *ret = (char*)sim::createBuffer(sz), *tmp = ret;
     for(auto &x : out.result)
     {
         strcpy(tmp, x.c_str());
@@ -63,7 +63,7 @@ SIM_DLLEXPORT float * customUi_colorDialog(const float *initColor, const char *t
 
     if(!out.result || out.result->empty()) return nullptr;
 
-    float *ret = (float*)simCreateBuffer(sizeof(float) * (showAlphaChannel ? 4 : 3));
+    float *ret = (float*)sim::createBuffer(sizeof(float) * (showAlphaChannel ? 4 : 3));
     ret[0] = out.result->at(0);
     ret[1] = out.result->at(1);
     ret[2] = out.result->at(2);
@@ -87,7 +87,7 @@ SIM_DLLEXPORT char * customUi_inputDialog(const char *initValue, const char *lab
 
     if(!out.result) return nullptr;
 
-    char *ret = (char*)simCreateBuffer(out.result->length());
+    char *ret = (char*)sim::createBuffer(out.result->length());
     std::memcpy(ret, out.result->data(), out.result->length());
     return ret;
 }
