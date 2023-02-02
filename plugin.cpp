@@ -1258,6 +1258,14 @@ public:
             out->formatListStr = s;
     }
 
+    void getKeyboardModifiers(getKeyboardModifiers_in *in, getKeyboardModifiers_out *out)
+    {
+        auto m = static_cast<QGuiApplication*>(QApplication::instance())->keyboardModifiers();
+        out->m.shift = m & Qt::ShiftModifier;
+        out->m.control = m & Qt::ControlModifier;
+        out->m.alt = m & Qt::AltModifier;
+    }
+
 private:
     sim::Handles<Proxy*> handles{"UI"};
     int oldSceneID = -1;

@@ -2673,6 +2673,16 @@
             </param>
         </return>
     </command>
+    <command name="getKeyboardModifiers">
+        <description>returns the current state of the modifier keys on the keyboard</description>
+        <params>
+        </params>
+        <return>
+            <param name="m" type="keyboard_modifiers">
+                The state of modifier keys. See <struct-ref name="keyboard_modifiers"/>.
+            </param>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
@@ -2888,6 +2898,7 @@
     <struct name="keyboard_modifiers">
         <param name="control" type="bool" default="false" />
         <param name="shift" type="bool" default="false" />
+        <param name="alt" type="bool" default="false" />
     </struct>
     <script-function name="onMouseEventCallback">
         <description>Callback for a mouse event.</description>
