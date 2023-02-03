@@ -2679,7 +2679,7 @@
         </params>
         <return>
             <param name="m" type="keyboard_modifiers">
-                The state of modifier keys. See <struct-ref name="keyboard_modifiers"/>.
+                <description>The state of modifier keys. See <struct-ref name="keyboard_modifiers"/>.</description>
             </param>
         </return>
     </command>
