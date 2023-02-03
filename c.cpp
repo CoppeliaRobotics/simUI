@@ -1,5 +1,5 @@
 #include "stubs.h"
-#include <simPlusPlus/Lib.h>
+#include <simPlusPlus/Plugin.h>
 
 SIM_DLLEXPORT int customUi_msgBox(int type, int buttons, const char *title, const char *message)
 {
