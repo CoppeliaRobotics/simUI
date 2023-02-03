@@ -26,8 +26,8 @@
 
 #include "tinyxml2.h"
 
-#include "simPlusPlus/Plugin.h"
-#include "simPlusPlus/Handles.h"
+#include <simPlusPlus/Plugin.h>
+#include <simPlusPlus/Handles.h>
 #include "plugin.h"
 #include "config.h"
 #include "stubs.h"
