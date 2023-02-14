@@ -15,7 +15,7 @@ function simUI.__init()
                     simUI.__id=(simUI.__id or 0)+1
                     _G[n]=simUI.__id
                 end
-                return _G[n]
+                return tostring(_G[n])
             end)
             return origFunc(xml)
         end
