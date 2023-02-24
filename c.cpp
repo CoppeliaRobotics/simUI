@@ -11,7 +11,7 @@ SIM_DLLEXPORT int customUi_msgBox(int type, int buttons, const char *title, cons
 
     msgBox_out out;
 
-    msgBox(nullptr, "", &in, &out);
+    simExtUI_msgBox(&in, &out);
 
     return out.result;
 }
@@ -29,7 +29,7 @@ SIM_DLLEXPORT char * customUi_fileDialog(int type, const char *title, const char
 
     fileDialog_out out;
 
-    fileDialog(nullptr, "", &in, &out);
+    simExtUI_fileDialog(&in, &out);
 
     if(out.result.empty()) return nullptr;
 
@@ -59,7 +59,7 @@ SIM_DLLEXPORT float * customUi_colorDialog(const float *initColor, const char *t
 
     colorDialog_out out;
 
-    colorDialog(nullptr, "", &in, &out);
+    simExtUI_colorDialog(&in, &out);
 
     if(!out.result || out.result->empty()) return nullptr;
 
@@ -83,7 +83,7 @@ SIM_DLLEXPORT char * customUi_inputDialog(const char *initValue, const char *lab
 
     inputDialog_out out;
 
-    inputDialog(nullptr, "", &in, &out);
+    simExtUI_inputDialog(&in, &out);
 
     if(!out.result) return nullptr;
 
