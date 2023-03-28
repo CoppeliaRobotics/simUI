@@ -23,6 +23,7 @@
 #include <QComboBox>
 #include <QDialog>
 #include <QImageReader>
+#include <QLibraryInfo>
 
 #include "tinyxml2.h"
 
@@ -1264,6 +1265,12 @@ public:
         out->m.shift = m & Qt::ShiftModifier;
         out->m.control = m & Qt::ControlModifier;
         out->m.alt = m & Qt::AltModifier;
+    }
+
+    void qtVersion(qtVersion_in *in, qtVersion_out *out)
+    {
+        auto v = QLibraryInfo::version().segments();
+        out->version = std::vector<int>(v.constBegin(), v.constEnd());
     }
 
 private:

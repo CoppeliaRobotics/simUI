@@ -2683,6 +2683,16 @@
             </param>
         </return>
     </command>
+    <command name="qtVersion">
+        <description>Returns the version of the Qt library.</description>
+        <params>
+        </params>
+        <return>
+            <param name="version" type="table" item-type="int">
+                <description>version number components as an array</description>
+            </param>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
