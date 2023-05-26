@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "SIM.h"
 
 #include <QThread>
 #include <QMessageBox>
@@ -55,6 +56,8 @@ UI * UI::getInstance(QObject *parent)
         uiThread(); // we remember this currentThreadId as the "UI" thread
 
         sim::addLog(sim_verbosity_debug, "UI(%x) constructed in thread %s", UI::instance, QThread::currentThreadId());
+
+        SIM::getInstance()->connectSignals();
     }
     return UI::instance;
 }

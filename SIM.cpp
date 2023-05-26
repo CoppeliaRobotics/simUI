@@ -15,7 +15,6 @@ SIM *SIM::instance = nullptr;
 SIM::SIM(QObject *parent)
     : QObject(parent)
 {
-    connectSignals();
 }
 
 SIM::~SIM()
