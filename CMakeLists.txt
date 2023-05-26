@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.11)
-project(simExtUI)
+project(simUI)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -163,6 +163,6 @@ if(ENABLE_SIGNAL_SPY)
     list(APPEND SOURCES signal_spy.cpp)
 endif()
 
-coppeliasim_add_plugin(simExtUI SOURCES ${SOURCES})
-target_link_libraries(simExtUI ${LIBRARIES})
+coppeliasim_add_plugin(simUI SOURCES ${SOURCES})
+target_link_libraries(simUI ${LIBRARIES})
 coppeliasim_add_helpfile(${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)

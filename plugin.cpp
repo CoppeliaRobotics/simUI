@@ -46,7 +46,7 @@ using namespace simExtCustomUI;
 class Plugin : public sim::Plugin
 {
 public:
-    void onStart()
+    void onInit()
     {
         oldSceneID = sim::getInt32Param(sim_intparam_scene_unique_id);
 
@@ -59,29 +59,28 @@ public:
         setExtVersion("Custom User-Interface Plugin");
         setBuildDate(BUILD_DATE);
 
+        SIM::getInstance();
+
 #if defined(ENABLE_SIGNAL_SPY) && !defined(NDEBUG)
         SignalSpy::start();
 #endif
-
-        UI::getInstance();
     }
 
-    void onEnd()
+    void onCleanup()
     {
-        UI::destroyInstance();
-
-        UI_THREAD = NULL;
+        SIM::destroyInstance();
         SIM_THREAD = NULL;
     }
 
-    void onFirstInstancePass(const sim::InstancePassFlags &flags)
+    void onUIInit()
     {
-        SIM::getInstance();
+        UI::getInstance();
     }
 
-    void onLastInstancePass()
+    void onUICleanup()
     {
-        SIM::destroyInstance();
+        UI::destroyInstance();
+        UI_THREAD = NULL;
     }
 
     void onInstanceSwitch(int sceneID)

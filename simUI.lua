@@ -1,4 +1,4 @@
-local simUI={}
+local simUI=loadPlugin'simUI'
 
 function simUI.__init()
     simUI.create=(function(origFunc)
