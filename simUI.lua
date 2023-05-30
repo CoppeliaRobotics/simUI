@@ -113,4 +113,6 @@ function simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue)
     end
 end
 
+(require'simUI-typecheck')(simUI)
+
 return simUI
