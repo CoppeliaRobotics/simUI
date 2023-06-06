@@ -1,29 +1,24 @@
 local simUI=loadPlugin'simUI';
 
-function simUI.__init()
-    simUI.create=(function(origFunc)
-        return function(xml)
-            -- replace ${varName} with their contents
-            -- if varName doesn't exist, it will be created with a progressive id
-            xml=xml:gsub('${(.-)}',function(n)
-                for i=1,1e100 do
-                    local name,value=debug.getlocal(4,i)
-                    if not name then break end
-                    if name==n then return value end
-                end
-                if _G[n]==nil then
-                    simUI.__id=(simUI.__id or 0)+1
-                    _G[n]=simUI.__id
-                end
-                return tostring(_G[n])
-            end)
-            return origFunc(xml)
-        end
-    end)(simUI.create)
-    simUI.__init=nil
-end
-
-sim.registerScriptFuncHook('sysCall_init','simUI.__init',true)
+simUI.create=(function(origFunc)
+    return function(xml)
+        -- replace ${varName} with their contents
+        -- if varName doesn't exist, it will be created with a progressive id
+        xml=xml:gsub('${(.-)}',function(n)
+            for i=1,1e100 do
+                local name,value=debug.getlocal(4,i)
+                if not name then break end
+                if name==n then return value end
+            end
+            if _G[n]==nil then
+                simUI.__id=(simUI.__id or 0)+1
+                _G[n]=simUI.__id
+            end
+            return tostring(_G[n])
+        end)
+        return origFunc(xml)
+    end
+end)(simUI.create)
 
 --@fun insertTableRow insert a row in a table widget
 --@arg int ui the ui handle
