@@ -236,10 +236,10 @@ void Plot::addCurve(int type, std::string name, std::vector<int> color, int styl
 
     switch(type)
     {
-    case sim_ui_curve_type_time:
+    case simui_curve_type_time:
         curve = addTimeCurve(name, color, style, opts);
         break;
-    case sim_ui_curve_type_xy:
+    case simui_curve_type_xy:
         curve = addXYCurve(name, color, style, opts);
         break;
     default:
@@ -260,13 +260,13 @@ void Plot::setCurveCommonOptions(QCPAbstractPlottable *curve, std::string name, 
     qpen.setWidth(opts->line_size);
     switch(opts->line_style)
     {
-    case sim_ui_line_style_solid:
+    case simui_line_style_solid:
         qpen.setStyle(Qt::SolidLine);
         break;
-    case sim_ui_line_style_dashed:
+    case simui_line_style_dashed:
         qpen.setStyle(Qt::DashLine);
         break;
-    case sim_ui_line_style_dotted:
+    case simui_line_style_dotted:
         qpen.setStyle(Qt::DotLine);
         break;
     }
@@ -285,30 +285,30 @@ QCPGraph * Plot::addTimeCurve(std::string name, std::vector<int> color, int styl
 
     switch(style)
     {
-    case sim_ui_curve_style_scatter:
+    case simui_curve_style_scatter:
         curve->setLineStyle(QCPGraph::lsNone);
         break;
-    case sim_ui_curve_style_line:
+    case simui_curve_style_line:
         curve->setLineStyle(QCPGraph::lsLine);
         break;
-    case sim_ui_curve_style_line_and_scatter:
+    case simui_curve_style_line_and_scatter:
         curve->setLineStyle(QCPGraph::lsLine);
         break;
-    case sim_ui_curve_style_step_left:
+    case simui_curve_style_step_left:
         curve->setLineStyle(QCPGraph::lsStepLeft);
         break;
-    case sim_ui_curve_style_step_center:
+    case simui_curve_style_step_center:
         curve->setLineStyle(QCPGraph::lsStepCenter);
         break;
-    case sim_ui_curve_style_step_right:
+    case simui_curve_style_step_right:
         curve->setLineStyle(QCPGraph::lsStepRight);
         break;
-    case sim_ui_curve_style_impulse:
+    case simui_curve_style_impulse:
         curve->setLineStyle(QCPGraph::lsImpulse);
         break;
     }
 
-    if(style == sim_ui_curve_style_scatter || style == sim_ui_curve_style_line_and_scatter)
+    if(style == simui_curve_style_scatter || style == simui_curve_style_line_and_scatter)
         curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), opts->scatter_size));
 
     curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * SELECTED_SCATTER_MULT), QCPScatterStyle::spAll);
@@ -327,18 +327,18 @@ QCPCurve * Plot::addXYCurve(std::string name, std::vector<int> color, int style,
 
     switch(style)
     {
-    case sim_ui_curve_style_scatter:
+    case simui_curve_style_scatter:
         curve->setLineStyle(QCPCurve::lsNone);
         break;
-    case sim_ui_curve_style_line:
+    case simui_curve_style_line:
         curve->setLineStyle(QCPCurve::lsLine);
         break;
-    case sim_ui_curve_style_line_and_scatter:
+    case simui_curve_style_line_and_scatter:
         curve->setLineStyle(QCPCurve::lsLine);
         break;
     }
 
-    if(style == sim_ui_curve_style_scatter || style == sim_ui_curve_style_line_and_scatter)
+    if(style == simui_curve_style_scatter || style == simui_curve_style_line_and_scatter)
         curve->setScatterStyle(QCPScatterStyle(Plot::scatterShape(opts->scatter_shape), opts->scatter_size));
 
     curve->selectionDecorator()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, toQColor(color), opts->scatter_size * SELECTED_SCATTER_MULT), QCPScatterStyle::spAll);
@@ -385,37 +385,37 @@ QCPScatterStyle::ScatterShape Plot::scatterShape(int x)
 {
     switch(x)
     {
-    case sim_ui_curve_scatter_shape_none:
+    case simui_curve_scatter_shape_none:
         return QCPScatterStyle::ssNone;
-    case sim_ui_curve_scatter_shape_dot:
+    case simui_curve_scatter_shape_dot:
         return QCPScatterStyle::ssDot;
-    case sim_ui_curve_scatter_shape_cross:
+    case simui_curve_scatter_shape_cross:
         return QCPScatterStyle::ssCross;
-    case sim_ui_curve_scatter_shape_plus:
+    case simui_curve_scatter_shape_plus:
         return QCPScatterStyle::ssPlus;
-    case sim_ui_curve_scatter_shape_circle:
+    case simui_curve_scatter_shape_circle:
         return QCPScatterStyle::ssCircle;
-    case sim_ui_curve_scatter_shape_disc:
+    case simui_curve_scatter_shape_disc:
         return QCPScatterStyle::ssDisc;
-    case sim_ui_curve_scatter_shape_square:
+    case simui_curve_scatter_shape_square:
         return QCPScatterStyle::ssSquare;
-    case sim_ui_curve_scatter_shape_diamond:
+    case simui_curve_scatter_shape_diamond:
         return QCPScatterStyle::ssDiamond;
-    case sim_ui_curve_scatter_shape_star:
+    case simui_curve_scatter_shape_star:
         return QCPScatterStyle::ssStar;
-    case sim_ui_curve_scatter_shape_triangle:
+    case simui_curve_scatter_shape_triangle:
         return QCPScatterStyle::ssTriangle;
-    case sim_ui_curve_scatter_shape_triangle_inverted:
+    case simui_curve_scatter_shape_triangle_inverted:
         return QCPScatterStyle::ssTriangleInverted;
-    case sim_ui_curve_scatter_shape_cross_square:
+    case simui_curve_scatter_shape_cross_square:
         return QCPScatterStyle::ssCrossSquare;
-    case sim_ui_curve_scatter_shape_plus_square:
+    case simui_curve_scatter_shape_plus_square:
         return QCPScatterStyle::ssPlusSquare;
-    case sim_ui_curve_scatter_shape_cross_circle:
+    case simui_curve_scatter_shape_cross_circle:
         return QCPScatterStyle::ssCrossCircle;
-    case sim_ui_curve_scatter_shape_plus_circle:
+    case simui_curve_scatter_shape_plus_circle:
         return QCPScatterStyle::ssPlusCircle;
-    case sim_ui_curve_scatter_shape_peace:
+    case simui_curve_scatter_shape_peace:
         return QCPScatterStyle::ssPeace;
     }
     return QCPScatterStyle::ssNone;

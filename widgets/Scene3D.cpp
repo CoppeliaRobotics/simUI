@@ -92,7 +92,7 @@ static std::map<std::string, Node> typemap;
 
 void initTypemap()
 {
-#define TYPE(xmltag,enumitem,c,postinit) typemap[xmltag].type = sim_ui_scene3d_node_type_##enumitem; { std::map<std::string, NodeParam> &params_ = typemap[xmltag].params;
+#define TYPE(xmltag,enumitem,c,postinit) typemap[xmltag].type = simui_scene3d_node_type_##enumitem; { std::map<std::string, NodeParam> &params_ = typemap[xmltag].params;
 #define ENDTYPE }
 #define PARAM_INT(xmlattr,m) params_[xmlattr].isInt = true;
 #define PARAM_FLOAT(xmlattr,m) params_[xmlattr].isFloat = true;
@@ -188,7 +188,7 @@ Qt3DCore::QNode * Scene3D::createNode(Qt3DCore::QNode *parentQNode, int parentId
 {
     Qt3DCore::QNode *qnode;
 
-    if(node.type == sim_ui_scene3d_node_type_camera)
+    if(node.type == simui_scene3d_node_type_camera)
     {
         // exception: we don't create a new camera node, but use the already existing one
         Qt3DCore::QNode *cameraNode = view->camera();
@@ -322,7 +322,7 @@ Qt3DCore::QNode * Scene3D::nodeFactory(int type, Qt3DCore::QNode *parent, bool o
     switch(type)
     {
 #define TYPE(xmltag,enumitem,c,postinit) \
-    case sim_ui_scene3d_node_type_##enumitem: { \
+    case simui_scene3d_node_type_##enumitem: { \
         if(onlyTest) return (Qt3DCore::QNode *)1; \
         c *o = new c(parent); \
         postinit \

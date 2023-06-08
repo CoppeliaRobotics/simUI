@@ -127,7 +127,7 @@ void QImageWidget::mouseMoveEvent(QMouseEvent *event)
     if(image->onMouseMove != "")
     {
         event->accept();
-        int type = sim_ui_mouse_move;
+        int type = simui_mouse_move;
         bool shift = event->modifiers() & Qt::ShiftModifier;
         bool control = event->modifiers() & Qt::ControlModifier;
         int x = event->x();
@@ -145,7 +145,7 @@ void QImageWidget::mousePressEvent(QMouseEvent *event)
     if(image->onMouseDown != "" && event->button() == Qt::LeftButton)
     {
         event->accept();
-        int type = sim_ui_mouse_left_button_down;
+        int type = simui_mouse_left_button_down;
         bool shift = event->modifiers() & Qt::ShiftModifier;
         bool control = event->modifiers() & Qt::ControlModifier;
         int x = event->x();
@@ -163,7 +163,7 @@ void QImageWidget::mouseReleaseEvent(QMouseEvent *event)
     if(image->onMouseUp != "" && event->button() == Qt::LeftButton)
     {
         event->accept();
-        int type = sim_ui_mouse_left_button_up;
+        int type = simui_mouse_left_button_up;
         bool shift = event->modifiers() & Qt::ShiftModifier;
         bool control = event->modifiers() & Qt::ControlModifier;
         int x = event->x();

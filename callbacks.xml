@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <?xml-stylesheet type="text/xsl" href="callbacks.xsl"?>
 
-<plugin name="UI" author="federico.ferri.it@gmail.com">
+<plugin name="simUI" author="federico.ferri.it@gmail.com">
     <description>API functions for creating custom user interfaces.</description>
     <command name="msgBox">
         <description>Display a message box.</description>
@@ -1161,7 +1161,7 @@
         <see-also>
             <enum-ref name="curve_scatter_shape" />
         </see-also>
-        <param name="scatter_shape" type="int" default="sim_ui_curve_scatter_shape_disc">
+        <param name="scatter_shape" type="int" default="simui_curve_scatter_shape_disc">
             <description>scatter shape. see <enum-ref name="curve_scatter_shape"/>.</description>
         </param>
         <param name="scatter_size" type="int" default="10">
@@ -1170,7 +1170,7 @@
         <param name="line_size" type="int" default="2">
             <description>size of the line</description>
         </param>
-        <param name="line_style" type="int" default="sim_ui_line_style_solid">
+        <param name="line_style" type="int" default="simui_line_style_solid">
             <description>style of the pen used to draw the line. see <enum-ref name="line_style"/>.</description>
         </param>
         <param name="add_to_legend" type="bool" default="true">

@@ -495,15 +495,15 @@ void SIM::onMouseEvent(Widget *widget, int type, bool shift, bool control, int x
     std::string cb = "";
     switch(type)
     {
-    case sim_ui_mouse_left_button_down:
+    case simui_mouse_left_button_down:
         if(auto *eDown = dynamic_cast<EventOnMouseDown*>(widget))
             cb = eDown->onMouseDown;
         break;
-    case sim_ui_mouse_left_button_up:
+    case simui_mouse_left_button_up:
         if(auto *eUp = dynamic_cast<EventOnMouseUp*>(widget))
             cb = eUp->onMouseUp;
         break;
-    case sim_ui_mouse_move:
+    case simui_mouse_move:
         if(auto *eMove = dynamic_cast<EventOnMouseMove*>(widget))
             cb = eMove->onMouseMove;
         break;

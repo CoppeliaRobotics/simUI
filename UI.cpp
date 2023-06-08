@@ -90,34 +90,34 @@ void UI::onMsgBox(int type, int buttons, std::string title, std::string message,
 #endif
     switch(type)
     {
-    case sim_ui_msgbox_type_info:
+    case simui_msgbox_type_info:
         msgBox.setIcon(QMessageBox::Information);
         break;
-    case sim_ui_msgbox_type_question:
+    case simui_msgbox_type_question:
         msgBox.setIcon(QMessageBox::Question);
         break;
-    case sim_ui_msgbox_type_warning:
+    case simui_msgbox_type_warning:
         msgBox.setIcon(QMessageBox::Warning);
         break;
-    case sim_ui_msgbox_type_critical:
+    case simui_msgbox_type_critical:
         msgBox.setIcon(QMessageBox::Critical);
         break;
     }
     switch(buttons)
     {
-    case sim_ui_msgbox_buttons_ok:
+    case simui_msgbox_buttons_ok:
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
         break;
-    case sim_ui_msgbox_buttons_yesno:
+    case simui_msgbox_buttons_yesno:
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::No);
         break;
-    case sim_ui_msgbox_buttons_yesnocancel:
+    case simui_msgbox_buttons_yesnocancel:
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Cancel);
         break;
-    case sim_ui_msgbox_buttons_okcancel:
+    case simui_msgbox_buttons_okcancel:
         msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Cancel);
         break;
@@ -126,16 +126,16 @@ void UI::onMsgBox(int type, int buttons, std::string title, std::string message,
     switch(ret)
     {
     case QMessageBox::Ok:
-        *result = sim_ui_msgbox_result_ok;
+        *result = simui_msgbox_result_ok;
         break;
     case QMessageBox::Cancel:
-        *result = sim_ui_msgbox_result_cancel;
+        *result = simui_msgbox_result_cancel;
         break;
     case QMessageBox::Yes:
-        *result = sim_ui_msgbox_result_yes;
+        *result = simui_msgbox_result_yes;
         break;
     case QMessageBox::No:
-        *result = sim_ui_msgbox_result_no;
+        *result = simui_msgbox_result_no;
         break;
     }
 }
@@ -170,20 +170,20 @@ void UI::onFileDialog(int type, std::string title, std::string startPath, std::s
 
     switch(type)
     {
-    case sim_ui_filedialog_type_load:
+    case simui_filedialog_type_load:
         file = QFileDialog::getOpenFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
         result->push_back(file.toStdString());
         break;
-    case sim_ui_filedialog_type_load_multiple:
+    case simui_filedialog_type_load_multiple:
         files = QFileDialog::getOpenFileNames(nullptr, qtitle, qstartPath, filter, nullptr, opts);
         for(auto file : files)
             result->push_back(file.toStdString());
         break;
-    case sim_ui_filedialog_type_save:
+    case simui_filedialog_type_save:
         file = QFileDialog::getSaveFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
         result->push_back(file.toStdString());
         break;
-    case sim_ui_filedialog_type_folder:
+    case simui_filedialog_type_folder:
         file = QFileDialog::getExistingDirectory(nullptr, qtitle, qstartPath, opts | QFileDialog::ShowDirsOnly);
         result->push_back(file.toStdString());
         break;
