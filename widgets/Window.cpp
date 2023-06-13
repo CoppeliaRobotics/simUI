@@ -103,8 +103,11 @@ public:
 
     virtual ~QDialog2()
     {
-        delete window->proxy;
+        // XXX: `delete window->proxy;` would indirectly delete also `window`!
+        // therefor the next line (`window->proxy = NULL`) would be an use after free
+        auto tmp = window->proxy;
         window->proxy = NULL;
+        delete tmp;
     }
 
     void keyPressEvent(QKeyEvent * event)
