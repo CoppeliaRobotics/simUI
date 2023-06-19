@@ -577,8 +577,8 @@ void UI::onDestroy(Proxy *proxy)
         return;
     }
 
-    sim::addLog(sim_verbosity_debug, "calling proxy->window->qwidget->deleteLater()...");
-    proxy->window->qwidget->deleteLater();
+    sim::addLog(sim_verbosity_debug, "deleting proxy->window->qwidget...");
+    delete proxy->window->qwidget;
 }
 
 void UI::onSetStyleSheet(Widget *widget, std::string styleSheet)
