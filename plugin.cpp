@@ -81,6 +81,10 @@ public:
 
     void onUICleanup()
     {
+        // need to destroy any hanging windows here as doing that later from onCleanup() would be too late:
+        for(auto proxy : handles.all())
+            UI::getInstance()->onDestroy(handles.remove(proxy));
+
         UI::destroyInstance();
         UI_THREAD = NULL;
     }
