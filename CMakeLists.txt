@@ -5,8 +5,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_MACOSX_RPATH 1)
 
+set(Qt Qt5 CACHE STRING "Qt version to use (e.g. Qt5)")
+set_property(CACHE Qt PROPERTY STRINGS Qt5 Qt6)  #
+
 find_package(Boost REQUIRED)
-find_package(Qt5 COMPONENTS Core Gui Widgets PrintSupport REQUIRED)
+find_package(${Qt} COMPONENTS Core Gui Widgets PrintSupport REQUIRED)
 
 if(NOT COPPELIASIM_INCLUDE_DIR)
     if(DEFINED ENV{COPPELIASIM_ROOT_DIR})
@@ -46,7 +49,7 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.ht
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl)
 add_custom_target(generate_widgets_html ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
 
-if(Qt5_VERSION VERSION_LESS 5.14)
+if(${Qt}_VERSION VERSION_LESS 5.14)
     set(QT_5_14_OR_GREATER false)
 else()
     set(QT_5_14_OR_GREATER true)
@@ -91,10 +94,10 @@ set(SOURCES
 
 set(LIBRARIES
     Boost::boost
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    Qt5::PrintSupport
+    ${Qt}::Core
+    ${Qt}::Gui
+    ${Qt}::Widgets
+    ${Qt}::PrintSupport
 )
 
 if(WIDGET_BUTTON)
@@ -131,17 +134,17 @@ if(WIDGET_RADIOBUTTON)
     list(APPEND SOURCES widgets/Radiobutton.cpp)
 endif()
 if(WIDGET_SCENE3D)
-    find_package(Qt5 COMPONENTS 3DCore 3DRender 3DInput 3DExtras REQUIRED)
+    find_package(${Qt} COMPONENTS 3DCore 3DRender 3DInput 3DExtras REQUIRED)
     list(APPEND SOURCES widgets/Scene3D.cpp)
-    list(APPEND LIBRARIES Qt5::3DCore Qt5::3DRender Qt5::3DInput Qt5::3DExtras)
+    list(APPEND LIBRARIES ${Qt}::3DCore ${Qt}::3DRender ${Qt}::3DInput ${Qt}::3DExtras)
 endif()
 if(WIDGET_SPINBOX)
     list(APPEND SOURCES external/XSpinBox/xspinbox.cpp widgets/Spinbox.cpp)
 endif()
 if(WIDGET_SVG)
-    find_package(Qt5 COMPONENTS Svg REQUIRED)
+    find_package(${Qt} COMPONENTS Svg REQUIRED)
     list(APPEND SOURCES widgets/SVG.cpp)
-    list(APPEND LIBRARIES Qt5::Svg)
+    list(APPEND LIBRARIES ${Qt}::Svg)
 endif()
 if(WIDGET_TABLE)
     list(APPEND SOURCES widgets/Table.cpp)
