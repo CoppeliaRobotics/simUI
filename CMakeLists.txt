@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.16.3)
 project(simUI)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -167,5 +167,5 @@ if(ENABLE_SIGNAL_SPY)
 endif()
 
 coppeliasim_add_plugin(simUI SOURCES ${SOURCES})
-target_link_libraries(simUI ${LIBRARIES})
+target_link_libraries(simUI PRIVATE ${LIBRARIES})
 coppeliasim_add_helpfile(${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
