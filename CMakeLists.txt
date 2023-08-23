@@ -49,12 +49,6 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.ht
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl)
 add_custom_target(generate_widgets_html ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
 
-if(${Qt}_VERSION VERSION_LESS 5.14)
-    set(QT_5_14_OR_GREATER false)
-else()
-    set(QT_5_14_OR_GREATER true)
-endif()
-
 set(ENABLE_SIGNAL_SPY false CACHE BOOL "if Qt private headers are installed, enable this to debug Qt signals")
 set(WIDGET_BUTTON true CACHE BOOL "include the button widget")
 set(WIDGET_CHECKBOX true CACHE BOOL "include the checkbox widget")
@@ -67,9 +61,9 @@ set(WIDGET_LABEL true CACHE BOOL "include the label widget")
 set(WIDGET_PLOT true CACHE BOOL "include the plot widget")
 set(WIDGET_PROGRESSBAR true CACHE BOOL "include the progressbar widget")
 set(WIDGET_RADIOBUTTON true CACHE BOOL "include the radiobutton widget")
-set(WIDGET_SCENE3D ${QT_5_14_OR_GREATER} CACHE BOOL "include the scene3d widget")
+set(WIDGET_SCENE3D true CACHE BOOL "include the scene3d widget")
 set(WIDGET_SPINBOX true CACHE BOOL "include the spinbox widget")
-set(WIDGET_SVG ${QT_5_14_OR_GREATER} CACHE BOOL "include the svg widget")
+set(WIDGET_SVG true CACHE BOOL "include the svg widget")
 set(WIDGET_TABLE true CACHE BOOL "include the table widget")
 set(WIDGET_TABS true CACHE BOOL "include the tabs widget")
 set(WIDGET_TEXTBROWSER true CACHE BOOL "include the textbrowser widget")
@@ -94,10 +88,10 @@ set(SOURCES
 
 set(LIBRARIES
     Boost::boost
-    ${Qt}::Core
-    ${Qt}::Gui
-    ${Qt}::Widgets
-    ${Qt}::PrintSupport
+    Qt::Core
+    Qt::Gui
+    Qt::Widgets
+    Qt::PrintSupport
 )
 
 if(WIDGET_BUTTON)
@@ -136,7 +130,7 @@ endif()
 if(WIDGET_SCENE3D)
     find_package(${Qt} COMPONENTS 3DCore 3DRender 3DInput 3DExtras REQUIRED)
     list(APPEND SOURCES widgets/Scene3D.cpp)
-    list(APPEND LIBRARIES ${Qt}::3DCore ${Qt}::3DRender ${Qt}::3DInput ${Qt}::3DExtras)
+    list(APPEND LIBRARIES Qt::3DCore Qt::3DRender Qt::3DInput Qt::3DExtras)
 endif()
 if(WIDGET_SPINBOX)
     list(APPEND SOURCES external/XSpinBox/xspinbox.cpp widgets/Spinbox.cpp)
@@ -144,7 +138,7 @@ endif()
 if(WIDGET_SVG)
     find_package(${Qt} COMPONENTS Svg REQUIRED)
     list(APPEND SOURCES widgets/SVG.cpp)
-    list(APPEND LIBRARIES ${Qt}::Svg)
+    list(APPEND LIBRARIES Qt::Svg)
 endif()
 if(WIDGET_TABLE)
     list(APPEND SOURCES widgets/Table.cpp)
