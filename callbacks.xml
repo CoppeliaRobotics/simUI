@@ -879,7 +879,7 @@
             <param name="id" type="int">
                 <description>id of a image widget</description>
             </param>
-            <param name="data" type="string">
+            <param name="data" type="buffer">
                 <description>image byte data</description>
             </param>
             <param name="width" type="int">
@@ -1972,8 +1972,8 @@
             </param>
         </params>
         <return>
-            <param name="state" type="string">
-                <description>a string representing the state</description>
+            <param name="state" type="buffer">
+                <description>a binary representing the state</description>
             </param>
         </return>
     </command>
@@ -1991,8 +1991,8 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
-            <param name="state" type="string">
-                <description>a previously saved string representing the state</description>
+            <param name="state" type="buffer">
+                <description>a previously saved binary representing the state</description>
             </param>
         </params>
         <return>
