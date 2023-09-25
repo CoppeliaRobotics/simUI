@@ -59,7 +59,7 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     show_vertical_header = xmlutils::getAttrBool(e, "show-vertical-header", false);
 
-    autosize_horizontal_header = xmlutils::getAttrBool(e, "autosize-horizontal-header", false);
+    autosize_horizontal_header = xmlutils::getAttrBool(e, "autosize-horizontal-header", true);
 
     autosize_vertical_header = xmlutils::getAttrBool(e, "autosize-vertical-header", true);
 

@@ -71,7 +71,7 @@ void Tree::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 
     show_header = xmlutils::getAttrBool(e, "show-header", true);
 
-    autosize_header = xmlutils::getAttrBool(e, "autosize-header", false);
+    autosize_header = xmlutils::getAttrBool(e, "autosize-header", true);
 
     sortable = xmlutils::getAttrBool(e, "sortable", false);
 
