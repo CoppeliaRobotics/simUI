@@ -371,7 +371,16 @@ void SIM::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
     CHECK_POINTER(Widget, image);
 
     int resolution[2];
-    unsigned char *data = sim::loadImage(resolution, 0, filename, nullptr);
+    unsigned char *data = nullptr;
+    try
+    {
+        data = sim::loadImage(resolution, 0, filename, nullptr);
+    }
+    catch(sim::api_error &ex)
+    {
+        sim::addLog(sim_verbosity_errors, "Failed to load image %s: %s", filename, ex.what());
+        return;
+    }
     sim::transformImage(data, resolution, 4);
 
     if(w > 0 && h > 0)
