@@ -37,6 +37,8 @@ void Image::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
     onMouseMove = xmlutils::getAttrStr(e, "on-mouse-move", "");
 
     file = xmlutils::getAttrStr(e, "file", "");
+
+    resizeWidget = xmlutils::getAttrBool(e, "resize-widget", true);
 }
 
 QWidget * Image::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
@@ -54,7 +56,7 @@ QWidget * Image::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     }
     if(file != "")
     {
-        UI::getInstance()->loadImageFromFile(this, file.c_str(), width, height);
+        UI::getInstance()->loadImageFromFile(this, file.c_str(), width, height, resizeWidget);
     }
     QObject::connect(label, &QImageWidget::mouseEvent, ui, &UI::onMouseEvent);
     setQWidget(label);
@@ -62,7 +64,7 @@ QWidget * Image::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     return label;
 }
 
-void Image::setImage(const char *data, int w, int h)
+void Image::setImage(const char *data, int w, int h, bool resize)
 {
     if(!data) return;
     QImage::Format format = QImage::Format_RGB888;
@@ -71,7 +73,8 @@ void Image::setImage(const char *data, int w, int h)
     sim::releaseBuffer(data);
     QImageWidget *qimage = static_cast<QImageWidget*>(getQWidget());
     qimage->setPixmap(pixmap);
-    qimage->resize(pixmap.size());
+    if(resize)
+        qimage->resize(pixmap.size());
 }
 
 QImageWidget::QImageWidget(QWidget *parent, Image *image_)
@@ -176,3 +179,7 @@ void QImageWidget::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
+QSize QImageWidget::sizeHint() const
+{
+    return QSize(pixmapWidth, pixmapHeight);
+}

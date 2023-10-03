@@ -559,7 +559,7 @@ public:
         std::memcpy(img, in->data.c_str(), sz);
         sim::transformImage((unsigned char *)img, {in->width, in->height}, 4);
 
-        SIM::getInstance()->setImage(imageWidget, img, in->width, in->height);
+        SIM::getInstance()->setImage(imageWidget, img, in->width, in->height, in->resize);
 #endif
     }
 

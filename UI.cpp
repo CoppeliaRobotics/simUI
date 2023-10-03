@@ -684,14 +684,14 @@ void UI::onSetWindowEnabled(Window *window, bool enabled)
 }
 
 #if WIDGET_IMAGE
-void UI::onSetImage(Image *image, const char *data, int w, int h)
+void UI::onSetImage(Image *image, const char *data, int w, int h, bool resize)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
     sim::addLog(sim_verbosity_debug, "image=%x, data=%x, w=%d, h=%d", image, data, w, h);
 
-    image->setImage(data, w, h);
+    image->setImage(data, w, h, resize);
 }
 #endif
 

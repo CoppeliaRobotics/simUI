@@ -24,6 +24,7 @@ protected:
     std::string file;
     bool scaledContents;
     bool keepAspectRatio;
+    bool resizeWidget;
 
 public:
     Image();
@@ -32,7 +33,7 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
-    void setImage(const char *data, int w, int h);
+    void setImage(const char *data, int w, int h, bool resize);
 
     friend class SIM;
     friend class QImageWidget;
@@ -55,6 +56,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    QSize sizeHint() const override;
 
 signals:
     void mouseEvent(Image *image, int type, bool shift, bool control, int x, int y);
