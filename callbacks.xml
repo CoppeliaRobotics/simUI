@@ -888,9 +888,6 @@
             <param name="height" type="int">
                 <description>height of the image</description>
             </param>
-            <param name="resize" type="bool" default="true">
-                <description>resize the widget after setting the image</description>
-            </param>
         </params>
         <return>
         </return>

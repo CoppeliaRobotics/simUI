@@ -365,7 +365,7 @@ void SIM::onWindowClose(Window *window)
 }
 
 #if WIDGET_IMAGE
-void SIM::onLoadImageFromFile(Image *image, const char *filename, int w, int h, bool resize)
+void SIM::onLoadImageFromFile(Image *image, const char *filename, int w, int h)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, image);
@@ -388,11 +388,11 @@ void SIM::onLoadImageFromFile(Image *image, const char *filename, int w, int h, 
         int size[2] = {w, h};
         unsigned char *scaled = sim::getScaledImage(data, resolution, size, 0);
         sim::releaseBuffer((char *)data);
-        setImage(image, (char *)scaled, w, h, resize);
+        setImage(image, (char *)scaled, w, h);
     }
     else
     {
-        setImage(image, (char *)data, resolution[0], resolution[1], resize);
+        setImage(image, (char *)data, resolution[0], resolution[1]);
     }
 }
 #endif

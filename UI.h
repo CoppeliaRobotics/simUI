@@ -104,7 +104,7 @@ public slots:
     void onSetWindowEnabled(Window *window, bool enabled);
 
 #if WIDGET_IMAGE
-    void onSetImage(Image *image, const char *data, int w, int h, bool resize);
+    void onSetImage(Image *image, const char *data, int w, int h);
 #endif
 
     void onSceneChange(Window *window, int oldSceneID, int newSceneID);
@@ -240,7 +240,7 @@ signals:
     void windowClose(Window *window);
 
 #if WIDGET_IMAGE
-    void loadImageFromFile(Image *image, const char *filename, int w, int h, bool resize);
+    void loadImageFromFile(Image *image, const char *filename, int w, int h);
 #endif
 
 #if WIDGET_IMAGE || WIDGET_SVG

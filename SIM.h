@@ -49,7 +49,7 @@ private slots:
     void onWindowClose(Window *window);
 
 #if WIDGET_IMAGE
-    void onLoadImageFromFile(Image *image, const char *filename, int w, int h, bool resize);
+    void onLoadImageFromFile(Image *image, const char *filename, int w, int h);
 #endif
 
 #if WIDGET_PLOT
@@ -93,7 +93,7 @@ signals:
     void setWindowEnabled(Window *window, bool enabled);
 
 #if WIDGET_IMAGE
-    void setImage(Image *image, const char *data, int w, int h, bool resize);
+    void setImage(Image *image, const char *data, int w, int h);
 #endif
 
     void sceneChange(Window *window, int oldSceneID, int newSceneID);
