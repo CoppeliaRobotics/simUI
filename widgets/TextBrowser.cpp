@@ -21,7 +21,18 @@ void TextBrowser::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
 
     text = xmlutils::getAttrStr(e, "text", "");
 
-    html = xmlutils::getAttrBool(e, "html", true);
+    if(xmlutils::hasAttr(e, "html") && !xmlutils::hasAttr(e, "type"))
+    {
+        sim::addLog(sim_verbosity_warnings, "attribute name 'html' is deprecated. please use 'type' instead.");
+        bool html = xmlutils::getAttrBool(e, "html", true);
+        type = html ? "html" : "plain";
+    }
+    else
+    {
+        type = xmlutils::getAttrStr(e, "type", "html");
+        if(type != "plain" && type != "html" && type != "markdown")
+            throw std::runtime_error("unsupported type: " + type);
+    }
 
     read_only = xmlutils::getAttrBool(e, "read-only", true);
 
@@ -36,8 +47,10 @@ QWidget * TextBrowser::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     qtextbrowser->setEnabled(enabled);
     qtextbrowser->setVisible(visible);
     qtextbrowser->setStyleSheet(QString::fromStdString(style));
-    if(html)
+    if(type == "html")
         qtextbrowser->setHtml(QString::fromStdString(text));
+    else if(type == "markdown")
+        qtextbrowser->setMarkdown(QString::fromStdString(text));
     else
         qtextbrowser->setPlainText(QString::fromStdString(text));
     qtextbrowser->setReadOnly(read_only);
@@ -53,8 +66,10 @@ void TextBrowser::setText(std::string text, bool suppressSignals)
 {
     QTextBrowser *qtextbrowser = static_cast<QTextBrowser*>(getQWidget());
     bool oldSignalsState = qtextbrowser->blockSignals(suppressSignals);
-    if(html)
+    if(type == "html")
         qtextbrowser->setHtml(QString::fromStdString(text));
+    else if(type == "markdown")
+        qtextbrowser->setMarkdown(QString::fromStdString(text));
     else
         qtextbrowser->setPlainText(QString::fromStdString(text));
     qtextbrowser->blockSignals(oldSignalsState);
@@ -63,7 +78,7 @@ void TextBrowser::setText(std::string text, bool suppressSignals)
 std::string TextBrowser::getText()
 {
     QTextBrowser *qtextbrowser = static_cast<QTextBrowser*>(getQWidget());
-    if(html)
+    if(type == "html")
         return qtextbrowser->toHtml().toStdString();
     else
         return qtextbrowser->toPlainText().toStdString();

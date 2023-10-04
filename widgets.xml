@@ -1013,10 +1013,10 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <description>Initial text content.</description>
             </attribute>
             <attribute>
-                <name>html</name>
-                <type>bool</type>
-                <default>true</default>
-                <description>if true, text will be treated as HTML</description>
+                <name>type</name>
+                <type><one-of><value>plain</value><value>html</value><value>markdown</value></one-of></type>
+                <default>html</default>
+                <description>the type of the text content</description>
             </attribute>
             <attribute>
                 <name>read-only</name>

@@ -20,7 +20,7 @@ class TextBrowser : public Widget, public EventOnChangeString, public EventOnLin
 {
 protected:
     std::string text;
-    bool html;
+    std::string type;
     bool read_only;
 
 public:
