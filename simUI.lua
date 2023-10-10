@@ -1,18 +1,18 @@
-local simUI=loadPlugin'simUI';
+local simUI = loadPlugin 'simUI';
 
-simUI.create=(function(origFunc)
+simUI.create = (function(origFunc)
     return function(xml)
         -- replace ${varName} with their contents
         -- if varName doesn't exist, it will be created with a progressive id
-        xml=xml:gsub('${(.-)}',function(n)
-            for i=1,1e100 do
-                local name,value=debug.getlocal(4,i)
+        xml = xml:gsub('${(.-)}', function(n)
+            for i = 1, 1e100 do
+                local name, value = debug.getlocal(4, i)
                 if not name then break end
-                if name==n then return value end
+                if name == n then return value end
             end
-            if _G[n]==nil then
-                simUI.__id=(simUI.__id or 0)+1
-                _G[n]=simUI.__id
+            if _G[n] == nil then
+                simUI.__id = (simUI.__id or 0) + 1
+                _G[n] = simUI.__id
             end
             return tostring(_G[n])
         end)
@@ -20,94 +20,99 @@ simUI.create=(function(origFunc)
     end
 end)(simUI.create)
 
---@fun insertTableRow insert a row in a table widget
---@arg int ui the ui handle
---@arg int widget the widget identifier
---@arg int index the index (0-based) where the new row will appear
-function simUI.insertTableRow(ui,widget,index)
-    local rows=simUI.getRowCount(ui,widget)
-    local cols=simUI.getColumnCount(ui,widget)
-    simUI.setRowCount(ui,widget,rows+1)
-    for row=rows-1,index+1,-1 do
-        for col=0,cols-1 do
-            simUI.setItem(ui,widget,row,col,simUI.getItem(ui,widget,row-1,col))
+-- @fun insertTableRow insert a row in a table widget
+-- @arg int ui the ui handle
+-- @arg int widget the widget identifier
+-- @arg int index the index (0-based) where the new row will appear
+function simUI.insertTableRow(ui, widget, index)
+    local rows = simUI.getRowCount(ui, widget)
+    local cols = simUI.getColumnCount(ui, widget)
+    simUI.setRowCount(ui, widget, rows + 1)
+    for row = rows - 1, index + 1, -1 do
+        for col = 0, cols - 1 do
+            simUI.setItem(ui, widget, row, col, simUI.getItem(ui, widget, row - 1, col))
         end
     end
 end
 
---@fun removeTableRow remove a row from a table widget
---@arg int ui the ui handle
---@arg int widget the widget identifier
---@arg int index the row index (0-based) to remove
-function simUI.removeTableRow(ui,widget,index)
-    local rows=simUI.getRowCount(ui,widget)
-    local cols=simUI.getColumnCount(ui,widget)
-    for row=index,rows-2 do
-        for col=0,cols-1 do
-            simUI.setItem(ui,widget,row,col,simUI.getItem(ui,widget,row+1,col))
+-- @fun removeTableRow remove a row from a table widget
+-- @arg int ui the ui handle
+-- @arg int widget the widget identifier
+-- @arg int index the row index (0-based) to remove
+function simUI.removeTableRow(ui, widget, index)
+    local rows = simUI.getRowCount(ui, widget)
+    local cols = simUI.getColumnCount(ui, widget)
+    for row = index, rows - 2 do
+        for col = 0, cols - 1 do
+            simUI.setItem(ui, widget, row, col, simUI.getItem(ui, widget, row + 1, col))
         end
     end
-    simUI.setRowCount(ui,widget,rows-1)
+    simUI.setRowCount(ui, widget, rows - 1)
 end
 
---@fun insertTableColumn insert a column in a table widget
---@arg int ui the ui handle
---@arg int widget the widget identifier
---@arg int index the index (0-based) where the new column will appear
-function simUI.insertTableColumn(ui,widget,index)
-    local rows=simUI.getRowCount(ui,widget)
-    local cols=simUI.getColumnCount(ui,widget)
-    simUI.setColumnCount(ui,widget,cols+1)
-    for col=cols-1,index+1,-1 do
-        for row=0,rows-1 do
-            simUI.setItem(ui,widget,row,col,simUI.getItem(ui,widget,row,col-1))
+-- @fun insertTableColumn insert a column in a table widget
+-- @arg int ui the ui handle
+-- @arg int widget the widget identifier
+-- @arg int index the index (0-based) where the new column will appear
+function simUI.insertTableColumn(ui, widget, index)
+    local rows = simUI.getRowCount(ui, widget)
+    local cols = simUI.getColumnCount(ui, widget)
+    simUI.setColumnCount(ui, widget, cols + 1)
+    for col = cols - 1, index + 1, -1 do
+        for row = 0, rows - 1 do
+            simUI.setItem(ui, widget, row, col, simUI.getItem(ui, widget, row, col - 1))
         end
     end
 end
 
---@fun removeTableColumn remove a column from a table widget
---@arg int ui the ui handle
---@arg int widget the widget identifier
---@arg int index the column index (0-based) to remove
-function simUI.removeTableColumn(ui,widget,index)
-    local rows=simUI.getRowCount(ui,widget)
-    local cols=simUI.getColumnCount(ui,widget)
-    for col=index,cols-2 do
-        for row=0,rows-1 do
-            simUI.setItem(ui,widget,row,col,simUI.getItem(ui,widget,row,col+1))
+-- @fun removeTableColumn remove a column from a table widget
+-- @arg int ui the ui handle
+-- @arg int widget the widget identifier
+-- @arg int index the column index (0-based) to remove
+function simUI.removeTableColumn(ui, widget, index)
+    local rows = simUI.getRowCount(ui, widget)
+    local cols = simUI.getColumnCount(ui, widget)
+    for col = index, cols - 2 do
+        for row = 0, rows - 1 do
+            simUI.setItem(ui, widget, row, col, simUI.getItem(ui, widget, row, col + 1))
         end
     end
-    simUI.setColumnCount(ui,widget,cols-1)
+    simUI.setColumnCount(ui, widget, cols - 1)
 end
 
---@fun setScene3DNodeParam polymorphic version of the onSetScene3DNodeXXXParam() functions
---@arg int ui the ui handle
---@arg int widget the widget identifier
---@arg int nodeId the node id
---@arg string paramName the parameter name
---@arg any paramValue the parameter value
-function simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue)
-    if type(paramValue)=='number' then
-        if math.floor(paramValue)==paramValue then
-            simUI.setScene3DNodeIntParam(ui,widget,nodeId,paramName,paramValue)
+-- @fun setScene3DNodeParam polymorphic version of the onSetScene3DNodeXXXParam() functions
+-- @arg int ui the ui handle
+-- @arg int widget the widget identifier
+-- @arg int nodeId the node id
+-- @arg string paramName the parameter name
+-- @arg any paramValue the parameter value
+function simUI.setScene3DNodeParam(ui, widget, nodeId, paramName, paramValue)
+    if type(paramValue) == 'number' then
+        if math.floor(paramValue) == paramValue then
+            simUI.setScene3DNodeIntParam(ui, widget, nodeId, paramName, paramValue)
         else
-            simUI.setScene3DNodeFloatParam(ui,widget,nodeId,paramName,paramValue)
+            simUI.setScene3DNodeFloatParam(ui, widget, nodeId, paramName, paramValue)
         end
-    elseif type(paramValue)=='string' then
-        simUI.setScene3DNodeStringParam(ui,widget,nodeId,paramName,paramValue)
-    elseif type(paramValue)=='table' then
-        if #paramValue==2 then
-            simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue[1],paramValue[2])
-        elseif #paramValue==3 then
-            simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue[1],paramValue[2],paramValue[3])
-        elseif #paramValue==4 then
-            simUI.setScene3DNodeParam(ui,widget,nodeId,paramName,paramValue[1],paramValue[2],paramValue[3],paramValue[4])
+    elseif type(paramValue) == 'string' then
+        simUI.setScene3DNodeStringParam(ui, widget, nodeId, paramName, paramValue)
+    elseif type(paramValue) == 'table' then
+        if #paramValue == 2 then
+            simUI.setScene3DNodeParam(ui, widget, nodeId, paramName, paramValue[1], paramValue[2])
+        elseif #paramValue == 3 then
+            simUI.setScene3DNodeParam(
+                ui, widget, nodeId, paramName, paramValue[1], paramValue[2], paramValue[3]
+            )
+        elseif #paramValue == 4 then
+            simUI.setScene3DNodeParam(
+                ui, widget, nodeId, paramName, paramValue[1], paramValue[2], paramValue[3],
+                paramValue[4]
+            )
         end
     else
         error(string.format('unsupported value type: %s', type(paramValue)))
     end
 end
 
-;(require'simUI-typecheck')(simUI)
+(require 'simUI-typecheck')(simUI)
 
 return simUI
