@@ -55,9 +55,9 @@ QWidget * Slider::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     slider->setEnabled(enabled);
     slider->setVisible(visible);
     slider->setStyleSheet(QString::fromStdString(style));
-    slider->setValue(value);
     slider->setMinimum(minimum);
     slider->setMaximum(maximum);
+    slider->setValue(value);
     slider->setTickPosition(tickPosition);
     slider->setTickInterval(tickInterval);
     slider->setInvertedAppearance(inverted);
