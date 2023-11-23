@@ -21,6 +21,7 @@ class Edit : public Widget, public EventOnChangeString, public EventOnEditingFin
 protected:
     std::string value;
     bool password;
+    bool eval;
 
 public:
     Edit();
@@ -31,6 +32,8 @@ public:
 
     void setValue(std::string value, bool suppressSignals);
     std::string getValue();
+
+    void setEvaluationResult(QString value);
 
     friend class SIM;
 };

@@ -339,6 +339,11 @@ void UI::onEditingFinished()
         }
     }
 }
+
+void UI::evaluateExpression(Edit *edit, QString text)
+{
+    emit evaluateExpressionInSandbox(edit, text);
+}
 #endif
 
 #if WIDGET_PLOT
@@ -726,6 +731,14 @@ void UI::onSetEditValue(Edit *edit, std::string value, bool suppressSignals)
     TRACE_FUNC;
 
     edit->setValue(value, suppressSignals);
+}
+
+void UI::onSetEvaluationResult(Edit *edit, QString txt)
+{
+    ASSERT_THREAD(UI);
+    TRACE_FUNC;
+
+    edit->setEvaluationResult(txt);
 }
 #endif
 

@@ -26,6 +26,8 @@ void Edit::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
     onchange = xmlutils::getAttrStr(e, "on-change", "");
 
     oneditingfinished = xmlutils::getAttrStr(e, "on-editing-finished", "");
+
+    eval = xmlutils::getAttrBool(e, "evaluate-expressions", false);
 }
 
 QWidget * Edit::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
@@ -36,8 +38,17 @@ QWidget * Edit::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     edit->setStyleSheet(QString::fromStdString(style));
     edit->setText(QString::fromStdString(value));
     edit->setEchoMode(password ? QLineEdit::Password : QLineEdit::Normal);
+    if(eval)
+    {
+        QObject::connect(edit, &QLineEdit::editingFinished, [=] {
+            ui->evaluateExpression(this, edit->text());
+        });
+    }
+    else
+    {
+        QObject::connect(edit, &QLineEdit::editingFinished, ui, &UI::onEditingFinished);
+    }
     QObject::connect(edit, &QLineEdit::textChanged, ui, &UI::onValueChangeString);
-    QObject::connect(edit, &QLineEdit::editingFinished, ui, &UI::onEditingFinished);
     setQWidget(edit);
     setProxy(proxy);
     return edit;
@@ -57,3 +68,13 @@ std::string Edit::getValue()
     return qedit->text().toStdString();
 }
 
+void Edit::setEvaluationResult(QString value)
+{
+    if(!eval) return;
+    QLineEdit *qedit = static_cast<QLineEdit*>(getQWidget());
+    bool oldSignalsState = qedit->blockSignals(true);
+    qedit->setText(value);
+    qedit->blockSignals(oldSignalsState);
+    UI::getInstance()->valueChangeString(this, value);
+    UI::getInstance()->editingFinished(this, value);
+}

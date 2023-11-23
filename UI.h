@@ -55,6 +55,7 @@ public slots:
 
 #if WIDGET_EDIT
     void onEditingFinished();
+    void evaluateExpression(Edit *edit, QString text);
 #endif
 
 #if WIDGET_PLOT
@@ -112,6 +113,7 @@ public slots:
 
 #if WIDGET_EDIT
     void onSetEditValue(Edit *edit, std::string value, bool suppressSignals);
+    void onSetEvaluationResult(Edit *edit, QString txt);
 #endif
 
 #if WIDGET_SPINBOX
@@ -235,6 +237,7 @@ signals:
 
 #if WIDGET_EDIT
     void editingFinished(Edit *edit, QString value);
+    void evaluateExpressionInSandbox(Edit *edit, QString text);
 #endif
 
     void windowClose(Window *window);

@@ -67,6 +67,7 @@ void SIM::connectSignals()
     connect(ui, &UI::valueChangeString, this, &SIM::onValueChangeString);
 #if WIDGET_EDIT
     connect(ui, &UI::editingFinished, this, &SIM::onEditingFinished);
+    connect(ui, &UI::evaluateExpressionInSandbox, this, &SIM::onEvaluateExpressionInSandbox);
 #endif
     connect(ui, &UI::windowClose, this, &SIM::onWindowClose);
     connect(this, &SIM::destroy, ui, &UI::onDestroy, Qt::BlockingQueuedConnection);
@@ -90,6 +91,7 @@ void SIM::connectSignals()
     connect(this, &SIM::setEnabled, ui, &UI::onSetEnabled, Qt::BlockingQueuedConnection);
 #if WIDGET_EDIT
     connect(this, &SIM::setEditValue, ui, &UI::onSetEditValue, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::setEvaluationResult, ui, &UI::onSetEvaluationResult, Qt::BlockingQueuedConnection);
 #endif
 #if WIDGET_SPINBOX
     connect(this, &SIM::setSpinboxValue, ui, &UI::onSetSpinboxValue, Qt::BlockingQueuedConnection);
@@ -350,6 +352,26 @@ void SIM::onEditingFinished(Edit *edit, QString value)
     in.value = value.toStdString();
     oneditingfinishedCallback_out out;
     oneditingfinishedCallback(edit->proxy->scriptID, e->oneditingfinished.c_str(), &in, &out);
+}
+
+void SIM::onEvaluateExpressionInSandbox(Edit *edit, QString expr)
+{
+    QString code = QString("tostring(load([===[return %1]===])())@lua").arg(expr);
+    int stack = sim::createStack();
+    try
+    {
+        sim::executeScriptString(sim_scripttype_sandboxscript, code.toStdString(), stack);
+        std::string result;
+        sim::getStackStringValue(stack, &result);
+        emit setEvaluationResult(edit, QString::fromStdString(result));
+    }
+    catch(std::exception &ex)
+    {
+        std::string err;
+        sim::getStackStringValue(stack, &err);
+        //sim::addLog(sim_verbosity_warnings, "eval error: " + err);
+    }
+    sim::releaseStack(stack);
 }
 #endif
 
