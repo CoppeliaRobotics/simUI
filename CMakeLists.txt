@@ -37,16 +37,17 @@ if(GIT_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     endif()
 endif()
 
+include_directories(sourceCode)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/QCustomPlot-2.0.1)
 add_definitions(-DQT_COMPIL)
 
-coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/simUI.lua)
+coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/lua/simUI.lua)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm
-    COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xml ${CMAKE_CURRENT_SOURCE_DIR}/widgets.xsl)
+    COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xsl ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xml
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xml ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xsl)
 add_custom_target(generate_widgets_html ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
 
 set(ENABLE_SIGNAL_SPY false CACHE BOOL "if Qt private headers are installed, enable this to debug Qt signals")
@@ -70,20 +71,20 @@ set(WIDGET_TEXTBROWSER true CACHE BOOL "include the textbrowser widget")
 set(WIDGET_TREE true CACHE BOOL "include the tree widget")
 set(WIDGET_VSLIDER true CACHE BOOL "include the vslider widget")
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 set(SOURCES
-    Proxy.cpp
-    SIM.cpp
-    UI.cpp
-    XMLUtils.cpp
-    tinyxml2.cpp
-    plugin.cpp
-    c.cpp
-    widgets/Event.cpp
-    widgets/LayoutWidget.cpp
-    widgets/Widget.cpp
-    widgets/Window.cpp
+    sourceCode/Proxy.cpp
+    sourceCode/SIM.cpp
+    sourceCode/UI.cpp
+    sourceCode/XMLUtils.cpp
+    sourceCode/tinyxml2.cpp
+    sourceCode/plugin.cpp
+    sourceCode/c.cpp
+    sourceCode/widgets/Event.cpp
+    sourceCode/widgets/LayoutWidget.cpp
+    sourceCode/widgets/Widget.cpp
+    sourceCode/widgets/Window.cpp
 )
 
 set(LIBRARIES
@@ -95,69 +96,69 @@ set(LIBRARIES
 )
 
 if(WIDGET_BUTTON)
-    list(APPEND SOURCES widgets/Button.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Button.cpp)
 endif()
 if(WIDGET_CHECKBOX)
-    list(APPEND SOURCES widgets/Checkbox.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Checkbox.cpp)
 endif()
 if(WIDGET_COMBOBOX)
-    list(APPEND SOURCES widgets/Combobox.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Combobox.cpp)
 endif()
 if(WIDGET_EDIT)
-    list(APPEND SOURCES widgets/Edit.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Edit.cpp)
 endif()
 if(WIDGET_GROUP)
-    list(APPEND SOURCES widgets/Group.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Group.cpp)
 endif()
 if(WIDGET_HSLIDER)
-    list(APPEND SOURCES widgets/HSlider.cpp widgets/Slider.cpp)
+    list(APPEND SOURCES sourceCode/widgets/HSlider.cpp sourceCode/widgets/Slider.cpp)
 endif()
 if(WIDGET_IMAGE)
-    list(APPEND SOURCES widgets/Image.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Image.cpp)
 endif()
 if(WIDGET_LABEL)
-    list(APPEND SOURCES widgets/Label.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Label.cpp)
 endif()
 if(WIDGET_PLOT)
-    list(APPEND SOURCES widgets/Plot.cpp external/QCustomPlot-2.0.1/qcustomplot.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Plot.cpp external/QCustomPlot-2.0.1/qcustomplot.cpp)
 endif()
 if(WIDGET_PROGRESSBAR)
-    list(APPEND SOURCES widgets/Progressbar.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Progressbar.cpp)
 endif()
 if(WIDGET_RADIOBUTTON)
-    list(APPEND SOURCES widgets/Radiobutton.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Radiobutton.cpp)
 endif()
 if(WIDGET_SCENE3D)
     find_package(${Qt} COMPONENTS 3DCore 3DRender 3DInput 3DExtras REQUIRED)
-    list(APPEND SOURCES widgets/Scene3D.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Scene3D.cpp)
     list(APPEND LIBRARIES Qt::3DCore Qt::3DRender Qt::3DInput Qt::3DExtras)
 endif()
 if(WIDGET_SPINBOX)
-    list(APPEND SOURCES external/XSpinBox/xspinbox.cpp widgets/Spinbox.cpp)
+    list(APPEND SOURCES external/XSpinBox/xspinbox.cpp sourceCode/widgets/Spinbox.cpp)
 endif()
 if(WIDGET_SVG)
     find_package(${Qt} COMPONENTS Svg REQUIRED)
-    list(APPEND SOURCES widgets/SVG.cpp)
+    list(APPEND SOURCES sourceCode/widgets/SVG.cpp)
     list(APPEND LIBRARIES Qt::Svg)
 endif()
 if(WIDGET_TABLE)
-    list(APPEND SOURCES widgets/Table.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Table.cpp)
 endif()
 if(WIDGET_TABS)
-    list(APPEND SOURCES widgets/Tabs.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Tabs.cpp)
 endif()
 if(WIDGET_TEXTBROWSER)
-    list(APPEND SOURCES widgets/TextBrowser.cpp)
+    list(APPEND SOURCES sourceCode/widgets/TextBrowser.cpp)
 endif()
 if(WIDGET_TREE)
-    list(APPEND SOURCES widgets/Tree.cpp)
+    list(APPEND SOURCES sourceCode/widgets/Tree.cpp)
 endif()
 if(WIDGET_VSLIDER)
-    list(APPEND SOURCES widgets/VSlider.cpp widgets/Slider.cpp)
+    list(APPEND SOURCES sourceCode/widgets/VSlider.cpp sourceCode/widgets/Slider.cpp)
 endif()
 
 if(ENABLE_SIGNAL_SPY)
-    list(APPEND SOURCES signal_spy.cpp)
+    list(APPEND SOURCES sourceCode/signal_spy.cpp)
 endif()
 
 coppeliasim_add_plugin(simUI SOURCES ${SOURCES})
