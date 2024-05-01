@@ -163,4 +163,4 @@ endif()
 
 coppeliasim_add_plugin(simUI SOURCES ${SOURCES})
 target_link_libraries(simUI PRIVATE ${LIBRARIES})
-coppeliasim_add_helpfile(${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
+coppeliasim_add_manual(${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
