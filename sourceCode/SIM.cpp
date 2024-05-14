@@ -360,7 +360,7 @@ void SIM::onEvaluateExpressionInSandbox(Edit *edit, QString expr)
     int stack = sim::createStack();
     try
     {
-        sim::executeScriptString(sim_scripttype_sandboxscript, code.toStdString(), stack);
+        sim::executeScriptString(sim::getScriptHandleEx(sim_scripttype_sandboxscript), code.toStdString(), stack);
         std::string result;
         sim::getStackStringValue(stack, &result);
         emit setEvaluationResult(edit, QString::fromStdString(result));
