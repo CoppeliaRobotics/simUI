@@ -278,8 +278,8 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
 
     switch(proxy->getScriptType())
     {
-    case sim_scripttype_addonscript:
-    case sim_scripttype_sandboxscript:
+    case sim_scripttype_addon:
+    case sim_scripttype_sandbox:
         // for these script types, don't hide UI when switching scene
         return;
     }
