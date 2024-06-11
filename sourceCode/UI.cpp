@@ -172,7 +172,8 @@ void UI::onFileDialog(int type, std::string title, std::string startPath, std::s
     {
     case simui_filedialog_type_load:
         file = QFileDialog::getOpenFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
-        result->push_back(file.toStdString());
+        if(!file.isNull())
+            result->push_back(file.toStdString());
         break;
     case simui_filedialog_type_load_multiple:
         files = QFileDialog::getOpenFileNames(nullptr, qtitle, qstartPath, filter, nullptr, opts);
@@ -181,11 +182,13 @@ void UI::onFileDialog(int type, std::string title, std::string startPath, std::s
         break;
     case simui_filedialog_type_save:
         file = QFileDialog::getSaveFileName(nullptr, qtitle, qstartPath, filter, nullptr, opts);
-        result->push_back(file.toStdString());
+        if(!file.isNull())
+            result->push_back(file.toStdString());
         break;
     case simui_filedialog_type_folder:
         file = QFileDialog::getExistingDirectory(nullptr, qtitle, qstartPath, opts | QFileDialog::ShowDirsOnly);
-        result->push_back(file.toStdString());
+        if(!file.isNull())
+            result->push_back(file.toStdString());
         break;
     }
 }

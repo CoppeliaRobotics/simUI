@@ -52,7 +52,7 @@
         </params>
         <return>
             <param name="result" type="table" item-type="string">
-                <description>result</description>
+                <description>result, or empty if user clicked cancel</description>
             </param>
         </return>
     </command>
