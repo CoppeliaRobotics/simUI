@@ -177,9 +177,12 @@ void Table::setItem(int row, int column, std::string text, bool suppressSignals)
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
     bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
     QTableWidgetItem *item = tablewidget->item(row, column);
-    if(!item) item = new QTableWidgetItem;
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        tablewidget->setItem(row, column, item);
+    }
     item->setText(QString::fromStdString(text));
-    tablewidget->setItem(row, column, item);
     tablewidget->blockSignals(oldSignalsState);
 }
 
@@ -188,12 +191,15 @@ void Table::setItemImage(int row, int column, std::string data, int width, int h
     QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
     bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
     QTableWidgetItem *item = tablewidget->item(row, column);
-    if(!item) item = new QTableWidgetItem;
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        tablewidget->setItem(row, column, item);
+    }
     QImage::Format format = QImage::Format_RGB888;
     int bpp = 3; // bytes per pixel
     QImage image((unsigned char *)data.data(), width, height, bpp * width, format);
     item->setData(Qt::DecorationRole, QPixmap::fromImage(image.mirrored()));
-    tablewidget->setItem(row, column, item);
     tablewidget->blockSignals(oldSignalsState);
 }
 
