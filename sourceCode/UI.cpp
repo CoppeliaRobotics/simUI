@@ -1106,6 +1106,11 @@ void UI::onSetText(TextBrowser *textbrowser, std::string text, bool suppressSign
     textbrowser->setText(text, suppressSignals);
 }
 
+void UI::onAppendText(TextBrowser *textbrowser, std::string text, bool suppressSignals)
+{
+    textbrowser->appendText(text, suppressSignals);
+}
+
 void UI::onSetUrl(TextBrowser *textbrowser, std::string url)
 {
     textbrowser->setUrl(url);

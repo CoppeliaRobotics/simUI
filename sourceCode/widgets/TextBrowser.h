@@ -31,6 +31,7 @@ public:
     QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
 
     void setText(std::string text, bool suppressSignals);
+    void appendText(std::string text, bool suppressSignals);
     std::string getText();
     void setUrl(std::string url);
     std::string getUrl();

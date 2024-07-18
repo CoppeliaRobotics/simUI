@@ -202,6 +202,7 @@ signals:
 
 #if WIDGET_TEXTBROWSER
     void setText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
+    void appendText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
     void setUrl(TextBrowser *textbrowser, std::string url);
 #endif
 

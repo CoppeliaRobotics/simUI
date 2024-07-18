@@ -201,6 +201,7 @@ void SIM::connectSignals()
 #endif
 #if WIDGET_TEXTBROWSER
     connect(this, &SIM::setText, ui, &UI::onSetText, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::appendText, ui, &UI::onAppendText, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setUrl, ui, &UI::onSetUrl, Qt::BlockingQueuedConnection);
 #endif
     connect(ui, &UI::keyPressed, this, &SIM::onKeyPress);

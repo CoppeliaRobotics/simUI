@@ -208,6 +208,7 @@ public slots:
 
 #if WIDGET_TEXTBROWSER
     void onSetText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
+    void onAppendText(TextBrowser *textbrowser, std::string text, bool suppressSignals);
     void onSetUrl(TextBrowser *textbrowser, std::string url);
 #endif
 

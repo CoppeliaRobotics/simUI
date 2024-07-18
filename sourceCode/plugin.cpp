@@ -1138,6 +1138,14 @@ public:
 #endif
     }
 
+    void appendText(appendText_in *in, appendText_out *out)
+    {
+#if WIDGET_TEXTBROWSER
+        TextBrowser *textbrowser = getWidget<TextBrowser>(in->handle, in->id, "text-browser");
+        SIM::getInstance()->appendText(textbrowser, in->text, in->suppressEvents);
+#endif
+    }
+
     void setUrl(setUrl_in *in, setUrl_out *out)
     {
 #if WIDGET_TEXTBROWSER
