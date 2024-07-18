@@ -36,6 +36,8 @@ void TextBrowser::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
 
     read_only = xmlutils::getAttrBool(e, "read-only", true);
 
+    wordWrap = xmlutils::getAttrBool(e, "word-wrap", true);
+
     onchange = xmlutils::getAttrStr(e, "on-change", "");
 
     onLinkActivated = xmlutils::getAttrStr(e, "on-link-activated", "");
@@ -77,6 +79,7 @@ QWidget * TextBrowser::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
         qtextbrowser->setPlainText(QString::fromStdString(text));
     qtextbrowser->setReadOnly(read_only);
     qtextbrowser->setOpenLinks(false);
+    qtextbrowser->setLineWrapMode(wordWrap ? QTextEdit::WidgetWidth : QTextEdit::NoWrap);
     QObject::connect(qtextbrowser, &QTextBrowser::textChanged, ui, &UI::onTextChanged);
     QObject::connect(qtextbrowser, &QTextBrowser::anchorClicked, ui, &UI::onAnchorClicked);
     setQWidget(qtextbrowser);

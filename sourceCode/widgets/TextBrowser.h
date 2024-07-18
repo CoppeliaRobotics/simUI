@@ -22,6 +22,7 @@ protected:
     std::string text;
     std::string type;
     bool read_only;
+    bool wordWrap;
 
 public:
     TextBrowser();
