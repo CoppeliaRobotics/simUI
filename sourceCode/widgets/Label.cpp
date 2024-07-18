@@ -21,7 +21,9 @@ void Label::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     text = xmlutils::getAttrStr(e, "text", "");
 
-    wordWrap = xmlutils::getAttrBool(e, "wordwrap", false);
+    if(xmlutils::hasAttr(e, "wordwrap"))
+        sim::addLog(sim_verbosity_warnings, "attribute name 'wordwrap' is deprecated. please use 'word-wrap' instead.");
+    wordWrap = xmlutils::getAttrBool(e, "word-wrap", xmlutils::getAttrBool(e, "wordwrap", false));
 
     onLinkActivated = xmlutils::getAttrStr(e, "on-link-activated", "");
 }

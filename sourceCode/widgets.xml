@@ -498,7 +498,7 @@
                 <description>Text on the label.</description>
             </attribute>
             <attribute>
-                <name>wordwrap</name>
+                <name>word-wrap</name>
                 <type>bool</type>
                 <default>false</default>
                 <description>If true, long text will wrap in multiple lines, otherwise will be cut.</description>
