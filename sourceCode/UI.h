@@ -177,6 +177,7 @@ public slots:
     void onSetColumnCountTable(Table *table, int count, bool suppressSignals);
     void onSetItem(Table *table, int row, int column, std::string text, bool suppressSignals);
     void onSetItemImage(Table *table, int row, int column, std::string data, int width, int height, bool suppressSignals);
+    void onSetItems(Table *table, std::string data, bool suppressSignals);
     void onSetRowHeaderText(Table *table, int row, std::string text);
     void onSetColumnHeaderTextTable(Table *table, int column, std::string text);
     void onSetItemEditable(Table *table, int row, int column, bool editable);

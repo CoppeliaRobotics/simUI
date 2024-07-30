@@ -990,6 +990,11 @@ void UI::onSetItemImage(Table *table, int row, int column, std::string data, int
     table->setItemImage(row, column, data, width, height, suppressSignals);
 }
 
+void UI::onSetItems(Table *table, std::string data, bool suppressSignals)
+{
+    table->setItems(data, suppressSignals);
+}
+
 void UI::onSetRowHeaderText(Table *table, int row, std::string text)
 {
     table->setRowHeaderText(row, text);

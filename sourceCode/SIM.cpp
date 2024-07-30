@@ -162,6 +162,7 @@ void SIM::connectSignals()
 #if WIDGET_TABLE
     connect(this, &SIM::setItem, ui, &UI::onSetItem, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setItemImage, ui, &UI::onSetItemImage, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::setItems, ui, &UI::onSetItems, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setRowHeaderText, ui, &UI::onSetRowHeaderText, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setColumnHeaderTextTable, ui, &UI::onSetColumnHeaderTextTable, Qt::BlockingQueuedConnection);
 #endif

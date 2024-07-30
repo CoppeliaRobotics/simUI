@@ -1863,6 +1863,27 @@
         <return>
         </return>
     </command>
+    <command name="setItems">
+        <categories>
+            <category name="table" />
+            <category name="widgets" indirect="true" />
+        </categories>
+        <params>
+            <param name="handle" type="string">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="data" type="string">
+            </param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="getRowCount">
         <description>Get the table widget number of rows.</description>
         <categories>

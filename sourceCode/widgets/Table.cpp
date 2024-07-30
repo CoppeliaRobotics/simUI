@@ -10,6 +10,9 @@
 #include <QKeyEvent>
 #include <QHeaderView>
 #include <QTableWidget>
+#include <QCborValue>
+#include <QCborArray>
+#include <QByteArray>
 
 Table::Table()
     : Widget("table")
@@ -288,6 +291,29 @@ void Table::setSelection(int row, int column, bool suppressSignals)
     bool oldSignalsState = tablewidget->blockSignals(suppressSignals);
     tablewidget->setCurrentCell(row, column);
     tablewidget->blockSignals(oldSignalsState);
+}
+
+void Table::setItems(std::string data, bool suppressSignals)
+{
+    QByteArray byteArray(data.data(), static_cast<int>(data.size()));
+    QCborValue cborValue = QCborValue::fromCbor(byteArray);
+    int row = -1, col = -1;
+    if(cborValue.isArray()) {
+        QCborArray cborArray = cborValue.toArray();
+        setRowCount(cborArray.size(), true);
+        for(const QCborValue &rowValue : cborArray) {
+            col = -1; row++;
+            if(rowValue.isArray()) {
+                QCborArray rowArray = rowValue.toArray();
+                if(rowArray.size() > getColumnCount())
+                    setColumnCount(rowArray.size(), true);
+                for(const QCborValue &item : rowArray) {
+                    col++;
+                    setItem(row, col, item.toString().toStdString(), true);
+                }
+            }
+        }
+    }
 }
 
 TableWidget::TableWidget(Table *table_, QWidget *parent)

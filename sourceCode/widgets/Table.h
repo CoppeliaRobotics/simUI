@@ -65,6 +65,7 @@ public:
     void setRowHeight(int row, int min_size, int max_size);
     void setColumnWidth(int column, int min_size, int max_size);
     void setSelection(int row, int column, bool suppressSignals);
+    void setItems(std::string data, bool suppressSignals);
 
     friend class SIM;
 };

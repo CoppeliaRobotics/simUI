@@ -872,6 +872,14 @@ public:
 #endif
     }
 
+    void setItems(setItems_in *in, setItems_out *out)
+    {
+#if WIDGET_TABLE
+        Table *table = getWidget<Table>(in->handle, in->id, "table");
+        SIM::getInstance()->setItems(table, in->data, in->suppressEvents);
+#endif
+    }
+
     void getRowCount(getRowCount_in *in, getRowCount_out *out)
     {
 #if WIDGET_TABLE
