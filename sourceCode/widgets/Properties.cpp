@@ -12,26 +12,8 @@
 #include <QTableView>
 #include <QAbstractTableModel>
 
-class CustomTableModel : public QAbstractTableModel
-{
-    Q_OBJECT
-public:
-    CustomTableModel(QObject *parent = nullptr);
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    void setRow(int row, const QString &pname, const QString &ptype, const QString &pvalue);
-    void setRows(const QStringList &column1, const QStringList &column2, const QStringList &column3);
-
-private:
-    QList<QStringList> tableData;
-};
-
-#include "Properties.moc"
-
-CustomTableModel::CustomTableModel(QObject *parent)
-    : QAbstractTableModel(parent) {}
+CustomTableModel::CustomTableModel(PropertiesWidget *w, QObject *parent)
+    : QAbstractTableModel(parent), qwidget(w) {}
 
 int CustomTableModel::rowCount(const QModelIndex &parent) const
 {
@@ -126,8 +108,6 @@ void Properties::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2
 {
     Widget::parse(parent, widgets, e);
 
-    onCellActivate = xmlutils::getAttrStr(e, "on-cell-activate", "");
-
     onSelectionChange = xmlutils::getAttrStr(e, "on-selection-change", "");
 
     onKeyPress = xmlutils::getAttrStr(e, "on-key-press", "");
@@ -135,40 +115,23 @@ void Properties::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2
 
 QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 {
-    QTableView *tableView = new PropertiesWidget(this, parent);
+    PropertiesWidget *tableView = new PropertiesWidget(this, parent);
     tableView->setEnabled(enabled);
     tableView->setVisible(visible);
     tableView->setStyleSheet(QString::fromStdString(style));
-    //tableView->setRowCount(rowcount);
-    //tableView->setColumnCount(columncount);
     tableView->horizontalHeader()->setVisible(true);
     tableView->verticalHeader()->setVisible(false);
-    tableView->setShowGrid(true);
     tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    //tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    tableView->setModel(new CustomTableModel(tableView, tableView));
+    tableView->setShowGrid(true);
 
-    /*
-    CustomTableModel *model = new CustomTableModel;
-    QStringList column1;// = {"Row1-Column1", "Row2-Column1", "Row3-Column1"};
-    QStringList column2;// = {"Row1-Column2", "Row2-Column2", "Row3-Column2"};
-    QStringList column3;// = {"Row1-Column3", "Row2-Column3", "Row3-Column3"};
-    for(int i = 0; i < 1000; i++)
-    {
-        column1 << QString("Row%1-Column1").arg(i);
-        column2 << QString("Row%1-Column2").arg(i);
-        column3 << QString("Row%1-Column3").arg(i);
-    }
-    model->setRows(column1, column2, column3);
-    */
-    tableView->setModel(new CustomTableModel);
+    QObject::connect(tableView->selectionModel(), &QItemSelectionModel::selectionChanged, ui, &UI::onPropertiesSelectionChange);
 
-    //QObject::connect(tableView, &QTableView::itemSelectionChanged, ui, &UI::onTableSelectionChange);
     setQWidget(tableView);
     setProxy(proxy);
 
-    setItems({"apple", "b"}, {"x", "y"}, {"1", "33"}, true);
     return tableView;
 }
 
@@ -176,7 +139,7 @@ void Properties::setSelection(int row, bool suppressSignals)
 {
     QTableView *tableView = static_cast<QTableView*>(getQWidget());
     bool oldSignalsState = tableView->blockSignals(suppressSignals);
-    //tableView->setCurrentCell(row, column);
+    tableView->setCurrentIndex(tableView->model()->index(row, 0));
     tableView->blockSignals(oldSignalsState);
 }
 

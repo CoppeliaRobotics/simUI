@@ -63,6 +63,10 @@ private slots:
     void onSelectionChangeTable(Table *table, int row, int col);
 #endif
 
+#if WIDGET_PROPERTIES
+    void onSelectionChangeProperties(Properties *properties, int row);
+#endif
+
 #if WIDGET_TREE
     void onSelectionChangeTree(Tree *tree, int id);
 #endif

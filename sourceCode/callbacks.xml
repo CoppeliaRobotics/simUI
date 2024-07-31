@@ -2975,6 +2975,21 @@
         <return>
         </return>
     </script-function>
+    <script-function name="onPropertiesSelectionChangeCallback">
+        <params>
+            <param name="handle" type="string">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the plot widget</description>
+            </param>
+            <param name="row" type="int">
+                <description>the row index (zero based) of the activated cell</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
     <script-function name="onTreeSelectionChangeCallback">
         <description>Callback for tree widget selectionChanged event.</description>
         <params>

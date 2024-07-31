@@ -145,6 +145,9 @@ void SIM::connectSignals()
     connect(ui, &UI::cellActivate, this, &SIM::onCellActivate);
     connect(ui, &UI::tableSelectionChange, this, &SIM::onSelectionChangeTable);
 #endif
+#if WIDGET_PROPERTIES
+    connect(ui, &UI::propertiesSelectionChange, this, &SIM::onSelectionChangeProperties);
+#endif
 #if WIDGET_TREE
     connect(ui, &UI::treeSelectionChange, this, &SIM::onSelectionChangeTree);
 #endif
@@ -493,6 +496,23 @@ void SIM::onSelectionChangeTable(Table *table, int row, int col)
     in.column = col;
     onTableSelectionChangeCallback_out out;
     onTableSelectionChangeCallback(table->proxy->getScriptID(), table->onSelectionChange.c_str(), &in, &out);
+}
+#endif
+
+#if WIDGET_PROPERTIES
+void SIM::onSelectionChangeProperties(Properties *properties, int row)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, properties);
+
+    if(properties->onSelectionChange == "" || properties->proxy->scriptID == -1) return;
+
+    onPropertiesSelectionChangeCallback_in in;
+    in.handle = properties->proxy->handle;
+    in.id = properties->id;
+    in.row = row;
+    onPropertiesSelectionChangeCallback_out out;
+    onPropertiesSelectionChangeCallback(properties->proxy->getScriptID(), properties->onSelectionChange.c_str(), &in, &out);
 }
 #endif
 

@@ -451,6 +451,38 @@ void UI::onTableSelectionChange()
 }
 #endif
 
+#if WIDGET_TABLE
+#include "widgets/Properties.h"
+void UI::onPropertiesSelectionChange(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    ASSERT_THREAD(UI);
+    TRACE_FUNC;
+
+    QItemSelectionModel *ism = dynamic_cast<QItemSelectionModel*>(sender());
+    if(!ism) return;
+    auto *model = dynamic_cast<CustomTableModel*>(ism->model());
+    if(!model) return;
+    auto *qwidget = model->getQWidget();
+
+    std::cout << "UI::onPropertiesSelectionChange" << std::endl;
+    if(qwidget)
+    {
+        QList<QModelIndex> indexes = selected.indexes();
+        int row = -1;
+        if(indexes.size() >= 1)
+        {
+            row = indexes[0].row();
+        }
+        std::cout << "UI::onPropertiesSelectionChange: row=" << row << std::endl;
+        Properties *properties = dynamic_cast<Properties*>(Widget::byQWidget(qwidget));
+        if(properties)
+        {
+            emit propertiesSelectionChange(properties, row);
+        }
+    }
+}
+#endif
+
 #if WIDGET_TREE
 void UI::onTreeSelectionChange()
 {

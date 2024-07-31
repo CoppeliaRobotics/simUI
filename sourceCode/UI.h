@@ -195,6 +195,7 @@ public slots:
     void onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, bool suppressSignals);
     void onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalues, bool suppressSignals);
     void onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals);
+    void onPropertiesSelectionChange(const QItemSelection &selected, const QItemSelection &deselected);
 #endif
 
 #if WIDGET_TREE
@@ -266,6 +267,10 @@ signals:
 #if WIDGET_TABLE
     void cellActivate(Table *table, int row, int col, std::string value);
     void tableSelectionChange(Table *table, int row, int col);
+#endif
+
+#if WIDGET_PROPERTIES
+    void propertiesSelectionChange(Properties *properties, int row);
 #endif
 
 #if WIDGET_TREE
