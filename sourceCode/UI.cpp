@@ -464,7 +464,6 @@ void UI::onPropertiesSelectionChange(const QItemSelection &selected, const QItem
     if(!model) return;
     auto *qwidget = model->getQWidget();
 
-    std::cout << "UI::onPropertiesSelectionChange" << std::endl;
     if(qwidget)
     {
         QList<QModelIndex> indexes = selected.indexes();
@@ -473,7 +472,6 @@ void UI::onPropertiesSelectionChange(const QItemSelection &selected, const QItem
         {
             row = indexes[0].row();
         }
-        std::cout << "UI::onPropertiesSelectionChange: row=" << row << std::endl;
         Properties *properties = dynamic_cast<Properties*>(Widget::byQWidget(qwidget));
         if(properties)
         {
