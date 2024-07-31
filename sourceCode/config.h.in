@@ -17,6 +17,7 @@
 #cmakedefine01 WIDGET_LABEL
 #cmakedefine01 WIDGET_PLOT
 #cmakedefine01 WIDGET_PROGRESSBAR
+#cmakedefine01 WIDGET_PROPERTIES
 #cmakedefine01 WIDGET_RADIOBUTTON
 #cmakedefine01 WIDGET_SCENE3D
 #cmakedefine01 WIDGET_SPINBOX

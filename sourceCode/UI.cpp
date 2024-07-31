@@ -1038,6 +1038,23 @@ void UI::onSetProgress(Progressbar *progressbar, int value)
 }
 #endif
 
+#if WIDGET_PROPERTIES
+void UI::onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, bool suppressSignals)
+{
+    properties->setItems(pnames, ptypes, pvalues, suppressSignals);
+}
+
+void UI::onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalue, bool suppressSignals)
+{
+    properties->setRow(row, pname, ptype, pvalue, suppressSignals);
+}
+
+void UI::onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals)
+{
+    properties->setSelection(row, suppressSignals);
+}
+#endif
+
 #if WIDGET_TREE
 void UI::onSetColumnCountTree(Tree *tree, int count, bool suppressSignals)
 {

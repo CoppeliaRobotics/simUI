@@ -185,6 +185,12 @@ signals:
     void setProgress(Progressbar *progressbar, int value);
 #endif
 
+#if WIDGET_PROPERTIES
+    void setProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, bool suppressSignals);
+    void setPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalue, bool suppressSignals);
+    void setPropertiesSelection(Properties *properties, int row, bool suppressSignals);
+#endif
+
 #if WIDGET_TREE
     void setColumnCountTree(Tree *tree, int count, bool suppressSignals);
     void setColumnHeaderTextTree(Tree *tree, int col, std::string text);

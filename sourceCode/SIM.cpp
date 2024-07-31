@@ -189,6 +189,11 @@ void SIM::connectSignals()
 #if WIDGET_PROGRESSBAR
     connect(this, &SIM::setProgress, ui, &UI::onSetProgress, Qt::BlockingQueuedConnection);
 #endif
+#if WIDGET_PROPERTIES
+    connect(this, &SIM::setProperties, ui, &UI::onSetProperties, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::setPropertiesRow, ui, &UI::onSetPropertiesRow, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::setPropertiesSelection, ui, &UI::onSetPropertiesSelection, Qt::BlockingQueuedConnection);
+#endif
 #if WIDGET_TREE
     connect(this, &SIM::clearTree, ui, &UI::onClearTree, Qt::BlockingQueuedConnection);
     connect(this, &SIM::addTreeItem, ui, &UI::onAddTreeItem, Qt::BlockingQueuedConnection);

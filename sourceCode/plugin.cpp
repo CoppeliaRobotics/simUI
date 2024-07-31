@@ -1263,6 +1263,30 @@ public:
 #endif
     }
 
+    void setProperties(setProperties_in *in, setProperties_out *out)
+    {
+#if WIDGET_PROPERTIES
+        Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
+        SIM::getInstance()->setProperties(properties, in->pnames, in->ptypes, in->pvalues, in->suppressEvents);
+#endif
+    }
+
+    void setPropertiesRow(setPropertiesRow_in *in, setPropertiesRow_out *out)
+    {
+#if WIDGET_PROPERTIES
+        Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
+        SIM::getInstance()->setPropertiesRow(properties, in->row, in->pname, in->ptype, in->pvalue, in->suppressEvents);
+#endif
+    }
+
+    void setPropertiesSelection(setPropertiesSelection_in *in, setPropertiesSelection_out *out)
+    {
+#if WIDGET_PROPERTIES
+        Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
+        SIM::getInstance()->setPropertiesSelection(properties, in->row, in->suppressEvents);
+#endif
+    }
+
     void supportedImageFormats(supportedImageFormats_in *in, supportedImageFormats_out *out)
     {
         QList<QByteArray> fmts = QImageReader::supportedImageFormats();

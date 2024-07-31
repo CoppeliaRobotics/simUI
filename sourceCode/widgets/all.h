@@ -37,6 +37,9 @@
 #if WIDGET_PROGRESSBAR
 #include "Progressbar.h"
 #endif // WIDGET_PROGRESSBAR
+#if WIDGET_PROPERTIES
+#include "Properties.h"
+#endif // WIDGET_PROPERTIES
 #if WIDGET_RADIOBUTTON
 #include "Radiobutton.h"
 #endif // WIDGET_RADIOBUTTON

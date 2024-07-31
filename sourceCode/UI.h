@@ -191,6 +191,12 @@ public slots:
     void onSetProgress(Progressbar *progressbar, int value);
 #endif
 
+#if WIDGET_PROPERTIES
+    void onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, bool suppressSignals);
+    void onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalues, bool suppressSignals);
+    void onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals);
+#endif
+
 #if WIDGET_TREE
     void onSetColumnCountTree(Tree *tree, int count, bool suppressSignals);
     void onSetColumnHeaderTextTree(Tree *tree, int column, std::string text);

@@ -2737,6 +2737,59 @@
             </param>
         </return>
     </command>
+    <command name="setProperties">
+        <params>
+            <param name="handle" type="string">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="pnames" type="table" item-type="string"></param>
+            <param name="ptypes" type="table" item-type="string"></param>
+            <param name="pvalues" type="table" item-type="string"></param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setPropertiesRow">
+        <params>
+            <param name="handle" type="string">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="row" type="int"></param>
+            <param name="pname" type="string"></param>
+            <param name="ptype" type="string"></param>
+            <param name="pvalue" type="string"></param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setPropertiesSelection">
+        <params>
+            <param name="handle" type="string">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="row" type="int"></param>
+            <param name="suppressEvents" type="bool" default="true">
+                <description>if true, no event will be generated from this call</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
