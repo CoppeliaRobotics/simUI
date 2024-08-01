@@ -196,6 +196,7 @@ public slots:
     void onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalues, bool suppressSignals);
     void onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals);
     void onPropertiesSelectionChange(const QItemSelection &selected, const QItemSelection &deselected);
+    void onPropertiesDoubleClick(const QModelIndex &index);
 #endif
 
 #if WIDGET_TREE
@@ -271,6 +272,7 @@ signals:
 
 #if WIDGET_PROPERTIES
     void propertiesSelectionChange(Properties *properties, int row);
+    void propertiesDoubleClick(Properties *properties, int row);
 #endif
 
 #if WIDGET_TREE

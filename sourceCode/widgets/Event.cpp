@@ -17,6 +17,15 @@ EventOnClick::~EventOnClick()
 {
 }
 
+EventOnDoubleClick::EventOnDoubleClick()
+    : ondoubleclick("")
+{
+}
+
+EventOnDoubleClick::~EventOnDoubleClick()
+{
+}
+
 EventOnChange::EventOnChange()
     : onchange("")
 {

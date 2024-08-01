@@ -147,6 +147,7 @@ void SIM::connectSignals()
 #endif
 #if WIDGET_PROPERTIES
     connect(ui, &UI::propertiesSelectionChange, this, &SIM::onSelectionChangeProperties);
+    connect(ui, &UI::propertiesDoubleClick, this, &SIM::onPropertiesDoubleClick);
 #endif
 #if WIDGET_TREE
     connect(ui, &UI::treeSelectionChange, this, &SIM::onSelectionChangeTree);
@@ -513,6 +514,21 @@ void SIM::onSelectionChangeProperties(Properties *properties, int row)
     in.row = row;
     onPropertiesSelectionChangeCallback_out out;
     onPropertiesSelectionChangeCallback(properties->proxy->getScriptID(), properties->onSelectionChange.c_str(), &in, &out);
+}
+
+void SIM::onPropertiesDoubleClick(Properties *properties, int row)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, properties);
+
+    if(properties->ondoubleclick == "" || properties->proxy->scriptID == -1) return;
+
+    onPropertiesDoubleClickCallback_in in;
+    in.handle = properties->proxy->handle;
+    in.id = properties->id;
+    in.row = row;
+    onPropertiesDoubleClickCallback_out out;
+    onPropertiesDoubleClickCallback(properties->proxy->getScriptID(), properties->ondoubleclick.c_str(), &in, &out);
 }
 #endif
 

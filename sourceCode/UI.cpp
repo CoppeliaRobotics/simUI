@@ -479,6 +479,24 @@ void UI::onPropertiesSelectionChange(const QItemSelection &selected, const QItem
         }
     }
 }
+
+void UI::onPropertiesDoubleClick(const QModelIndex &index)
+{
+    ASSERT_THREAD(UI);
+    TRACE_FUNC;
+
+    QTableView *qwidget = dynamic_cast<QTableView*>(sender());
+
+    if(qwidget)
+    {
+        int row = index.row();
+        Properties *properties = dynamic_cast<Properties*>(Widget::byQWidget(qwidget));
+        if(properties)
+        {
+            emit propertiesDoubleClick(properties, row);
+        }
+    }
+}
 #endif
 
 #if WIDGET_TREE

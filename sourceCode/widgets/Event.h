@@ -28,6 +28,18 @@ public:
     friend class SIM;
 };
 
+class EventOnDoubleClick : public Event
+{
+protected:
+    std::string ondoubleclick;
+
+public:
+    EventOnDoubleClick();
+    virtual ~EventOnDoubleClick();
+
+    friend class SIM;
+};
+
 class EventOnChange : public Event
 {
 protected:

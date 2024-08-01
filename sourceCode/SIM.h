@@ -65,6 +65,7 @@ private slots:
 
 #if WIDGET_PROPERTIES
     void onSelectionChangeProperties(Properties *properties, int row);
+    void onPropertiesDoubleClick(Properties *properties, int row);
 #endif
 
 #if WIDGET_TREE

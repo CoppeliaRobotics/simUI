@@ -18,7 +18,7 @@ class UI;
 #include "Widget.h"
 #include "Event.h"
 
-class Properties : public Widget, public EventOnKeyPress
+class Properties : public Widget, public EventOnKeyPress, EventOnDoubleClick
 {
 protected:
     std::vector<std::string> pnames;

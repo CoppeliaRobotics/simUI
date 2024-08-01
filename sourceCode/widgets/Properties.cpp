@@ -111,6 +111,8 @@ void Properties::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2
     onSelectionChange = xmlutils::getAttrStr(e, "on-selection-change", "");
 
     onKeyPress = xmlutils::getAttrStr(e, "on-key-press", "");
+
+    ondoubleclick = xmlutils::getAttrStr(e, "on-double-click", "");
 }
 
 QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
@@ -128,6 +130,7 @@ QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     tableView->setShowGrid(true);
 
     QObject::connect(tableView->selectionModel(), &QItemSelectionModel::selectionChanged, ui, &UI::onPropertiesSelectionChange);
+    QObject::connect(tableView, &QAbstractItemView::doubleClicked, ui, &UI::onPropertiesDoubleClick);
 
     setQWidget(tableView);
     setProxy(proxy);
