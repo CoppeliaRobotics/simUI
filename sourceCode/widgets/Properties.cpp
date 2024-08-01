@@ -123,7 +123,7 @@ QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     tableView->setStyleSheet(QString::fromStdString(style));
     tableView->horizontalHeader()->setVisible(true);
     tableView->verticalHeader()->setVisible(false);
-    tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
     tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     tableView->setModel(new CustomTableModel(tableView, tableView));
