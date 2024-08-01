@@ -451,7 +451,7 @@ void UI::onTableSelectionChange()
 }
 #endif
 
-#if WIDGET_TABLE
+#if WIDGET_PROPERTIES
 #include "widgets/Properties.h"
 void UI::onPropertiesSelectionChange(const QItemSelection &selected, const QItemSelection &deselected)
 {
