@@ -103,7 +103,7 @@ public:
         oldSceneID = sceneID;
     }
 
-    void onScriptStateAboutToBeDestroyed(int scriptHandle, int scriptUid)
+    void onScriptStateAboutToBeDestroyed(int scriptHandle, long long scriptUid)
     {
         for(auto proxy : handles.find(scriptHandle))
             SIM::getInstance()->destroy(handles.remove(proxy));
