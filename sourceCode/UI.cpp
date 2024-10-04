@@ -490,10 +490,11 @@ void UI::onPropertiesDoubleClick(const QModelIndex &index)
     if(qwidget)
     {
         int row = index.row();
+        int col = index.column();
         Properties *properties = dynamic_cast<Properties*>(Widget::byQWidget(qwidget));
         if(properties)
         {
-            emit propertiesDoubleClick(properties, row);
+            emit propertiesDoubleClick(properties, row, col);
         }
     }
 }

@@ -272,7 +272,7 @@ signals:
 
 #if WIDGET_PROPERTIES
     void propertiesSelectionChange(Properties *properties, int row);
-    void propertiesDoubleClick(Properties *properties, int row);
+    void propertiesDoubleClick(Properties *properties, int row, int col);
 #endif
 
 #if WIDGET_TREE

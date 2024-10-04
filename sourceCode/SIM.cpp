@@ -516,7 +516,7 @@ void SIM::onSelectionChangeProperties(Properties *properties, int row)
     onPropertiesSelectionChangeCallback(properties->proxy->getScriptID(), properties->onSelectionChange.c_str(), &in, &out);
 }
 
-void SIM::onPropertiesDoubleClick(Properties *properties, int row)
+void SIM::onPropertiesDoubleClick(Properties *properties, int row, int col)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, properties);
@@ -527,6 +527,7 @@ void SIM::onPropertiesDoubleClick(Properties *properties, int row)
     in.handle = properties->proxy->handle;
     in.id = properties->id;
     in.row = row;
+    in.col = col;
     onPropertiesDoubleClickCallback_out out;
     onPropertiesDoubleClickCallback(properties->proxy->getScriptID(), properties->ondoubleclick.c_str(), &in, &out);
 }

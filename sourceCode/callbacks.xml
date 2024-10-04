@@ -2999,7 +2999,10 @@
                 <description>the ID of the properties widget</description>
             </param>
             <param name="row" type="int">
-                <description>the row index (zero based) of the activated cell</description>
+                <description>the row index (zero based) of the double-clicked cell</description>
+            </param>
+            <param name="col" type="int">
+                <description>the column index (zero based) of the double-clicked cell</description>
             </param>
         </params>
         <return>
