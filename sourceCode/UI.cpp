@@ -21,6 +21,7 @@
 #include <QDialog>
 #include <QTreeWidget>
 #include <QTextBrowser>
+#include <QClipboard>
 
 #include <simPlusPlus/Lib.h>
 #include "stubs.h"
@@ -1102,6 +1103,12 @@ void UI::onSetPropertiesSelection(Properties *properties, int row, bool suppress
 {
     properties->setSelection(row, suppressSignals);
 }
+
+void UI::onSetPropertiesContextMenu(Properties *properties, std::vector<std::string> keys, std::vector<std::string> titles)
+{
+    properties->setContextMenu(keys, titles);
+}
+
 #endif
 
 #if WIDGET_TREE
@@ -1247,3 +1254,8 @@ void UI::onSvgLoadData(SVG *svg, const QByteArray &data)
 }
 #endif
 
+void UI::onSetClipboardText(QString text)
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(text);
+}

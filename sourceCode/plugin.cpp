@@ -1287,6 +1287,14 @@ public:
 #endif
     }
 
+    void setPropertiesContextMenu(setPropertiesContextMenu_in *in, setPropertiesContextMenu_out *out)
+    {
+#if WIDGET_PROPERTIES
+        Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
+        SIM::getInstance()->setPropertiesContextMenu(properties, in->keys, in->titles);
+#endif
+    }
+
     void supportedImageFormats(supportedImageFormats_in *in, supportedImageFormats_out *out)
     {
         QList<QByteArray> fmts = QImageReader::supportedImageFormats();
@@ -1316,6 +1324,11 @@ public:
     {
         auto v = QLibraryInfo::version().segments();
         out->version = std::vector<int>(v.constBegin(), v.constEnd());
+    }
+
+    void setClipboardText(setClipboardText_in *in, setClipboardText_out *out)
+    {
+        SIM::getInstance()->setClipboardText(QString::fromStdString(in->text));
     }
 
 private:

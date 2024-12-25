@@ -2737,6 +2737,16 @@
             </param>
         </return>
     </command>
+    <command name="setClipboardText">
+        <description>Set the content of the clipboard to the specified text.</description>
+        <params>
+            <param name="text" type="string">
+                <description></description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="setProperties">
         <params>
             <param name="handle" type="string">
@@ -2786,6 +2796,20 @@
             <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="setPropertiesContextMenu">
+        <params>
+            <param name="handle" type="string">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="keys" type="table" item-type="string"></param>
+            <param name="titles" type="table" item-type="string"></param>
         </params>
         <return>
         </return>
@@ -3003,6 +3027,20 @@
             </param>
             <param name="col" type="int">
                 <description>the column index (zero based) of the double-clicked cell</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+    <script-function name="onPropertiesContextMenuTriggeredCallback">
+        <params>
+            <param name="handle" type="string">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the properties widget</description>
+            </param>
+            <param name="key" type="string">
             </param>
         </params>
         <return>

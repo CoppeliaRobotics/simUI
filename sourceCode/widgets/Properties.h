@@ -18,13 +18,18 @@ class UI;
 #include "Widget.h"
 #include "Event.h"
 
+class PropertiesWidget;
+
 class Properties : public Widget, public EventOnKeyPress, EventOnDoubleClick
 {
 protected:
     std::vector<std::string> pnames;
     std::vector<std::string> ptypes;
     std::vector<std::string> pvalues;
+    std::vector<std::string> cmKeys;
+    std::vector<std::string> cmTitles;
     std::string onSelectionChange;
+    std::string onContextMenuTriggered;
 
 public:
     Properties();
@@ -35,18 +40,24 @@ public:
     void setSelection(int row, bool suppressSignals);
     void setItems(std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, bool suppressSignals);
     void setRow(int row, std::string pname, std::string ptype, std::string pvalue, bool suppressSignals);
-
+    void setContextMenu(std::vector<std::string> keys, std::vector<std::string> titles);
+    void fillContextMenu(PropertiesWidget *owner, QMenu *menu);
+    inline bool hasContextMenu() { return cmKeys.size() > 0; }
     friend class SIM;
 };
 
 class PropertiesWidget : public QTableView
 {
+    Q_OBJECT
 private:
     Properties *properties;
 
 public:
     PropertiesWidget(Properties *properties_, QWidget *parent);
     void keyPressEvent(QKeyEvent *event);
+
+signals:
+    void contextMenuTriggered(std::string key);
 };
 
 class CustomTableModel : public QAbstractTableModel

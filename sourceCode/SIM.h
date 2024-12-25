@@ -66,6 +66,7 @@ private slots:
 #if WIDGET_PROPERTIES
     void onSelectionChangeProperties(Properties *properties, int row);
     void onPropertiesDoubleClick(Properties *properties, int row, int col);
+    void onPropertiesContextMenuTriggered(Properties *properties, std::string key);
 #endif
 
 #if WIDGET_TREE
@@ -194,6 +195,7 @@ signals:
     void setProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, bool suppressSignals);
     void setPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalue, bool suppressSignals);
     void setPropertiesSelection(Properties *properties, int row, bool suppressSignals);
+    void setPropertiesContextMenu(Properties *properties, std::vector<std::string> keys, std::vector<std::string> titles);
 #endif
 
 #if WIDGET_TREE
@@ -234,6 +236,8 @@ signals:
     void svgLoadFile(SVG *svg, const QString &file);
     void svgLoadData(SVG *svg, const QByteArray &data);
 #endif
+
+    void setClipboardText(QString text);
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

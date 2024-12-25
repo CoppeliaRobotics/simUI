@@ -195,6 +195,7 @@ public slots:
     void onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, bool suppressSignals);
     void onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalues, bool suppressSignals);
     void onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals);
+    void onSetPropertiesContextMenu(Properties *properties, std::vector<std::string> keys, std::vector<std::string> titles);
     void onPropertiesSelectionChange(const QItemSelection &selected, const QItemSelection &deselected);
     void onPropertiesDoubleClick(const QModelIndex &index);
 #endif
@@ -238,6 +239,8 @@ public slots:
     void onSvgLoadData(SVG *svg, const QByteArray &data);
 #endif
 
+    void onSetClipboardText(QString text);
+
 signals:
     void buttonClick(Widget *widget);
     void linkActivated(Widget *widget, QString link);
@@ -273,6 +276,7 @@ signals:
 #if WIDGET_PROPERTIES
     void propertiesSelectionChange(Properties *properties, int row);
     void propertiesDoubleClick(Properties *properties, int row, int col);
+    void propertiesContextMenuTriggered(Properties *properties, std::string key);
 #endif
 
 #if WIDGET_TREE

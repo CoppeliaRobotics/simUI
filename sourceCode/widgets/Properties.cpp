@@ -113,6 +113,8 @@ void Properties::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2
     onKeyPress = xmlutils::getAttrStr(e, "on-key-press", "");
 
     ondoubleclick = xmlutils::getAttrStr(e, "on-double-click", "");
+
+    onContextMenuTriggered = xmlutils::getAttrStr(e, "on-context-menu-triggered", "");
 }
 
 QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
@@ -131,6 +133,9 @@ QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
 
     QObject::connect(tableView->selectionModel(), &QItemSelectionModel::selectionChanged, ui, &UI::onPropertiesSelectionChange);
     QObject::connect(tableView, &QAbstractItemView::doubleClicked, ui, &UI::onPropertiesDoubleClick);
+    QObject::connect(tableView, &PropertiesWidget::contextMenuTriggered, ui, [=] (std::string key) {
+        ui->propertiesContextMenuTriggered(this, key);
+    });
 
     setQWidget(tableView);
     setProxy(proxy);
@@ -169,9 +174,37 @@ void Properties::setRow(int row, std::string pname, std::string ptype, std::stri
     model->setRow(row, QString::fromStdString(pname), QString::fromStdString(ptype), QString::fromStdString(pvalue));
 }
 
+void Properties::setContextMenu(std::vector<std::string> keys, std::vector<std::string> titles)
+{
+    cmKeys = keys;
+    cmTitles = titles;
+}
+
+void Properties::fillContextMenu(PropertiesWidget *owner, QMenu *menu)
+{
+    for(int i = 0; i < cmKeys.size(); i++) {
+        if(cmKeys[i] == "--")
+        {
+            menu->addSeparator();
+        }
+        else
+        {
+            QAction *a = menu->addAction(QString::fromStdString(i < cmTitles.size() ? cmTitles[i] : cmKeys[i]));
+            QObject::connect(a, &QAction::triggered, owner, [=] () { owner->contextMenuTriggered(cmKeys[i]); });
+        }
+    }
+}
+
 PropertiesWidget::PropertiesWidget(Properties *properties_, QWidget *parent)
     : QTableView(parent), properties(properties_)
 {
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &QTableWidget::customContextMenuRequested, this, [=] (const QPoint &pos) {
+        if(!properties->hasContextMenu()) return;
+        QMenu contextMenu(this);
+        properties->fillContextMenu(this, &contextMenu);
+        /*QAction *selectedAction = */contextMenu.exec(viewport()->mapToGlobal(pos));
+    });
 }
 
 void PropertiesWidget::keyPressEvent(QKeyEvent *event)

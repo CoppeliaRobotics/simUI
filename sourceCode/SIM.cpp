@@ -148,6 +148,7 @@ void SIM::connectSignals()
 #if WIDGET_PROPERTIES
     connect(ui, &UI::propertiesSelectionChange, this, &SIM::onSelectionChangeProperties);
     connect(ui, &UI::propertiesDoubleClick, this, &SIM::onPropertiesDoubleClick);
+    connect(ui, &UI::propertiesContextMenuTriggered, this, &SIM::onPropertiesContextMenuTriggered);
 #endif
 #if WIDGET_TREE
     connect(ui, &UI::treeSelectionChange, this, &SIM::onSelectionChangeTree);
@@ -197,6 +198,7 @@ void SIM::connectSignals()
     connect(this, &SIM::setProperties, ui, &UI::onSetProperties, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setPropertiesRow, ui, &UI::onSetPropertiesRow, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setPropertiesSelection, ui, &UI::onSetPropertiesSelection, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::setPropertiesContextMenu, ui, &UI::onSetPropertiesContextMenu, Qt::BlockingQueuedConnection);
 #endif
 #if WIDGET_TREE
     connect(this, &SIM::clearTree, ui, &UI::onClearTree, Qt::BlockingQueuedConnection);
@@ -231,6 +233,7 @@ void SIM::connectSignals()
     connect(this, &SIM::svgLoadFile, ui, &UI::onSvgLoadFile, Qt::BlockingQueuedConnection);
     connect(this, &SIM::svgLoadData, ui, &UI::onSvgLoadData, Qt::BlockingQueuedConnection);
 #endif
+    connect(this, &SIM::setClipboardText, ui, &UI::onSetClipboardText, Qt::BlockingQueuedConnection);
 }
 
 /**
@@ -530,6 +533,21 @@ void SIM::onPropertiesDoubleClick(Properties *properties, int row, int col)
     in.col = col;
     onPropertiesDoubleClickCallback_out out;
     onPropertiesDoubleClickCallback(properties->proxy->getScriptID(), properties->ondoubleclick.c_str(), &in, &out);
+}
+
+void SIM::onPropertiesContextMenuTriggered(Properties *properties, std::string key)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, properties);
+
+    if(properties->onContextMenuTriggered == "" || properties->proxy->scriptID == -1) return;
+
+    onPropertiesContextMenuTriggeredCallback_in in;
+    in.handle = properties->proxy->handle;
+    in.id = properties->id;
+    in.key = key;
+    onPropertiesContextMenuTriggeredCallback_out out;
+    onPropertiesContextMenuTriggeredCallback(properties->proxy->getScriptID(), properties->onContextMenuTriggered.c_str(), &in, &out);
 }
 #endif
 
