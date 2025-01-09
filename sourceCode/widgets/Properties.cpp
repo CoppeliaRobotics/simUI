@@ -130,6 +130,7 @@ QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     tableView->setModel(new CustomTableModel(tableView, tableView));
     tableView->setShowGrid(true);
+    tableView->setWordWrap(false);
 
     QObject::connect(tableView->selectionModel(), &QItemSelectionModel::selectionChanged, ui, &UI::onPropertiesSelectionChange);
     QObject::connect(tableView, &QAbstractItemView::doubleClicked, ui, &UI::onPropertiesDoubleClick);
