@@ -124,6 +124,7 @@ QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     tableView->setVisible(visible);
     tableView->setStyleSheet(QString::fromStdString(style));
     tableView->horizontalHeader()->setVisible(true);
+    tableView->horizontalHeader()->setStretchLastSection(true);
     tableView->verticalHeader()->setVisible(false);
     tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
     tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
