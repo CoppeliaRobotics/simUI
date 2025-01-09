@@ -2814,6 +2814,32 @@
         <return>
         </return>
     </command>
+    <command name="setPropertiesState">
+        <params>
+            <param name="handle" type="string">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+            <param name="state" type="string"></param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="getPropertiesState">
+        <params>
+            <param name="handle" type="string">
+                <description>ui handle</description>
+            </param>
+            <param name="id" type="int">
+                <description>widget id</description>
+            </param>
+        </params>
+        <return>
+            <param name="state" type="string"></param>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>

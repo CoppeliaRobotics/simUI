@@ -196,6 +196,8 @@ signals:
     void setPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalue, bool suppressSignals);
     void setPropertiesSelection(Properties *properties, int row, bool suppressSignals);
     void setPropertiesContextMenu(Properties *properties, std::vector<std::string> keys, std::vector<std::string> titles);
+    void setPropertiesState(Properties *properties, std::string state);
+    void getPropertiesState(Properties *properties, std::string *state);
 #endif
 
 #if WIDGET_TREE

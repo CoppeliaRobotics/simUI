@@ -196,6 +196,8 @@ public slots:
     void onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalues, bool suppressSignals);
     void onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals);
     void onSetPropertiesContextMenu(Properties *properties, std::vector<std::string> keys, std::vector<std::string> titles);
+    void onSetPropertiesState(Properties *properties, std::string state);
+    void onGetPropertiesState(Properties *properties, std::string *state);
     void onPropertiesSelectionChange(const QItemSelection &selected, const QItemSelection &deselected);
     void onPropertiesDoubleClick(const QModelIndex &index);
 #endif

@@ -1295,6 +1295,22 @@ public:
 #endif
     }
 
+    void setPropertiesState(setPropertiesState_in *in, setPropertiesState_out *out)
+    {
+#if WIDGET_PROPERTIES
+        Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
+        SIM::getInstance()->setPropertiesState(properties, in->state);
+#endif
+    }
+
+    void getPropertiesState(getPropertiesState_in *in, getPropertiesState_out *out)
+    {
+#if WIDGET_PROPERTIES
+        Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
+        SIM::getInstance()->getPropertiesState(properties, &out->state);
+#endif
+    }
+
     void supportedImageFormats(supportedImageFormats_in *in, supportedImageFormats_out *out)
     {
         QList<QByteArray> fmts = QImageReader::supportedImageFormats();

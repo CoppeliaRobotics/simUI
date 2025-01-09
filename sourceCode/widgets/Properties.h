@@ -43,6 +43,9 @@ public:
     void setContextMenu(std::vector<std::string> keys, std::vector<std::string> titles);
     void fillContextMenu(PropertiesWidget *owner, QMenu *menu);
     inline bool hasContextMenu() { return cmKeys.size() > 0; }
+    std::string saveState();
+    bool restoreState(std::string state);
+
     friend class SIM;
 };
 

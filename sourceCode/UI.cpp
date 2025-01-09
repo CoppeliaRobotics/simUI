@@ -1109,6 +1109,16 @@ void UI::onSetPropertiesContextMenu(Properties *properties, std::vector<std::str
     properties->setContextMenu(keys, titles);
 }
 
+void UI::onSetPropertiesState(Properties *properties, std::string state)
+{
+    properties->restoreState(state);
+}
+
+void UI::onGetPropertiesState(Properties *properties, std::string *state)
+{
+    *state = properties->saveState();
+}
+
 #endif
 
 #if WIDGET_TREE

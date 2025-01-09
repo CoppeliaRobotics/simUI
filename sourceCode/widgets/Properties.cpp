@@ -195,6 +195,23 @@ void Properties::fillContextMenu(PropertiesWidget *owner, QMenu *menu)
     }
 }
 
+std::string Properties::saveState()
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    QByteArray hhState = tablewidget->horizontalHeader()->saveState();
+    std::string hh(hhState.constData(), hhState.length());
+    return hh;
+}
+
+bool Properties::restoreState(std::string state)
+{
+    QTableWidget *tablewidget = static_cast<QTableWidget*>(getQWidget());
+    QByteArray hhState(state.data(), state.size());
+    bool ret = true;
+    ret = ret && tablewidget->horizontalHeader()->restoreState(hhState);
+    return ret;
+}
+
 PropertiesWidget::PropertiesWidget(Properties *properties_, QWidget *parent)
     : QTableView(parent), properties(properties_)
 {
