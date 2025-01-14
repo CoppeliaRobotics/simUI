@@ -172,8 +172,12 @@ void Properties::setItems(std::vector<std::string> pnames, std::vector<std::stri
 void Properties::setRow(int row, std::string pname, std::string ptype, std::string pvalue, bool suppressSignals)
 {
     QTableView *tableView = static_cast<QTableView*>(getQWidget());
+    auto idx = tableView->currentIndex();
     CustomTableModel *model = static_cast<CustomTableModel*>(tableView->model());
     model->setRow(row, QString::fromStdString(pname), QString::fromStdString(ptype), QString::fromStdString(pvalue));
+    bool oldSignalsState = tableView->blockSignals(true);
+    tableView->setCurrentIndex(idx);
+    tableView->blockSignals(oldSignalsState);
 }
 
 void Properties::setContextMenu(std::vector<std::string> keys, std::vector<std::string> titles)
