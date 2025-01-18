@@ -53,6 +53,9 @@ QVariant CustomTableModel::data(const QModelIndex &index, int role) const
         if(column == 2) return pvalues[row];
     }
 
+    if(role == Qt::ForegroundRole && row < pflags.size() && pflags[row] < 0)
+        return QColor(127, 127, 127);
+
     return QVariant();
 }
 
