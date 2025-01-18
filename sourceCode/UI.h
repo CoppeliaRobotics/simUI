@@ -192,8 +192,8 @@ public slots:
 #endif
 
 #if WIDGET_PROPERTIES
-    void onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, bool suppressSignals);
-    void onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalues, bool suppressSignals);
+    void onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, bool suppressSignals);
+    void onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, bool suppressSignals);
     void onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals);
     void onSetPropertiesContextMenu(Properties *properties, std::vector<std::string> keys, std::vector<std::string> titles);
     void onSetPropertiesState(Properties *properties, std::string state);
@@ -279,6 +279,7 @@ signals:
     void propertiesSelectionChange(Properties *properties, int row);
     void propertiesDoubleClick(Properties *properties, int row, int col);
     void propertiesContextMenuTriggered(Properties *properties, std::string key);
+    void propertiesPropertyEdit(Properties *properties, std::string key, std::string value);
 #endif
 
 #if WIDGET_TREE

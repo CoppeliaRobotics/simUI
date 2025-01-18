@@ -2758,6 +2758,9 @@
             <param name="pnames" type="table" item-type="string"></param>
             <param name="ptypes" type="table" item-type="string"></param>
             <param name="pvalues" type="table" item-type="string"></param>
+            <param name="pflags" type="table" item-type="int"></param>
+            <param name="pdisplayk" type="table" item-type="string"></param>
+            <param name="pdisplayv" type="table" item-type="string"></param>
             <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
@@ -2777,6 +2780,9 @@
             <param name="pname" type="string"></param>
             <param name="ptype" type="string"></param>
             <param name="pvalue" type="string"></param>
+            <param name="pflags" type="int"></param>
+            <param name="pdisplayk" type="string"></param>
+            <param name="pdisplayv" type="string"></param>
             <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
@@ -3068,6 +3074,20 @@
             </param>
             <param name="key" type="string">
             </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+    <script-function name="onPropertiesPropertyEditCallback">
+        <params>
+            <param name="handle" type="string">
+                <description>the handle of the UI</description>
+            </param>
+            <param name="id" type="int">
+                <description>the ID of the properties widget</description>
+            </param>
+            <param name="key" type="string"></param>
+            <param name="value" type="string"></param>
         </params>
         <return>
         </return>

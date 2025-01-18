@@ -1267,7 +1267,7 @@ public:
     {
 #if WIDGET_PROPERTIES
         Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
-        SIM::getInstance()->setProperties(properties, in->pnames, in->ptypes, in->pvalues, in->suppressEvents);
+        SIM::getInstance()->setProperties(properties, in->pnames, in->ptypes, in->pvalues, in->pflags, in->pdisplayk, in->pdisplayv, in->suppressEvents);
 #endif
     }
 
@@ -1275,7 +1275,7 @@ public:
     {
 #if WIDGET_PROPERTIES
         Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
-        SIM::getInstance()->setPropertiesRow(properties, in->row, in->pname, in->ptype, in->pvalue, in->suppressEvents);
+        SIM::getInstance()->setPropertiesRow(properties, in->row, in->pname, in->ptype, in->pvalue, in->pflags, in->pdisplayk, in->pdisplayv, in->suppressEvents);
 #endif
     }
 

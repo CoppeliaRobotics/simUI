@@ -149,6 +149,7 @@ void SIM::connectSignals()
     connect(ui, &UI::propertiesSelectionChange, this, &SIM::onSelectionChangeProperties);
     connect(ui, &UI::propertiesDoubleClick, this, &SIM::onPropertiesDoubleClick);
     connect(ui, &UI::propertiesContextMenuTriggered, this, &SIM::onPropertiesContextMenuTriggered);
+    connect(ui, &UI::propertiesPropertyEdit, this, &SIM::onPropertiesPropertyEdit);
 #endif
 #if WIDGET_TREE
     connect(ui, &UI::treeSelectionChange, this, &SIM::onSelectionChangeTree);
@@ -550,6 +551,22 @@ void SIM::onPropertiesContextMenuTriggered(Properties *properties, std::string k
     in.key = key;
     onPropertiesContextMenuTriggeredCallback_out out;
     onPropertiesContextMenuTriggeredCallback(properties->proxy->getScriptID(), properties->onContextMenuTriggered.c_str(), &in, &out);
+}
+
+void SIM::onPropertiesPropertyEdit(Properties *properties, std::string key, std::string value)
+{
+    ASSERT_THREAD(!UI);
+    CHECK_POINTER(Widget, properties);
+
+    if(properties->onPropertyEdit == "" || properties->proxy->scriptID == -1) return;
+
+    onPropertiesPropertyEditCallback_in in;
+    in.handle = properties->proxy->handle;
+    in.id = properties->id;
+    in.key = key;
+    in.value = value;
+    onPropertiesPropertyEditCallback_out out;
+    onPropertiesPropertyEditCallback(properties->proxy->getScriptID(), properties->onPropertyEdit.c_str(), &in, &out);
 }
 #endif
 
