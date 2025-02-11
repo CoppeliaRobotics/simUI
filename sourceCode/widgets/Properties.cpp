@@ -250,7 +250,10 @@ void Properties::fillContextMenu(PropertiesWidget *owner, QMenu *menu)
         else
         {
             QAction *a = menu->addAction(QString::fromStdString(i < cmTitles.size() ? cmTitles[i] : cmKeys[i]));
-            QObject::connect(a, &QAction::triggered, owner, [=] () { owner->contextMenuTriggered(cmKeys[i]); });
+            if(cmKeys[i][0] == '#')
+                a->setEnabled(false);
+            else
+                QObject::connect(a, &QAction::triggered, owner, [=] () { owner->contextMenuTriggered(cmKeys[i]); });
         }
     }
 }
