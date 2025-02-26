@@ -48,8 +48,6 @@ class Plugin : public sim::Plugin
 public:
     void onInit()
     {
-        oldSceneID = sim::getInt32Param(sim_intparam_scene_unique_id);
-
         if(sim::getBoolParam(sim_boolparam_headless))
             throw std::runtime_error("doesn't work in headless mode");
 
@@ -89,7 +87,7 @@ public:
         UI_THREAD = NULL;
     }
 
-    void onInstanceSwitch(int sceneID)
+    void onInstanceSwitch(int sceneID, int oldSceneID)
     {
         for(auto proxy : handles.all())
         {
@@ -99,8 +97,6 @@ public:
                 SIM::getInstance()->sceneChange(window, oldSceneID, sceneID);
             }
         }
-
-        oldSceneID = sceneID;
     }
 
     void onScriptStateAboutToBeDestroyed(int scriptHandle, long long scriptUid)
@@ -1349,7 +1345,6 @@ public:
 
 private:
     sim::Handles<Proxy*> handles{"UI"};
-    int oldSceneID = -1;
 };
 
 SIM_UI_PLUGIN(Plugin)
