@@ -193,7 +193,7 @@ public slots:
 
 #if WIDGET_PROPERTIES
     void onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, bool suppressSignals);
-    void onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, bool suppressSignals);
+    void onSetPropertiesRows(Properties *properties, std::vector<int> rows, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, bool suppressSignals);
     void onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals);
     void onSetPropertiesContextMenu(Properties *properties, std::vector<std::string> keys, std::vector<std::string> titles);
     void onSetPropertiesState(Properties *properties, std::string state);

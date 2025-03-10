@@ -1267,11 +1267,11 @@ public:
 #endif
     }
 
-    void setPropertiesRow(setPropertiesRow_in *in, setPropertiesRow_out *out)
+    void setPropertiesRows(setPropertiesRows_in *in, setPropertiesRows_out *out)
     {
 #if WIDGET_PROPERTIES
         Properties *properties = getWidget<Properties>(in->handle, in->id, "properties");
-        SIM::getInstance()->setPropertiesRow(properties, in->row, in->pname, in->ptype, in->pvalue, in->pflags, in->pdisplayk, in->pdisplayv, in->suppressEvents);
+        SIM::getInstance()->setPropertiesRows(properties, in->rows, in->pnames, in->ptypes, in->pvalues, in->pflags, in->pdisplayk, in->pdisplayv, in->suppressEvents);
 #endif
     }
 

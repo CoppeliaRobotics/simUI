@@ -1094,9 +1094,10 @@ void UI::onSetProperties(Properties *properties, std::vector<std::string> pnames
     properties->setItems(pnames, ptypes, pvalues, pflags, pdisplayk, pdisplayv, suppressSignals);
 }
 
-void UI::onSetPropertiesRow(Properties *properties, int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, bool suppressSignals)
+void UI::onSetPropertiesRows(Properties *properties, std::vector<int> rows, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, bool suppressSignals)
 {
-    properties->setRow(row, pname, ptype, pvalue, pflags, pdisplayk, pdisplayv, suppressSignals);
+    for(size_t i = 0; i < rows.size(); i++)
+        properties->setRow(rows[i], pnames[i], ptypes[i], pvalues[i], pflags[i], pdisplayk[i], pdisplayv[i], suppressSignals);
 }
 
 void UI::onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals)

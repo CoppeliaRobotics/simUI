@@ -197,7 +197,7 @@ void SIM::connectSignals()
 #endif
 #if WIDGET_PROPERTIES
     connect(this, &SIM::setProperties, ui, &UI::onSetProperties, Qt::BlockingQueuedConnection);
-    connect(this, &SIM::setPropertiesRow, ui, &UI::onSetPropertiesRow, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::setPropertiesRows, ui, &UI::onSetPropertiesRows, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setPropertiesSelection, ui, &UI::onSetPropertiesSelection, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setPropertiesContextMenu, ui, &UI::onSetPropertiesContextMenu, Qt::BlockingQueuedConnection);
     connect(this, &SIM::setPropertiesState, ui, &UI::onSetPropertiesState, Qt::BlockingQueuedConnection);
