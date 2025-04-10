@@ -24,6 +24,9 @@
 #include <QDialog>
 #include <QImageReader>
 #include <QLibraryInfo>
+#include <QString>
+#include <QByteArray>
+#include <QCryptographicHash>
 
 #include "tinyxml2.h"
 
@@ -1341,6 +1344,32 @@ public:
     void setClipboardText(setClipboardText_in *in, setClipboardText_out *out)
     {
         SIM::getInstance()->setClipboardText(QString::fromStdString(in->text));
+    }
+
+    void hash(hash_in *in, hash_out *out)
+    {
+        QByteArray ba = QByteArray::fromStdString(in->data);
+        QByteArray hash;
+#define ADD_HASHING_ALGORITHM(algo_name) else if(in->algorithm == #algo_name) hash = QCryptographicHash::hash(ba, QCryptographicHash::algo_name)
+        if(0);
+        ADD_HASHING_ALGORITHM(Md4);
+        ADD_HASHING_ALGORITHM(Md5);
+        ADD_HASHING_ALGORITHM(Sha1);
+        ADD_HASHING_ALGORITHM(Sha224);
+        ADD_HASHING_ALGORITHM(Sha256);
+        ADD_HASHING_ALGORITHM(Sha384);
+        ADD_HASHING_ALGORITHM(Sha512);
+        ADD_HASHING_ALGORITHM(Sha3_224);
+        ADD_HASHING_ALGORITHM(Sha3_256);
+        ADD_HASHING_ALGORITHM(Sha3_384);
+        ADD_HASHING_ALGORITHM(Sha3_512);
+        ADD_HASHING_ALGORITHM(Keccak_224);
+        ADD_HASHING_ALGORITHM(Keccak_256);
+        ADD_HASHING_ALGORITHM(Keccak_384);
+        ADD_HASHING_ALGORITHM(Keccak_512);
+        else
+            throw std::runtime_error("unsupported hashing algorithm");
+        out->hash = hash.toHex().toStdString();
     }
 
 private:
