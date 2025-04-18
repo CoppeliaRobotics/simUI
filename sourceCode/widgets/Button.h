@@ -28,6 +28,7 @@ protected:
     bool checked;
     bool auto_exclusive;
     std::string icon;
+    bool stretch;
 
 public:
     Button();

@@ -165,6 +165,12 @@
                 <default />
                 <description>Name of a icon to use. The only icon name scheme supported is default://SP_xxx where SP_xxx is a constant from http://doc.qt.io/qt-5/qstyle.html#StandardPixmap-enum</description>
             </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>If false, prevent the button expanding in width to fill parent layout (i.e. set a stretch factor of zero).</description>
+            </attribute>
         </attributes>
     </element>
     <element>

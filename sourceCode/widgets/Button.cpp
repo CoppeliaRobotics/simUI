@@ -38,6 +38,8 @@ void Button::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
     onclick = xmlutils::getAttrStr(e, "on-click", "");
 
     icon = xmlutils::getAttrStr(e, "icon", "");
+
+    stretch = xmlutils::getAttrBool(e, "stretch", true);
 }
 
 QWidget * Button::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
@@ -54,6 +56,7 @@ QWidget * Button::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     button->setCheckable(checkable);
     button->setAutoExclusive(auto_exclusive);
     button->setChecked(checked);
+    button->setProperty("stretch", stretch);
     if(!icon.empty())
     {
         QIcon qicon;
