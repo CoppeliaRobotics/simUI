@@ -29,9 +29,7 @@ void TextBrowser::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
     }
     else
     {
-        type = xmlutils::getAttrStr(e, "type", "html");
-        if(type != "plain" && type != "html" && type != "markdown")
-            throw std::runtime_error("unsupported type: " + type);
+        type = xmlutils::getAttrStrEnum(e, "type", "html", {"plain", "html", "markdown"});
     }
 
     read_only = xmlutils::getAttrBool(e, "read-only", true);

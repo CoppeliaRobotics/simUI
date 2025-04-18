@@ -64,7 +64,7 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     style = xmlutils::getAttrStr(e, "style", "");
 
-    placement = xmlutils::getAttrStr(e, "placement", "center");
+    placement = xmlutils::getAttrStrEnum(e, "placement", "center", {"center", "relative", "absolute"});
 
     std::vector<int> position = xmlutils::getAttrIntV(e, "position", "50,50", 2, 2, ",");
     qwidget_pos.setX(position[0]);

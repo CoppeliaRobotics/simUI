@@ -76,12 +76,12 @@ void Table::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XML
 
     onSelectionChange = xmlutils::getAttrStr(e, "on-selection-change", "");
 
-    std::string select_mode_str = xmlutils::getAttrStr(e, "selection-mode", "item");
+    std::string select_mode_str = xmlutils::getAttrStrEnum(e, "selection-mode", "item", {"item", "row", "column"});
     selectionMode = QAbstractItemView::SingleSelection;
     if(select_mode_str == "item") selectionBehavior = QAbstractItemView::SelectItems;
     else if(select_mode_str == "row") selectionBehavior = QAbstractItemView::SelectRows;
     else if(select_mode_str == "column") selectionBehavior = QAbstractItemView::SelectColumns;
-    else throw std::range_error("selection-mode must be one of: 'item', 'row', 'column'");
+    else throw std::range_error("invalid value for selection-mode attribute");
 
     onKeyPress = xmlutils::getAttrStr(e, "on-key-press", "");
 }

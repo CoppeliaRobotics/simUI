@@ -23,10 +23,10 @@ void Progressbar::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml
 
     maximum = xmlutils::getAttrInt(e, "maximum", 100);
 
-    std::string orientation_str = xmlutils::getAttrStr(e, "orientation", "horizontal");
+    std::string orientation_str = xmlutils::getAttrStrEnum(e, "orientation", "horizontal", {"horizontal", "vertical"});
     if(orientation_str == "horizontal") orientation = Qt::Horizontal;
     else if(orientation_str == "vertical") orientation = Qt::Vertical;
-    else throw std::range_error("invalid valud for orientation attribute");
+    else throw std::range_error("invalid value for orientation attribute");
 
     inverted = xmlutils::getAttrBool(e, "inverted", false);
 

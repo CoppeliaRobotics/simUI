@@ -54,7 +54,7 @@ LayoutWidget::~LayoutWidget()
 
 void LayoutWidget::parse(Widget *self, Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 {
-    std::string layoutStr = xmlutils::getAttrStr(e, "layout", "vbox");
+    std::string layoutStr = xmlutils::getAttrStrEnum(e, "layout", "vbox", {"vbox", "hbox", "grid", "form", "none"});
     if(layoutStr == "vbox") layout = VBOX;
     else if(layoutStr == "hbox") layout = HBOX;
     else if(layoutStr == "grid") layout = GRID;

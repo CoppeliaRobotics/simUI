@@ -31,6 +31,8 @@ namespace xmlutils
 
     std::string getAttrStr(tinyxml2::XMLElement *e, std::string name, std::string defaultValue);
 
+    std::string getAttrStrEnum(tinyxml2::XMLElement *e, std::string name, std::string defaultValue, const std::vector<std::string> &validValues);
+
     void string2vector(std::string s, std::vector<std::string>& v, int minLength, int maxLength, const char *sep);
 
     void string2vector(std::string s, std::vector<bool>& v, int minLength, int maxLength, const char *sep);

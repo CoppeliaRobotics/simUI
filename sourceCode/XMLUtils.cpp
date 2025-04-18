@@ -134,6 +134,22 @@ std::string xmlutils::getAttrStr(tinyxml2::XMLElement *e, std::string name, std:
     return value;
 }
 
+std::string xmlutils::getAttrStrEnum(tinyxml2::XMLElement *e, std::string name, std::string defaultValue, const std::vector<std::string> &validValues)
+{
+    std::string value = getAttrStr(e, name, defaultValue);
+
+    if(std::find(validValues.begin(), validValues.end(), value) == validValues.end()) {
+        std::ostringstream oss;
+        oss << "invalid value for attribute '" << name << "': '" << value << "' (must be one of: ";
+        for(size_t i = 0; i < validValues.size(); ++i)
+            oss << (i > 0 ? ", " : "") << "'" << validValues[i] << "'";
+        oss << ")";
+        throw std::runtime_error(oss.str());
+    }
+
+    return value;
+}
+
 void xmlutils::string2vector(std::string s, std::vector<std::string>& v, int minLength, int maxLength, const char *sep)
 {
     boost::char_separator<char> bsep(sep);

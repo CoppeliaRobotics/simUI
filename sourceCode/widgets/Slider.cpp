@@ -30,7 +30,7 @@ void Slider::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 
     tickInterval = xmlutils::getAttrInt(e, "tick-interval", 0);
 
-    std::string tickPositionStr = xmlutils::getAttrStr(e, "tick-position", "none");
+    std::string tickPositionStr = xmlutils::getAttrStrEnum(e, "tick-position", "none", {"none", "both-sides", "above", "below", "left", "right"});
     if(tickPositionStr ==  "none") tickPosition = QSlider::NoTicks;
     else if(tickPositionStr == "both-sides") tickPosition = QSlider::TicksBothSides;
     else if(tickPositionStr == "above") tickPosition = QSlider::TicksAbove;
