@@ -186,7 +186,7 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
         QWidget *mainWindow = (QWidget *)sim::getMainWindow(1);
         QWidget *openglWidget = mainWindow->findChild<QWidget*>("openglWidget");
         int hw = openglWidget->property("hierarchyWidth").toInt();
-        resize(openglWidget->geometry().width() - hw - 2 * banner_offset, -1);
+        window->setFixedWidth(openglWidget->geometry().width() - hw - 2 * banner_offset);
     }
     else if(qwidget_size.isValid())
         resize(qwidget_size);
