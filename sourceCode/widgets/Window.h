@@ -38,6 +38,7 @@ protected:
     std::string style;
     bool activate;
     std::string placement;
+    int banner_offset;
 
     QWidget *qwidget;
 

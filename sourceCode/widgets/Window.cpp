@@ -32,6 +32,7 @@ Window::Window()
       visibility_state(true),
       proxy(NULL)
 {
+    banner_offset = 20;
     sim::addLog(sim_verbosity_debug, __FUNC__);
 }
 
@@ -64,7 +65,7 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     style = xmlutils::getAttrStr(e, "style", "");
 
-    placement = xmlutils::getAttrStrEnum(e, "placement", "center", {"center", "relative", "absolute"});
+    placement = xmlutils::getAttrStrEnum(e, "placement", "center", {"center", "relative", "absolute", "banner"});
 
     std::vector<int> position = xmlutils::getAttrIntV(e, "position", "50,50", 2, 2, ",");
     qwidget_pos.setX(position[0]);
@@ -73,6 +74,23 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
     std::vector<int> size = xmlutils::getAttrIntV(e, "size", "-1,-1", 2, 2, ",");
     qwidget_size.setWidth(size[0]);
     qwidget_size.setHeight(size[1]);
+
+    if(placement == "banner")
+    {
+        if(xmlutils::hasAttr(e, "position"))
+        {
+            sim::addLog(sim_verbosity_warnings, "position cannot be specified when placement is \"banner\"");
+        }
+        if(xmlutils::hasAttr(e, "size"))
+        {
+            sim::addLog(sim_verbosity_warnings, "size cannot be specified when placement is \"banner\"");
+        }
+        if(xmlutils::hasAttr(e, "resizable"))
+        {
+            sim::addLog(sim_verbosity_warnings, "resizable cannot be specified when placement is \"banner\"");
+            resizable = false;
+        }
+    }
 
     activate = xmlutils::getAttrBool(e, "activate", true);
 
@@ -162,7 +180,15 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     window->setModal(modal);
     //window->setAttribute(Qt::WA_DeleteOnClose);
     if(!activate) window->setAttribute(Qt::WA_ShowWithoutActivating);
-    if(qwidget_size.isValid())
+    if(placement == "banner")
+    {
+        window->setWindowFlags(window->windowFlags() | Qt::FramelessWindowHint);
+        QWidget *mainWindow = (QWidget *)sim::getMainWindow(1);
+        QWidget *openglWidget = mainWindow->findChild<QWidget*>("openglWidget");
+        int hw = openglWidget->property("hierarchyWidth").toInt();
+        resize(openglWidget->geometry().width() - hw - 2 * banner_offset, -1);
+    }
+    else if(qwidget_size.isValid())
         resize(qwidget_size);
     window->setEnabled(enabled);
     window->show();
@@ -185,6 +211,23 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     else if(placement == "absolute")
     {
         move(qwidget_pos);
+    }
+    else if(placement == "banner")
+    {
+        QWidget *mainWindow = (QWidget *)sim::getMainWindow(1);
+        QWidget *openglWidget = mainWindow->findChild<QWidget*>("openglWidget");
+        int hw = openglWidget->property("hierarchyWidth").toInt();
+
+        QPoint tl = openglWidget->mapToGlobal(QPoint(hw, 0)); // top-left corner of 3d view
+        int w = openglWidget->width() - hw;
+
+        int frameTopOffset = window->frameGeometry().top() - window->geometry().top();
+
+        QPoint p(
+            tl.x() + (w - window->width()) / 2,
+            tl.y() - frameTopOffset + banner_offset
+        );
+        move(p);
     }
     this->proxy = proxy;
     return window;
