@@ -63,6 +63,7 @@ public:
 
     inline QWidget * getQWidget() {return qwidget;}
 
+    void repositionBanner();
     void adjustSize();
     void hide();
     void show();

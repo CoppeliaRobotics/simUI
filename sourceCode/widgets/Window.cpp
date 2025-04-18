@@ -75,6 +75,8 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
     qwidget_size.setWidth(size[0]);
     qwidget_size.setHeight(size[1]);
 
+    activate = xmlutils::getAttrBool(e, "activate", true);
+
     if(placement == "banner")
     {
         if(xmlutils::hasAttr(e, "position"))
@@ -88,11 +90,14 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
         if(xmlutils::hasAttr(e, "resizable"))
         {
             sim::addLog(sim_verbosity_warnings, "resizable cannot be specified when placement is \"banner\"");
-            resizable = false;
         }
+        if(xmlutils::hasAttr(e, "activate"))
+        {
+            sim::addLog(sim_verbosity_warnings, "activate cannot be specified when placement is \"banner\"");
+        }
+        resizable = false;
+        activate = false;
     }
-
-    activate = xmlutils::getAttrBool(e, "activate", true);
 
     WindowWidget dummyWidget;
     LayoutWidget::parse(&dummyWidget, &dummyWidget, widgets, e);
@@ -175,25 +180,23 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     if(resizable) flags |= Qt::WindowMaximizeButtonHint;
     else flags |= Qt::MSWindowsFixedSizeDialogHint;
     if(closeable) flags |= Qt::WindowCloseButtonHint;
+    if(placement == "banner")
+        flags |= Qt::FramelessWindowHint | Qt::WindowDoesNotAcceptFocus;
     window->setWindowFlags(flags);
-    window->setAttribute(Qt::WA_MacAlwaysShowToolWindow);
+    if(placement != "banner")
+        window->setAttribute(Qt::WA_MacAlwaysShowToolWindow);
+    if(placement == "banner")
+        window->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     window->setModal(modal);
     //window->setAttribute(Qt::WA_DeleteOnClose);
-    if(!activate) window->setAttribute(Qt::WA_ShowWithoutActivating);
-    if(placement == "banner")
-    {
-        window->setWindowFlags(window->windowFlags() | Qt::FramelessWindowHint);
-        QWidget *mainWindow = (QWidget *)sim::getMainWindow(1);
-        QWidget *openglWidget = mainWindow->findChild<QWidget*>("openglWidget");
-        int hw = openglWidget->property("hierarchyWidth").toInt();
-        window->setFixedWidth(openglWidget->geometry().width() - hw - 2 * banner_offset);
-    }
-    else if(qwidget_size.isValid())
+    if(!activate)
+        window->setAttribute(Qt::WA_ShowWithoutActivating);
+    if(qwidget_size.isValid())
         resize(qwidget_size);
     window->setEnabled(enabled);
     window->show();
 #if defined(LIN_SIM) || defined(MAC_SIM)
-    if(!resizable) window->setFixedSize(window->size());
+    if(!resizable && placement != "banner") window->setFixedSize(window->size());
 #endif
     if(placement == "relative")
     {
@@ -214,20 +217,11 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     }
     else if(placement == "banner")
     {
-        QWidget *mainWindow = (QWidget *)sim::getMainWindow(1);
-        QWidget *openglWidget = mainWindow->findChild<QWidget*>("openglWidget");
-        int hw = openglWidget->property("hierarchyWidth").toInt();
-
-        QPoint tl = openglWidget->mapToGlobal(QPoint(hw, 0)); // top-left corner of 3d view
-        int w = openglWidget->width() - hw;
-
-        int frameTopOffset = window->frameGeometry().top() - window->geometry().top();
-
-        QPoint p(
-            tl.x() + (w - window->width()) / 2,
-            tl.y() - frameTopOffset + banner_offset
-        );
-        move(p);
+        auto timer = new QTimer(window);
+        timer->setSingleShot(false);
+        QObject::connect(timer, &QTimer::timeout, window, [this] () {this->repositionBanner();});
+        timer->start(150);
+        this->repositionBanner();
     }
     this->proxy = proxy;
     return window;
@@ -238,6 +232,36 @@ std::string Window::str()
     std::stringstream ss;
     ss << "Window[" << this << "]";
     return ss.str();
+}
+
+void Window::repositionBanner()
+{
+    auto window = qwidget;
+    QSize old_size = qwidget_size;
+    QPoint old_pos = qwidget_pos;
+
+    QWidget *mainWindow = (QWidget *)sim::getMainWindow(1);
+    QWidget *openglWidget = mainWindow->findChild<QWidget*>("openglWidget");
+    int hw = openglWidget->property("hierarchyWidth").toInt();
+
+    qwidget_size = QSize(
+        openglWidget->geometry().width() - hw - 2 * banner_offset,
+        window->height()
+    );
+
+    QPoint tl = openglWidget->mapToGlobal(QPoint(hw, 0)); // top-left corner of 3d view
+    int w = openglWidget->width() - hw;
+    int frameTopOffset = window->frameGeometry().top() - window->geometry().top();
+    qwidget_pos = QPoint(
+        tl.x() + (w - window->width()) / 2,
+        tl.y() - frameTopOffset + banner_offset
+    );
+
+    if(qwidget_size != old_size || qwidget_pos != old_pos)
+    {
+        resize(qwidget_size);
+        move(qwidget_pos);
+    }
 }
 
 void Window::adjustSize()
