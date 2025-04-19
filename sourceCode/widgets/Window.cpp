@@ -254,8 +254,13 @@ void Window::repositionBanner()
     int frameTopOffset = window->frameGeometry().top() - window->geometry().top();
     qwidget_pos = QPoint(
         tl.x() + (w - window->width()) / 2,
-        tl.y() - frameTopOffset + banner_offset
+        tl.y() - frameTopOffset
     );
+#ifdef SIMUI_BANNER_ANCHOR_TO_TOP
+    qwidget_pos.setY(qwidget_pos.y() + banner_offset);
+#else
+    qwidget_pos.setY(qwidget_pos.y() + openglWidget->geometry().height() - window->height() - banner_offset);
+#endif
 
     if(qwidget_size != old_size || qwidget_pos != old_pos)
     {
