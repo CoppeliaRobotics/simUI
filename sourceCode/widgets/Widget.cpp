@@ -178,6 +178,8 @@ void Widget::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XM
 
     visible = xmlutils::getAttrBool(e, "visible", true);
 
+    stretch = xmlutils::getAttrInt(e, "stretch", -1);
+
     std::string tag(e->Value());
     if(tag != widgetClass)
     {

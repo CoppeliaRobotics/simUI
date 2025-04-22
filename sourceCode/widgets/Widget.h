@@ -41,6 +41,7 @@ protected:
     std::string style;
     bool enabled;
     bool visible;
+    int stretch;
 
     Widget(std::string widgetClass);
 

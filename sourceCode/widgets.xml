@@ -100,6 +100,12 @@
                 <description>Enable status of widget.</description>
             </attribute>
             <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -165,12 +171,6 @@
                 <default />
                 <description>Name of a icon to use. The only icon name scheme supported is default://SP_xxx where SP_xxx is a constant from http://doc.qt.io/qt-5/qstyle.html#StandardPixmap-enum</description>
             </attribute>
-            <attribute>
-                <name>stretch</name>
-                <type>bool</type>
-                <default>true</default>
-                <description>If false, prevent the button expanding in width to fill parent layout (i.e. set a stretch factor of zero).</description>
-            </attribute>
         </attributes>
     </element>
     <element>
@@ -182,6 +182,12 @@
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -232,6 +238,12 @@
                 <description>Enable status of widget.</description>
             </attribute>
             <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -266,6 +278,12 @@
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -320,6 +338,12 @@
                 <description>Enable status of widget.</description>
             </attribute>
             <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -357,6 +381,12 @@
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -421,6 +451,12 @@
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -490,6 +526,12 @@
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -684,6 +726,12 @@
                 <description>Enable status of widget.</description>
             </attribute>
             <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -738,6 +786,12 @@
                 <description>Enable status of widget.</description>
             </attribute>
             <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -774,6 +828,12 @@
                 <description>Enable status of widget.</description>
             </attribute>
             <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -802,6 +862,12 @@
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -948,6 +1014,12 @@
                 <description>Enable status of widget.</description>
             </attribute>
             <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
+            </attribute>
+            <attribute>
                 <name>style</name>
                 <type>string</type>
                 <default />
@@ -972,6 +1044,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -1011,6 +1089,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -1061,6 +1145,24 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
         <description>A tree widget. Must contain one &lt;header&gt; element and many &lt;row&gt; elements. Each &lt;header&gt;/&lt;row&gt; element contains only &lt;item&gt; elements. &lt;row&gt; elements can have 'id' and 'parent-id' attributes (positive integers) to set relationships between items, and a 'expanded' attribute (bool) to initially expand the item.</description>
         <attributes>
             <attribute>
+                <name>enabled</name>
+                <type>bool</type>
+                <default>true</default>
+                <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
+            </attribute>
+            <attribute>
+                <name>style</name>
+                <type>string</type>
+                <default />
+                <description>Qt stylesheet.</description>
+            </attribute>
+            <attribute>
                 <name>show-header</name>
                 <type>bool</type>
                 <default>true</default>
@@ -1098,6 +1200,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
@@ -1161,6 +1269,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <type>bool</type>
                 <default>true</default>
                 <description>Enable status of widget.</description>
+            </attribute>
+            <attribute>
+                <name>stretch</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Stretch factor to insert the widget in the parent layout.</description>
             </attribute>
             <attribute>
                 <name>style</name>
