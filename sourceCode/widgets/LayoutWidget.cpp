@@ -140,12 +140,10 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
                 QWidget *qw = w->createQtWidget(proxy, ui, parent);
                 if(qlayout)
                 {
-                    int stretchFactor = 1;
                     if(dynamic_cast<QPushButton*>(qw) && qw->property("stretch").toBool() == false)
-                    {
-                        stretchFactor = 0;
-                    }
-                    qlayout->addWidget(qw, stretchFactor);
+                        qlayout->addWidget(qw, 0);
+                    else
+                        qlayout->addWidget(qw);
                 }
                 if(layout == NONE && w->geometry.isSet)
                 {
