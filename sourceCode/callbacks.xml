@@ -2747,16 +2747,6 @@
         <return>
         </return>
     </command>
-    <command name="hash">
-        <description>Compute a cryptographic hash of the given string.</description>
-        <params>
-            <param name="data" type="string"></param>
-            <param name="algorithm" type="string"></param>
-        </params>
-        <return>
-            <param name="hash" type="string"></param>
-        </return>
-    </command>
     <command name="setProperties">
         <params>
             <param name="handle" type="string">
