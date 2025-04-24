@@ -1288,7 +1288,7 @@ void UI::onBannerShow(const QString &text, const QStringList &btnKeys, const QSt
     banner->setStyleSheet(R"(
         QWidget#banner {
             background-color: #ede99d;
-            border: 1px solid black;
+            border: 1px solid rgba(0, 0, 0, 25%);
         }
     )");
     QHBoxLayout* layout = new QHBoxLayout(banner);
