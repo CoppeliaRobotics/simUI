@@ -237,6 +237,11 @@ void SIM::connectSignals()
     connect(this, &SIM::svgLoadData, ui, &UI::onSvgLoadData, Qt::BlockingQueuedConnection);
 #endif
     connect(this, &SIM::setClipboardText, ui, &UI::onSetClipboardText, Qt::BlockingQueuedConnection);
+#if BANNER
+    connect(this, &SIM::bannerShow, ui, &UI::onBannerShow, Qt::BlockingQueuedConnection);
+    connect(this, &SIM::bannerHide, ui, &UI::onBannerHide, Qt::BlockingQueuedConnection);
+    connect(ui, &UI::bannerButtonClick, this, &SIM::onBannerButtonClick);
+#endif
 }
 
 /**
@@ -664,3 +669,14 @@ void SIM::onScene3DObjectClick(Scene3D *scene3d, int id)
 }
 #endif
 
+#if BANNER
+void SIM::onBannerButtonClick(int scriptID, const std::string &callback, const QString &btnKey)
+{
+    ASSERT_THREAD(!UI);
+
+    onBannerButtonClickCallback_in in;
+    in.btnKey = btnKey.toStdString();
+    onBannerButtonClickCallback_out out;
+    onBannerButtonClickCallback(scriptID, callback.c_str(), &in, &out);
+}
+#endif

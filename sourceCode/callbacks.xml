@@ -2856,6 +2856,30 @@
             <param name="state" type="string"></param>
         </return>
     </command>
+    <command name="bannerShow">
+        <params>
+            <param name="text" type="string">
+                <description>banner text</description>
+            </param>
+            <param name="btnKeys" type="table" item-type="string">
+                <description>button keys</description>
+            </param>
+            <param name="btnLabels" type="table" item-type="string">
+                <description>button labels</description>
+            </param>
+            <param name="callback" type="string">
+                <description>callback function to call when button is clicked. it will be called with the btnKey argument</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="bannerHide">
+        <params>
+        </params>
+        <return>
+        </return>
+    </command>
     <script-function name="onclickCallback">
         <description>Callback for button click event.</description>
         <params>
@@ -3189,6 +3213,16 @@
             </param>
             <param name="nodeId" type="int">
                 <description>the ID of the object-picker</description>
+            </param>
+        </params>
+        <return>
+        </return>
+    </script-function>
+    <script-function name="onBannerButtonClickCallback">
+        <description>Callback for banner button click event.</description>
+        <params>
+            <param name="btnKey" type="string">
+                <description>ui handle</description>
             </param>
         </params>
         <return>

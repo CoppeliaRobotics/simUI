@@ -84,6 +84,10 @@ private slots:
     void onScene3DObjectClick(Scene3D *scene3d, int id);
 #endif
 
+#if BANNER
+    void onBannerButtonClick(int scriptID, const std::string &callback, const QString &btnKey);
+#endif
+
 signals:
     void msgBox(int type, int buttons, std::string title, std::string message, int *result);
     void fileDialog(int type, std::string title, std::string startPath, std::string initName, std::string extName, std::string ext, bool native, std::vector<std::string> *result);
@@ -241,6 +245,11 @@ signals:
 #endif
 
     void setClipboardText(QString text);
+
+#if BANNER
+    void bannerShow(const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback);
+    void bannerHide();
+#endif
 };
 
 #endif // UIFUNCTIONS_H_INCLUDED

@@ -1270,3 +1270,58 @@ void UI::onSetClipboardText(QString text)
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(text);
 }
+
+#if BANNER
+void UI::onBannerShow(const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback)
+{
+    QVBoxLayout *vlay = UI::simMainWindow->findChild<QVBoxLayout*>("vlay");
+    if(!vlay)
+    {
+        std::cerr << "layout \"vlay\" not found!" << std::endl;
+        return;
+    }
+
+    onBannerHide();
+
+    QWidget *banner = new QWidget(UI::simMainWindow);
+    banner->setObjectName("banner");
+    banner->setStyleSheet(R"(
+        QWidget#banner {
+            background-color: #ede99d;
+            border: 1px solid black;
+        }
+    )");
+    QHBoxLayout* layout = new QHBoxLayout(banner);
+    layout->setContentsMargins(5, 5, 5, 5);
+    layout->setSpacing(5);
+
+    QLabel *label = new QLabel(text);
+    label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    layout->addWidget(label);
+
+    QList<QPushButton*> btns;
+    for(size_t i = 0; i < btnKeys.size(); i++)
+    {
+        QPushButton *btn = new QPushButton();
+        QString btnKey = btnKeys[i];
+        btn->setText(btnLabels.size() > i ? btnLabels[i] : btnKey);
+        connect(btn, &QPushButton::clicked, this, [this, scriptID, callback, btnKey] () {
+            this->bannerButtonClick(scriptID, callback, btnKey);
+        });
+        btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        layout->addWidget(btn, 0);
+        btns << btn;
+    }
+
+    banner->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    banner->setMaximumHeight(banner->sizeHint().height());
+    vlay->insertWidget(1, banner, 0);
+}
+
+void UI::onBannerHide()
+{
+    QWidget *banner = UI::simMainWindow->findChild<QWidget*>("banner");
+    if(banner)
+        delete banner;
+}
+#endif // BANNER

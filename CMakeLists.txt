@@ -71,6 +71,7 @@ set(WIDGET_TABS true CACHE BOOL "include the tabs widget")
 set(WIDGET_TEXTBROWSER true CACHE BOOL "include the textbrowser widget")
 set(WIDGET_TREE true CACHE BOOL "include the tree widget")
 set(WIDGET_VSLIDER true CACHE BOOL "include the vslider widget")
+set(BANNER true CACHE BOOL "banner functionality")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 

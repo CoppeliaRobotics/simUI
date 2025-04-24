@@ -243,6 +243,11 @@ public slots:
 
     void onSetClipboardText(QString text);
 
+#if BANNER
+    void onBannerShow(const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback);
+    void onBannerHide();
+#endif
+
 signals:
     void buttonClick(Widget *widget);
     void linkActivated(Widget *widget, QString link);
@@ -290,6 +295,10 @@ signals:
 
 #if WIDGET_SCENE3D
     void scene3DObjectClick(Scene3D *scene3d, int id);
+#endif
+
+#if BANNER
+    void bannerButtonClick(int scriptID, const std::string &callback, const QString &key);
 #endif
 };
 

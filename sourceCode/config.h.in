@@ -27,6 +27,7 @@
 #cmakedefine01 WIDGET_TEXTBROWSER
 #cmakedefine01 WIDGET_TREE
 #cmakedefine01 WIDGET_VSLIDER
+#cmakedefine01 BANNER
 
 #endif // CONFIG_H_INCLUDED
 

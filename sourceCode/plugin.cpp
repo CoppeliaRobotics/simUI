@@ -1346,6 +1346,26 @@ public:
         SIM::getInstance()->setClipboardText(QString::fromStdString(in->text));
     }
 
+    void bannerShow(bannerShow_in *in, bannerShow_out *out)
+    {
+#if BANNER
+        QString text = QString::fromStdString(in->text);
+        QStringList btnKeys, btnLabels;
+        for(const auto &s : in->btnKeys)
+            btnKeys << QString::fromStdString(s);
+        for(const auto &s : in->btnLabels)
+            btnLabels << QString::fromStdString(s);
+        SIM::getInstance()->bannerShow(text, btnKeys, btnLabels, in->_.scriptID, in->callback);
+#endif // BANNER
+    }
+
+    void bannerHide(bannerHide_in *in, bannerHide_out *out)
+    {
+#if BANNER
+        SIM::getInstance()->bannerHide();
+#endif // BANNER
+    }
+
     void hash(hash_in *in, hash_out *out)
     {
         QByteArray ba = QByteArray::fromStdString(in->data);
