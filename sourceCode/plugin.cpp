@@ -1351,42 +1351,49 @@ public:
 #if BANNER
         static int id = 1;
 
-        QString text = QString::fromStdString(in->text);
-        QStringList btnKeys, btnLabels;
-        for(const auto &s : in->btnKeys)
-            btnKeys << QString::fromStdString(s);
-        for(const auto &s : in->btnLabels)
-            btnLabels << QString::fromStdString(s);
-
-        SIM::getInstance()->bannerShow(text, btnKeys, btnLabels, in->_.scriptID, in->callback);
-
         Banner b;
-        b.id = id;
-        b.text = text;
-        b.btnKeys = btnKeys;
-        b.btnLabels = btnLabels;
+        b.id = id++;
+        b.text = QString::fromStdString(in->text);
+        for(const auto &s : in->btnKeys)
+            b.btnKeys << QString::fromStdString(s);
+        for(const auto &s : in->btnLabels)
+            b.btnLabels << QString::fromStdString(s);
         b.scriptID = in->_.scriptID;
         b.callback = in->callback;
+
         bannerStack.push_back(b);
 
-        out->id = id;
+        if(bannerStack.size() == 1)
+            SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
 
-        id++;
+        out->id = b.id;
 #endif // BANNER
     }
 
     void bannerHide(bannerHide_in *in, bannerHide_out *out)
     {
 #if BANNER
-        int oldTopId = bannerStack.back().id;
+        if(bannerStack.empty())
+            throw std::runtime_error("invalid id");
 
+        int oldId = bannerStack.front().id;
+
+        bool found = false;
         bannerStack.erase(
             std::remove_if(bannerStack.begin(), bannerStack.end(),
-                [in] (const Banner& b) {
-                    return b.id == in->id;
+                [in, &found] (const Banner& b) {
+                    if(b.id == in->id)
+                    {
+                        found = true;
+                        return true;
+                    }
+                    else return false;
                 }),
             bannerStack.end()
         );
+
+        if(!found)
+            throw std::runtime_error("invalid id");
 
         if(bannerStack.empty())
         {
@@ -1394,8 +1401,8 @@ public:
         }
         else
         {
-            const Banner &b = bannerStack.back();
-            if(b.id != oldTopId)
+            const Banner &b = bannerStack.front();
+            if(b.id != oldId)
                 SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
         }
 
