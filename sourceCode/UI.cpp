@@ -1292,7 +1292,7 @@ void UI::onBannerShow(const QString &text, const QStringList &btnKeys, const QSt
         }
     )");
     QHBoxLayout* layout = new QHBoxLayout(banner);
-    layout->setContentsMargins(5, 5, 5, 5);
+    layout->setContentsMargins(10, 4, 10, 4);
     layout->setSpacing(5);
 
     QLabel *label = new QLabel(text);
