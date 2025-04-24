@@ -1349,25 +1349,72 @@ public:
     void bannerShow(bannerShow_in *in, bannerShow_out *out)
     {
 #if BANNER
+        static int id = 1;
+
         QString text = QString::fromStdString(in->text);
         QStringList btnKeys, btnLabels;
         for(const auto &s : in->btnKeys)
             btnKeys << QString::fromStdString(s);
         for(const auto &s : in->btnLabels)
             btnLabels << QString::fromStdString(s);
+
         SIM::getInstance()->bannerShow(text, btnKeys, btnLabels, in->_.scriptID, in->callback);
+
+        Banner b;
+        b.id = id;
+        b.text = text;
+        b.btnKeys = btnKeys;
+        b.btnLabels = btnLabels;
+        b.scriptID = in->_.scriptID;
+        b.callback = in->callback;
+        bannerStack.push_back(b);
+
+        out->id = id;
+
+        id++;
 #endif // BANNER
     }
 
     void bannerHide(bannerHide_in *in, bannerHide_out *out)
     {
 #if BANNER
-        SIM::getInstance()->bannerHide();
+        int oldTopId = bannerStack.back().id;
+
+        bannerStack.erase(
+            std::remove_if(bannerStack.begin(), bannerStack.end(),
+                [in] (const Banner& b) {
+                    return b.id == in->id;
+                }),
+            bannerStack.end()
+        );
+
+        if(bannerStack.empty())
+        {
+            SIM::getInstance()->bannerHide();
+        }
+        else
+        {
+            const Banner &b = bannerStack.back();
+            if(b.id != oldTopId)
+                SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
+        }
+
 #endif // BANNER
     }
 
 private:
     sim::Handles<Proxy*> handles{"UI"};
+
+    struct Banner {
+        int id;
+        QString text;
+        QStringList btnKeys;
+        QStringList btnLabels;
+        int scriptID;
+        std::string callback;
+    };
+
+    std::vector<Banner> bannerStack;
 };
 
 SIM_UI_PLUGIN(Plugin)

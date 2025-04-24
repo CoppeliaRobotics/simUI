@@ -2862,10 +2862,16 @@
             </param>
         </params>
         <return>
+            <param name="id" type="int">
+                <description>banner id</description>
+            </param>
         </return>
     </command>
     <command name="bannerHide">
         <params>
+            <param name="id" type="int">
+                <description>banner id</description>
+            </param>
         </params>
         <return>
         </return>
