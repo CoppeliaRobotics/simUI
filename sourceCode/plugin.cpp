@@ -111,6 +111,17 @@ public:
     {
         for(auto proxy : handles.find(scriptHandle))
             SIM::getInstance()->destroy(handles.remove(proxy));
+
+#if BANNER
+        bannerStack.erase(
+            std::remove_if(
+                bannerStack.begin(), bannerStack.end(),
+                [=] (const Banner& b) { return b.scriptID == scriptHandle; }
+            ),
+            bannerStack.end()
+        );
+        updateBanner();
+#endif // BANNER
     }
 
     void msgBox(msgBox_in *in, msgBox_out *out)
