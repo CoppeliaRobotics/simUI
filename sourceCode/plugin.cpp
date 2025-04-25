@@ -103,18 +103,7 @@ public:
 
 #if BANNER
         // update banner, as scene-specific banner might get hidden/shown
-        int oldBannerIndex = bannerTop(oldSceneID);
-        int newBannerIndex = bannerTop(sceneID);
-        if(oldBannerIndex == newBannerIndex) return;
-        if(newBannerIndex == -1)
-        {
-            SIM::getInstance()->bannerHide();
-        }
-        else
-        {
-            const Banner &b = bannerStack[newBannerIndex];
-            SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
-        }
+        updateBanner();
 #endif // BANNER
     }
 
@@ -1363,16 +1352,31 @@ public:
     }
 
 #if BANNER
-    int bannerTop(int sceneID)
+    void updateBanner()
     {
-        if(bannerStack.empty())
-            return -1;
+        int oldBannerId = currentBannerId;
 
+        int sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
+
+        const Banner *b = nullptr;
+        currentBannerId = -1;
         for(int i = 0; i < bannerStack.size(); i++)
+        {
             if(bannerStack[i].sceneID == -1 || bannerStack[i].sceneID == sceneID)
-                return i;
+            {
+                b = &bannerStack[i];
+                break;
+            }
+        }
 
-        return -1;
+        currentBannerId = b ? b->id : -1;
+
+        if(oldBannerId == currentBannerId) return;
+
+        if(b)
+            SIM::getInstance()->bannerShow(b->text, b->btnKeys, b->btnLabels, b->scriptID, b->callback);
+        else
+            SIM::getInstance()->bannerHide();
     }
 #endif // BANNER
 
@@ -1380,9 +1384,6 @@ public:
     {
 #if BANNER
         static int id = 1;
-
-        int sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
-        int oldBannerIndex = bannerTop(sceneID);
 
         Banner b;
         b.id = id++;
@@ -1395,18 +1396,13 @@ public:
         b.callback = in->callback;
         int scriptType = sim::getIntProperty(in->_.scriptID, "scriptType");
         if(scriptType != sim_scripttype_addon && scriptType != sim_scripttype_sandbox)
-            b.sceneID = sceneID;
+            b.sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
 
         out->id = b.id;
 
         bannerStack.push_back(b);
 
-        int newBannerIndex = bannerTop(sceneID);
-        if(oldBannerIndex != newBannerIndex)
-        {
-            const Banner &b = bannerStack[newBannerIndex];
-            SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
-        }
+        updateBanner();
 #endif // BANNER
     }
 
@@ -1415,11 +1411,6 @@ public:
 #if BANNER
         if(bannerStack.empty())
             throw std::runtime_error("invalid id");
-
-        int oldBannerIndex = bannerTop(sim::getIntProperty(sim_handle_scene, "sceneUid"));
-        std::optional<int> oldId;
-        if(oldBannerIndex != -1)
-            oldId = bannerStack[oldBannerIndex].id;
 
         bool found = false;
         bannerStack.erase(
@@ -1438,17 +1429,7 @@ public:
         if(!found)
             throw std::runtime_error("invalid id");
 
-        int bannerIndex = bannerTop(sim::getIntProperty(sim_handle_scene, "sceneUid"));
-        if(bannerIndex == -1)
-        {
-            SIM::getInstance()->bannerHide();
-        }
-        else
-        {
-            const Banner &b = bannerStack[bannerIndex];
-            if(!oldId.has_value() || b.id != oldId.value())
-                SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
-        }
+        updateBanner();
 #endif // BANNER
     }
 
@@ -1467,6 +1448,7 @@ private:
     };
 
     std::vector<Banner> bannerStack;
+    int currentBannerId {-1};
 #endif // BANNER
 };
 
