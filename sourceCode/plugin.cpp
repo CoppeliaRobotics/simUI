@@ -100,6 +100,22 @@ public:
                 SIM::getInstance()->sceneChange(window, oldSceneID, sceneID);
             }
         }
+
+#if BANNER
+        // update banner, as scene-specific banner might get hidden/shown
+        int oldBannerIndex = bannerTop(oldSceneID);
+        int newBannerIndex = bannerTop(sceneID);
+        if(oldBannerIndex == newBannerIndex) return;
+        if(newBannerIndex == -1)
+        {
+            SIM::getInstance()->bannerHide();
+        }
+        else
+        {
+            const Banner &b = bannerStack[newBannerIndex];
+            SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
+        }
+#endif // BANNER
     }
 
     void onScriptStateAboutToBeDestroyed(int scriptHandle, long long scriptUid)
@@ -1346,10 +1362,27 @@ public:
         SIM::getInstance()->setClipboardText(QString::fromStdString(in->text));
     }
 
+#if BANNER
+    int bannerTop(int sceneID)
+    {
+        if(bannerStack.empty())
+            return -1;
+
+        for(int i = 0; i < bannerStack.size(); i++)
+            if(bannerStack[i].sceneID == -1 || bannerStack[i].sceneID == sceneID)
+                return i;
+
+        return -1;
+    }
+#endif // BANNER
+
     void bannerShow(bannerShow_in *in, bannerShow_out *out)
     {
 #if BANNER
         static int id = 1;
+
+        int sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
+        int oldBannerIndex = bannerTop(sceneID);
 
         Banner b;
         b.id = id++;
@@ -1360,13 +1393,20 @@ public:
             b.btnLabels << QString::fromStdString(s);
         b.scriptID = in->_.scriptID;
         b.callback = in->callback;
+        int scriptType = sim::getIntProperty(in->_.scriptID, "scriptType");
+        if(scriptType != sim_scripttype_addon && scriptType != sim_scripttype_sandbox)
+            b.sceneID = sceneID;
+
+        out->id = b.id;
 
         bannerStack.push_back(b);
 
-        if(bannerStack.size() == 1)
+        int newBannerIndex = bannerTop(sceneID);
+        if(oldBannerIndex != newBannerIndex)
+        {
+            const Banner &b = bannerStack[newBannerIndex];
             SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
-
-        out->id = b.id;
+        }
 #endif // BANNER
     }
 
@@ -1376,7 +1416,10 @@ public:
         if(bannerStack.empty())
             throw std::runtime_error("invalid id");
 
-        int oldId = bannerStack.front().id;
+        int oldBannerIndex = bannerTop(sim::getIntProperty(sim_handle_scene, "sceneUid"));
+        std::optional<int> oldId;
+        if(oldBannerIndex != -1)
+            oldId = bannerStack[oldBannerIndex].id;
 
         bool found = false;
         bannerStack.erase(
@@ -1395,23 +1438,24 @@ public:
         if(!found)
             throw std::runtime_error("invalid id");
 
-        if(bannerStack.empty())
+        int bannerIndex = bannerTop(sim::getIntProperty(sim_handle_scene, "sceneUid"));
+        if(bannerIndex == -1)
         {
             SIM::getInstance()->bannerHide();
         }
         else
         {
-            const Banner &b = bannerStack.front();
-            if(b.id != oldId)
+            const Banner &b = bannerStack[bannerIndex];
+            if(!oldId.has_value() || b.id != oldId.value())
                 SIM::getInstance()->bannerShow(b.text, b.btnKeys, b.btnLabels, b.scriptID, b.callback);
         }
-
 #endif // BANNER
     }
 
 private:
     sim::Handles<Proxy*> handles{"UI"};
 
+#if BANNER
     struct Banner {
         int id;
         QString text;
@@ -1419,9 +1463,11 @@ private:
         QStringList btnLabels;
         int scriptID;
         std::string callback;
+        int sceneID {-1};
     };
 
     std::vector<Banner> bannerStack;
+#endif // BANNER
 };
 
 SIM_UI_PLUGIN(Plugin)
