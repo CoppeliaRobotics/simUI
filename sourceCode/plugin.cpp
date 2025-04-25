@@ -103,7 +103,7 @@ public:
 
 #if BANNER
         // update banner, as scene-specific banner might get hidden/shown
-        updateBanner();
+        bannerUpdate();
 #endif // BANNER
     }
 
@@ -120,7 +120,7 @@ public:
             ),
             bannerStack.end()
         );
-        updateBanner();
+        bannerUpdate();
 #endif // BANNER
     }
 
@@ -1363,7 +1363,7 @@ public:
     }
 
 #if BANNER
-    void updateBanner()
+    void bannerUpdate()
     {
         int oldBannerId = currentBannerId;
 
@@ -1391,7 +1391,7 @@ public:
     }
 #endif // BANNER
 
-    void bannerShow(bannerShow_in *in, bannerShow_out *out)
+    void bannerCreate(bannerCreate_in *in, bannerCreate_out *out)
     {
 #if BANNER
         static int id = 1;
@@ -1413,11 +1413,11 @@ public:
 
         bannerStack.push_back(b);
 
-        updateBanner();
+        bannerUpdate();
 #endif // BANNER
     }
 
-    void bannerHide(bannerHide_in *in, bannerHide_out *out)
+    void bannerDestroy(bannerDestroy_in *in, bannerDestroy_out *out)
     {
 #if BANNER
         if(bannerStack.empty())
@@ -1440,7 +1440,7 @@ public:
         if(!found)
             throw std::runtime_error("invalid id");
 
-        updateBanner();
+        bannerUpdate();
 #endif // BANNER
     }
 
