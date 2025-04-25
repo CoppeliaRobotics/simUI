@@ -1304,7 +1304,27 @@ void UI::onBannerShow(const QString &text, const QStringList &btnKeys, const QSt
     {
         QPushButton *btn = new QPushButton();
         QString btnKey = btnKeys[i];
-        btn->setText(btnLabels.size() > i ? btnLabels[i] : btnKey);
+        QString btnLabel = i < btnLabels.size() ? btnLabels[i] : btnKey;
+        QStringList parts = btnLabel.split("@icon=default://SP_");
+        btnLabel = parts[0];
+        btn->setText(btnLabel);
+        if(parts.size() > 1)
+        {
+            QString icon = "SP_" + parts[1];
+            QStyle::StandardPixmap sp = QStyle::SP_MessageBoxQuestion;
+            if(0) {}
+#define M(n) else if(icon == #n) sp = QStyle::n
+#include "widgets/StandardIcons.h"
+#undef M
+            btn->setIcon(btn->style()->standardIcon(sp));
+            if(btnLabel.isEmpty())
+            {
+                QSize iconSize(16, 16);
+                btn->setIconSize(iconSize);
+                btn->setFixedSize(iconSize);
+                btn->setFlat(true);
+            }
+        }
         connect(btn, &QPushButton::clicked, this, [this, scriptID, callback, btnKey] () {
             this->bannerButtonClick(scriptID, callback, btnKey);
         });
