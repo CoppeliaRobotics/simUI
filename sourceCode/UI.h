@@ -244,7 +244,7 @@ public slots:
     void onSetClipboardText(QString text);
 
 #if BANNER
-    void onBannerShow(const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback);
+    void onBannerShow(int id, const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback);
     void onBannerHide();
 #endif
 
@@ -298,7 +298,7 @@ signals:
 #endif
 
 #if BANNER
-    void bannerButtonClick(int scriptID, const std::string &callback, const QString &key);
+    void bannerButtonClick(int scriptID, const std::string &callback, int id, const QString &key);
 #endif
 };
 

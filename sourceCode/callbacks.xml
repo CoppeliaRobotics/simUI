@@ -2858,7 +2858,7 @@
                 <description>button labels</description>
             </param>
             <param name="callback" type="string">
-                <description>callback function to call when button is clicked. it will be called with the btnKey argument</description>
+                <description>callback function to call when button is clicked. it will be called with arguments (bannerId, btnKey)</description>
             </param>
         </params>
         <return>
@@ -3217,8 +3217,11 @@
     <script-function name="onBannerButtonClickCallback">
         <description>Callback for banner button click event.</description>
         <params>
+            <param name="bannerId" type="int">
+                <description>banner id</description>
+            </param>
             <param name="btnKey" type="string">
-                <description>ui handle</description>
+                <description>button key</description>
             </param>
         </params>
         <return>

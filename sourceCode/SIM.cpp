@@ -670,11 +670,12 @@ void SIM::onScene3DObjectClick(Scene3D *scene3d, int id)
 #endif
 
 #if BANNER
-void SIM::onBannerButtonClick(int scriptID, const std::string &callback, const QString &btnKey)
+void SIM::onBannerButtonClick(int scriptID, const std::string &callback, int id, const QString &btnKey)
 {
     ASSERT_THREAD(!UI);
 
     onBannerButtonClickCallback_in in;
+    in.bannerId = id;
     in.btnKey = btnKey.toStdString();
     onBannerButtonClickCallback_out out;
     onBannerButtonClickCallback(scriptID, callback.c_str(), &in, &out);

@@ -85,7 +85,7 @@ private slots:
 #endif
 
 #if BANNER
-    void onBannerButtonClick(int scriptID, const std::string &callback, const QString &btnKey);
+    void onBannerButtonClick(int scriptID, const std::string &callback, int id, const QString &btnKey);
 #endif
 
 signals:
@@ -247,7 +247,7 @@ signals:
     void setClipboardText(QString text);
 
 #if BANNER
-    void bannerShow(const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback);
+    void bannerShow(int id, const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback);
     void bannerHide();
 #endif
 };

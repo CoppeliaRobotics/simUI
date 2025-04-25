@@ -1385,7 +1385,7 @@ public:
         if(oldBannerId == currentBannerId) return;
 
         if(b)
-            SIM::getInstance()->bannerShow(b->text, b->btnKeys, b->btnLabels, b->scriptID, b->callback);
+            SIM::getInstance()->bannerShow(b->id, b->text, b->btnKeys, b->btnLabels, b->scriptID, b->callback);
         else
             SIM::getInstance()->bannerHide();
     }

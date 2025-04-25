@@ -1272,7 +1272,7 @@ void UI::onSetClipboardText(QString text)
 }
 
 #if BANNER
-void UI::onBannerShow(const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback)
+void UI::onBannerShow(int id, const QString &text, const QStringList &btnKeys, const QStringList &btnLabels, int scriptID, const std::string &callback)
 {
     QVBoxLayout *vlay = UI::simMainWindow->findChild<QVBoxLayout*>("vlay");
     if(!vlay)
@@ -1325,8 +1325,8 @@ void UI::onBannerShow(const QString &text, const QStringList &btnKeys, const QSt
                 btn->setFlat(true);
             }
         }
-        connect(btn, &QPushButton::clicked, this, [this, scriptID, callback, btnKey] () {
-            this->bannerButtonClick(scriptID, callback, btnKey);
+        connect(btn, &QPushButton::clicked, this, [this, scriptID, callback, id, btnKey] () {
+            this->bannerButtonClick(scriptID, callback, id, btnKey);
         });
         btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
         layout->addWidget(btn, 0);
