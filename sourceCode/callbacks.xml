@@ -2854,13 +2854,13 @@
             <param name="text" type="string">
                 <description>banner text</description>
             </param>
-            <param name="btnKeys" type="table" item-type="string">
+            <param name="btnKeys" type="table" item-type="string" nullable="true" default="nil">
                 <description>button keys</description>
             </param>
-            <param name="btnLabels" type="table" item-type="string">
+            <param name="btnLabels" type="table" item-type="string" nullable="true" default="nil">
                 <description>button labels</description>
             </param>
-            <param name="callback" type="string">
+            <param name="callback" type="string" nullable="true" default="nil">
                 <description>callback function to call when button is clicked. it will be called with arguments (bannerId, btnKey)</description>
             </param>
         </params>

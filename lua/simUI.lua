@@ -113,6 +113,12 @@ function simUI.setScene3DNodeParam(ui, widget, nodeId, paramName, paramValue)
     end
 end
 
+function simUI.bannerDefaultButtonCallback(id, key)
+    if key == 'close' then
+        simUI.bannerDestroy(id)
+    end
+end
+
 (require 'simUI-typecheck')(simUI)
 
 return simUI

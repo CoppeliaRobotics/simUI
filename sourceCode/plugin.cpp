@@ -1393,18 +1393,30 @@ public:
 
     void bannerCreate(bannerCreate_in *in, bannerCreate_out *out)
     {
+        if(!in->callback)
+            in->callback = "simUI.bannerDefaultButtonCallback";
+        if(!in->btnKeys && !in->btnLabels)
+        {
+            in->btnKeys = {"close"};
+            in->btnLabels = {"@icon=default://SP_TitleBarCloseButton"};
+        }
+        if(!in->btnKeys)
+            in->btnKeys = {};
+        if(!in->btnLabels)
+            in->btnLabels = {};
+
 #if BANNER
         static int id = 1;
 
         Banner b;
         b.id = id++;
         b.text = QString::fromStdString(in->text);
-        for(const auto &s : in->btnKeys)
+        for(const auto &s : *in->btnKeys)
             b.btnKeys << QString::fromStdString(s);
-        for(const auto &s : in->btnLabels)
+        for(const auto &s : *in->btnLabels)
             b.btnLabels << QString::fromStdString(s);
         b.scriptID = in->_.scriptID;
-        b.callback = in->callback;
+        b.callback = *in->callback;
         int scriptType = sim::getIntProperty(in->_.scriptID, "scriptType");
         if(scriptType != sim_scripttype_addon && scriptType != sim_scripttype_sandbox)
             b.sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
