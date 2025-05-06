@@ -46,6 +46,9 @@ QVariant CustomTableModel::data(const QModelIndex &index, int role) const
             return pdisplayv[row];
     }
 
+    if(role == Qt::DecorationRole && column == 0 && row < icons.size())
+        return icons[row];
+
     if(role == Qt::EditRole || role == Qt::DisplayRole)
     {
         if(column == 0) return pnames[row];
@@ -93,7 +96,7 @@ QVariant CustomTableModel::headerData(int section, Qt::Orientation orientation, 
     }
 }
 
-void CustomTableModel::setRow(int row, const QString &pname, const QString &ptype, const QString &pvalue, int pflags, const QString &pdisplayk, const QString &pdisplayv)
+void CustomTableModel::setRow(int row, const QString &pname, const QString &ptype, const QString &pvalue, int pflags, const QString &pdisplayk, const QString &pdisplayv, int icon)
 {
     beginResetModel();
 
@@ -109,11 +112,13 @@ void CustomTableModel::setRow(int row, const QString &pname, const QString &ptyp
         this->pdisplayk[row] = pdisplayk;
     if(row < this->pdisplayv.size())
         this->pdisplayv[row] = pdisplayv;
+    if(row < this->icons.size())
+        this->icons[row] = icon;
 
     endResetModel();
 }
 
-void CustomTableModel::setRows(const QStringList &pnames, const QStringList &ptypes, const QStringList &pvalues, QList<int> pflags, const QStringList &pdisplayk, const QStringList &pdisplayv)
+void CustomTableModel::setRows(const QStringList &pnames, const QStringList &ptypes, const QStringList &pvalues, QList<int> pflags, const QStringList &pdisplayk, const QStringList &pdisplayv, const QList<int> &icons)
 {
     beginResetModel();
 
@@ -123,6 +128,7 @@ void CustomTableModel::setRows(const QStringList &pnames, const QStringList &pty
     this->pflags = pflags;
     this->pdisplayk = pdisplayk;
     this->pdisplayv = pdisplayv;
+    this->icons = icons;
 
     endResetModel();
 }
@@ -140,6 +146,41 @@ Qt::ItemFlags CustomTableModel::flags(const QModelIndex &index) const
     else
         return QAbstractTableModel::flags(index);
 }
+
+class OverlayIconDelegate : public QStyledItemDelegate
+{
+public:
+    OverlayIconDelegate(QObject* parent = nullptr)
+        : QStyledItemDelegate(parent),
+          m_icon(QApplication::style()->standardPixmap(QStyle::SP_MessageBoxWarning))
+    {
+    }
+
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override
+    {
+        QStyledItemDelegate::paint(painter, option, index);
+
+        int icon = index.model()->data(index, Qt::DecorationRole).toInt();
+        if(icon == 0) return;
+
+        const int sz = 8;
+        const int szq = 2;
+        int x = option.rect.left() + (option.rect.height() - sz) / 2;
+        int y = option.rect.top() + (option.rect.height() - sz) / 2;
+        painter->setPen(Qt::black);
+        painter->fillRect(x + 1, y + 1, sz - 2, sz - 2, Qt::white);
+        painter->drawRect(x + 0, y + 0, sz, sz);
+
+        if(icon == 1 || icon == 2)
+            painter->drawLine(x + szq, y + 2 * szq, x + 3 * szq, y + 2 * szq);
+        if(icon == 2)
+            painter->drawLine(x + 2 * szq, y + szq, x + 2 * szq, y + 3 * szq);
+    }
+
+private:
+    QStyleOptionViewItem m_styleOption;
+    QIcon m_icon;
+};
 
 Properties::Properties()
     : Widget("properties")
@@ -184,6 +225,7 @@ QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     font.setPointSizeF(font.pointSizeF() * 0.85);
     tableView->setFont(font);
     tableView->resizeRowsToContents();
+    tableView->setItemDelegate(new OverlayIconDelegate(tableView));
 
     QObject::connect(tableView->selectionModel(), &QItemSelectionModel::selectionChanged, ui, &UI::onPropertiesSelectionChange);
     QObject::connect(tableView, &QAbstractItemView::doubleClicked, ui, [=] (const QModelIndex &index) {
@@ -211,7 +253,7 @@ void Properties::setSelection(int row, bool suppressSignals)
     tableView->blockSignals(oldSignalsState);
 }
 
-void Properties::setItems(std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, bool suppressSignals)
+void Properties::setItems(std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, bool suppressSignals)
 {
     QTableView *tableView = static_cast<QTableView*>(getQWidget());
     CustomTableModel *model = static_cast<CustomTableModel*>(tableView->model());
@@ -224,16 +266,16 @@ void Properties::setItems(std::vector<std::string> pnames, std::vector<std::stri
         return qStringList;
     };
 
-    model->setRows(v(pnames), v(ptypes), v(pvalues), QList<int>::fromVector(QVector<int>(pflags.begin(), pflags.end())), v(pdisplayk), v(pdisplayv));
+    model->setRows(v(pnames), v(ptypes), v(pvalues), QList<int>::fromVector(QVector<int>(pflags.begin(), pflags.end())), v(pdisplayk), v(pdisplayv), QList<int>::fromVector(QVector<int>(icons.begin(), icons.end())));
     tableView->resizeRowsToContents();
 }
 
-void Properties::setRow(int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, bool suppressSignals)
+void Properties::setRow(int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, int icon, bool suppressSignals)
 {
     QTableView *tableView = static_cast<QTableView*>(getQWidget());
     auto idx = tableView->currentIndex();
     CustomTableModel *model = static_cast<CustomTableModel*>(tableView->model());
-    model->setRow(row, QString::fromStdString(pname), QString::fromStdString(ptype), QString::fromStdString(pvalue), pflags, QString::fromStdString(pdisplayk), QString::fromStdString(pdisplayv));
+    model->setRow(row, QString::fromStdString(pname), QString::fromStdString(ptype), QString::fromStdString(pvalue), pflags, QString::fromStdString(pdisplayk), QString::fromStdString(pdisplayv), icon);
     bool oldSignalsState = tableView->blockSignals(true);
     tableView->setCurrentIndex(idx);
     tableView->blockSignals(oldSignalsState);

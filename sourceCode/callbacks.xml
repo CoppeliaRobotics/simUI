@@ -2761,6 +2761,7 @@
             <param name="pflags" type="table" item-type="int"></param>
             <param name="pdisplayk" type="table" item-type="string"></param>
             <param name="pdisplayv" type="table" item-type="string"></param>
+            <param name="icons" type="table" item-type="int"></param>
             <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
@@ -2783,6 +2784,7 @@
             <param name="pflags" type="table" item-type="int"></param>
             <param name="pdisplayk" type="table" item-type="string"></param>
             <param name="pdisplayv" type="table" item-type="string"></param>
+            <param name="icons" type="table" item-type="int"></param>
             <param name="suppressEvents" type="bool" default="true">
                 <description>if true, no event will be generated from this call</description>
             </param>
