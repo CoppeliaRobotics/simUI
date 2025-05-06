@@ -481,12 +481,12 @@ void UI::onPropertiesSelectionChange(const QItemSelection &selected, const QItem
     }
 }
 
-void UI::onPropertiesDoubleClick(const QModelIndex &index)
+void UI::onPropertiesDoubleClick(Properties *properties, const QModelIndex &index)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
-    QTableView *qwidget = dynamic_cast<QTableView*>(sender());
+    QTableView *qwidget = dynamic_cast<QTableView*>(properties->getQWidget() /*sender()*/);
 
     if(qwidget)
     {

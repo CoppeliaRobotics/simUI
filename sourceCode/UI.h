@@ -199,7 +199,7 @@ public slots:
     void onSetPropertiesState(Properties *properties, std::string state);
     void onGetPropertiesState(Properties *properties, std::string *state);
     void onPropertiesSelectionChange(const QItemSelection &selected, const QItemSelection &deselected);
-    void onPropertiesDoubleClick(const QModelIndex &index);
+    void onPropertiesDoubleClick(Properties *properties, const QModelIndex &index);
 #endif
 
 #if WIDGET_TREE

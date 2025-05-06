@@ -149,10 +149,11 @@ Qt::ItemFlags CustomTableModel::flags(const QModelIndex &index) const
 
 class OverlayIconDelegate : public QStyledItemDelegate
 {
+    Q_OBJECT
+
 public:
     OverlayIconDelegate(QObject* parent = nullptr)
-        : QStyledItemDelegate(parent),
-          m_icon(QApplication::style()->standardPixmap(QStyle::SP_MessageBoxWarning))
+        : QStyledItemDelegate(parent)
     {
     }
 
@@ -177,10 +178,27 @@ public:
             painter->drawLine(x + 2 * szq, y + szq, x + 2 * szq, y + 3 * szq);
     }
 
-private:
-    QStyleOptionViewItem m_styleOption;
-    QIcon m_icon;
+    bool editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index) override
+    {
+        if(event->type() == QEvent::MouseButtonRelease)
+        {
+            auto* mouseEvent = static_cast<QMouseEvent*>(event);
+            int icon = index.model()->data(index, Qt::DecorationRole).toInt();
+            if(icon > 0 && mouseEvent->pos().x() < option.rect.left() + option.rect.height())
+            {
+                emit iconClicked(index);
+                return true;
+            }
+        }
+
+        return QStyledItemDelegate::editorEvent(event, model, option, index);
+    }
+
+signals:
+    void iconClicked(const QModelIndex &index);
 };
+
+#include "Properties.moc"
 
 Properties::Properties()
     : Widget("properties")
@@ -225,12 +243,17 @@ QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     font.setPointSizeF(font.pointSizeF() * 0.85);
     tableView->setFont(font);
     tableView->resizeRowsToContents();
-    tableView->setItemDelegate(new OverlayIconDelegate(tableView));
+    auto iconDelegate = new OverlayIconDelegate(tableView);
+    QObject::connect(iconDelegate, &OverlayIconDelegate::iconClicked, [=] (const QModelIndex &index) {
+        if(index.column() != 2)
+            ui->onPropertiesDoubleClick(this, index);
+    });
+    tableView->setItemDelegate(iconDelegate);
 
     QObject::connect(tableView->selectionModel(), &QItemSelectionModel::selectionChanged, ui, &UI::onPropertiesSelectionChange);
     QObject::connect(tableView, &QAbstractItemView::doubleClicked, ui, [=] (const QModelIndex &index) {
         if(index.column() != 2)
-            ui->onPropertiesDoubleClick(index);
+            ui->onPropertiesDoubleClick(this, index);
     });
     QObject::connect(tableView, &PropertiesWidget::contextMenuTriggered, ui, [=] (std::string key) {
         ui->propertiesContextMenuTriggered(this, key);
