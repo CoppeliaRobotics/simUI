@@ -180,6 +180,10 @@ QWidget * Properties::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     tableView->setModel(new CustomTableModel(tableView, tableView));
     tableView->setShowGrid(true);
     tableView->setWordWrap(false);
+    QFont font = tableView->font();
+    font.setPointSizeF(font.pointSizeF() * 0.85);
+    tableView->setFont(font);
+    tableView->resizeRowsToContents();
 
     QObject::connect(tableView->selectionModel(), &QItemSelectionModel::selectionChanged, ui, &UI::onPropertiesSelectionChange);
     QObject::connect(tableView, &QAbstractItemView::doubleClicked, ui, [=] (const QModelIndex &index) {
@@ -221,6 +225,7 @@ void Properties::setItems(std::vector<std::string> pnames, std::vector<std::stri
     };
 
     model->setRows(v(pnames), v(ptypes), v(pvalues), QList<int>::fromVector(QVector<int>(pflags.begin(), pflags.end())), v(pdisplayk), v(pdisplayv));
+    tableView->resizeRowsToContents();
 }
 
 void Properties::setRow(int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, bool suppressSignals)
