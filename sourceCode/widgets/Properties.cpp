@@ -56,8 +56,22 @@ QVariant CustomTableModel::data(const QModelIndex &index, int role) const
         if(column == 2) return pvalues[row];
     }
 
-    if(role == Qt::ForegroundRole && row < pflags.size() && pflags[row] < 0)
-        return QColor(127, 127, 127);
+    if(row < pflags.size())
+    {
+        int pf = pflags[row];
+        if(pf == -1)
+        {
+            if(role == Qt::ForegroundRole)
+                return qwidget->palette().color(QPalette::WindowText);
+            if(role == Qt::BackgroundRole)
+                return qwidget->palette().color(QPalette::Window);
+        }
+        else if(pf == -2)
+        {
+            if(role == Qt::ForegroundRole)
+                return qwidget->palette().color(QPalette::Disabled, QPalette::WindowText);
+        }
+    }
 
     return QVariant();
 }
@@ -135,16 +149,24 @@ void CustomTableModel::setRows(const QStringList &pnames, const QStringList &pty
 
 Qt::ItemFlags CustomTableModel::flags(const QModelIndex &index) const
 {
+    Qt::ItemFlags defaultFlags = QAbstractTableModel::flags(index);
+
     if(!index.isValid())
-        return QAbstractTableModel::flags(index);
+        return defaultFlags;
 
     int row = index.row();
     int column = index.column();
 
-    if(column == 2 && row < pflags.size() && pflags[row] >= 0 && (pflags[row] & 3) == 0)
-        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
-    else
-        return QAbstractTableModel::flags(index);
+    if(row >= 0 && row < pflags.size())
+    {
+        int pf = pflags[row];
+        if(column == 2 && pf >= 0 && (pf & 3) == 0)
+            return defaultFlags | Qt::ItemIsEditable;
+        if(column == 0 && pf == -1)
+            return defaultFlags & ~Qt::ItemIsSelectable;
+    }
+
+    return defaultFlags;
 }
 
 class OverlayIconDelegate : public QStyledItemDelegate
@@ -162,20 +184,38 @@ public:
         QStyledItemDelegate::paint(painter, option, index);
 
         int icon = index.model()->data(index, Qt::DecorationRole).toInt();
-        if(icon == 0) return;
+        if(icon > 0)
+        {
+            const int sz = 8;
+            const int szq = 2;
+            int x = option.rect.left() + (option.rect.height() - sz) / 2;
+            int y = option.rect.top() + (option.rect.height() - sz) / 2;
+            painter->setPen(Qt::black);
+            painter->fillRect(x + 1, y + 1, sz - 2, sz - 2, Qt::white);
+            painter->drawRect(x + 0, y + 0, sz, sz);
 
-        const int sz = 8;
-        const int szq = 2;
-        int x = option.rect.left() + (option.rect.height() - sz) / 2;
-        int y = option.rect.top() + (option.rect.height() - sz) / 2;
-        painter->setPen(Qt::black);
-        painter->fillRect(x + 1, y + 1, sz - 2, sz - 2, Qt::white);
-        painter->drawRect(x + 0, y + 0, sz, sz);
+            if(icon == 1 || icon == 2)
+                painter->drawLine(x + szq, y + 2 * szq, x + 3 * szq, y + 2 * szq);
+            if(icon == 2)
+                painter->drawLine(x + 2 * szq, y + szq, x + 2 * szq, y + 3 * szq);
+        }
 
-        if(icon == 1 || icon == 2)
-            painter->drawLine(x + szq, y + 2 * szq, x + 3 * szq, y + 2 * szq);
-        if(icon == 2)
-            painter->drawLine(x + 2 * szq, y + szq, x + 2 * szq, y + 3 * szq);
+        auto tableView = dynamic_cast<const QTableView*>(option.widget);
+        if(tableView)
+        {
+            auto model = dynamic_cast<CustomTableModel*>(tableView->model());
+            if(model && index.row() >= 0 && index.row() < model->pflags.size())
+            {
+                int pflags = model->pflags[index.row()];
+                if(pflags == -1)
+                {
+                    painter->save();
+                    painter->setPen(QPen(QColor(180, 180, 180), 1));
+                    painter->drawLine(option.rect.bottomLeft() + QPoint(0, 1), option.rect.bottomRight() + QPoint(0, 1));
+                    painter->restore();
+                }
+            }
+        }
     }
 
     bool editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index) override
@@ -291,6 +331,8 @@ void Properties::setItems(std::vector<std::string> pnames, std::vector<std::stri
 
     model->setRows(v(pnames), v(ptypes), v(pvalues), QList<int>::fromVector(QVector<int>(pflags.begin(), pflags.end())), v(pdisplayk), v(pdisplayv), QList<int>::fromVector(QVector<int>(icons.begin(), icons.end())));
     tableView->resizeRowsToContents();
+    for(size_t i = 0; i < pflags.size(); i++)
+        tableView->setSpan(i, 0, 1, pflags[i] == -1 ? 3 : 1);
 }
 
 void Properties::setRow(int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, int icon, bool suppressSignals)
@@ -299,6 +341,7 @@ void Properties::setRow(int row, std::string pname, std::string ptype, std::stri
     auto idx = tableView->currentIndex();
     CustomTableModel *model = static_cast<CustomTableModel*>(tableView->model());
     model->setRow(row, QString::fromStdString(pname), QString::fromStdString(ptype), QString::fromStdString(pvalue), pflags, QString::fromStdString(pdisplayk), QString::fromStdString(pdisplayv), icon);
+    tableView->setSpan(row, 0, 1, pflags == -1 ? 3 : 1);
     bool oldSignalsState = tableView->blockSignals(true);
     tableView->setCurrentIndex(idx);
     tableView->blockSignals(oldSignalsState);

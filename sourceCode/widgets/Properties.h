@@ -88,6 +88,8 @@ private:
     QStringList pdisplayv;
     QList<int> icons;
     PropertiesWidget *qwidget;
+
+    friend class OverlayIconDelegate;
 };
 
 #endif // PROPERTIES_H_INCLUDED
