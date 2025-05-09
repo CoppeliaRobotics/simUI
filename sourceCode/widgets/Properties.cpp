@@ -66,10 +66,9 @@ QVariant CustomTableModel::data(const QModelIndex &index, int role) const
             if(role == Qt::BackgroundRole)
                 return qwidget->palette().color(QPalette::Window);
         }
-        else if(pf == -2)
+        else if(pf == -3 && column == 2 && role == Qt::ForegroundRole)
         {
-            if(role == Qt::ForegroundRole)
-                return qwidget->palette().color(QPalette::Disabled, QPalette::WindowText);
+            return qwidget->palette().color(QPalette::Disabled, QPalette::WindowText);
         }
     }
 
