@@ -197,8 +197,8 @@ signals:
 #endif
 
 #if WIDGET_PROPERTIES
-    void setProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, bool suppressSignals);
-    void setPropertiesRows(Properties *properties, std::vector<int> rows, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> flags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, bool suppressSignals);
+    void setProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, std::vector<std::string> descriptions, bool suppressSignals);
+    void setPropertiesRows(Properties *properties, std::vector<int> rows, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> flags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, std::vector<std::string> descriptions, bool suppressSignals);
     void setPropertiesSelection(Properties *properties, int row, bool suppressSignals);
     void setPropertiesContextMenu(Properties *properties, std::vector<std::string> keys, std::vector<std::string> titles);
     void setPropertiesState(Properties *properties, std::string state);

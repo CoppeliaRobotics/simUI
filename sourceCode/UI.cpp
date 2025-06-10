@@ -1089,15 +1089,15 @@ void UI::onSetProgress(Progressbar *progressbar, int value)
 #endif
 
 #if WIDGET_PROPERTIES
-void UI::onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, bool suppressSignals)
+void UI::onSetProperties(Properties *properties, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, std::vector<std::string> descriptions, bool suppressSignals)
 {
-    properties->setItems(pnames, ptypes, pvalues, pflags, pdisplayk, pdisplayv, icons, suppressSignals);
+    properties->setItems(pnames, ptypes, pvalues, pflags, pdisplayk, pdisplayv, icons, descriptions, suppressSignals);
 }
 
-void UI::onSetPropertiesRows(Properties *properties, std::vector<int> rows, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, bool suppressSignals)
+void UI::onSetPropertiesRows(Properties *properties, std::vector<int> rows, std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, std::vector<std::string> descriptions, bool suppressSignals)
 {
     for(size_t i = 0; i < rows.size(); i++)
-        properties->setRow(rows[i], pnames[i], ptypes[i], pvalues[i], pflags[i], pdisplayk[i], pdisplayv[i], icons[i], suppressSignals);
+        properties->setRow(rows[i], pnames[i], ptypes[i], pvalues[i], pflags[i], pdisplayk[i], pdisplayv[i], icons[i], descriptions[i], suppressSignals);
 }
 
 void UI::onSetPropertiesSelection(Properties *properties, int row, bool suppressSignals)

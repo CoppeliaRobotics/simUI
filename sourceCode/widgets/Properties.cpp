@@ -38,6 +38,13 @@ QVariant CustomTableModel::data(const QModelIndex &index, int role) const
     if(column >= columnCount() || row >= rowCount())
         return QVariant();
 
+    if(role == Qt::ToolTipRole)
+    {
+        if(row < descriptions.size() && descriptions[row] != "")
+            return descriptions[row];
+        return QVariant();
+    }
+
     if(role == Qt::DisplayRole)
     {
         if(column == 0 && row < pdisplayk.size())
@@ -109,7 +116,7 @@ QVariant CustomTableModel::headerData(int section, Qt::Orientation orientation, 
     }
 }
 
-void CustomTableModel::setRow(int row, const QString &pname, const QString &ptype, const QString &pvalue, int pflags, const QString &pdisplayk, const QString &pdisplayv, int icon)
+void CustomTableModel::setRow(int row, const QString &pname, const QString &ptype, const QString &pvalue, int pflags, const QString &pdisplayk, const QString &pdisplayv, int icon, const QString &description)
 {
     beginResetModel();
 
@@ -127,11 +134,13 @@ void CustomTableModel::setRow(int row, const QString &pname, const QString &ptyp
         this->pdisplayv[row] = pdisplayv;
     if(row < this->icons.size())
         this->icons[row] = icon;
+    if(row < this->descriptions.size())
+        this->descriptions[row] = description;
 
     endResetModel();
 }
 
-void CustomTableModel::setRows(const QStringList &pnames, const QStringList &ptypes, const QStringList &pvalues, QList<int> pflags, const QStringList &pdisplayk, const QStringList &pdisplayv, const QList<int> &icons)
+void CustomTableModel::setRows(const QStringList &pnames, const QStringList &ptypes, const QStringList &pvalues, QList<int> pflags, const QStringList &pdisplayk, const QStringList &pdisplayv, const QList<int> &icons, const QStringList &descriptions)
 {
     beginResetModel();
 
@@ -142,6 +151,7 @@ void CustomTableModel::setRows(const QStringList &pnames, const QStringList &pty
     this->pdisplayk = pdisplayk;
     this->pdisplayv = pdisplayv;
     this->icons = icons;
+    this->descriptions = descriptions;
 
     endResetModel();
 }
@@ -322,7 +332,7 @@ inline void setColumnSpan(QTableView *tableView, int row, int columnSpan)
         tableView->setSpan(row, 0, 1, columnSpan);
 }
 
-void Properties::setItems(std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, bool suppressSignals)
+void Properties::setItems(std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, std::vector<std::string> descriptions, bool suppressSignals)
 {
     QTableView *tableView = static_cast<QTableView*>(getQWidget());
     CustomTableModel *model = static_cast<CustomTableModel*>(tableView->model());
@@ -335,18 +345,18 @@ void Properties::setItems(std::vector<std::string> pnames, std::vector<std::stri
         return qStringList;
     };
 
-    model->setRows(v(pnames), v(ptypes), v(pvalues), QList<int>::fromVector(QVector<int>(pflags.begin(), pflags.end())), v(pdisplayk), v(pdisplayv), QList<int>::fromVector(QVector<int>(icons.begin(), icons.end())));
+    model->setRows(v(pnames), v(ptypes), v(pvalues), QList<int>::fromVector(QVector<int>(pflags.begin(), pflags.end())), v(pdisplayk), v(pdisplayv), QList<int>::fromVector(QVector<int>(icons.begin(), icons.end())), v(descriptions));
     tableView->resizeRowsToContents();
     for(size_t i = 0; i < pflags.size(); i++)
         setColumnSpan(tableView, i, pflags[i] == -1 ? 3 : 1);
 }
 
-void Properties::setRow(int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, int icon, bool suppressSignals)
+void Properties::setRow(int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, int icon, std::string description, bool suppressSignals)
 {
     QTableView *tableView = static_cast<QTableView*>(getQWidget());
     auto idx = tableView->currentIndex();
     CustomTableModel *model = static_cast<CustomTableModel*>(tableView->model());
-    model->setRow(row, QString::fromStdString(pname), QString::fromStdString(ptype), QString::fromStdString(pvalue), pflags, QString::fromStdString(pdisplayk), QString::fromStdString(pdisplayv), icon);
+    model->setRow(row, QString::fromStdString(pname), QString::fromStdString(ptype), QString::fromStdString(pvalue), pflags, QString::fromStdString(pdisplayk), QString::fromStdString(pdisplayv), icon, QString::fromStdString(description));
     setColumnSpan(tableView, row, pflags == -1 ? 3 : 1);
     bool oldSignalsState = tableView->blockSignals(true);
     tableView->setCurrentIndex(idx);

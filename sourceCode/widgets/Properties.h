@@ -37,8 +37,8 @@ public:
     void parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e);
     QWidget * createQtWidget(Proxy *proxy, UI *ui, QWidget *parent);
     void setSelection(int row, bool suppressSignals);
-    void setItems(std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, bool suppressSignals);
-    void setRow(int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, int icon, bool suppressSignals);
+    void setItems(std::vector<std::string> pnames, std::vector<std::string> ptypes, std::vector<std::string> pvalues, std::vector<int> pflags, std::vector<std::string> pdisplayk, std::vector<std::string> pdisplayv, std::vector<int> icons, std::vector<std::string> descriptions, bool suppressSignals);
+    void setRow(int row, std::string pname, std::string ptype, std::string pvalue, int pflags, std::string pdisplayk, std::string pdisplayv, int icon, std::string description, bool suppressSignals);
     void setContextMenu(std::vector<std::string> keys, std::vector<std::string> titles);
     void fillContextMenu(PropertiesWidget *owner, QMenu *menu);
     inline bool hasContextMenu() { return cmKeys.size() > 0; }
@@ -73,8 +73,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    void setRow(int row, const QString &pname, const QString &ptype, const QString &pvalue, int pflags, const QString &pdisplayk, const QString &pdisplayv, int icon);
-    void setRows(const QStringList &pnames, const QStringList &ptypes, const QStringList &pvalues, QList<int> pflags, const QStringList &pdisplayk, const QStringList &pdisplayv, const QList<int> &icons);
+    void setRow(int row, const QString &pname, const QString &ptype, const QString &pvalue, int pflags, const QString &pdisplayk, const QString &pdisplayv, int icon, const QString &description);
+    void setRows(const QStringList &pnames, const QStringList &ptypes, const QStringList &pvalues, QList<int> pflags, const QStringList &pdisplayk, const QStringList &pdisplayv, const QList<int> &icons, const QStringList &descriptions);
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     inline PropertiesWidget * getQWidget() { return qwidget; }
@@ -87,6 +87,7 @@ private:
     QStringList pdisplayk;
     QStringList pdisplayv;
     QList<int> icons;
+    QStringList descriptions;
     PropertiesWidget *qwidget;
 
     friend class OverlayIconDelegate;
