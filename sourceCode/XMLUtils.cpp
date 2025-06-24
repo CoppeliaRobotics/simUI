@@ -10,7 +10,7 @@
 #include <set>
 #include <vector>
 
-#include <simPlusPlus/Lib.h>
+#include <simPlusPlus-2/Lib.h>
 #include "stubs.h"
 
 static std::set<std::string> repDepNames;

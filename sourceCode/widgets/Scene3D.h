@@ -45,6 +45,7 @@
 #include <Qt3DExtras/QOrbitCameraController>
 #include <Qt3DRender/QObjectPicker>
 #include <Qt3DRender/QPickEvent>
+#include <simPlusPlus-2/Lib.h>
 
 #include "tinyxml2.h"
 

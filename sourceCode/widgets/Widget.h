@@ -15,7 +15,7 @@
 
 #include <QWidget>
 
-#include "simPlusPlus/Handles.h"
+#include <simPlusPlus-2/Handles.h>
 
 #include "XMLUtils.h"
 
