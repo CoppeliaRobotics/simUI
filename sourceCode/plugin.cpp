@@ -63,7 +63,7 @@ public:
 
         SIM::getInstance();
 
-        UI::wheelZoomFactor = sim::getFloatParam(sim_floatparam_mouse_wheel_zoom_factor);
+        UI::wheelZoomFactor = std::stof(sim::getStringProperty(sim_handle_app, "namedParam.settings.mouseWheelZoomFactor"));
 
 #if defined(ENABLE_SIGNAL_SPY) && !defined(NDEBUG)
         SignalSpy::start();
