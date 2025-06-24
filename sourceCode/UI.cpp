@@ -23,7 +23,6 @@
 #include <QTextBrowser>
 #include <QClipboard>
 
-#include <simPlusPlus/Lib.h>
 #include "stubs.h"
 
 using namespace tinyxml2;

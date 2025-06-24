@@ -7,7 +7,7 @@
 #include "UI.h"
 #include "SIM.h"
 
-#include <simPlusPlus/Lib.h>
+#include <simPlusPlus-2/Lib.h>
 
 Proxy::Proxy(int sceneID_, int scriptID_, int scriptType_, Window *window_, std::map<int, Widget*>& widgets_)
     : widgets(widgets_),

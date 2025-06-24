@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QString>
+#include <simPlusPlus-2/Lib.h>
 
 #include "Proxy.h"
 #include "stubs.h"

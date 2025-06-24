@@ -30,8 +30,9 @@
 
 #include "tinyxml2.h"
 
-#include <simPlusPlus/Plugin.h>
-#include <simPlusPlus/Handles.h>
+#include <simPlusPlus-2/Lib.h>
+#include <simPlusPlus-2/Plugin.h>
+#include <simPlusPlus-2/Handles.h>
 #include "plugin.h"
 #include "config.h"
 #include "stubs.h"
@@ -51,7 +52,7 @@ class Plugin : public sim::Plugin
 public:
     void onInit()
     {
-        if(sim::getBoolParam(sim_boolparam_headless))
+        if(sim::getIntProperty(sim_handle_app, "headlessMode"))
             throw std::runtime_error("doesn't work in headless mode");
 
         if(!registerScriptStuff())
@@ -201,8 +202,8 @@ public:
         }
 
         // determine wether the Proxy object should be destroyed at simulation end
-        int scriptType = sim::getScriptInt32Param(in->_.scriptID, sim_scriptintparam_type);
-        int sceneID = sim::getInt32Param(sim_intparam_scene_unique_id);
+        int scriptType = sim::getIntProperty(in->_.scriptID, "scriptType");
+        int sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
         sim::addLog(sim_verbosity_debug, "Creating a new Proxy object...");
         Proxy *proxy = new Proxy(sceneID, in->_.scriptID, scriptType, window, widgets);
         proxy->handle = handles.add(proxy, in->_.scriptID);

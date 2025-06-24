@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QString>
 #include <QWidget>
+#include <simPlusPlus-2/Lib.h>
 
 #include "Proxy.h"
 #include "stubs.h"

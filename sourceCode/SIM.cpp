@@ -5,7 +5,6 @@
 
 #include <iostream>
 
-#include <simPlusPlus/Lib.h>
 #include "stubs.h"
 
 // SIM is a singleton
