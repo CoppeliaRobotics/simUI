@@ -100,7 +100,7 @@ signals:
     void showWindow(Window *window);
     void adjustSize(Window *window);
     void hideWindow(Window *window);
-    void setPosition(Window *window, int x, int y);
+    void setPosition(Window *window, int x, int y, bool keepInVisibleArea);
     void setSize(Window *window, int w, int h);
     void setTitle(Window *window, std::string title);
     void setWindowEnabled(Window *window, bool enabled);

@@ -508,7 +508,7 @@ public:
         ASSERT_THREAD(!UI);
         Proxy *proxy = handles.get(in->handle);
         Window *window = proxy->getWidget();
-        SIM::getInstance()->setPosition(window, in->x, in->y);
+        SIM::getInstance()->setPosition(window, in->x, in->y, in->keepInVisibleArea);
     }
 
     void getSize(getSize_in *in, getSize_out *out)

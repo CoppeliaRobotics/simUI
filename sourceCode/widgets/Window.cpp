@@ -77,6 +77,8 @@ void Window::parse(std::map<int, Widget*>& widgets, tinyxml2::XMLElement *e)
 
     activate = xmlutils::getAttrBool(e, "activate", true);
 
+    keepInVisibleArea = xmlutils::getAttrBool(e, "keep-in-visible-area", true);
+
     WindowWidget dummyWidget;
     LayoutWidget::parse(&dummyWidget, &dummyWidget, widgets, e);
 
@@ -182,11 +184,11 @@ QWidget * Window::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
             p.setY(parent->window()->frameGeometry().top() + qwidget_pos.y());
         else
             p.setY(parent->window()->frameGeometry().bottom() - window->rect().bottom() + qwidget_pos.y());
-        move(p);
+        move(p, keepInVisibleArea);
     }
     else if(placement == "absolute")
     {
-        move(qwidget_pos);
+        move(qwidget_pos, keepInVisibleArea);
     }
     this->proxy = proxy;
     return window;
@@ -217,7 +219,7 @@ void Window::show()
 {
     if(qwidget_geometry_saved)
     {
-        move(qwidget_pos);
+        move(qwidget_pos, keepInVisibleArea);
         resize(qwidget_size);
     }
     visibility_state = true;
@@ -229,14 +231,30 @@ QPoint Window::pos()
     return qwidget->geometry().topLeft();
 }
 
-void Window::move(const QPoint &p)
+void Window::move(const QPoint &p, bool keepInVisibleArea)
 {
-    qwidget->setGeometry(p.x(), p.y(), qwidget->width(), qwidget->height());
+    move(p.x(), p.y(), keepInVisibleArea);
 }
 
-void Window::move(int x, int y)
+void Window::move(int x, int y, bool keepInVisibleArea)
 {
-    qwidget->setGeometry(x, y, qwidget->width(), qwidget->height());
+    int w = qwidget->width();
+    int h = qwidget->height();
+
+    if(keepInVisibleArea)
+    {
+        // Find the screen that currently contains the widget
+        QScreen *screen = qwidget->screen();
+        if(!screen) screen = QGuiApplication::primaryScreen();
+
+        QRect screenGeometry = screen->availableGeometry();
+
+        // Clamp x/y so the window stays inside the screen
+        x = std::max(screenGeometry.left(), std::min(x, screenGeometry.right() - w));
+        y = std::max(screenGeometry.top(), std::min(y, screenGeometry.bottom() - h));
+    }
+
+    qwidget->setGeometry(x, y, w, h);
 }
 
 QSize Window::size()

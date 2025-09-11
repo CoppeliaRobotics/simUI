@@ -700,14 +700,14 @@ void UI::onHideWindow(Window *window)
     window->hide();
 }
 
-void UI::onSetPosition(Window *window, int x, int y)
+void UI::onSetPosition(Window *window, int x, int y, bool keepInVisibleArea)
 {
     ASSERT_THREAD(UI);
     TRACE_FUNC;
 
     if(!window) return;
 
-    window->move(x, y);
+    window->move(x, y, keepInVisibleArea);
 }
 
 void UI::onSetSize(Window *window, int w, int h)

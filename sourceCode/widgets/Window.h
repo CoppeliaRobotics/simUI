@@ -37,6 +37,7 @@ protected:
     std::string onclose;
     std::string style;
     bool activate;
+    bool keepInVisibleArea;
     std::string placement;
     int banner_offset;
 
@@ -68,8 +69,8 @@ public:
     void hide();
     void show();
     QPoint pos();
-    void move(const QPoint &p);
-    void move(int x, int y);
+    void move(const QPoint &p, bool keepInVisibleArea);
+    void move(int x, int y, bool keepInVisibleArea);
     QSize size();
     void resize(const QSize &s);
     void resize(int w, int h);

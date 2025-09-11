@@ -100,7 +100,7 @@ public slots:
     void onShowWindow(Window *window);
     void onAdjustSize(Window *window);
     void onHideWindow(Window *window);
-    void onSetPosition(Window *window, int x, int y);
+    void onSetPosition(Window *window, int x, int y, bool keepInVisibleArea);
     void onSetSize(Window *window, int w, int h);
     void onSetTitle(Window *window, std::string title);
     void onSetWindowEnabled(Window *window, bool enabled);
