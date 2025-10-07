@@ -156,13 +156,17 @@ void UI::onFileDialog(int type, std::string title, std::string startPath, std::s
         }
         qstartPath += qinitName;
     }
-    QString qextName = QString::fromStdString(extName);
-    QString qext = QString::fromStdString(ext);
-    QStringList exts = qext.split(";");
-    QString filter = qextName + " (";
-    for(int i = 0; i < exts.length(); i++)
-        filter += QString("%1*.%2").arg(i ? " " : "").arg(exts[i]);
-    filter += ")";
+    QString filter;
+    if(!extName.empty() && !ext.empty())
+    {
+        QString qextName = QString::fromStdString(extName);
+        QString qext = QString::fromStdString(ext);
+        QStringList exts = qext.split(";");
+        filter = qextName + " (";
+        for(int i = 0; i < exts.length(); i++)
+            filter += QString("%1*.%2").arg(i ? " " : "").arg(exts[i]);
+        filter += ")";
+    }
     QFileDialog::Options opts;
     if(!native) opts |= QFileDialog::DontUseNativeDialog;
     QString file;
