@@ -371,18 +371,64 @@ void Properties::setContextMenu(std::vector<std::string> keys, std::vector<std::
 
 void Properties::fillContextMenu(PropertiesWidget *owner, QMenu *menu)
 {
-    for(int i = 0; i < cmKeys.size(); i++) {
-        if(cmKeys[i] == "--")
-        {
-            menu->addSeparator();
+    QHash<QString, QMenu*> submenus;
+    QHash<QString, QString> submenuTitles;
+
+    auto getSubmenu = [&](const QString &key) -> QMenu* {
+        if(!submenus.contains(key)) {
+            QString title = submenuTitles.value(key, key);
+            QMenu *sm = menu->addMenu(title);
+            submenus.insert(key, sm);
         }
-        else
-        {
-            QAction *a = menu->addAction(QString::fromStdString(i < cmTitles.size() ? cmTitles[i] : cmKeys[i]));
-            if(cmKeys[i][0] == '#')
-                a->setEnabled(false);
-            else
-                QObject::connect(a, &QAction::triggered, owner, [=] () { owner->contextMenuTriggered(cmKeys[i]); });
+        return submenus[key];
+    };
+
+    for(int i = 0; i < cmKeys.size(); ++i)
+    {
+        const std::string &key = cmKeys[i];
+
+        if(key == "--") {
+            menu->addSeparator();
+            continue;
+        }
+
+        QString qkey = QString::fromStdString(key);
+
+        // Submenu declaration: "foo/"
+        if(qkey.endsWith('/')) {
+            QString submenuKey = qkey.left(qkey.size() - 1);
+
+            // Capture title for submenu
+            if(i < cmTitles.size())
+                submenuTitles[submenuKey] = QString::fromStdString(cmTitles[i]);
+
+            // Ensure submenu exists (or update its title)
+            QMenu *sm = getSubmenu(submenuKey);
+            sm->setTitle(submenuTitles.value(submenuKey, submenuKey));
+            continue;
+        }
+
+        QMenu *targetMenu = menu;
+        QString actionKey = qkey;
+
+        int slash = qkey.indexOf('/');
+        if(slash >= 0) {
+            QString submenuKey = qkey.left(slash);
+            actionKey = qkey.mid(slash + 1);
+            targetMenu = getSubmenu(submenuKey);
+        }
+
+        QString actionTitle = QString::fromStdString(
+            i < cmTitles.size() ? cmTitles[i] : actionKey.toStdString()
+        );
+
+        QAction *a = targetMenu->addAction(actionTitle);
+
+        if(key[0] == '#') {
+            a->setEnabled(false);
+        } else {
+            QObject::connect(a, &QAction::triggered, owner,
+                [=]() { owner->contextMenuTriggered(key); });
         }
     }
 }
