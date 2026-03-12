@@ -35,6 +35,9 @@ class Tabs : public Widget
 {
 protected:
     std::vector<Tab*> tabs;
+    bool documentMode;
+    std::string tabPosition;
+    std::string tabShape;
 
 public:
     Tabs();

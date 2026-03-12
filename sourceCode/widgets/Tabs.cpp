@@ -59,6 +59,12 @@ void Tabs::parse(Widget *parent, std::map<int, Widget*>& widgets, tinyxml2::XMLE
 {
     Widget::parse(parent, widgets, e);
 
+    documentMode = xmlutils::getAttrBool(e, "document-mode", false);
+
+    tabPosition = xmlutils::getAttrStrEnum(e, "tab-position", "north", {"north", "south", "east", "west"});
+
+    tabShape = xmlutils::getAttrStrEnum(e, "tab-shape", "rounded", {"rounded", "triangular"});
+
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {
         Tab *tab = Widget::parse1<Tab>(this, widgets, e1);
@@ -73,6 +79,13 @@ QWidget * Tabs::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
     tabwidget->setEnabled(enabled);
     tabwidget->setVisible(visible);
     tabwidget->setStyleSheet(QString::fromStdString(style));
+    tabwidget->setDocumentMode(documentMode);
+    if(tabPosition == "north") tabwidget->setTabPosition(QTabWidget::North);
+    else if(tabPosition == "south") tabwidget->setTabPosition(QTabWidget::South);
+    else if(tabPosition == "east") tabwidget->setTabPosition(QTabWidget::East);
+    else if(tabPosition == "west") tabwidget->setTabPosition(QTabWidget::West);
+    if(tabShape == "rounded") tabwidget->setTabShape(QTabWidget::Rounded);
+    else if(tabShape == "triangular") tabwidget->setTabShape(QTabWidget::Triangular);
     for(std::vector<Tab*>::const_iterator it = tabs.begin(); it != tabs.end(); ++it)
     {
         QWidget *tab = (*it)->createQtWidget(proxy, ui, tabwidget);

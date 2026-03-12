@@ -1043,6 +1043,24 @@
                 <default />
                 <description>Qt stylesheet.</description>
             </attribute>
+            <attribute>
+                <name>document-mode</name>
+                <type>bool</type>
+                <default>false</default>
+                <description>If true, set the tabs widget to document mode.</description>
+            </attribute>
+            <attribute>
+                <name>tab-position</name>
+                <type><one-of><value>north</value><value>south</value><value>east</value><value>west</value></one-of></type>
+                <default>north</default>
+                <description>Position of the tabs.</description>
+            </attribute>
+            <attribute>
+                <name>tab-shape</name>
+                <type><one-of><value>rounded</value><value>triangular</value></one-of></type>
+                <default>rounded</default>
+                <description>Shape of the tabs.</description>
+            </attribute>
         </attributes>
         <see-also>
             <element>tab</element>
