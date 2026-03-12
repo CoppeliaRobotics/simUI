@@ -3250,16 +3250,16 @@
         <item name="Minus" value="0x2d" />
         <item name="Period" value="0x2e" />
         <item name="Slash" value="0x2f" />
-        <item name="0" value="0x30" />
-        <item name="1" value="0x31" />
-        <item name="2" value="0x32" />
-        <item name="3" value="0x33" />
-        <item name="4" value="0x34" />
-        <item name="5" value="0x35" />
-        <item name="6" value="0x36" />
-        <item name="7" value="0x37" />
-        <item name="8" value="0x38" />
-        <item name="9" value="0x39" />
+        <item name="_0" value="0x30" />
+        <item name="_1" value="0x31" />
+        <item name="_2" value="0x32" />
+        <item name="_3" value="0x33" />
+        <item name="_4" value="0x34" />
+        <item name="_5" value="0x35" />
+        <item name="_6" value="0x36" />
+        <item name="_7" value="0x37" />
+        <item name="_8" value="0x38" />
+        <item name="_9" value="0x39" />
         <item name="Colon" value="0x3a" />
         <item name="Semicolon" value="0x3b" />
         <item name="Less" value="0x3c" />
