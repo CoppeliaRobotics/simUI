@@ -464,7 +464,7 @@ PropertiesWidget::PropertiesWidget(Properties *properties_, QWidget *parent)
 
 void PropertiesWidget::keyPressEvent(QKeyEvent *event)
 {
-    UI::getInstance()->keyPressed(properties, event->key(), event->text().toStdString());
+    UI::getInstance()->keyPressed(properties, event->key(), event->modifiers(), event->text().toStdString());
     QTableView::keyPressEvent(event);
 }
 

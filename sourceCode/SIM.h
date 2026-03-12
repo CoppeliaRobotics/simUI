@@ -79,7 +79,7 @@ private slots:
     void onMouseEvent(Widget *widget, int type, bool shift, bool control, int x, int y);
 #endif
 
-    void onKeyPress(Widget *widget, int key, std::string text);
+    void onKeyPress(Widget *widget, int key, Qt::KeyboardModifiers mods, std::string text);
 
 #if WIDGET_SCENE3D
     void onScene3DObjectClick(Scene3D *scene3d, int id);

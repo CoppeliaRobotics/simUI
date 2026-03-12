@@ -323,7 +323,7 @@ TableWidget::TableWidget(Table *table_, QWidget *parent)
 
 void TableWidget::keyPressEvent(QKeyEvent *event)
 {
-    UI::getInstance()->keyPressed(table, event->key(), event->text().toStdString());
+    UI::getInstance()->keyPressed(table, event->key(), event->modifiers(), event->text().toStdString());
     QTableWidget::keyPressEvent(event);
 }
 

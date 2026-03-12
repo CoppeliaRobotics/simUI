@@ -292,7 +292,7 @@ signals:
     void treeSelectionChange(Tree *tree, int id);
 #endif
 
-    void keyPressed(Widget *widget, int key, std::string text);
+    void keyPressed(Widget *widget, int key, Qt::KeyboardModifiers mods, std::string text);
 
 #if WIDGET_SCENE3D
     void scene3DObjectClick(Scene3D *scene3d, int id);

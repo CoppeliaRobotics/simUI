@@ -58,6 +58,8 @@ public:
         if(!registerScriptStuff())
             throw std::runtime_error("failed to register script stuff");
 
+        qRegisterMetaType<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+
         setExtVersion("Custom User-Interface Plugin");
         setBuildDate(BUILD_DATE);
 

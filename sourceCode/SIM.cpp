@@ -629,7 +629,7 @@ void SIM::onMouseEvent(Widget *widget, int type, bool shift, bool control, int x
 }
 #endif
 
-void SIM::onKeyPress(Widget *widget, int key, std::string text)
+void SIM::onKeyPress(Widget *widget, int key, Qt::KeyboardModifiers mods, std::string text)
 {
     ASSERT_THREAD(!UI);
     CHECK_POINTER(Widget, widget);
@@ -644,6 +644,9 @@ void SIM::onKeyPress(Widget *widget, int key, std::string text)
     in.handle = widget->proxy->handle;
     in.id = widget->id;
     in.key = key;
+    in.mods.shift = mods & Qt::ShiftModifier;
+    in.mods.control = mods & Qt::ControlModifier;
+    in.mods.alt = mods & Qt::AltModifier;
     in.text = text;
     onKeyPressCallback_out out;
     onKeyPressCallback(widget->proxy->getScriptID(), e->onKeyPress.c_str(), &in, &out);

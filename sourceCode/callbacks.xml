@@ -3207,6 +3207,9 @@
             <param name="text" type="string">
                 <description>a textual representation of the key</description>
             </param>
+            <param name="mods" type="keyboard_modifiers">
+                <description>modifiers. see <struct-ref name="keyboard_modifiers"/></description>
+            </param>
         </params>
         <return>
         </return>

@@ -1005,7 +1005,7 @@
                 <name>on-key-press</name>
                 <type>string</type>
                 <default />
-                <description>Name of a script function to handle the key press event. Arguments of the function are: (uiHandle, id, key, text).</description>
+                <description>Name of a script function to handle the key press event. Arguments of the function are: (uiHandle, id, key, shift, control, alt, meta, text).</description>
             </attribute>
         </attributes>
     </element>
