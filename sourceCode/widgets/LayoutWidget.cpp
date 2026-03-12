@@ -68,6 +68,8 @@ void LayoutWidget::parse(Widget *self, Widget *parent, std::map<int, Widget*>& w
     std::vector<int> contentMarginsv = xmlutils::getAttrIntV(e, "content-margins", "7,7,7,7", 4, 4, ",");
     for(int i = 0; i < 4; i++) contentMargins[i] = contentMarginsv[i];
 
+    spacing = xmlutils::getAttrInt(e, "spacing", -1);
+
     std::vector<Widget*> row;
     for(tinyxml2::XMLElement *e1 = e->FirstChildElement(); e1; e1 = e1->NextSiblingElement())
     {
@@ -128,6 +130,7 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
             if(layout == VBOX) qlayout = new QVBoxLayout(parent);
             if(layout == HBOX) qlayout = new QHBoxLayout(parent);
             if(qlayout) qlayout->setContentsMargins(contentMargins[0], contentMargins[1], contentMargins[2], contentMargins[3]);
+            if(spacing >= 0) qlayout->setSpacing(spacing);
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
                 Widget *w = (*it)[0];
@@ -158,6 +161,7 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
         {
             QGridLayout *qlayout = new QGridLayout(parent);
             qlayout->setContentsMargins(contentMargins[0], contentMargins[1], contentMargins[2], contentMargins[3]);
+            if(spacing >= 0) qlayout->setSpacing(spacing);
             int row = 0, col = 0;
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
@@ -178,6 +182,7 @@ void LayoutWidget::createQtWidget(Proxy *proxy, UI *ui, QWidget *parent)
         {
             QFormLayout *qlayout = new QFormLayout(parent);
             qlayout->setContentsMargins(contentMargins[0], contentMargins[1], contentMargins[2], contentMargins[3]);
+            if(spacing >= 0) qlayout->setSpacing(spacing);
             for(std::vector< std::vector<Widget*> >::iterator it = children.begin(); it != children.end(); ++it)
             {
                 Widget *w1 = (*it)[0], *w2 = (*it)[1];

@@ -58,6 +58,12 @@
                 <description>Sets the left, top, right, and bottom margins to use around the layout.</description>
             </attribute>
             <attribute>
+                <name>spacing</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Spacing between widgets (-1 = default spacing).</description>
+            </attribute>
+            <attribute>
                 <name>placement</name>
                 <type><one-of><value>center</value><value>relative</value><value>absolute</value></one-of></type>
                 <default>center</default>
@@ -372,6 +378,12 @@
                 <type>int[4]</type>
                 <default>7,7,7,7</default>
                 <description>Sets the left, top, right, and bottom margins to use around the layout.</description>
+            </attribute>
+            <attribute>
+                <name>spacing</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Spacing between widgets (-1 = default spacing).</description>
             </attribute>
         </attributes>
     </element>
@@ -1080,6 +1092,12 @@ Can contain widgets, just like &lt;ui&gt; and &lt;group&gt;, and has its own lay
                 <type>int[4]</type>
                 <default>7,7,7,7</default>
                 <description>Sets the left, top, right, and bottom margins to use around the layout.</description>
+            </attribute>
+            <attribute>
+                <name>spacing</name>
+                <type>int</type>
+                <default>-1</default>
+                <description>Spacing between widgets (-1 = default spacing).</description>
             </attribute>
         </attributes>
     </element>
