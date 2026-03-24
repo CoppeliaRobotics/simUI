@@ -2835,7 +2835,7 @@
             <param name="id" type="int">
                 <description>widget id</description>
             </param>
-            <param name="state" type="string"></param>
+            <param name="state" type="buffer"></param>
         </params>
         <return>
         </return>
@@ -2850,7 +2850,7 @@
             </param>
         </params>
         <return>
-            <param name="state" type="string"></param>
+            <param name="state" type="buffer"></param>
         </return>
     </command>
     <command name="bannerCreate">
