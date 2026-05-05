@@ -205,7 +205,7 @@ public:
 
         // determine wether the Proxy object should be destroyed at simulation end
         int scriptType = sim::getIntProperty(in->_.scriptID, "type");
-        int sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
+        int sceneID = sim::getIntProperty(sim_handle_scene, "uid");
         sim::addLog(sim_verbosity_debug, "Creating a new Proxy object...");
         Proxy *proxy = new Proxy(sceneID, in->_.scriptID, scriptType, window, widgets);
         proxy->handle = handles.add(proxy, in->_.scriptID);
@@ -1370,7 +1370,7 @@ public:
     {
         int oldBannerId = currentBannerId;
 
-        int sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
+        int sceneID = sim::getIntProperty(sim_handle_scene, "uid");
 
         const Banner *b = nullptr;
         currentBannerId = -1;
@@ -1422,7 +1422,7 @@ public:
         b.callback = *in->callback;
         int scriptType = sim::getIntProperty(in->_.scriptID, "type");
         if(scriptType != sim_scripttype_addon && scriptType != sim_scripttype_sandbox)
-            b.sceneID = sim::getIntProperty(sim_handle_scene, "sceneUid");
+            b.sceneID = sim::getIntProperty(sim_handle_scene, "uid");
 
         out->id = b.id;
 
