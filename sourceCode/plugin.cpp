@@ -60,9 +60,6 @@ public:
 
         qRegisterMetaType<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
 
-        setExtVersion("Custom User-Interface Plugin");
-        setBuildDate(BUILD_DATE);
-
         SIM::getInstance();
 
         UI::wheelZoomFactor = std::stof(sim::getStringProperty(sim_handle_app, "namedParam.settings.mouseWheelZoomFactor"));
