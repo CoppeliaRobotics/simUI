@@ -201,7 +201,7 @@ public:
         }
 
         // determine wether the Proxy object should be destroyed at simulation end
-        int scriptType = sim::getIntProperty(in->_.scriptID, "type");
+        int scriptType = sim::getIntProperty(in->_.scriptID, "detachedScript.type");
         int sceneID = sim::getIntProperty(sim_handle_scene, "uid");
         sim::addLog(sim_verbosity_debug, "Creating a new Proxy object...");
         Proxy *proxy = new Proxy(sceneID, in->_.scriptID, scriptType, window, widgets);
@@ -1417,7 +1417,7 @@ public:
             b.btnLabels << QString::fromStdString(s);
         b.scriptID = in->_.scriptID;
         b.callback = *in->callback;
-        int scriptType = sim::getIntProperty(in->_.scriptID, "type");
+        int scriptType = sim::getIntProperty(in->_.scriptID, "detachedScript.type");
         if(scriptType != sim_scripttype_addon && scriptType != sim_scripttype_sandbox)
             b.sceneID = sim::getIntProperty(sim_handle_scene, "uid");
 
