@@ -15,7 +15,7 @@ class UI;
 class Proxy
 {
 public:
-    Proxy(int sceneID, int scriptID, int scriptType, Window *window, std::map<int, Widget*>& widgets);
+    Proxy(int sceneID, int scriptID, const std::string &scriptType, Window *window, std::map<int, Widget*>& widgets);
     virtual ~Proxy();
 
     Widget * getWidgetById(int id);
@@ -25,7 +25,7 @@ public:
     inline Window * getWidget() {return window;}
 
     inline int getScriptID() {return scriptID;}
-    inline int getScriptType() {return scriptType;}
+    inline std::string getScriptType() {return scriptType;}
     inline int getSceneID() {return sceneID;}
 
 private:
@@ -43,7 +43,7 @@ private:
     int scriptID;
 
     // the type of the scriptID above:
-    int scriptType;
+    std::string scriptType;
 
     friend class SIM;
     friend class UI;
@@ -52,4 +52,3 @@ private:
 };
 
 #endif // PROXY_H_INCLUDED
-

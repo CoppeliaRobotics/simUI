@@ -9,7 +9,7 @@
 
 #include <simPlusPlus-2/Lib.h>
 
-Proxy::Proxy(int sceneID_, int scriptID_, int scriptType_, Window *window_, std::map<int, Widget*>& widgets_)
+Proxy::Proxy(int sceneID_, int scriptID_, const std::string &scriptType_, Window *window_, std::map<int, Widget*>& widgets_)
     : widgets(widgets_),
       window(window_),
       sceneID(sceneID_),

@@ -296,13 +296,10 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
 
     sim::addLog(sim_verbosity_debug, "onSceneChange: oldSceneID=%d, newSceneID=%d (mySceneID=%d)", oldSceneID, newSceneID, mySceneID);
 
-    switch(proxy->getScriptType())
-    {
-    case sim_scripttype_addon:
-    case sim_scripttype_sandbox:
-        // for these script types, don't hide UI when switching scene
+    std::string scriptType = proxy->getScriptType();
+    // for these script types, don't hide UI when switching scene
+    if(scriptType == "addon" || scriptType == "sandbox")
         return;
-    }
 
     if(oldSceneID == mySceneID && newSceneID != mySceneID)
     {
@@ -321,4 +318,3 @@ void Window::onSceneChange(int oldSceneID, int newSceneID)
             show();
     }
 }
-
