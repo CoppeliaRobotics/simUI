@@ -5,6 +5,9 @@
     <description>API functions for creating custom user interfaces.</description>
     <command name="msgBox">
         <description>Display a message box.</description>
+        <categories>
+            <category name="dialogs" />
+        </categories>
         <params>
             <param name="type" type="int">
                 <description>type</description>
@@ -27,6 +30,9 @@
     </command>
     <command name="fileDialog">
         <description>Display a file dialog.</description>
+        <categories>
+            <category name="dialogs" />
+        </categories>
         <params>
             <param name="type" type="int">
                 <description>type</description>
@@ -58,6 +64,9 @@
     </command>
     <command name="colorDialog">
         <description>Display a color dialog.</description>
+        <categories>
+            <category name="dialogs" />
+        </categories>
         <params>
             <param name="initColor" type="table" item-type="float" size="3..4" default="{1,1,1}">
                 <description>initial color</description>
@@ -80,6 +89,9 @@
     </command>
     <command name="inputDialog">
         <description>Display an input dialog.</description>
+        <categories>
+            <category name="dialogs" />
+        </categories>
         <params>
             <param name="initValue" type="string" default='""'>
                 <description>initial value</description>
@@ -134,7 +146,6 @@
         <description>Set the text of a button.</description>
         <categories>
             <category name="button" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -156,7 +167,6 @@
         <description>Set the state of a button.</description>
         <categories>
             <category name="button" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -178,7 +188,6 @@
         <description>Get the value of a slider widget.</description>
         <categories>
             <category name="slider" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -200,7 +209,6 @@
         <description>Set the value of a slider widget.</description>
         <categories>
             <category name="slider" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -225,7 +233,6 @@
         <description>Get the value of a edit widget.</description>
         <categories>
             <category name="edit" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -247,7 +254,6 @@
         <description>Set the value of a edit widget.</description>
         <categories>
             <category name="edit" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -272,7 +278,6 @@
         <description>Get the value of a spinbox widget.</description>
         <categories>
             <category name="spinbox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -294,7 +299,6 @@
         <description>Set the value of a spinbox widget.</description>
         <categories>
             <category name="spinbox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -319,7 +323,6 @@
         <description>Get the value of a checkbox widget.</description>
         <categories>
             <category name="checkbox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -341,7 +344,6 @@
         <description>Set the value of a checkbox widget.</description>
         <categories>
             <category name="checkbox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -366,7 +368,6 @@
         <description>Get the value of a radiobutton widget.</description>
         <categories>
             <category name="radiobutton" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -388,7 +389,6 @@
         <description>Set the value of a radiobutton widget.</description>
         <categories>
             <category name="radiobutton" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -413,7 +413,6 @@
         <description>Get the text of a label widget.</description>
         <categories>
             <category name="label" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -435,7 +434,6 @@
         <description>Set the text of a label widget.</description>
         <categories>
             <category name="label" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -460,7 +458,6 @@
         <description>Insert an item in a combobox widget.</description>
         <categories>
             <category name="combobox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -488,7 +485,6 @@
         <description>Remove an item from a combobox widget.</description>
         <categories>
             <category name="combobox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -513,7 +509,6 @@
         <description>Get the number of items in the specified combobox widget.</description>
         <categories>
             <category name="combobox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -535,7 +530,6 @@
         <description>Get the text of an item in a combobox widget.</description>
         <categories>
             <category name="combobox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -560,7 +554,6 @@
         <description>Get the content of a combobox.</description>
         <categories>
             <category name="combobox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -582,7 +575,6 @@
         <description>Populate a combobox widget with the specified items, and set the selected item to the specified index.</description>
         <categories>
             <category name="combobox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -610,7 +602,6 @@
         <description>Get the selected item index in a combobox widget.</description>
         <categories>
             <category name="combobox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -632,7 +623,6 @@
         <description>Change the selected item index in a combobox widget.</description>
         <categories>
             <category name="combobox" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -873,7 +863,6 @@
         <description>Set image content using specified bitmap (RGB888) data.</description>
         <categories>
             <category name="image" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -921,7 +910,6 @@
         <description>Get the current tab index of a tabs widget.</description>
         <categories>
             <category name="tabs" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -943,7 +931,6 @@
         <description>Set the current tab index in a tabs widget.</description>
         <categories>
             <category name="tabs" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1031,7 +1018,6 @@
         <description>Get the edit widget with focus and selected text.</description>
         <categories>
             <category name="edit" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1050,7 +1036,6 @@
         <description>Set the edit widget focus and selected text.</description>
         <categories>
             <category name="edit" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1069,7 +1054,6 @@
         <description>Refresh all the plots of a plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1159,7 +1143,6 @@
         <description>Extra options for the curve creation function <command-ref name="addCurve"/>.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
             <enum-ref name="curve_scatter_shape" />
@@ -1190,7 +1173,6 @@
         <description>Adds a curve to a plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
             <enum-ref name="curve_type" />
@@ -1227,7 +1209,6 @@
         <description>Adds time points to the specified curve of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1255,7 +1236,6 @@
         <description>Adds points to the specified curve of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1286,7 +1266,6 @@
         <description>Clear points of the specified curve of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1308,7 +1287,6 @@
         <description>Remove the specified curve from the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1330,7 +1308,6 @@
         <description>Set the ranges of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1361,7 +1338,6 @@
         <description>Set the X range of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1386,7 +1362,6 @@
         <description>Set the Y range of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1411,7 +1386,6 @@
         <description>Increase the ranges of the plot widget by a fixed amount.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1442,7 +1416,6 @@
         <description>Increase the X range of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1467,7 +1440,6 @@
         <description>Increase the Y range of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1492,7 +1464,6 @@
         <description>Set the labels of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1517,7 +1488,6 @@
         <description>Set the X label of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1539,7 +1509,6 @@
         <description>Set the Y label of the plot widget.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1561,7 +1530,6 @@
         <description>Rescales the axes such that the specified curve in the plot is fully visible.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1589,7 +1557,6 @@
         <description>Rescales the axes such that all curves in the plot are fully visible.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <see-also>
         </see-also>
@@ -1614,7 +1581,6 @@
         <description>Set plot widget options for interacting with mouse.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1643,7 +1609,6 @@
         <description>Set visibility of the plot legend (default is hidden).</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1663,7 +1628,6 @@
         <description>Get the data contained in the specified curve.</description>
         <categories>
             <category name="plot" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1692,7 +1656,6 @@
         <description>Clear the specified table widget.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1712,7 +1675,6 @@
         <description>Resize the specified table widget.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1736,7 +1698,6 @@
         <categories>
             <category name="table" />
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1759,7 +1720,6 @@
         <description>Set the row header text of the specified table widget.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1783,7 +1743,6 @@
         <categories>
             <category name="table" />
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1806,7 +1765,6 @@
         <description>Change item value in the specified table widget.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1835,7 +1793,6 @@
         <description>Change item image in the specified table widget.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1869,7 +1826,6 @@
     <command name="setItems">
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1891,7 +1847,6 @@
         <description>Get the table widget number of rows.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1912,7 +1867,6 @@
         <categories>
             <category name="table" />
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1932,7 +1886,6 @@
         <description>Get the table widget item text.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1958,7 +1911,6 @@
         <description>Change item editable flag in the specified table widget.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -1985,7 +1937,6 @@
         <categories>
             <category name="table" />
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2006,7 +1957,6 @@
         <categories>
             <category name="table" />
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2027,7 +1977,6 @@
         <categories>
             <category name="table" />
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2053,7 +2002,6 @@
         <description>Resize a row in the specified table widget.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2079,7 +2027,6 @@
         <description>Set selection in a table widget.</description>
         <categories>
             <category name="table" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2105,7 +2052,6 @@
         <description>Chnge the value of a progressbar widget.</description>
         <categories>
             <category name="progressbar" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2125,7 +2071,6 @@
         <description>Clear the specified tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2145,7 +2090,6 @@
         <description>Add an item to the specified tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2177,7 +2121,6 @@
         <description>Modify the text of an existing item in the specified tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2200,7 +2143,6 @@
         <description>Modify the parent of an existing item in the specified tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2226,7 +2168,6 @@
         <description>Remove an item from the specified tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2249,7 +2190,6 @@
         <description>Set selection in a tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2272,7 +2212,6 @@
         <description>Expand all nodes in the specified tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2292,7 +2231,6 @@
         <description>Collapse all nodes in the specified tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2312,7 +2250,6 @@
         <description>Expand nodes up to a certain depth in the specified tree widget.</description>
         <categories>
             <category name="tree" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2335,7 +2272,6 @@
         <description>Set the text in a text-browser widget.</description>
         <categories>
             <category name="text-browser" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2358,7 +2294,6 @@
         <description>Append text in a text-browser widget.</description>
         <categories>
             <category name="text-browser" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2381,7 +2316,6 @@
         <description>Load an url in a text-browser widget.</description>
         <categories>
             <category name="text-browser" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2425,7 +2359,6 @@
         <description>Add a node in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2451,7 +2384,6 @@
         <description>Remove a node in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2471,7 +2403,6 @@
         <description>Enable or disable a node in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2494,7 +2425,6 @@
         <description>Set node int parameter in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2520,7 +2450,6 @@
         <description>Set node float parameter in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2546,7 +2475,6 @@
         <description>Set node string parameter in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2572,7 +2500,6 @@
         <description>Set node vector2 parameter in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2601,7 +2528,6 @@
         <description>Set node vector3 parameter in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2633,7 +2559,6 @@
         <description>Set node vector4 parameter in a scene3d widget.</description>
         <categories>
             <category name="scene3d" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2668,7 +2593,6 @@
         <description>Load a SVG file in a SVG widget.</description>
         <categories>
             <category name="svg" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
@@ -2688,7 +2612,6 @@
         <description>Load a SVG document in a SVG widget.</description>
         <categories>
             <category name="svg" />
-            <category name="widgets" indirect="true" />
         </categories>
         <params>
             <param name="handle" type="string">
