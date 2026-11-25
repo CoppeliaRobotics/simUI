@@ -10,6 +10,7 @@ set_property(CACHE Qt PROPERTY STRINGS Qt5 Qt6)  #
 
 find_package(Boost REQUIRED)
 find_package(${Qt} COMPONENTS Core Gui Widgets PrintSupport REQUIRED)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
 if(NOT COPPELIASIM_INCLUDE_DIR)
     if(DEFINED ENV{COPPELIASIM_ROOT_DIR})
@@ -49,6 +50,11 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.ht
     COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xsl ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xml
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xml ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xsl)
 add_custom_target(generate_widgets_html ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
+
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.md
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets_md.py ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xml ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.md
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets.xml ${CMAKE_CURRENT_SOURCE_DIR}/sourceCode/widgets_md.py)
+add_custom_target(generate_widgets_md ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.md)
 
 set(ENABLE_SIGNAL_SPY false CACHE BOOL "if Qt private headers are installed, enable this to debug Qt signals")
 set(WIDGET_BUTTON true CACHE BOOL "include the button widget")
@@ -169,3 +175,4 @@ endif()
 coppeliasim_add_plugin(simUI SOURCES ${SOURCES})
 target_link_libraries(simUI PRIVATE ${LIBRARIES})
 coppeliasim_add_manual(${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.htm)
+coppeliasim_add_manual(${CMAKE_CURRENT_BINARY_DIR}/generated/simUI-widgets.md SUBDIR docs/simUI/)
